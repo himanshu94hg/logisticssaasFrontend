@@ -38,7 +38,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     const [actionId, setActionId] = useState("")
     const [actionType, setActionType] = useState("");
     const [selectAll, setSelectAll] = useState(false);
-    const [copyText, setcopyText] = useState("Click To Copy")
+    const [copyText, setcopyText] = useState("Tracking Link")
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {

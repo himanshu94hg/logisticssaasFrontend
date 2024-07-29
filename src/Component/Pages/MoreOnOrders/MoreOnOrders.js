@@ -16,12 +16,12 @@ import MergeOrder from './Components/MergeOrder/MergeOrder';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 import ReassignOrder from './Components/ReassignOrder/ReassignOrder';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
-import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -54,12 +54,12 @@ const MoreOnOrders = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [orderTracking, setOrderTracking] = useState(false)
     const [activeTab, setActiveTab] = useState("Reassign Order");
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryParamSearch, setQueryParamSearch] = useState(null)
-    const [orderTracking, setOrderTracking] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const { pathName } = useSelector(state => state?.authDataReducer)
@@ -174,7 +174,6 @@ const MoreOnOrders = () => {
         }
     }, [activeTab])
 
-
     const handleSidePanel = () => {
         setMoreFilters(true);
     }
@@ -285,7 +284,7 @@ const MoreOnOrders = () => {
                                 value={searchValue}
                                 className='input-field'
                                 onChange={(e) => setSearchValue(e.target.value)}
-                                maxLength={50}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
@@ -297,7 +296,6 @@ const MoreOnOrders = () => {
                                         e.preventDefault();
                                     }
                                 }}
-                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -422,6 +420,7 @@ const MoreOnOrders = () => {
                 handleResetFrom={handleResetFrom}
                 setHandleResetFrom={setHandleResetFrom}
             />
+
             <div onClick={CloseSidePanel} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />

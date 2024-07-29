@@ -96,13 +96,6 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
-
-  const temp_data = {
-    "name": "Sanjeev"
-  }
-
-
-
   useEffect(() => {
     if (token) {
       const fetchData = async () => {
@@ -112,11 +105,6 @@ function App() {
               Authorization: `Bearer ${token}`
             }
           });
-          // const temp_data = response.data.reduce((acc, item) => {
-          //   acc[item.keyword] = item.image;
-          //   return acc;
-          // }, {});
-
           const temp_data= response.data.reduce((acc, item) => {
             acc[item.keyword] = {
               image: item.image,
@@ -124,9 +112,6 @@ function App() {
             };
             return acc;
           }, {});
-
-          console.log(temp_data,"this is a temp data")
-
           localStorage.setItem('partnerList', JSON.stringify(temp_data));
         } catch (error) {
           customErrorFunction(error)

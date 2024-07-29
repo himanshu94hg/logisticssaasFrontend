@@ -1,33 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
 import moment from "moment";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from 'react-bootstrap';
-import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import Tooltip from 'react-bootstrap/Tooltip';
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 
 const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const [show, setShow] = useState(false);
-    const [orders, setAllOrders] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
     const [selectedData, setSelectedData] = useState(null);
 
@@ -37,11 +29,10 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
         }
     }, [shipmentCard]);
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(shipmentCard.map(row => row.id));
+            setSelectedRows(shipmentCard?.map(row => row.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -49,21 +40,18 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === shipmentCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -71,9 +59,8 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
     };
 
     const handleShow = (row) => {
-        console.log("Modal", row);
-        setSelectedData(row);
         setShow(true);
+        setSelectedData(row);
     };
 
     const handleClose = () => setShow(false);
@@ -123,7 +110,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                 window.open('https://www.tpcindia.com/Default.aspx', '_blank');
                 break;
             default:
-                console.error("Courier partner not recognized");
                 break;
         }
     }
@@ -265,10 +251,7 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                     </table>
                     {allShipment?.length === 0 && <NoData />}
                 </div>
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedData={selectedData} />
-
             </div>
         </section >
     );
@@ -277,7 +260,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
 export default RTOShipment;
 
 function Preview({ show, handleClose, selectedData }) {
-    console.log("All Select", selectedData);
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>

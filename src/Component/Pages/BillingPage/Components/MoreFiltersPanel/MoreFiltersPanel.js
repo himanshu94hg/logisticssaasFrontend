@@ -1,30 +1,63 @@
-import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, billingRemitanceExportCard }) => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
-    const [SidePanelOption, setSidePanelOption] = useState('Filter');
-    const [courierPartners, setCourierPartners] = useState([]);
     const [awbNumbers, setAwbNumbers] = useState('');
+    const [courierPartners, setCourierPartners] = useState([]);
+    const [SidePanelOption, setSidePanelOption] = useState('Filter');
     const [selectedCourierPartners, setSelectedCourierPartners] = useState([]);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-
+    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
     const [filterParams, setFilterParams] = useState({
         start_date: "",
         end_date: "",
         utr_number: "",
     });
 
+    useEffect(() => {
+        if (activeTab) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                utr_number: "",
+            });
+            setErrors({});
+        }
+    }, [activeTab]);
+
+    useEffect(() => {
+        dispatch({ type: "COURIER_PARTNER_ACTION" });
+    }, []);
+
+    useEffect(() => {
+        if (billingRemitanceExportCard) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([billingRemitanceExportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
+        }
+    }, [billingRemitanceExportCard]);
+
+    useEffect(() => {
+        if (courierPartnerData?.data?.length) {
+            const formattedData = courierPartnerData?.data.map(item => ({
+                value: item.keyword,
+                label: item.title
+            }));
+            setCourierPartners(formattedData);
+        } else {
+            setCourierPartners([]);
+        }
+    }, [courierPartnerData]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -44,21 +77,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         } else {
             setErrors({});
         }
-
         handleMoreFilter(filterParams);
         setMoreFilters(false);
     };
-
-    useEffect(() => {
-        if (activeTab) {
-            setFilterParams({
-                start_date: null,
-                end_date: null,
-                utr_number: "",
-            });
-            setErrors({});
-        }
-    }, [activeTab]);
 
     const handleChange = (name, value) => {
         setFilterParams(prev => ({
@@ -86,23 +107,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         }
     };
 
-    useEffect(() => {
-        dispatch({ type: "COURIER_PARTNER_ACTION" });
-    }, [dispatch]);
-
-    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
-    useEffect(() => {
-        if (courierPartnerData?.data?.length) {
-            const formattedData = courierPartnerData?.data.map(item => ({
-                value: item.keyword,
-                label: item.title
-            }));
-            setCourierPartners(formattedData);
-        } else {
-            setCourierPartners([]);
-        }
-    }, [courierPartnerData]);
-
     const customStyles = {
         menuList: (provided) => ({
             ...provided,
@@ -112,7 +116,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
     };
 
     const handleExportClick = () => {
-        setExportButtonClick(true);
         const awbNumbersString = awbNumbers
             .split(',')
             .map(number => number.trim())
@@ -133,15 +136,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
             payload: payload
         });
     };
-
-    useEffect(() => {
-        if (billingRemitanceExportCard) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([billingRemitanceExportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [billingRemitanceExportCard]);
 
     return (
         <div id='sidePanel' className={`side-panel morefilters-panel remitance-logs-filter ${MoreFilters ? 'open' : ''}`}>
@@ -180,10 +174,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                         showMonthDropdown
                                         showYearDropdown
                                     />
-                                    {/* {errors.start_date && <div className="custom-error">{errors.start_date}</div>} */}
                                 </div>
-                                {/* </label> */}
-                                {/* <label> */}
                                 <div className="date-picker-container">
                                     End Date
                                     <DatePicker
@@ -202,9 +193,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                         showMonthDropdown
                                         showYearDropdown
                                     />
-                                    {/* {errors.end_date && <div className="custom-error">{errors.end_date}</div>} */}
                                 </div>
-                                {/* </label> */}
                             </div>
                             <div className='filter-row'>
                                 <label>UTR Number

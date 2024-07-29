@@ -22,10 +22,9 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     const dispatch = useDispatch()
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
-    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
-
 
     useEffect(() => {
         if (moreorderShipCardStatusData) {
@@ -61,7 +60,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
             setSelectAll(false);
         }
     };
-
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId)

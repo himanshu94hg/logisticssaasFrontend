@@ -1,37 +1,46 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import Pagination from '../../../../common/Pagination/Pagination';
-import { FiDownload } from "react-icons/fi";
-import { RxReset } from 'react-icons/rx';
-import { BASE_URL_ORDER } from '../../../../../axios/config';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import NoData from '../../../../common/noData';
 import { debounce } from 'lodash';
+import { toast } from 'react-toastify';
+import { RxReset } from 'react-icons/rx';
+import { FiDownload } from "react-icons/fi";
+import NoData from '../../../../common/noData';
+import { useSelector, useDispatch } from 'react-redux';
+import { BASE_URL_ORDER } from '../../../../../axios/config';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Pagination from '../../../../common/Pagination/Pagination';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch();
-    const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const { misDownloadData } = useSelector(state => state?.misSectionReducer);
-    const [searchValue, setSearchValue] = useState("");
-    const [misDownload, setmisDownload] = useState([]);
     const authToken = Cookies.get("access_token");
-
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchValue, setSearchValue] = useState("");
+    const [misDownload, setmisDownload] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState(20);
-
+    const { misDownloadData } = useSelector(state => state?.misSectionReducer);
 
     useEffect(() => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+        }
+    }, [activeTab]);
+
+    useEffect(() => {
+        if (misDownloadData?.results !== null && misDownloadData !== undefined) {
+            setmisDownload(misDownloadData?.results);
+            setTotalItems(misDownloadData?.count);
+        }
+    }, [misDownloadData]);
 
     const handleClick = () => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
@@ -49,39 +58,6 @@ const DownloadMIS = ({ activeTab }) => {
         debouncedHandleClick(orderId);
     };
 
-
-
-
-    useEffect(() => {
-        if (misDownloadData?.results !== null && misDownloadData !== undefined) {
-            setmisDownload(misDownloadData?.results);
-            setTotalItems(misDownloadData?.count);
-        }
-    }, [misDownloadData]);
-
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(misDownload?.map(row => row.id));
-        } else {
-            setSelectedRows([]);
-        }
-    };
-
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-        } else {
-            setSelectedRows([...selectedRows, orderId]);
-        }
-        if (selectedRows.length === misDownload.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
-    };
-
     const handleSearch = () => {
         axios.get(`${BASE_URL_ORDER}/orders-api/mis/downloads/?q=${searchValue}`, {
             headers: {
@@ -94,12 +70,6 @@ const DownloadMIS = ({ activeTab }) => {
         });
     };
 
-    useEffect(() => {
-        if (activeTab) {
-            setSearchValue("");
-        }
-    }, [activeTab]);
-
     const handleReset = () => {
         setSearchValue("");
         setItemsPerPage(20);
@@ -111,7 +81,6 @@ const DownloadMIS = ({ activeTab }) => {
             toast.error("File download URL is not available or the report is still pending.");
             return;
         }
-
         fetch(url, {
             method: 'GET',
             headers: {
@@ -144,7 +113,23 @@ const DownloadMIS = ({ activeTab }) => {
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
-                            <input className='input-field' type="text" placeholder="Search your downloads" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                            <input className='input-field'
+                                type="text"
+                                value={searchValue}
+                                placeholder="Search your downloads"
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <button onClick={handleSearch}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>

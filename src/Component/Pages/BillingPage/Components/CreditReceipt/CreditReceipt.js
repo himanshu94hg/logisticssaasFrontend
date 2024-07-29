@@ -1,49 +1,18 @@
+import moment from 'moment';
+import { Modal } from 'react-bootstrap';
+import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal } from 'react-bootstrap';
-import moment from 'moment';
-import NoData from '../../../../common/noData';
-
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
 
 const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
-
+    const [show, setShow] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
-    const [data, setData] = useState([]);
+    const [selectedRow, setSelectedRow] = useState(null);
 
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -51,33 +20,23 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows?.length === billingCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
-
-
-
-    const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
 
     const handleShow = (row) => {
         setSelectedRow(row);
@@ -121,7 +80,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.id ?? 0}
@@ -129,7 +87,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.note_number ?? 0}
@@ -137,7 +94,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span className=''>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
@@ -145,7 +101,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {row?.total ?? 0}
@@ -153,7 +108,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <button className='btn main-button' style={{ width: '100px' }} onClick={() => handleShow(row)}>View Receipt</button>
@@ -167,7 +121,6 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                     </table>
                     {billingCard?.length === 0 && <NoData />}
                 </div>
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
             </div>
         </section>
@@ -178,9 +131,9 @@ export default CreditReceipt;
 
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
-
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingReceiptExportCard);
+
     const handleViewDetails = (id) => {
         setExportButtonClick(true);
         dispatch({ type: "BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION", payload: id });
@@ -193,6 +146,8 @@ function Preview({ show, handleClose, selectedRow }) {
             setExportButtonClick(false);
         }
     }, [exportCard]);
+
+
     return (
         <Modal show={show} onHide={handleClose} size="xl">
             <Modal.Header closeButton>

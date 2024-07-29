@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
-import SplitOrderModal from "../SplitOrder/SplitOrderModal";
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import NoData from '../../../../common/noData';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import Tooltip from 'react-bootstrap/Tooltip';
+import SidePanel from './SidePanel/SidePanel';
+import NoData from '../../../../common/noData';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import SplitOrderModal from "../SplitOrder/SplitOrderModal";
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 
 const SplitOrder = ({ orders, setSplitStatus }) => {
+    const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
 
-
     const handleSubmit = () => {
-        console.log("Log Data")
     };
 
     const CloseSidePanel = () => {
@@ -146,7 +141,6 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* pickup adress */}
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box'>
                                                     <p>{row?.pickup_details?.p_warehouse_name}
@@ -170,7 +164,6 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                             <p className='order-Status-box'>{row && row.status?.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button' onClick={() => handleShow(row)}>Split Order</button>
                                                 <div className='action-options'>

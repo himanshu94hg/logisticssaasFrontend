@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
 import moment from 'moment';
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import NoData from '../../../../common/noData';
-import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import Tooltip from 'react-bootstrap/Tooltip';
+import SidePanel from './SidePanel/SidePanel';
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 
 const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll }) => {
@@ -44,11 +40,9 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -56,12 +50,10 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
         }
     };
 
-
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-
 
     return (
         <section className='position-relative'>
@@ -82,9 +74,7 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
                                 <th style={{ width: '6%' }}>Status</th>
-                                {/* <th style={{ width: '6%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>

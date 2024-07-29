@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
-import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/RTOAddressIcon';
-import IvrIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/IvrIcon';
-import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
+import moment from 'moment';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
-import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import IvrIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/IvrIcon';
+import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
+import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/RTOAddressIcon';
+import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
 // import './BulkActionsComponent.css'
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, queryParamTemp, setSelectAll, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const { exportCard, exportAllCard, exportShipmentCard, exportShipmentAllCard } = useSelector(state => state?.exportSectionReducer)
-    console.log(exportCard, "Export Action Bulk")
+    const { exportCard,  exportShipmentCard, exportShipmentAllCard } = useSelector(state => state?.exportSectionReducer)
 
     const handleExport = () => {
         setExportButtonClick(true);

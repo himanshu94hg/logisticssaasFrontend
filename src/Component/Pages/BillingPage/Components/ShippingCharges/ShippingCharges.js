@@ -1,11 +1,10 @@
 import moment from 'moment';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect } from 'react';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setAwbNo, setOrderTracking, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard, partnerList }) => {
-    const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
 
@@ -17,12 +16,12 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
-            setSelectedOrderRows([]);
             setBulkActionShow(false)
+            setSelectedOrderRows([]);
         }
     };
 
-    const handleSelectRow = (orderId, order_id) => {
+    const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
@@ -35,7 +34,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows.length === billingCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -51,7 +50,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         setOrderTracking(true)
         setAwbNo(awb)
     };
-
 
     const handleClose = () => setShow(false);
 
@@ -111,7 +109,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                     {row?.awb_number}
@@ -119,7 +116,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Courier detail */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
@@ -130,7 +126,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span className=''>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('h:mm A')}`}</span>
@@ -138,7 +133,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
                                                     {row?.status}
@@ -146,7 +140,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.charge_detail?.total_charges || "-"}
@@ -154,7 +147,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.charge_detail?.excess_weight_charges || "-"}
@@ -162,7 +154,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 {row?.dimension_detail?.weight ?
                                                     <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
@@ -172,7 +163,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 {row.charge_detail?.c_weight ? <p>Wt:  {row?.charge_detail?.c_weight} kg
                                                     LBH(cm): {row?.charge_detail?.c_length} x {row?.charge_detail?.c_breadth} x {row?.charge_detail?.c_height}
@@ -181,7 +171,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
 
                                         </td>
                                         <td>
-                                            {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <button className='btn main-button' onClick={() => handleShow(row)}>View</button>
                                             </div>

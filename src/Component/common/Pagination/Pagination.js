@@ -1,15 +1,16 @@
 import './Pagination.css'
 import NextIcon from './Icons/NextIcon';
 import LastIcon from './Icons/LastIcon';
+import { useSelector } from 'react-redux';
 import FirstIcon from './Icons/FirstIcon';
 import PreviousIcon from './Icons/PreviousIcon';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, setCurrentPage }) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const totalPages = itemsPerPage === "All" ? 1 : Math.ceil(totalItemsCount / itemsPerPage);
 
     useEffect(() => {
         if (totalItems >= 0) {
@@ -21,7 +22,6 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
         setCurrentPage("1");
     }, [itemsPerPage, totalItemsCount]);
 
-    const totalPages = itemsPerPage === "All" ? 1 : Math.ceil(totalItemsCount / itemsPerPage);
 
     const handleFirstPage = () => {
         setCurrentPage(1);
@@ -74,7 +74,6 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                         <p onClick={handleNext} disabled={currentPage === totalPages}><NextIcon /></p>
                         <p onClick={handleLastPage} disabled={currentPage === totalPages}><LastIcon /></p>
                     </div>
-                    {/* Go to page */}
                     <div className='go-to-page'>
                         Go to page: <input type="text" min="1" max={totalPages} value={goToPage} onChange={handleChange} />
                         <button onClick={handleGoToPage}>Go</button>
@@ -84,13 +83,10 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                 {screenWidthData < 992 ?
                     <>
                         <div className='d-flex justify-content-between w-100 mt-3'>
-                            {/* Result count */}
                             <div className="result-count">
                                 Showing {totalItems < 20 ? totalItemsCount : itemsPerPage > totalItems ?
                                     totalItems : currentPage === totalPages ? totalItems % itemsPerPage : itemsPerPage === "All" ? totalItems : itemsPerPage}  of {totalItemsCount} records
                             </div>
-
-                            {/* Dropdown for items per page */}
                             <div className="items-per-page-dropdown">
                                 Rows per page:
                                 <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
@@ -98,20 +94,17 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                                     <option value="100">100</option>
                                     <option value="500">500</option>
                                     <option value="1000">1000</option>
-                                    {/* <option value="All">All</option> */}
                                 </select>
                             </div>
                         </div>
                     </>
                     :
                     <>
-                        {/* Result count */}
                         <div className="result-count">
                             Showing {totalItems < 20 ? totalItemsCount : itemsPerPage > totalItems ?
                                 totalItems : currentPage === totalPages ? totalItems % itemsPerPage : itemsPerPage === "All" ? totalItems : itemsPerPage}  of {totalItemsCount} records
                         </div>
 
-                        {/* Dropdown for items per page */}
                         <div className="items-per-page-dropdown">
                             Rows per page:
                             <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
@@ -119,7 +112,6 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                                 <option value="100">100</option>
                                 <option value="500">500</option>
                                 <option value="1000">1000</option>
-                                {/* <option value="All">All</option> */}
                             </select>
                         </div>
                     </>

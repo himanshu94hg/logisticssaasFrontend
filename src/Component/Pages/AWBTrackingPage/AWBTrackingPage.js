@@ -2,11 +2,11 @@ import axios from 'axios'
 import moment from 'moment'
 import Cookies from 'js-cookie';
 import './AWBTrackingPage.css'
+import { useSelector } from 'react-redux'
 import TrackingIcon from './TrackingIcon'
 import TrackingDone from './TrackingDone'
 import React, { useEffect, useState } from 'react'
 import { BASE_URL_CORE } from '../../../axios/config'
-import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../customFunction/errorHandling'
@@ -24,8 +24,6 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
         setAwbNo("")
 
     }
-
-
     useEffect(() => {
         const fetchOrderStatus = async () => {
             if (awbNo !== "" && orderTracking) {

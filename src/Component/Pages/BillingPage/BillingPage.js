@@ -7,13 +7,13 @@ import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import Pagination from '../../common/Pagination/Pagination';
 import InvoicesTab from './Components/InvoicesTab/InvoicesTab';
 import PassbookTab from './Components/PassbookTab/PassbookTab';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import RechargeLogs from './Components/RechargeLogs/RechargeLogs';
 import CreditReceipt from './Components/CreditReceipt/CreditReceipt';
 import RemittanceLogs from './Components/RemittanceLogs/RemittanceLogs';
 import ShippingCharges from './Components/ShippingCharges/ShippingCharges';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -26,15 +26,12 @@ const BillingPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
+    const [orderTracking, setOrderTracking] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false);
     const [selectedOrderRows, setSelectedOrderRows] = useState([]);
     const [activeTab, setActiveTab] = useState("Shipping Charges");
-    const [selectedOption, setSelectedOption] = useState("Domestic");
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
-    const [orderTracking, setOrderTracking] = useState(false)
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
-
-
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard, billingPassbookCounterCard, billingRechargeCounterCard, billingShippingCounterCard, billingRemitanceExportCard } = billingSectionReducer;
 
@@ -138,7 +135,6 @@ const BillingPage = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} />
             <div className='billing-page-container'>
-                {/* Shipping Charges */}
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
                     setAwbNo={setAwbNo}
                     selectAll={selectAll}
@@ -152,7 +148,6 @@ const BillingPage = () => {
                     setSelectedOrderRows={setSelectedOrderRows}
                     billingShippingCounterCard={billingShippingCounterCard} />}
 
-                {/* Remittance Logs */}
                 {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
                     selectAll={selectAll}
                     setSelectAll={setSelectAll}
@@ -160,7 +155,6 @@ const BillingPage = () => {
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow} />}
 
-                {/* Recharge Logs */}
                 {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
                     selectAll={selectAll}
                     setSelectAll={setSelectAll}
@@ -169,7 +163,6 @@ const BillingPage = () => {
                     setBulkActionShow={setBulkActionShow}
                     billingRechargeCounterCard={billingRechargeCounterCard} />}
 
-                {/* Invoices */}
                 {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
                     selectAll={selectAll}
                     setSelectAll={setSelectAll}
@@ -177,7 +170,6 @@ const BillingPage = () => {
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow} />}
 
-                {/* Passbook */}
                 {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
                     setAwbNo={setAwbNo}
                     selectAll={selectAll}
@@ -189,7 +181,6 @@ const BillingPage = () => {
                     setBulkActionShow={setBulkActionShow}
                     billingPassbookCounterCard={billingPassbookCounterCard} />}
 
-                {/* Credit Receipt */}
                 {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
                     selectAll={selectAll}
                     setSelectAll={setSelectAll}
@@ -227,7 +218,7 @@ const BillingPage = () => {
                 billingRemitanceExportCard={billingRemitanceExportCard}
             />
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} partnerList={partnerList}/>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} partnerList={partnerList} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <div onClick={() => setMoreFilters(false)} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>

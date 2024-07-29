@@ -359,19 +359,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         showMonthDropdown
                                         showYearDropdown
                                     />
-                                    {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
                                 </div>
                             </div>
                             <div className='filter-row'>
                                 <label >Order Status
                                     <Select
-                                        options={OrderStatus}
                                         isMulti
                                         isSearchable
-                                        onChange={(e) => handleChange("status", e)}
-                                        // value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
-                                        value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
                                         styles={customStyles}
+                                        options={OrderStatus}
+                                        onChange={(e) => handleChange("status", e)}
+                                        value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>
@@ -384,7 +382,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         styles={customStyles}
                                         value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
-                                    // value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -396,7 +393,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isMulti
                                         isSearchable
                                         styles={customStyles}
-                                        // value={courierPartners?.value}
                                         value={courierPartners.filter(option => filterParams.courier_partner.split(",").includes(option.value))}
 
                                     />
@@ -422,8 +418,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("pickup_address", e)}
                                         styles={customStyles}
                                         value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
-                                    // value={pickupAddresses.filter(option => filterParams.pickup_address.split(",").includes(option.value))}
-
                                     />
                                 </label>
                             </div>
@@ -436,8 +430,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("order_tag", e)}
                                         styles={customStyles}
                                         value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
-                                    // value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
-
                                     />
                                 </label>
                             </div>
@@ -508,7 +500,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
                                     <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
-                                {/*errors.favName && <span className='error-text'></span>*/}
                             </label>
                             <div className='d-flex'>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>

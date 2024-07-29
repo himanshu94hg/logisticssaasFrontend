@@ -1,22 +1,20 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { toast } from 'react-toastify';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
 const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token");
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
-    const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
-
 
     const handleExport = async () => {
         setExportButtonClick(true);
@@ -73,7 +71,6 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
         setSelectedRows([])
         setSelectAll(false)
     }
-
 
     useEffect(() => {
         if (exportButtonClick) {

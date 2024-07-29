@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import moment from "moment";
+import { Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import Tooltip from 'react-bootstrap/Tooltip';
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import moment from "moment";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { Modal } from 'react-bootstrap';
-import NoData from '../../../../common/noData';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const dispatch = useDispatch()
+    const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
+    const [selectedData, setSelectedData] = useState(null);
 
     useEffect(() => {
         if (shipmentCard) {
@@ -41,7 +39,6 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: { "order_ids": stringifiedReattempt } });
     });
 
-
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -55,34 +52,18 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
 
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
-    const [show, setShow] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
-
     const handleShow = (row) => {
-        console.log("Modal", row);
         setSelectedData(row);
         setShow(true);
     };
@@ -97,7 +78,6 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
         const courierPartner = row.courier_partner.toLowerCase();
-
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -134,11 +114,9 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                 window.open('https://www.tpcindia.com/Default.aspx', '_blank');
                 break;
             default:
-                console.error("Courier partner not recognized");
                 break;
         }
     }
-
 
     return (
         <section className='position-relative'>
@@ -266,7 +244,7 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                                     </p>
                                                 </div>
                                             </div>
-                                        </td>   
+                                        </td>
                                         <td className='align-middle status-box'>
                                             <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                         </td>
@@ -304,7 +282,6 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
 export default ActionRequested;
 
 function Preview({ show, handleClose, selectedData }) {
-    console.log("All Select", selectedData);
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>

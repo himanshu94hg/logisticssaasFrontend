@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
-import Modal from "react-bootstrap/Modal";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Modal from "react-bootstrap/Modal";
+import React, { useEffect, useState } from "react";
 import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../../../axios/config";
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails,setSplitStatus }) {
+function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
+    const [loading, setLoading] = useState(false);
     const [warehouseData, setWarehouseData] = useState([]);
     const [selectedWarehouses, setSelectedWarehouses] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (show && orderDetails?.id) {
@@ -45,7 +45,6 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails,setSpli
                 warehouse_id: selectedWarehouses[index]
             }))
         };
-
         const Token = Cookies.get("access_token");
         axios.post(`${BASE_URL_ORDER}/orders-api/orders/split-order/`, requestData, {
             headers: {
@@ -56,9 +55,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails,setSpli
             toast.success('Order Split Successfully.');
             setSplitStatus(new Date())
             handleClose();
-            handleSubmit();
         }).catch(error => {
-            console.error("Error splitting order:", error);
             customErrorFunction(error);
         });
     };
@@ -73,40 +70,40 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails,setSpli
                     <div className="card-body">
                         <table className="table table-bordered">
                             <thead>
-                            <tr>
-                                <th>Sr.No</th>
-                                <th>Item Name & SKU</th>
-                                <th>Warehouse to Ship</th>
-                            </tr>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Item Name & SKU</th>
+                                    <th>Warehouse to Ship</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {orderDetails?.order_products.map((product, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{product.product_name}</td>
-                                    <td>
-                                        <select
-                                            className='select-field'
-                                            style={{ width: '100%' }}
-                                            value={selectedWarehouses[index]}
-                                            onChange={(e) => {
-                                                const newSelectedWarehouses = [...selectedWarehouses];
-                                                newSelectedWarehouses[index] = e.target.value;
-                                                setSelectedWarehouses(newSelectedWarehouses);
-                                            }}>
-                                            <option value="">Select Warehouse</option>
-                                            {warehouseData.map((warehouse, warehouseIndex) => (
-                                                <option
-                                                    key={warehouseIndex}
-                                                    value={warehouse.id}
-                                                >
-                                                    {warehouse.warehouse_name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td>
-                                </tr>
-                            ))}
+                                {orderDetails?.order_products.map((product, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{product.product_name}</td>
+                                        <td>
+                                            <select
+                                                className='select-field'
+                                                style={{ width: '100%' }}
+                                                value={selectedWarehouses[index]}
+                                                onChange={(e) => {
+                                                    const newSelectedWarehouses = [...selectedWarehouses];
+                                                    newSelectedWarehouses[index] = e.target.value;
+                                                    setSelectedWarehouses(newSelectedWarehouses);
+                                                }}>
+                                                <option value="">Select Warehouse</option>
+                                                {warehouseData.map((warehouse, warehouseIndex) => (
+                                                    <option
+                                                        key={warehouseIndex}
+                                                        value={warehouse.id}
+                                                    >
+                                                        {warehouse.warehouse_name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

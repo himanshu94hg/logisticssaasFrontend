@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo, faFilter } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import moment from 'moment';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
+import { toast } from "react-toastify";
+import { Link } from 'react-router-dom';
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { toast } from "react-toastify";
 import { FaCheckSquare, FaTimes } from 'react-icons/fa';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
-import NoData from '../../../../common/noData';
-import { Link } from 'react-router-dom';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import customImg from "../../../../../assets/image/integration/Manual.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
-
     const dispatch = useDispatch();
-    const [data, setData] = useState([]);
+    const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
+    const [showComment, setShowComment] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
+
+
+    const handleClose = () => setShow(false);
+    const handleCloseComment = () => setShowComment(false);
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -48,55 +48,37 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows.length === weightRecoData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
-
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
 
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
 
-    const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
-
     const handleShow = (row) => {
         setSelectedRow(row);
         setShow(true);
     };
 
-    const handleClose = () => setShow(false);
-
-    const [showComment, setShowComment] = useState(false);
-
     const handleShowComment = (row) => {
         setSelectedRow(row);
         setShowComment(true);
     };
-
-    const handleCloseComment = () => setShowComment(false);
 
     const handleAccept = (row) => {
         const rowString = JSON.stringify(row);
@@ -112,15 +94,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         if (disputeRecord.status === true) {
             toast.success("Thank you for disputing.")
         }
-    };
-
-    const handleComment = (row) => {
-        // const rowString = JSON.stringify(row);
-        // dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
-        // if(acceptRecord.status === 200)
-        // {
-        //     toast.success("Thank you for accepting.")
-        // }
     };
 
     const handleClickAWB = (orders) => {
@@ -293,6 +266,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
 
 export default WeightRecoTab;
 
+
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
@@ -346,8 +320,7 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     const [formData, setFormData] = useState({
         company_logo: ''
     });
-    const commentRecord = useSelector(state => state?.weightRecoReducer?.commentData);
-
+    
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
     };
@@ -375,7 +348,6 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
                 setLogoError("File shouldn't be greater than 2 mb")
             } else {
                 try {
-                    // Handle file upload logic here
                     const responseData = await getFileData(`weightRecoData/${e.target.files[0].name.replace(/\s/g, "")}`);
                     const awsUrl = responseData.data.url.url
                     const formData = new FormData();

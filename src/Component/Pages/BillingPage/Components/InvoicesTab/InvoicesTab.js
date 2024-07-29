@@ -1,36 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import FreightInvoice from './FreightInvoice';
 import AllOtherInvoices from './AllOtherInvoices';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
 const InvoicesTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
-    const [backDrop, setBackDrop] = useState(false);
     const [InvoiceData, setInvoiceData] = useState(true);
 
     return (
@@ -53,9 +25,6 @@ const InvoicesTab = ({ billingCard, selectedRows, setSelectedRows, setBulkAction
                 {
                     InvoiceData ? <FreightInvoice billingCard={billingCard} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} /> : <AllOtherInvoices />
                 }
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
         </section>
     );

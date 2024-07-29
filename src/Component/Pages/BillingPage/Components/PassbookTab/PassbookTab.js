@@ -3,6 +3,7 @@ import moment from 'moment';
 import NoData from '../../../../common/noData';
 
 const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard,partnerList }) => {
+  
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -86,7 +87,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
@@ -94,7 +94,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order_detail?.awb_number)}>
                                                     {row?.order_detail?.awb_number}
@@ -102,7 +101,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.order_detail?.courier_partner && <img src={partnerList[row?.order_detail?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
@@ -113,7 +111,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.transaction_type == "c" ? "₹ " + row.amount : null}
@@ -121,7 +118,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Applied Weight Charges */}
                                             <div classamount='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.transaction_type == "d" ? ("₹ " + row.amount) : null}
@@ -129,7 +125,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {row.balance}
@@ -137,7 +132,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.description}

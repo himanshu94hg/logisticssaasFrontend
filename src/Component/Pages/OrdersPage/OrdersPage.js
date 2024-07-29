@@ -363,7 +363,9 @@ const OrdersPage = () => {
                             <input
                                 type="search"
                                 value={searchValue}
+                                className={`input-field`}
                                 onChange={(e) => setSearchValue(e.target.value)}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
@@ -375,9 +377,7 @@ const OrdersPage = () => {
                                         e.preventDefault();
                                     }
                                 }}
-                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
-                                className={`input-field`}
-                            />
+                                />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>

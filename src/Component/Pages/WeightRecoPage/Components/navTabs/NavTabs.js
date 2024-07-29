@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
-// import "./navTabs.css";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const navItems = [
   { name: 'Weight Reconciliation', title: 'Weight Reconciliation' },
@@ -16,26 +8,11 @@ const navItems = [
 ]
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleSelect = (selectedTab) => {
     props.setActiveTab(selectedTab);
   };
-
   const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
-
-
-
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7 gap-10"
@@ -57,7 +34,6 @@ export default function NavTabs(props) {
                   title={item.title}
                 >
                   <div className="navItemsContainer">
-                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
                     {item.title}
                   </div>
                 </Nav.Link>

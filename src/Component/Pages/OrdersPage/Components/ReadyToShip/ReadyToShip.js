@@ -50,7 +50,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     const [selectAll, setSelectAll] = useState(false);
     const [actionId, setActionId] = useState("")
     const [SingleShip, setSingleShip] = useState(false)
-    const [copyText, setcopyText] = useState("Click To Copy")
+    const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)

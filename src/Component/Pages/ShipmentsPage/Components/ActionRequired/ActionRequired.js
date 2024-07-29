@@ -1,27 +1,25 @@
 import moment from "moment";
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import Tooltip from 'react-bootstrap/Tooltip';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import customImg from "../../../../../assets/image/integration/Manual.png"
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import { weightGreater } from '../../../../../customFunction/functionLogic'
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import { weightGreater } from '../../../../../customFunction/functionLogic';
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch()
@@ -34,7 +32,6 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
             setAllShipment(shipmentCard);
         }
     }, [shipmentCard]);
-
 
     const handleReattempt = ((orderIds) => {
         const updatedRules = allShipment.filter(shipment => shipment.id !== orderIds);
@@ -132,11 +129,9 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                 window.open('https://www.tpcindia.com/Default.aspx', '_blank');
                 break;
             default:
-                console.error("Courier partner not recognized");
                 break;
         }
     }
-
 
     return (
         <section className='position-relative'>

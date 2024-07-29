@@ -1,15 +1,16 @@
-import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import axios from 'axios';
+import moment from 'moment';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -61,22 +62,31 @@ const CourierPartner = [
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-    const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([]);
-    const [saveFav, setSaveFav] = useState(false);
-    const [favName, setFavName] = useState("");
     const dispatch = useDispatch()
-    const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
-
     const sellerData = Cookies.get("user_id")
+    const [favName, setFavName] = useState("");
+    const [orderTag, setorderTag] = useState([]);
     const authToken = Cookies.get("access_token")
-    const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const [saveFav, setSaveFav] = useState(false);
+    const [SaveFilter, setSaveFilter] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([]);
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: "",
+        pickup_address_id: ""
+    })
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
@@ -124,7 +134,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 validationErrors.favName = "Required";
             }
             setErrors(validationErrors);
-            console.error(validationErrors, "Favorite name cannot be empty!");
             return;
         }
 
@@ -141,23 +150,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFilter(false)
         setFavName("")
     };
-    console.log(saveFav, "saveFavsaveFav")
-
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: "",
-        order_tag: "",
-        sku: "",
-        sku_match_type: "",
-        pickup_address: "",
-        pickup_address_id: ""
-    })
-
 
     useEffect(() => {
         if (activeTab) {
@@ -177,7 +169,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             setErrors({})
         }
-    }, [activeTab, clearState])
+    }, [activeTab])
 
     useEffect(() => {
         if (handleResetFrom) {
@@ -197,7 +189,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
-            // setSaveFav(true)
             setErrors({})
         }
     }, [handleResetFrom])
@@ -270,12 +261,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     setPickupAddresses(temp)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                customErrorFunction(error)
             }
         };
-
         fetchData();
-
     }, [MoreFilters, sellerData, authToken]);
 
     const handleReset = () => {
@@ -396,7 +385,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            {/* <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
                                         isMulti
@@ -406,7 +395,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
                                     />
                                 </label>
-                            </div> */}
+                            </div>
                             <div className='filter-row'>
                                 <label>Order Tag
                                     <Select
@@ -437,7 +426,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="singleSku"
                                         value="single"
-                                        // checked={filterParams.skuType === "single"}
                                         onChange={() => handleChange("sku_match_type", "single")}
                                     />
                                 </label>
@@ -448,7 +436,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="multiSku"
                                         value="multi"
-                                        // checked={filterParams.skuType === "multi"}
                                         onChange={() => handleChange("sku_match_type", "multi")}
                                     />
                                 </label>

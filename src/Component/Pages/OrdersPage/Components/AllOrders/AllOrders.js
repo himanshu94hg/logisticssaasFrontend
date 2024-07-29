@@ -42,7 +42,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
     const [deleteOrderId, setDeleteOrderId] = useState("");
     const [cancelOrderId, setCancelOrderId] = useState("");
     const [genaratelabel, setGenaratelabel] = useState(false);
-    const [copyText, setcopyText] = useState("Click To Copy")
+    const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const [generateinvoice, setGenerateinvoice] = useState(false);
@@ -91,6 +91,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
             }
         }
     };
+
+
+    
 
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);

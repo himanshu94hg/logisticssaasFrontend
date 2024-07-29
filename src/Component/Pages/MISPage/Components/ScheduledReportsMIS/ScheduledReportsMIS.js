@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import { RxReset } from "react-icons/rx";
-import Pagination from '../../../../common/Pagination/Pagination';
-import { BASE_URL_ORDER } from '../../../../../axios/config';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import globalDebouncedClick from '../../../../../debounce';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import NoData from '../../../../common/noData';
+import React, { useEffect, useState } from 'react';
+import globalDebouncedClick from '../../../../../debounce';
+import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Pagination from '../../../../common/Pagination/Pagination';
+import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
 const ScheduledReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
-    const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const { scheduleReportsData } = useSelector(state => state?.misSectionReducer)
+    let authToken = Cookies.get("access_token")
     const [searchValue, setSearchValue] = useState("")
-    const [scheduledReport, setscheduledReport] = useState([]);
-
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
-
-    let authToken = Cookies.get("access_token")
-
+    const [scheduledReport, setscheduledReport] = useState([]);
+    const { scheduleReportsData } = useSelector(state => state?.misSectionReducer)
 
     useEffect(() => {
         dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
@@ -42,35 +35,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         }
     }, [scheduleReportsData])
 
-    const dummyData = [
-        { id: 1, reportTitle: 'Report 1', reportType: 'Type 1', status: 'Pending', recipients: 'Recipient 1' },
-        { id: 2, reportTitle: 'Report 2', reportType: 'Type 2', status: 'Completed', recipients: 'Recipient 2' },
-        { id: 3, reportTitle: 'Report 3', reportType: 'Type 1', status: 'Pending', recipients: 'Recipient 3' },
-    ];
-
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(scheduledReport.map(row => row.id));
-        } else {
-            setSelectedRows([]);
-        }
-    };
-
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-        } else {
-            setSelectedRows([...selectedRows, orderId]);
-        }
-        if (selectedRows.length === scheduledReport.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
-    };
     const handleSearch = () => {
         axios.get(`${BASE_URL_ORDER}/orders-api/mis/scheduled-reports/?q=${searchValue}`, {
             headers: {
@@ -104,7 +68,23 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
-                            <input className='input-field' type="text" placeholder="Search Report Title" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                            <input className='input-field'
+                                type="text"
+                                value={searchValue}
+                                placeholder="Search Report Title"
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())} >
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -116,13 +96,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                {/*} <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
-    </th>*/}
                                 <th style={{ width: '25%' }}>Report Title</th>
                                 <th>Report Type</th>
                                 <th>Created</th>
@@ -138,13 +111,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        {/*<td className='checkbox-cell'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
-                                            />
-                            </td>*/}
                                         <td>
                                             <div className='cell-inside-box'>
                                                 {row?.report_title}

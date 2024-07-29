@@ -8,7 +8,7 @@ import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 
 const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
     const textRef = useRef(null);
-    const [copyText, setcopyText] = useState("Click To Copy")
+    const [copyText, setcopyText] = useState("Tracking Link")
 
     const handleCopy = () => {
         if (textRef.current) {

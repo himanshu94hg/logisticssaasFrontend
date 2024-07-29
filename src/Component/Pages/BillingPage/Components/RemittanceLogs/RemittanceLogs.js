@@ -1,47 +1,25 @@
 import moment from 'moment';
+import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
-import NoData from '../../../../common/noData';
-
-
 
 const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
-
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
-    const [data, setData] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
     const { codDetails } = useSelector(state => state?.dashboardOverviewReducer)
+    const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
 
     useEffect(() => {
         dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION", payload: dateRangeDashboard })
     }, [dispatch]);
 
-    const reasons = [
-        { count: 300, data: 207 },
-        { count: 446, data: 605 },
-        { count: 206, data: 403 },
-    ];
-
-    const getRandomCount = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].count;
-    };
-
-    const getRandomReason = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].data;
-    };
-
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -49,23 +27,18 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows.length === billingCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -85,8 +58,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
             setExportButtonClick(false);
         }
     }, [billingShipingRemitanceDOWNLOADCard]);
-
-
 
 
     return (
@@ -149,17 +120,13 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span className=''>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-
-                                                    {/* {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''} */}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* crf_id */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.crf_id}
@@ -167,7 +134,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.utr_number}
@@ -175,7 +141,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
                                                     {row?.mode}
@@ -183,7 +148,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {0.00}
@@ -191,7 +155,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {row?.early_cod_charge}
@@ -199,7 +162,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {0.00}
@@ -207,7 +169,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹ {row?.amount}
@@ -216,7 +177,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                         </td>
 
                                         <td>
-                                            {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.description}
@@ -224,7 +184,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <button className='btn main-button' onClick={() => handelExportData(row.id)}>Export</button>
                                             </div>

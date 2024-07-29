@@ -14,11 +14,11 @@ import SettledReco from './Components/SettledReco/SettledReco';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -32,29 +32,26 @@ const SearchOptions = [
 
 const WeightRecoPage = () => {
     const dispatch = useDispatch();
-    const [activeTab, setActiveTab] = useState("Weight Reconciliation");
-    const [isOpen, setIsOpen] = useState(false);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems] = useState("");
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [queryParamTemp, setQueryParamTemp] = useState({})
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
-    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
-    const [searchValue, setSearchValue] = useState("")
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-    const [handleResetFrom, setHandleResetFrom] = useState(false);
-    const [queryName, setQueryName] = useState([])
-    const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [loader, setLoader] = useState(false)
-    const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
-    const { weightData, holdData, setteledData } = recoSectionReducer;
+    const [queryName, setQueryName] = useState([])
+    const [backDrop, setBackDrop] = useState(false);
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchValue, setSearchValue] = useState("")
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [activeTab, setActiveTab] = useState("Weight Reconciliation");
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { favListData } = useSelector(state => state?.orderSectionReducer)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const { weightData, holdData, setteledData } = useSelector(state => state?.weightRecoReducer);
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -66,6 +63,26 @@ const WeightRecoPage = () => {
     }
 
     const handleSearch = () => {
+        const temp_data = {
+            page: currentPage,
+            page_size: itemsPerPage,
+            q: searchValue
+        }
+
+        switch (activeTab) {
+            case "Weight Reconciliation":
+                dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
+                break;
+            case "Settled Reconciliation":
+                dispatch({ type: "SETTELED_ACTION", payload: temp_data });
+                break;
+            case "On-Hold Reconciliation":
+                dispatch({ type: "HOLD_ACTION", payload: temp_data });
+                break;
+            default:
+                break;
+        }
+
     }
 
     const handleMoreFilter = (data) => {
@@ -83,23 +100,27 @@ const WeightRecoPage = () => {
     };
 
     useEffect(() => {
+        const temp_data = {
+            page: currentPage,
+            page_size: itemsPerPage,
+        }
         const fetchData = () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
-                    dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                    dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
                     break;
                 case "Settled Reconciliation":
-                    dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                    dispatch({ type: "SETTELED_ACTION", payload: temp_data });
                     break;
-                case "On Hold Reconciliation":
-                    dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                case "On-Hold Reconciliation":
+                    dispatch({ type: "HOLD_ACTION", payload: temp_data });
                     break;
                 default:
                     break;
             }
         };
         fetchData();
-    }, [dispatch, activeTab, itemsPerPage, currentPage]);
+    }, [activeTab, itemsPerPage, currentPage]);
 
     useEffect(() => {
         if (weightData && weightData?.count !== undefined) {
@@ -127,24 +148,28 @@ const WeightRecoPage = () => {
         if (BulkActionShow) {
             setBulkActionShow(false)
             setSelectedRows([])
-
         }
     }, [activeTab])
+
 
     const handleClick = () => {
         setSearchValue("")
         setHandleResetFrom(true)
+        const temp_data = {
+            page: currentPage,
+            page_size: itemsPerPage,
+        }
         if (activeTab === "Weight Reconciliation") {
-            dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+            dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
         } else if (activeTab === "Settled Reconciliation") {
-            dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-        } else if (activeTab === "On Hold Reconciliation") {
-            dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+            dispatch({ type: "SETTELED_ACTION", payload: temp_data });
+        } else if (activeTab === "On-Hold Reconciliation") {
+            dispatch({ type: "HOLD_ACTION", payload: temp_data });
         }
     }
 
     const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 1000),
+        debounce((param) => handleClick(param), 700),
         []
     );
     const handleReset = () => {
@@ -154,8 +179,6 @@ const WeightRecoPage = () => {
     }
 
     const handleQueryfilter = (value) => {
-        // setSearchValue("")
-        // setHandleResetFrom(true)
         setQueryParamTemp({})
     }
 
@@ -191,7 +214,24 @@ const WeightRecoPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                className='input-field'
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>

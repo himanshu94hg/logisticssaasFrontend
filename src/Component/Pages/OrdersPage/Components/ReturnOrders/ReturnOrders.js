@@ -23,7 +23,7 @@ import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const [selectAll, setSelectAll] = useState(false);
-    const [copyText, setcopyText] = useState("Click To Copy")
+    const [copyText, setcopyText] = useState("Tracking Link")
 
     useEffect(() => {
         if (activeTab || MoreFilters) {

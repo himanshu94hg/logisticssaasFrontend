@@ -1,16 +1,13 @@
+import React from 'react';
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
 import NoData from '../../../../common/noData';
 
 const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingRechargeCounterCard }) => {
-
-    const [data, setData] = useState([]);
-
-    // Handler for "Select All" checkbox
+    
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -18,31 +15,22 @@ const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setS
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows?.length === billingCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
-    };
-
-    const calculateTotalAmount = (billingCard) => {
-        const totalAmount = billingCard.reduce((total, item) => total + parseFloat(item.amount), 0);
-        return totalAmount.toFixed(2);
     };
 
     return (
@@ -97,7 +85,6 @@ const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setS
                                         </td>
 
                                         <td>
-                                            {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span className=''>{`${moment(row?.datetime).format('DD MMM YYYY')} || ${moment(row?.datetime).format('h:mm A')}`}</span>
@@ -105,7 +92,6 @@ const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.payment_gateway_order_id ?? "-"}
@@ -113,7 +99,6 @@ const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     ₹  {row?.amount}
@@ -121,7 +106,6 @@ const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.description}

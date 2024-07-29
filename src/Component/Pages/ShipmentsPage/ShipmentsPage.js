@@ -15,6 +15,7 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import React, { useCallback, useEffect, useState } from 'react';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
@@ -22,7 +23,6 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -42,13 +42,10 @@ const ShipmentsPage = () => {
     const [awbNo, setAwbNo] = useState(null)
     let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
-    const [isOpen, setIsOpen] = useState(false);
     const [queryName, setQueryName] = useState([])
-    const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [shipmentCard, setShipment] = useState([])
     const [totalItems, setTotalItems] = useState("");
-    const reattemptOrderIds = selectedRows.join(',');
     const [selectAll, setSelectAll] = useState(false);
     const [filterData, setFilterData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -62,12 +59,12 @@ const ShipmentsPage = () => {
     const [activeTab, setActiveTab] = useState("Action Required");
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const [selectedRows, setSelectedRows] = useState([]);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
 
@@ -80,17 +77,6 @@ const ShipmentsPage = () => {
             setQueryName(temp)
         }
     }, [favListData])
-
-
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     useEffect(() => {
         let apiUrl = '';
@@ -135,7 +121,6 @@ const ShipmentsPage = () => {
         }
     }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
 
-
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
     }, [])
@@ -147,13 +132,31 @@ const ShipmentsPage = () => {
         }
     }, [shipmentCardData]);
 
-    const handleReattemptOrder = (() => {
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
-    });
+    useEffect(() => {
+        if (activeTab) {
+            setLoader(true)
+            setErrors({})
+            setSelectedRows([])
+            setSearchValue("");
+            setQueryParamTemp({});
+            setBulkActionShow(false)
+            setQueryParamSearch(null);
+            setSearchOption(SearchOptions[0])
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
 
-    const handleRtoOrder = (() => {
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
-    });
+    const handleSidePanel = () => {
+        setMoreFilters(true);
+        setBackDrop(true)
+    }
+
+    const CloseSidePanel = () => {
+        setMoreFilters(false);
+        setBackDrop(false)
+    }
 
     const validateData = () => {
         const newErrors = {};
@@ -178,9 +181,7 @@ const ShipmentsPage = () => {
         if (searchType === 'awb_number' && !searchValue) {
             newErrors.customer_order_number = 'AWB is required!';
         }
-
         setErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -206,19 +207,6 @@ const ShipmentsPage = () => {
             setCurrentPage(1)
         }
     };
-
-    useEffect(() => {
-        if (activeTab) {
-            setLoader(true)
-            setBulkActionShow(false)
-            setErrors({})
-            setSelectedRows([])
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
-        }
-    }, [activeTab])
-
 
     const handleClick = () => {
         setSearchValue("")
@@ -254,15 +242,6 @@ const ShipmentsPage = () => {
         setsearchType(option.value)
     };
 
-    useEffect(() => {
-        if (activeTab) {
-            setSearchValue("");
-            setQueryParamTemp({});
-            setQueryParamSearch(null);
-            setSearchOption(SearchOptions[0])
-        }
-    }, [activeTab])
-
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
@@ -280,7 +259,6 @@ const ShipmentsPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
         axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}&${value}`, {
@@ -297,7 +275,6 @@ const ShipmentsPage = () => {
             });
     }
 
-
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -310,7 +287,24 @@ const ShipmentsPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                className={`input-field`}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
