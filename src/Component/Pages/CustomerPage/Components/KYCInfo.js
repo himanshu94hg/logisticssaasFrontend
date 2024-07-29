@@ -203,9 +203,9 @@ const KYCInfo = ({ activeTab }) => {
             </div>
             <hr />
             <div className="details-form-row row">
-              <h5 className="col-3">KYC Documents</h5>
-              <div className="col-9">
-                <div className="d-flex gap-3 mt-3">
+              <h5 className="col-4 col-md-3">KYC Documents</h5>
+              <div className="col-8 col-md-9">
+                <div className="d-flex gap-3 mt-3 flex-column flex-md-row">
                   <label>
                     <span>Document Type: <span className='mandatory'>*</span></span>
                     <select
@@ -233,7 +233,7 @@ const KYCInfo = ({ activeTab }) => {
                     />
                   </label>
                 </div>
-                <div className="d-flex gap-3 mt-3">
+                <div className="d-flex gap-3 mt-3 flex-column flex-md-row">
                   <label>
                     <span>Document Name: <span className='mandatory'>*</span></span>
                     <input
@@ -267,20 +267,20 @@ const KYCInfo = ({ activeTab }) => {
             </div>
             <hr />
             <div className="details-form-row row">
-              <h5 className="col-3">Uploaded Documents</h5>
-              <ul className="col-9 upload-doc-list">
+              <h5 className="col-4 col-md-3">Uploaded Documents</h5>
+              <ul className="col-8 col-md-9 upload-doc-list">
                 {formList.map((item, index) =>
                   (item.documentType === "Pan Card" ||
                     item.documentType === "Aadhar Card" ||
                     item.documentType === "Driving License" ||
                     item.documentType === "Voter ID Card") && (
-                    <li key={index} className="row">
-                      <p className="col-11">
-                        <span className="me-4">Document Type: <strong>{item.documentType}</strong></span>
-                        <span className="mx-4">Document Name: <strong>{item.documentName}</strong></span>|
-                        <span className="mx-4">Document Number: <strong>{item.documentNumber}</strong></span>
+                    <li key={index} className="row flex-column flex-md-row">
+                      <p className="col-10 d-flex gap-3 flex-wrap">
+                        <span className="">Document Type: <strong>{item.documentType}</strong></span>
+                        <span className="">Document Name: <strong>{item.documentName}</strong></span>
+                        <span className="">Document Number: <strong>{item.documentNumber}</strong></span>
                       </p>
-                      <div className="col-1 d-flex gap-2 align-items-center">
+                      <div className="col-2 d-flex gap-2 align-items-center">
                         <button type="button" className="btn preview-btn" onClick={() => handleShow(item.previewImg)}>
                           <FontAwesomeIcon icon={faEye} />
                         </button>

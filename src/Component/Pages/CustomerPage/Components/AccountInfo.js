@@ -74,7 +74,7 @@ const AccountInfo = ({ activeTab }) => {
     });
   }
 
-  console.log(errors,"errorerrorerrorerror")
+  console.log(errors, "errorerrorerrorerror")
 
 
   const handleSubmit = async (e) => {
@@ -264,7 +264,7 @@ const AccountInfo = ({ activeTab }) => {
                     <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                   </div>
                   <div className='col-9'>
-                    <div className='d-flex w-100 gap-3 mt-4'>
+                    <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
                       <label>
                         <span> Account Holder Name<span className='mandatory'> *</span></span>
                         <input
@@ -294,7 +294,7 @@ const AccountInfo = ({ activeTab }) => {
                         {errors[index]?.accountNumber && <span className="custom-error">{errors[index].accountNumber}</span>}
                       </label>
                     </div>
-                    <div className='d-flex w-100 gap-3 mt-4'>
+                    <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
                       <label>
                         <span>IFSC Code<span className='mandatory'> *</span></span>
                         <input
@@ -322,7 +322,7 @@ const AccountInfo = ({ activeTab }) => {
                         {errors[index]?.bankName && <span className="custom-error">{errors[index].bankName}</span>}
                       </label>
                     </div>
-                    <div className='d-flex w-100 gap-3 mt-4'>
+                    <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
                       <label>
                         <span> Branch Name<span className='mandatory'> *</span></span>
                         <input
