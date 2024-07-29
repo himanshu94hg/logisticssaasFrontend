@@ -217,9 +217,6 @@ const OrdersPage = () => {
         }
     };
 
-
-
-
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
@@ -258,7 +255,6 @@ const OrdersPage = () => {
     }
 
     useEffect(() => {
-        // setLoader(true)
         let apiUrl = '';
         switch (activeTab) {
             case "All":
@@ -609,6 +605,7 @@ const OrdersPage = () => {
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
             <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} />
+
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
