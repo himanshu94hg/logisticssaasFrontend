@@ -153,7 +153,7 @@ const OrderDetail = () => {
                                     <ul className='od-list od-pd-list'>
                                         <li><span>Dead Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.weight / 1000}</span></li>
                                         <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length} x {orderDetails?.dimension_detail?.breadth} x {orderDetails?.dimension_detail?.height}</span></li>
-                                        <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${orderDetails.dimension_detail.vol_weight} Kg` : "NA"}</span></li>
+                                        <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${(orderDetails.dimension_detail.vol_weight/1000)} Kg` : "NA"}</span></li>
                                         <li><span>Applied Weight (in Kg):</span><span> {weightGreater(orderDetails?.dimension_detail?.weight, orderDetails?.dimension_detail?.vol_weight)} Kg</span></li>
                                     </ul>
                                 </div>
