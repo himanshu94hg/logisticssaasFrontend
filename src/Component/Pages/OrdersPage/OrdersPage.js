@@ -94,16 +94,14 @@ const OrdersPage = () => {
             setTimeout(() => {
                 setLoader(false)
             }, 500);
-            setSearchValue("");
-            setQueryParamTemp({});
-            setItemsPerPage(20)
             setbulkAwb([])
-            setSearchOption(SearchOptions[0])
-            setBulkActionShow(false)
-            setSelectedRows([])
-            setCurrentPage(1)
             setOrders([])
             setErrors({})
+            setSearchValue("")
+            setSelectedRows([])
+            setQueryParamTemp({});
+            setBulkActionShow(false)
+            setSearchOption(SearchOptions[0])
             setsearchType(SearchOptions[0].value)
         }
     }, [activeTab])
@@ -219,6 +217,9 @@ const OrdersPage = () => {
         }
     };
 
+
+
+
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
@@ -312,8 +313,7 @@ const OrdersPage = () => {
                 });
         }
 
-    }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
-
+    }, [orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
 
     useEffect(() => {
@@ -354,7 +354,7 @@ const OrdersPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import { percentage } from "../../../../../customFunction/functionLogic";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import TotalShipmentIcon from "../../../../common/Icons/InfoCardsIcons/TotalShipmentIcon";
 
 function TotalShipment() {
@@ -20,6 +20,8 @@ function TotalShipment() {
       setData(shimpmetCard);
     }, 1000);
   }, [shimpmetCard]);
+
+
 
   const getColorScale = () => {
     const colorScale = {
