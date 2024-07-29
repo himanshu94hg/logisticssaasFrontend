@@ -16,6 +16,7 @@ import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.
 import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
@@ -38,6 +39,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { FaRegCopy } from "react-icons/fa";
+import APIIcon from '../../../../common/Icons/APIIcon';
 
 const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
@@ -370,7 +372,8 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : <CustomIcon />}
+                                                                                : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="20" />
+                                                                                    : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&

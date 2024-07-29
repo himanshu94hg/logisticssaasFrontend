@@ -15,6 +15,7 @@ import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.
 import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
@@ -37,6 +38,7 @@ import axios from 'axios';
 import globalDebouncedClick from '../../../../../debounce';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import APIIcon from '../../../../common/Icons/APIIcon';
 
 
 
@@ -411,7 +413,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                    : <CustomIcon />}
+                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="20" />
+                                                                                        : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -522,13 +525,13 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                             <td>
                                                 {/* shiping section here */}
                                                 <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
+                                                    {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                             {row.awb_number}
                                                         </p>
                                                         <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                            {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                         </p>
                                                     </div>
                                                 </div>
