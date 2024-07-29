@@ -275,6 +275,10 @@
     .billing-page-container .table-container {
         height: calc(100vh - 299px);
     }
+
+    .selected-option {
+        padding-block: 3px;
+    }
 }
 
 @media screen and (max-width:767px) {
@@ -519,6 +523,10 @@
         min-width: unset;
         width: 100%;
     }
+
+    .customer-details-form .details-form-row {
+        padding-inline: 0px;
+    }
 }
 
 @media screen and (max-width:472px) {
@@ -590,6 +598,11 @@
         padding-block: 0;
         justify-content: center;
         gap: 5px;
+    }
+
+    .agreement-buttons {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 

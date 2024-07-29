@@ -150,7 +150,7 @@ const BasicInfo = ({ activeTab }) => {
         },
       });
 
-      console.log(response.status,"this is  a a a a a a")
+      console.log(response.status, "this is  a a a a a a")
       if (response?.status === 201) {
         toast.success("Details update successfully")
         setLoaderRing(false)
@@ -171,7 +171,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.website_url) {
       newErrors.website_url = "Website Url is required!"
     }
-    if (!formData.mobile ||!formData.mobile.trim())  {
+    if (!formData.mobile || !formData.mobile.trim()) {
       newErrors.mobile = "Mobile number is required!"
     }
     if (!formData.email) {
@@ -192,10 +192,10 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.country) {
       newErrors.country = "Country is required!"
     }
-    if (!formData.pan_number||!formData.pan_number.trim()) {
+    if (!formData.pan_number || !formData.pan_number.trim()) {
       newErrors.pan_number = "PAN Number is required!"
     }
-    if (!formData.gst_number||!formData.gst_number.trim()) {
+    if (!formData.gst_number || !formData.gst_number.trim()) {
       newErrors.gst_number = "GST Number is required!"
     }
     setErrors(newErrors);
@@ -326,7 +326,7 @@ const BasicInfo = ({ activeTab }) => {
                   </div>
                 </label>
                 {logoError && <span className="custom-error">{logoError}</span>}
-                <div className='d-flex w-100 gap-3 mt-4'>
+                <div className='d-flex flex-column flex-md-row w-100 gap-3 mt-4'>
                   <label>
                     <span>Company Name <span className='mandatory'>*</span></span>
                     <input placeholder="Enter your company name"
@@ -357,7 +357,7 @@ const BasicInfo = ({ activeTab }) => {
             <hr />
             <div className='details-form-row row'>
               <h5 className='col-3'>Contact Details</h5>
-              <div className='col-9 d-flex gap-3'>
+              <div className='col-9 d-flex gap-3 flex-column flex-md-row'>
                 <label>
                   <span>Mobile Number <span className='mandatory'>*</span></span>
                   <div className='d-flex mobile-number-field'>
@@ -403,7 +403,7 @@ const BasicInfo = ({ activeTab }) => {
             <div className='details-form-row row'>
               <h5 className='col-3'>Address Details</h5>
               <div className='col-9'>
-                <div className='d-flex gap-3'>
+                <div className='d-flex gap-3 flex-column flex-md-row'>
                   <label>
                     <span>Address <span className='mandatory'>*</span></span>
                     <input
@@ -432,7 +432,7 @@ const BasicInfo = ({ activeTab }) => {
                     />
                   </label>
                 </div>
-                <div className='d-flex gap-3 mt-3'>
+                <div className='d-flex gap-3 mt-3 flex-column flex-lg-row'>
                   <label>
                     <span>Pincode <span className='mandatory'>*</span></span>
                     <input
@@ -496,7 +496,7 @@ const BasicInfo = ({ activeTab }) => {
             <div className="details-form-row row">
               <h5 className='col-3'>Taxation Details</h5>
               <div className='col-9'>
-                <div className='d-flex gap-3 mt-3'>
+                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
                   <label>
                     <span>PAN Number <span className='mandatory'>*</span></span>
                     <input
