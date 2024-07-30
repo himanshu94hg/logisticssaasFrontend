@@ -373,7 +373,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                             {(errors.mobile_number || editErrors?.mobile_number) && <div className="custom-error">{errors.mobile_number || editErrors?.mobile_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3 row-gap-2'>
+                    <div className='row mt-3 row-gap-3'>
                         <label className='col'>
                             <span>Email <span className='text-gray'>(optional)</span></span>
                             <input
@@ -453,7 +453,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                             />
                         </label>
                     </div>
-                    <div className='row mt-3 row-gap-2'>
+                    <div className='row mt-3 row-gap-3'>
                         {/* Pincode */}
                         <label className='col'>
                             <span>Pincode <span className='mandatory'>*</span></span>
@@ -492,7 +492,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                             {(errors.city || editErrors?.city) && <div className="custom-error">{errors.city || editErrors?.city}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3 row-gap-2'>
+                    <div className='row mt-3 row-gap-3'>
                         {/* State */}
                         <label className='col'>
                             <span>State <span className='mandatory'>*</span></span>
@@ -676,7 +676,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                 {/* {(errors.billing_landmark || editErrors?.billing_landmark) && <div className="custom-error">{errors.billing_landmark || editErrors?.billing_landmark}</div>} */}
                             </label>
                         </div>
-                        <div className='row mt-3 row-gap-2'>
+                        <div className='row mt-3 row-gap-3'>
                             {/* Pincode */}
                             <label className='col'>
                                 <span> Pincode <span className='mandatory'>*</span></span>
@@ -715,7 +715,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                 {(errors.billing_city || editErrors?.billing_city) && <div className="custom-error">{errors.billing_city || editErrors?.billing_city}</div>}
                             </label>
                         </div>
-                        <div className='row mt-3 row-gap-2'>
+                        <div className='row mt-3 row-gap-3'>
                             {/* State */}
                             <label className='col'>
                                 <span>State <span className='mandatory'>*</span></span>
