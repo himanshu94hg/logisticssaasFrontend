@@ -4,10 +4,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormData, editErrors, seteditErrors }) => {
+export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setFormData, editErrors, seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
-    
+
     const validateFormData = () => {
         const newErrors = {};
         formData?.product_details?.forEach((product, index) => {
@@ -128,7 +128,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
             handleChange(e, 'tax_rate', index);
         }
     };
-    
+
     useEffect(() => {
         if (activeTab) {
             setErrors({})
@@ -143,7 +143,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
-                            <div className='row gap-2'>
+                            <div className='row row-gap-3'>
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
@@ -195,7 +195,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                     </select>
                                 </label>
                             </div>
-                            <div className='row mt-3 gap-2'>
+                            <div className='row mt-3 row-gap-3'>
                                 {/* Unit Price */}
                                 <label className='col'>
                                     Unit Price
@@ -217,7 +217,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                 <label className='col' style={{ height: 'fit-content' }}>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
-                                        className={`input-field ${(errors[`quantity_${index}`] ||  editErrors?.[`quantity_${index}`]) ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder='Enter Quantity'
                                         onInput
                                         ={(e) => handlePriceValidation(e.target.value, index)}
@@ -228,7 +228,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                             }
                                         }}
                                     />
-                                    {(errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]) && <span className="custom-error">{errors[`quantity_${index}`] ||  editErrors?.[`quantity_${index}`]}</span>}
+                                    {(errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]) && <span className="custom-error">{errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]}</span>}
                                 </label>
                                 {/* SKU */}
                                 <label className='col'>
@@ -260,7 +260,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                 </p>
                             </div>
 
-                            <div className={`row optional-fields ${!addFieldsStates[index] ? 'height-0' : 'open'}`}>
+                            <div className={`row optional-fields row-gap-2 ${!addFieldsStates[index] ? 'height-0' : 'open'}`}>
                                 <label className='col'>
                                     HSN Code
                                     <input

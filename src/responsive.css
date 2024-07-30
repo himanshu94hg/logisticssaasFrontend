@@ -279,6 +279,15 @@
     .selected-option {
         padding-block: 3px;
     }
+
+    .rate-calc-page section.rate-des label {
+        max-width: unset;
+    }
+
+    .ServiceabilityPage .pair-hr {
+        margin-block: 15px 6px;
+        width: 65%;
+    }
 }
 
 @media screen and (max-width:767px) {
@@ -476,7 +485,7 @@
     .ship-container-row {
         gap: 10px;
         padding-top: 21px;
-        justify-content: end;
+        /* justify-content: end; */
         margin-inline: 12px;
         margin-top: 0px;
     }
@@ -526,6 +535,16 @@
 
     .customer-details-form .details-form-row {
         padding-inline: 0px;
+    }
+}
+
+@media screen and (max-width:511px) {
+    .ServiceabilityPage .fm-lm-hr {
+        width: 100%;
+        height: 1px;
+        min-height: unset;
+        margin-block: 40px;
+        background: linear-gradient(272deg, rgba(255, 255, 255, 1) 0%, rgba(25, 117, 201, 1) 25%, rgba(25, 117, 201, 1) 75%, rgba(255, 255, 255, 1) 100%);
     }
 }
 

@@ -146,7 +146,7 @@ const ServiceabilityPage = () => {
             <div className='col d-flex align-items-center'>
               <div className='d-flex flex-column gap-4 p10 w-100'>
                 <h5>Check Pickup to Delivery Serviceable Couriers</h5>
-                <div className='d-flex w-100 gap-3 align-items-center'>
+                <div className='d-flex w-100 gap-3 align-items-center flex-column flex-lg-row'>
                   <label className='w-100'>
                     Pickup Pincode
                     <input
@@ -244,7 +244,7 @@ const ServiceabilityPage = () => {
                 <h5>Get Shipease Serviceability</h5>
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <p className='w-100'>
-                    <strong>Note:</strong>Check shipping availability and options for destinations, ensuring efficient delivery solutions.
+                    <strong>Note:</strong> Check shipping availability and options for destinations, ensuring efficient delivery solutions.
                   </p>
 
                 </div>

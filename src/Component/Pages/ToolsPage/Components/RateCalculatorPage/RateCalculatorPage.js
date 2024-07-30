@@ -49,6 +49,8 @@ const RateCalculatorPage = () => {
 
   });
 
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
   const handleToggle = () => {
     setIsChecked(!isChecked);
   };
@@ -329,7 +331,7 @@ const RateCalculatorPage = () => {
         <div ref={sellerDataRef}>
           <section className='box-shadow shadow-sm p10 rate-des'>
             <h4>Rate Calculator</h4>
-            <div className='gap-4 d-flex align-items-center'>
+            <div className={`gap-4 d-flex ${screenWidthData < 992 && 'mb-5'} align-items-lg-center flex-column flex-lg-row`}>
               <div className='d-flex align-items-center gap-1'>
                 <p>Calculate by giving Order ID</p>
                 <Toggle
@@ -337,20 +339,22 @@ const RateCalculatorPage = () => {
                   onChange={handleToggle}
                 />
               </div>
-              <label className={`${!isChecked ? 'invisible' : ''}`}>
-                <input
-                  type="search"
-                  className="input-field"
-                  value={orderId ?? ""}
-                  placeholder="Enter Order ID"
-                  onChange={(e) => handleChangeOrder(e, "order_id")}
-                />
-              </label>
-              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={() => globalDebouncedClick(() => orderIdApiCAll())}>Search</button>
+              <div className='d-flex gap-2'>
+                <label className={`${!isChecked ? 'invisible' : ''}`}>
+                  <input
+                    type="search"
+                    className="input-field"
+                    value={orderId ?? ""}
+                    placeholder="Enter Order ID"
+                    onChange={(e) => handleChangeOrder(e, "order_id")}
+                  />
+                </label>
+                <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={() => globalDebouncedClick(() => orderIdApiCAll())}>Search</button>
+              </div>
             </div>
             <form>
               <div style={containerStyle}>
-                <div className='mt-5 d-flex gap-3'>
+                <div className='mt-lg-5 d-flex gap-3 flex-column flex-lg-row'>
                   <label className=''>
                     Shipment Type
                     <select
@@ -425,7 +429,7 @@ const RateCalculatorPage = () => {
                     />
                   </label>
                 </div>
-                <div className='d-flex gap-3 mt-5'>
+                <div className='d-flex gap-3 mt-lg-5 flex-column flex-lg-row'>
                   <label className=''>
                     <strong>Actual Weight</strong>
                     <input
