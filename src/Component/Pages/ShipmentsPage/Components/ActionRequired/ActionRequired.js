@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { FaRegCopy } from "react-icons/fa";
@@ -22,6 +22,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [show, setShow] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
@@ -143,6 +144,10 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                 console.error('Failed to copy text: ', err);
             });
     };
+
+    const handleEscalate = (awbNumber) => {
+        navigate(`/customer-support?awb_number=${awbNumber}`);
+    }
 
     return (
         <section className='position-relative'>
@@ -287,7 +292,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li onClick={() => handleRto(row.id)}>RTO</li>
-                                                            <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li>
+                                                            <li onClick={() => handleEscalate(row?.awb_number)}>Escalate</li>
                                                         </ul>
                                                     </div>
                                                 </div>
