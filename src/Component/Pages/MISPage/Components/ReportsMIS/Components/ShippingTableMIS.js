@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import moment from 'moment'
-import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
-import NoData from '../../../../../common/noData';
-import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip';
 import { FaRegCopy } from 'react-icons/fa';
+import NoData from '../../../../../common/noData';
+import React, { useEffect, useState } from 'react'
+import InfoIcon from '../../../../../common/Icons/InfoIcon'
+import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip';
 
 const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [shipmentData, setShipmentData] = useState([]);
@@ -28,7 +28,6 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
         }
     }, [reportShipmentsData])
 
-    // setSelectedRows(shipmentData?.map(row => row.id));
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -106,12 +105,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-                                        {/* <p><strong>Attempts: </strong>{row?.ndr_details?.length}</p> */}
-                                        {/* {row?.ndr_details.length > 0 && (
-                                            row?.ndr_details?.map((detail, index) => (
-                                                <p key={index}>NDR Reason: {detail?.reason}</p>
-                                            ))
-                                        )} */}
+                                       
                                     </div>
                                 </td>
                                 <td>
