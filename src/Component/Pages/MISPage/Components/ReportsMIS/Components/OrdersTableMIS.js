@@ -14,9 +14,12 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import NoData from '../../../../../common/noData'
+import { FaRegCopy } from 'react-icons/fa'
+import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip'
 
 const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [ordersData, setOrdersData] = useState([]);
+    const [copyText, setcopyText] = useState("Tracking Link")
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
 
 
@@ -71,6 +74,18 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
         setOrderTracking(true)
         setAwbNo(orders)
     };
+
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+    
     return (
         <>
 
@@ -199,6 +214,11 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
+                                        <CustomTooltip
+                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                            tooltipComponent={copyText}
+                                            addClassName='copytext-tooltip'
+                                        />
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>

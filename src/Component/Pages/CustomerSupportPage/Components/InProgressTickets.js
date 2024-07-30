@@ -7,11 +7,14 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { capatlize } from '../../../../customFunction/functionLogic';
+import CustomTooltip from '../../../common/CustomTooltip/CustomTooltip';
+import { FaRegCopy } from 'react-icons/fa';
 
 const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonClick }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [copyText, setcopyText] = useState("Tracking Link")
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -52,6 +55,16 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
             }
         })
     }
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
     return (
         <section className='position-relative'>
@@ -98,10 +111,17 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                <div>
+                                            <div className='d-flex'>
                                                     <p className='details-on-hover anchor-awb'>
                                                         {item?.awb_number}
                                                     </p>
+                                                    {item?.awb_number &&
+                                                        <CustomTooltip
+                                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(item?.awb_number)}><FaRegCopy /></button>}
+                                                            tooltipComponent={copyText}
+                                                            addClassName='copytext-tooltip'
+                                                        />
+                                                    }
                                                 </div>
                                             </div>
                                         </td>

@@ -23,11 +23,19 @@ import { Modal } from 'react-bootstrap';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import { FaRegCopy } from 'react-icons/fa';
 
 const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
-    const [selectAll, setSelectAll] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const [show, setShow] = useState(false);
+    const [backDrop, setBackDrop] = useState(false);
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
+
+    const handleClose = () => setShow(false);
+
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -40,22 +48,17 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -63,30 +66,33 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-
-    const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
 
     const handleShow = (row) => {
         setSelectedRow(row);
         setShow(true);
     };
 
-    const handleClose = () => setShow(false);
 
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
         setOrderTracking(true)
     };
+
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+
 
     return (
         <section className='position-relative'>
@@ -127,7 +133,6 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.order?.channel && row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -148,9 +153,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order?.order_products[0]?.product_name}</p> */}
                                                 <p>{row?.order?.order_products[0]?.product_name}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -168,13 +171,11 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p>₹ {row?.order?.invoice_amount}</p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.order?.courier_partner && <img src={partnerList[row?.Order?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
@@ -183,6 +184,11 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                                     </p>
                                                     <p className='text-capitalize'>{row?.order?.courier_partner && partnerList[row?.order?.courier_partner]["title"]}</p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.order?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
 
                                         </td>

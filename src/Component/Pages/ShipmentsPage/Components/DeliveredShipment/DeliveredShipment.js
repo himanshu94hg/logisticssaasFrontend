@@ -22,6 +22,8 @@ import { Modal } from 'react-bootstrap';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import { FaRegCopy } from 'react-icons/fa';
 
 const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const [show, setShow] = useState(false);
@@ -29,6 +31,8 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
     const [backDrop, setBackDrop] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
     const [selectedData, setSelectedData] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
+
 
     useEffect(() => {
         if (shipmentCard) {
@@ -36,13 +40,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
         }
     }, [shipmentCard]);
 
-    const reasons = [
-        { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
-        { count: 4, data: "Reattempt Requested" },
-        { count: 3, data: "Reattempt Requested" },
-    ];
-
-    // Handler for "Select All" checkbox
+ 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -54,7 +52,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
 
@@ -91,7 +88,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
     const handleClickpartner = (event, row) => {
         event.preventDefault();
         const courierPartner = row.courier_partner.toLowerCase();
-
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -132,6 +128,16 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                 break;
         }
     }
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
 
     return (
@@ -249,7 +255,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
@@ -260,6 +265,11 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>

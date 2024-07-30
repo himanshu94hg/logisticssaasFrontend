@@ -2,18 +2,18 @@ import moment from "moment";
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { FaRegCopy } from "react-icons/fa";
 import Tooltip from 'react-bootstrap/Tooltip';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import { weightGreater } from '../../../../../customFunction/functionLogic'
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
+import { weightGreater } from '../../../../../customFunction/functionLogic'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import magentoImg from "../../../../../assets/image/integration/magento.png"
@@ -26,6 +26,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
     const [show, setShow] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
     const [selectedData, setSelectedData] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
 
     useEffect(() => {
         if (shipmentCard) {
@@ -133,6 +134,16 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
         }
     }
 
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -233,7 +244,6 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -247,17 +257,21 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                         {row.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                    {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
@@ -312,7 +326,7 @@ function Preview({ show, handleClose, selectedData }) {
                         </tr>
                         {selectedData?.ndr_details?.map((row, index) => (
                             <tr key={index}>
-                                <td>{row?.raised_date?moment(row?.raised_date).format("DD MMM YYYY"):"NA"}</td>
+                                <td>{row?.raised_date ? moment(row?.raised_date).format("DD MMM YYYY") : "NA"}</td>
                                 <td>{row?.action_by}</td>
                                 <td>{row?.reason}</td>
                                 <td>{row?.remark}</td>

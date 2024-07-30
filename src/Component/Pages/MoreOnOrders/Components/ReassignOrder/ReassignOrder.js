@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { FaRegCopy } from "react-icons/fa";
 import Tooltip from 'react-bootstrap/Tooltip';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
@@ -10,9 +11,10 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import magentoImg from "../../../../../assets/image/integration/magento.png"
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import magentoImg from "../../../../../assets/image/integration/magento.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
@@ -21,6 +23,7 @@ import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.
 const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const [SingleShip, setSingleShip] = useState(false)
+    const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
@@ -120,7 +123,16 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     const handleBackdropClick = () => {
         setSingleShip(false)
     }
-
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+                // setcopyText("Url Copied")
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -159,7 +171,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -192,7 +203,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -206,7 +216,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
                                                 <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
@@ -228,14 +237,12 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row?.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* pickup adress */}
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box'>
                                                     <p>{row?.pickup_details?.p_warehouse_name}
@@ -252,12 +259,17 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""}
                                                     </p>
                                                     <p className='text-capitalize mt-1' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
@@ -275,8 +287,8 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} />
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} />
             </div>
         </section>
     );

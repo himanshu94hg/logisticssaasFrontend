@@ -18,6 +18,8 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import { FaRegCopy } from "react-icons/fa";
+import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
 
 const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const dispatch = useDispatch()
@@ -25,6 +27,8 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
     const [backDrop, setBackDrop] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
     const [selectedData, setSelectedData] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
+
 
     useEffect(() => {
         if (shipmentCard) {
@@ -117,6 +121,16 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                 break;
         }
     }
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
     return (
         <section className='position-relative'>
@@ -232,7 +246,6 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
@@ -243,6 +256,11 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>

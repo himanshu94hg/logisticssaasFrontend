@@ -1,45 +1,33 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import { useDispatch, useSelector } from 'react-redux';
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import { FaRegCopy } from "react-icons/fa";
 import SingleShipPop from './SingleShipPop';
 import NoData from '../../../../common/noData';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import globalDebounce from '../../../../../debounce';
-import { debounce } from 'lodash';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import { faCircle, } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { FaRegCopy } from "react-icons/fa";
-import APIIcon from '../../../../common/Icons/APIIcon';
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 
 const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
@@ -301,14 +289,12 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 }
             })
         }
-
     }
 
-      const handleCopy = (awb) => {
+    const handleCopy = (awb) => {
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {
-                // setcopyText("Url Copied")
             })
             .catch(err => {
                 console.error('Failed to copy text: ', err);
@@ -357,7 +343,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -416,7 +401,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -434,7 +418,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
@@ -455,14 +438,12 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='ws-nowrap'>₹ {row.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className=''>
-                                            {/* pickup adress */}
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                 <p>{row?.pickup_details?.p_warehouse_name}
                                                     <span className='details-on-hover ms-2'>
@@ -477,7 +458,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>

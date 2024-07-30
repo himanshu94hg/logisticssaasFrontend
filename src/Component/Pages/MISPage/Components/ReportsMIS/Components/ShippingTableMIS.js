@@ -3,10 +3,23 @@ import moment from 'moment'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
+import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip';
+import { FaRegCopy } from 'react-icons/fa';
 
 const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [shipmentData, setShipmentData] = useState([]);
+    const [copyText, setcopyText] = useState("Tracking Link")
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
     useEffect(() => {
         if (reportShipmentsData && reportShipmentsData?.results !== null) {
@@ -142,6 +155,11 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
+                                        <CustomTooltip
+                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                            tooltipComponent={copyText}
+                                            addClassName='copytext-tooltip'
+                                        />
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>

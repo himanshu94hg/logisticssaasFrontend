@@ -16,12 +16,15 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
+import { FaRegCopy } from "react-icons/fa";
 
 
 const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const [show, setShow] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
     const [selectedData, setSelectedData] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
 
     useEffect(() => {
         if (shipmentCard) {
@@ -114,6 +117,17 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
         }
     }
 
+    
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -150,7 +164,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                             />
                                         </td>
                                         <td>
-                                            {/* Date detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -183,7 +196,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
                                                 <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
                                                     <InfoIcon onClick={() => handleShow(row)} />
@@ -191,7 +203,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row.order_products.product_name}</p>
                                                 <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)}kg
@@ -214,7 +225,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -228,7 +238,6 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
@@ -239,6 +248,11 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>

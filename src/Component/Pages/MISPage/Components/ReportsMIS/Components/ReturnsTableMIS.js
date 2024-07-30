@@ -1,23 +1,24 @@
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import React, { useState, useEffect } from 'react'
+import { FaRegCopy } from 'react-icons/fa'
 import NoData from '../../../../../common/noData'
+import React, { useState, useEffect } from 'react'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
-import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../../assets/image/integration/Manual.png"
+import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
+import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip'
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
+import magentoImg from "../../../../../../assets/image/integration/magento.png"
+import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
+import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLogo.png"
 
 const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, partnerList }) => {
-
     const [returnsData, setReturnsData] = useState([]);
+    const [copyText, setcopyText] = useState("Tracking Link")
     const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
 
     useEffect(() => {
@@ -51,7 +52,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
-
         }
         if (updatedSelectedRows.length === returnsData?.length - 1 && isSelected) {
             setSelectAll(false);
@@ -59,10 +59,23 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
             setSelectAll(false);
         }
     };
+
     const handleClickAWB = (orders) => {
         setOrderTracking(true)
         setAwbNo(orders)
     };
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+    
+
     return (
         <>
             <table className=" w-100">
@@ -98,7 +111,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                     />
                                 </td>
                                 <td>
-                                    {/* User Details */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
                                             {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -122,7 +134,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Customer Details */}
                                     <div className='cell-inside-box'>
                                         <p>{row?.shipping_detail?.recipient_name}</p>
                                         <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -136,7 +147,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Package Details */}
                                     <div className='cell-inside-box'>
                                         <p className='width-eclipse'>{row.order_products.product_name}</p>
                                         <p>Wt:  {row?.dimension_detail?.weight} kg
@@ -154,19 +164,16 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                             </span>
                                             <br />
                                             <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
-
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Payment */}
                                     <div className='cell-inside-box'>
                                         <p>&#x20B9; {row?.invoice_amount}</p>
                                         <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Pickup Address */}
                                     <div className='cell-inside-box'>
                                         {row?.pickup_details ? (
                                             <p>{row?.pickup_details?.p_warehouse_name}
@@ -185,13 +192,17 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Shipping Details */}
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
+                                        <CustomTooltip
+                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                            tooltipComponent={copyText}
+                                            addClassName='copytext-tooltip'
+                                        />
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>

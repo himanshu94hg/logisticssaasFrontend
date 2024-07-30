@@ -6,7 +6,7 @@ import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { FaCheckSquare, FaTimes } from 'react-icons/fa';
+import { FaCheckSquare, FaRegCopy, FaTimes } from 'react-icons/fa';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -21,6 +21,7 @@ import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const [selectAll, setSelectAll] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
+    const [copyText, setcopyText] = useState("Tracking Link")
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
@@ -99,6 +101,16 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
         setOrderTracking(true)
+    };
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
     };
 
     return (
@@ -192,6 +204,11 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                     </p>
                                                     <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
 
                                         </td>
@@ -320,7 +337,7 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     const [formData, setFormData] = useState({
         company_logo: ''
     });
-    
+
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
     };
