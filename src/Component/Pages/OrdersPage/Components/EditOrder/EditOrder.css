@@ -47,8 +47,8 @@
 }
 
 .edit-order-body .details-side .details-component {
-    height: calc(100vh - 188px);
-    overflow-y: scroll;
+    /* height: calc(100vh - 188px); */
+    /* overflow-y: scroll; */
     width: 100%;
 }
 
