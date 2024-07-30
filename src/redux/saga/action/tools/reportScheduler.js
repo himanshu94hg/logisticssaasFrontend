@@ -34,7 +34,7 @@ async function getReportSchedulerAPI(data) {
     });
 }
 function* getReportSchedulerAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(getReportSchedulerAPI, payload);
         console.log(response,"this is getReportSchedulerAPI dta")

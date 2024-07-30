@@ -2,9 +2,9 @@ import { toast } from "react-toastify";
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_COURIER } from "../../../../axios/config";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 import { GET_COURIER_PARTNER_NAME_DATA, GET_COURIER_SERVICEABLE_PINCODE_DATA, GET_SERVICE_ABILITY_DATA, GET_SHIPEASE_SERVICE_PINCODE } from "../../../constants/tools";
 import { GET_COURIER_PATNER_NAME_ACTION, GET_COURIER_SERVICE_ABILITY_FILTER_ACTION, GET_SHIPEASE_SERVICE_ABILITY_ACTION, SERVICE_ABILITY_PAIR_ACTION, SERVICE_ABILITY_SINGLE_ACTION } from "../../constant/tools";
-import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 //CHECK SERVICEABILITY PAIR PINCODE SEARCH API
 async function serviceAbilityPairAPI(data) {
@@ -17,7 +17,7 @@ async function serviceAbilityPairAPI(data) {
 
 }
 function* serviceAbilityPairAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(serviceAbilityPairAPI, payload);
         if (response.status === 200) {
@@ -39,7 +39,7 @@ async function serviceAbilityAPI(data) {
 
 }
 function* serviceAbilitySingleAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(serviceAbilityAPI, payload);
         if (response.status === 200) {
@@ -60,7 +60,7 @@ async function serviceAbilityShipeaseAPI() {
     return listData
 }
 function* serviceAbilityShipeaseAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(serviceAbilityShipeaseAPI, payload);
         if (response.status === 200) {
@@ -82,7 +82,7 @@ async function serviceAbilityCourierPartnerAPI() {
     return listData
 }
 function* serviceAbilityCourierPartnernNameAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(serviceAbilityCourierPartnerAPI, payload);
         if (response.status === 200) {
@@ -103,7 +103,7 @@ async function serviceAbilityCourierPartnerFilterAPI(data) {
     return listData
 }
 function* serviceAbilityCourierPartnerFilterAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(serviceAbilityCourierPartnerFilterAPI, payload);
         console.log(response,"this is also a blob obj")

@@ -5,6 +5,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
 import { DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION,  } from "../../../constant/dashboard/overview";
 import { GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA,  } from "../../../../constants/dashboard/overview";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 async function counterCardAPI(data) {
     
@@ -17,7 +18,7 @@ async function counterCardAPI(data) {
     return listData
 }
 function* counterCardAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
 
     try {
         let response = yield call(counterCardAPI, payload);
@@ -25,7 +26,7 @@ function* counterCardAction(action) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 

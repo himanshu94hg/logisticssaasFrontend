@@ -14,7 +14,7 @@ async function moreonorderFileAPI(data) {
 }
 
 function* moreonorderFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(moreonorderFileAPI, payload);
         if (response.status === 200) {
@@ -23,7 +23,7 @@ function* moreonorderFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 

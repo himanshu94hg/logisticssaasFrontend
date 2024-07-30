@@ -1,9 +1,10 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios/index"
+import { SIGN_UP_DATA } from "../../../constants/auth";
 import { SELLER_SIGNUP_ACTION } from "../../constant/auth";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, } from "../../../../axios/config";
-import { SIGN_UP_DATA } from "../../../constants/auth";
-import { toast } from "react-toastify";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 async function signUpAPI(data) {
@@ -24,15 +25,7 @@ function* signUpAction(action) {
         else {
         }
     } catch (error) {
-        console.log(error?.response?.data,"this is error handing data")
-        {  
-         
-            Object.entries(error?.response?.data).map(([key, value]) => (
-                <>
-                    {toast.error(value[0])}
-                </>
-            ))
-        }
+        customErrorFunction(error)
     }
 }
 

@@ -13,13 +13,15 @@ const ChannelsView = ({ channelData }) => {
     const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
+    const handleClose = () => setShow(false);
 
     const handleShow = (row) => {
         setSelectedRow(row);
         setShow(true);
+        console.log(row, "selectedRowselectedRow")
     };
 
-    const handleClose = () => setShow(false);
+
 
     return (
         <>
@@ -48,10 +50,10 @@ const ChannelsView = ({ channelData }) => {
                                             </td>
                                             <td>
                                                 <img src={
-                                                    row?.channel === "shopify" ? shopify : row?.channel === "amazon_direct" ? Amazon : ""
+                                                    row?.channel === "shopify" ? shopify : row?.channel === "amazon_direct" ? Amazon : row?.channel === "woocommerce" ? WCLogo : Manual
                                                 }
                                                     alt={`${row?.channel_name} logo`} width={50} height={50} className='integration-logo me-2' />
-                                                {row?.channel}
+                                                <span className='text-capitalize'>{row?.channel.split("_").join(" ")}</span>
                                             </td>
                                             <td>
                                                 NA
@@ -105,11 +107,11 @@ const Preview = ({ show, handleClose, selectedRow }) => {
                             <td>{selectedRow?.channel_configuration?.api_key}</td>
                         </tr>
                         <tr>
-                            <th>Shopify Password</th>
+                            <th>{selectedRow?.channel_name} Password</th>
                             <td>{selectedRow?.channel_configuration?.password}</td>
                         </tr>
                         <tr>
-                            <th>Shopify Shared Secret</th>
+                            <th>{selectedRow?.channel_name} Shared Secret</th>
                             <td>{selectedRow?.channel_configuration?.shared_secret}</td>
                         </tr>
                     </tbody>

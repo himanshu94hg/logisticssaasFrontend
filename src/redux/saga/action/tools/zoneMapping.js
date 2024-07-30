@@ -19,7 +19,7 @@ async function zoneMappingAPI(data) {
 }
 
 function* zoneMappingAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(zoneMappingAPI, payload);
         if (response.status === 200) {

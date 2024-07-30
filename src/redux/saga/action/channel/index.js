@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
 import { CHANNEL_SET_DATA_ACTION,CHANNEL_GET_DATA_ACTION } from "../../constant/channel";
 import { SET_CHANNEL_DATA,GET_CHANNEL_DATA } from "../../../constants/channel";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 
@@ -16,7 +17,7 @@ async function channelSetFileAPI(data) {
 }
 
 function* channelSetFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(channelSetFileAPI, payload);
         if (response.status === 201) {
@@ -25,7 +26,7 @@ function* channelSetFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -33,13 +34,12 @@ async function channelGetFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_DUMMY}${API_URL.GET_CHANNEL_API_URL}`,
-        // data: data
     });
     return listData;
 }
 
 function* channelGetFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(channelGetFileAPI, payload);
         if (response.status === 200) {
@@ -48,7 +48,7 @@ function* channelGetFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 

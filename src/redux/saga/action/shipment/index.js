@@ -17,7 +17,7 @@ async function shipmentFileAPI(data) {
 }
 
 function* shipmentFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(shipmentFileAPI, payload);
         if (response.status === 200) {
@@ -26,7 +26,7 @@ function* shipmentFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -40,7 +40,7 @@ async function shipmentReattemptFileAPI(data) {
 }
 
 function* shipmentReattemptFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(shipmentReattemptFileAPI, payload);
         if (response.status === 200) {
@@ -62,7 +62,7 @@ async function shipmentRtoFileAPI(data) {
 }
 
 function* shipmentRtoFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(shipmentRtoFileAPI, payload);
         if (response.status === 200) {

@@ -5,6 +5,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
 import { DASHBOARD_RTO_COUNT_MONTHWISE_ACTION, DASHBOARD_RTO_TOP_CITY_ACTION, DASHBOARD_RTO_TOP_COURIER_ACTION, DASHBOARD_RTO_TOP_RTO_ACTION, DASHBOARD_RTO_STATUS_ACTION } from "../../../constant/dashboard/rto";
 import { GET_DASHBOARD_RTO_COUNT_MONTH_DATA, GET_DASHBOARD_RTO_TOP_CITY_DATA, GET_DASHBOARD_RTO_TOP_COURIER_DATA, GET_DASHBOARD_RTO_TOP_DATA, GET_DASHBOARD_RTO_STATUS_DATA } from "../../../../constants/dashboard/rto";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 // GET_DASHBOARD_RTO_TOP_RTO
 async function topRtoAPI(data) {
@@ -17,14 +18,14 @@ async function topRtoAPI(data) {
     return listData
 }
 function* topRtoAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(topRtoAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_RTO_TOP_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -40,14 +41,14 @@ async function topRtoCityApi(data) {
     return listData
 }
 function* topRtoCityAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(topRtoCityApi, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_RTO_TOP_CITY_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -63,7 +64,7 @@ async function rtoCountMonthWiseApi(data) {
     return listData
 }
 function* rtoCountMonthWiseAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
 
     try {
         let response = yield call(rtoCountMonthWiseApi, payload);
@@ -71,7 +72,7 @@ function* rtoCountMonthWiseAction(action) {
             yield put({ type: GET_DASHBOARD_RTO_COUNT_MONTH_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -87,7 +88,7 @@ async function topRtoCourierApi(data) {
     return listData
 }
 function* topRtoCourierAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
 
     try {
         let response = yield call(topRtoCourierApi, payload);
@@ -95,7 +96,7 @@ function* topRtoCourierAction(action) {
             yield put({ type: GET_DASHBOARD_RTO_TOP_COURIER_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -110,7 +111,7 @@ async function rtoStatusApi(data) {
     return listData
 }
 function* rtoStatusAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
 
     try {
         let response = yield call(rtoStatusApi, payload);
@@ -118,7 +119,7 @@ function* rtoStatusAction(action) {
             yield put({ type: GET_DASHBOARD_RTO_STATUS_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 

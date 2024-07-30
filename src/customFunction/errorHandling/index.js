@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 
-
 export const checkType = (res) => {
     if (res) {
         for (let key in res) {
@@ -20,7 +19,6 @@ export const errorinApi = (res) => {
 }
 
 export const errorHandleSecond = (res) => {
-    console.log(res,"this is error handle data")
     if (res) {
         Object.keys(res)?.map(key => {
             res[key]?.map(value => {

@@ -14,7 +14,7 @@ async function rateCardAPI(data) {
     return listData
 }
 function* rateCardAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(rateCardAPI, payload);
         if (response.status === 200) {

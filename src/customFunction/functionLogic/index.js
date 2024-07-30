@@ -31,8 +31,8 @@ export const weightGreater = (args1, args2) => {
   if (data1 > data2) {
     return `${parseFloat(data1)}`;
   } else if (data1 < data2) {
-    return `${parseFloat(data2)}`;
+    return `${parseFloat(data2).toFixed(2)}`;
   } else {
-    return `${parseFloat(data1)}`;
+    return `${parseFloat(data1).toFixed(2)}`;
   }
 }

@@ -6,6 +6,7 @@ import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
 import {  DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION, DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION, DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION, DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION, DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION, } from "../../../constant/dashboard/overview";
 import { GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,GET_DASHBOARD_OVERVIEW_WEIGHT_DISPENCERY_DATA,GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA, } from "../../../../constants/dashboard/overview";
 import { GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, } from "../../../../constants/dashboard/overview";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 //LAST ORDER API'S
 async function splitWiseStateAPI(data) {
@@ -19,14 +20,14 @@ async function splitWiseStateAPI(data) {
     return listData
 }
 function* splitWiseStateAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(splitWiseStateAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -42,14 +43,14 @@ async function deliveryPerformanceAPI(data) {
     return listData
 }
 function* deliveryPerformanceAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(deliveryPerformanceAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -65,14 +66,14 @@ async function courierwiseAllocationAPI(data) {
     return listData
 }
 function* courierwiseAllocationAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(courierwiseAllocationAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -88,14 +89,14 @@ async function mostPopularCustomerAPI(data) {
     return listData
 }
 function* mostPopularCustomerAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call(mostPopularCustomerAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -111,14 +112,14 @@ async function  weightDiscrepanciesAPI(data) {
     return listData
 }
 function*  weightDiscrepanciesAction(action) {
-    let { payload, reject } = action;
+    let { payload} = action;
     try {
         let response = yield call( weightDiscrepanciesAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_DASHBOARD_OVERVIEW_WEIGHT_DISPENCERY_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 

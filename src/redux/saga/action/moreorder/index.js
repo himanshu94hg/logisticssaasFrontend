@@ -1,17 +1,17 @@
+import { toast } from 'react-toastify';
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
-import { REASSIGN_DATA_ACTION,REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
-import { GET_REASSIGN_DATA,GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
-import {  toast } from 'react-toastify';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
+import { REASSIGN_DATA_ACTION, REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
+import { GET_REASSIGN_DATA, GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
 
 
 async function moreorderFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_URL}?order_id=${data}`,
-        //data: data
+        
     });
     return listData;
 }
@@ -26,7 +26,7 @@ async function moreorderShipFileAPI(data) {
 }
 
 function* moreorderFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload, } = action;
     try {
         let response = yield call(moreorderFileAPI, payload);
         if (response.status === 200) {
@@ -38,7 +38,7 @@ function* moreorderFilesAction(action) {
 }
 
 function* moreorderShipFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload, } = action;
     try {
         let response = yield call(moreorderShipFileAPI, payload);
         if (response.status === 200) {
@@ -52,6 +52,6 @@ function* moreorderShipFilesAction(action) {
 }
 
 export function* getmoreorderWatcher() {
-    yield takeLatest(REASSIGN_DATA_ACTION,moreorderFilesAction);
-    yield takeLatest(REASSIGN_SHIP_DATA_ACTION,moreorderShipFilesAction);
+    yield takeLatest(REASSIGN_DATA_ACTION, moreorderFilesAction);
+    yield takeLatest(REASSIGN_SHIP_DATA_ACTION, moreorderShipFilesAction);
 }

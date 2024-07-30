@@ -1,10 +1,10 @@
 import axios from "../../../../axios/index"
-import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_CORE, BASE_URL_DUMMY } from "../../../../axios/config";
-import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION,SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
-import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA,GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
-import { customErrorFunction } from "../../../../customFunction/errorHandling";
 import { CHECK_AUTH_DATA } from "../../../constants/auth";
+import { call, put, takeLatest } from "@redux-saga/core/effects";
+import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
+import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA,GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
+import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION,SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
 
 
 
@@ -12,7 +12,7 @@ async function paymentFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_PAYMENT_URL}`,
-        //data: data
+       
     });
     return listData;
 }
@@ -30,7 +30,7 @@ async function configurationFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_CONFIGURATION_URL}`,
-        //data: data
+       
     });
     return listData;
 }
@@ -44,7 +44,7 @@ async function profileFileAPI(data) {
 }
 
 function* paymentFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(paymentFileAPI, payload);
         if (response.status === 200) {
@@ -53,12 +53,12 @@ function* paymentFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error);
     }
 }
 
 function* paymentSetFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(paymentSetFileAPI, payload);
         if (response.status === 200) {
@@ -72,7 +72,7 @@ function* paymentSetFilesAction(action) {
 }
 
 function* configurationFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(configurationFileAPI, payload);
         if (response.status === 200) {
@@ -81,12 +81,12 @@ function* configurationFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error);
     }
 }
 
 function* profileFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload, } = action;
     try {
         let response = yield call(profileFileAPI, payload);
         if (response.status === 200) {
@@ -95,11 +95,10 @@ function* profileFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error);
         if(error.response.data.code==="token_not_valid"){
             yield put({type:CHECK_AUTH_DATA,payload:error.response.data.code})
         }
-        console.log(error.response.data.code,"kkkkkkkkkkkk")
     }
 }
 

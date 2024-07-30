@@ -1,9 +1,9 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../axios/config";
-import { MIS_ACTIVITIES_LOG_ACTION, MIS_DOWNLOAD_ACTION, MIS_REPORT_BILLING_ACTION, MIS_REPORT_ORDERS_ACTION, MIS_REPORT_RETURNS_ACTION, MIS_REPORT_SHIPMENTS_ACTION, MIS_SCHEDULED_REPEORTS_ACTION } from "../../constant/mis";
-import { ACTIVIES_LOG_DATA, GET_MIS_DOWNLOAD_DATA, GET_REPORTS_BILLING_DATA, GET_REPORTS_ORDERS_DATA, GET_REPORTS_RETURNS_DATA, GET_REPORTS_SHIPMENTS_DATA, GET_SCHEDULE_REPORTS_DATA } from "../../../constants/mis";
 import { customErrorFunction } from "../../../../customFunction/errorHandling";
+import { ACTIVIES_LOG_DATA, GET_MIS_DOWNLOAD_DATA, GET_REPORTS_BILLING_DATA, GET_REPORTS_ORDERS_DATA, GET_REPORTS_RETURNS_DATA, GET_REPORTS_SHIPMENTS_DATA, GET_SCHEDULE_REPORTS_DATA } from "../../../constants/mis";
+import { MIS_ACTIVITIES_LOG_ACTION, MIS_DOWNLOAD_ACTION, MIS_REPORT_BILLING_ACTION, MIS_REPORT_ORDERS_ACTION, MIS_REPORT_RETURNS_ACTION, MIS_REPORT_SHIPMENTS_ACTION, MIS_SCHEDULED_REPEORTS_ACTION } from "../../constant/mis";
 
 //MIS_DOWNLOAD_ACTION
 async function misDownloadApi(data) {
@@ -14,7 +14,7 @@ async function misDownloadApi(data) {
     });
 }
 function* misDownloadAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misDownloadApi, payload);
         console.log(response,"this is response dta")
@@ -39,7 +39,7 @@ async function misReportBillingApi(data) {
     });
 }
 function* misReportBillingAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misReportBillingApi, payload);
         if (response.status === 200) {
@@ -61,7 +61,7 @@ async function misReportsOrdersApi(data) {
     });
 }
 function* misReportsOrdersAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misReportsOrdersApi, payload);
         if (response.status === 200) {
@@ -83,7 +83,7 @@ async function misReportReturnsApi(data) {
     });
 }
 function* misReportReturnsAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misReportReturnsApi, payload);
         if (response.status === 200) {
@@ -105,7 +105,7 @@ async function misReportsShipmentsApi(data) {
     });
 }
 function* misReportsShipmentsAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misReportsShipmentsApi, payload);
         if (response.status === 200) {
@@ -126,7 +126,7 @@ async function misScheduledReportsApi(data) {
     });
 }
 function* misScheduledReportsAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misScheduledReportsApi, payload);
         if (response.status === 200) {
@@ -147,7 +147,7 @@ async function misActivitiesLogApi(data) {
     });
 }
 function* misActivitiesLogAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(misActivitiesLogApi, payload);
         if (response.status === 200) {
