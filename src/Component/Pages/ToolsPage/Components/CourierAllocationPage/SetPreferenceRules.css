@@ -50,7 +50,13 @@
     flex-direction: column;
     gap: 14px;
     counter-reset: section;
+    overflow-x: auto;
 }
+
+.create-rules-section::-webkit-scrollbar {
+    height: 2px;
+}
+
 
 .create-rules-section p {
     margin-bottom: 0;
