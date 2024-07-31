@@ -51,7 +51,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
       <section ref={popRef} className={`zone-mapping-container ${zoneStatus && 'open'}`}>
         <h4>Zone Mapping</h4>
         <form action="">
-          <div className='d-flex mt-4 gap-4 align-items-end justify-content-between'>
+          <div className='d-flex mt-4 gap-4 flex-column flex-md-row align-items-end justify-content-between'>
             <label style={{ width: '100%' }}>
               Pick-up Pincode
               <input className='input-field' type="text" placeholder='6 Digits Pick-up Area Pincode' onChange={(e) => setPincode(e.target.value)} />
