@@ -30,6 +30,13 @@
 
 @media screen and (max-width:1366px) {}
 
+@media screen and (max-width:1305px) {
+    .create-rules-section .created-rules {
+        width: fit-content;
+        min-width: 100%;
+    }
+}
+
 @media screen and (max-width:1240px) {
     .ship-container-row {
         flex-wrap: wrap;
