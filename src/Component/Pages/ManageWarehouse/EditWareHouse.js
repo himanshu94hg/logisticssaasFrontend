@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import './Components/AddWarehouse.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { tr } from 'date-fns/locale';
+
 
 const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const dispatch = useDispatch();

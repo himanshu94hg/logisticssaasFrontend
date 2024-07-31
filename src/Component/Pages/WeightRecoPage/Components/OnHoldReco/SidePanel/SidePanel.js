@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Switch from 'react-switch';
 import './SidePanel.css'
 
 const CustomDatePicker = ({ selectedDate, onChange }) => {

@@ -23,34 +23,37 @@ export default function NavTabs(props) {
   const [isOpen, setIsOpen] = useState(false);
   const sellerData = Cookies.get("user_id");
   const [selectedOption, setSelectedOption] = useState("Domestic");
-  const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
+  const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
+  const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
     dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
   }, [])
 
   const handleClick = () => {
-    if (channelGetCard?.results?.length > 0) {
-      axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
-        .then((response) => {
+    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
+      .then((response) => {
+        if (response.status === 200) {
           toast.success('Order fetch successfully');
           props.setRateRef(new Date())
-        }).catch((error) => {
-          toast.error('Order Fetch Failed!');
-        });
-    } else {
-      toast.error('No channel integrated right now!');
-    }
+        }
+      }).catch((error) => {
+        toast.error('Order Fetch Failed!');
+      });
   };
 
   const debouncedHandleClick = useCallback(
-    debounce((param) => handleClick(param), 1000),
+    debounce((param) => handleClick(param), 700),
     []
   );
+
   const handleSubmit = () => {
-    debouncedHandleClick();
+    if (channelGetCard?.results?.length > 0) {
+      debouncedHandleClick();
+    } else {
+      toast.error('No channel integrated right now!');
+    }
   }
 
   const handleOptionSelect = (option) => {
@@ -58,12 +61,9 @@ export default function NavTabs(props) {
     setIsOpen(false);
   };
 
-  const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
-
   const handleSelect = (selectedKey) => {
     props.setActiveTab(selectedKey);
   };
-
 
   return (
     <Navbar
@@ -80,7 +80,7 @@ export default function NavTabs(props) {
                 <Nav.Link
                   key={tab}
                   className={`d-none d-lg-block ${props.activeTab === tab ? "active" : ""}`}
-                  onClick={() => {props.setActiveTab(tab);props.setCurrentPage(1);props.setItemsPerPage(20)}}
+                  onClick={() => { props.setActiveTab(tab); props.setCurrentPage(1); props.setItemsPerPage(20) }}
                 >
                   <div className="navItemsContainer">{tab}</div>
                 </Nav.Link>
