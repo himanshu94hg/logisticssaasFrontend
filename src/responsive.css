@@ -34,6 +34,10 @@
     .ship-container-row {
         flex-wrap: wrap;
     }
+
+    .new-scheduler-slider {
+        width: 92%;
+    }
 }
 
 @media screen and (max-width:1187px) {
@@ -426,6 +430,34 @@
         top: -3px;
     }
 
+    .zone-mapping-container {
+        width: 90%;
+        left: 5%;
+    }
+
+    .new-scheduler-slider .grid-container {
+        display: flex;
+        row-gap: 10px;
+        flex-direction: column;
+    }
+
+    .new-scheduler-slider .grid-container .grid-item.component-2 {
+        order: 2;
+    }
+
+    .courier-preference .courier-preference-list {
+        flex-wrap: wrap;
+    }
+
+    .default-sorting-section {
+        flex-direction: column;
+        gap: 1rem;
+        padding-bottom: 15px;
+    }
+
+    .default-sorting-section label {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width:633px) {

@@ -308,7 +308,7 @@ const ReportSchedulerPage = () => {
             <div class="grid-item component-2">
               <h5>Frequency Details</h5>
               <div className='d-flex flex-column gap-4'>
-                <label className='d-flex gap-5 align-items-center'>
+                <label className='d-flex gap-5 align-items-center flex-wrap row-gap-2'>
                   Send Reports:
                   <label className='d-flex gap-2 align-items-center'>
                     <input type="radio" name="Send_Reports" id="" />
@@ -373,7 +373,7 @@ const ReportSchedulerPage = () => {
                     <Select
                       options={contentType}
                       styles={customStyles}
-                        // value={reportData.report_type}
+                    // value={reportData.report_type}
                     // onChange={(e) => handleChange(e, "")}
                     />
                   </label>

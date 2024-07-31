@@ -58,12 +58,17 @@
     padding-block: 2px;
 }
 
+.new-scheduler-slider .react-multi-email.empty {
+    overflow: hidden;
+}
+
 .new-scheduler-slider .react-multi-email.empty>span[data-placeholder] {
     font-size: 1rem;
     color: inherit;
     padding: 0;
     padding-top: 1px;
     padding-left: 3px;
+    white-space: nowrap;
 }
 
 .new-scheduler-slider .css-13cymwt-control,
