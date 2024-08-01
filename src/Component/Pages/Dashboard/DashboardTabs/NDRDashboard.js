@@ -11,9 +11,13 @@ import NDRResponse from '../Components/NDR/NDRResponse'
 import NDRFunnel from '../Components/NDR/NDRFunnel'
 import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
+import { useSelector } from 'react-redux'
 
 const NDRDashboard = ({ activeTab }) => {
   const dispatch = useDispatch();
+
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
 
   useEffect(() => {
     if (activeTab === "NDR") {
@@ -31,7 +35,7 @@ const NDRDashboard = ({ activeTab }) => {
 
   return (
     <>
-      <Row className='mb-3'>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <SuccessByZone />
           <SuccessbyCourier />

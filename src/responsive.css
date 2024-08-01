@@ -704,6 +704,10 @@
         flex-direction: column;
         gap: 10px;
     }
+
+    .ndr-funnel .nav-item button {
+        width: 81px;
+    }
 }
 
 @media screen and (max-width:375px) {

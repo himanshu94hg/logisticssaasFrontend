@@ -25,148 +25,156 @@ function NDRTotalInfo() {
   const [actionReq, setActionreq] = useState(dummyData.actionReq);
   const [ndrdeleverd, setndrDeleverd] = useState(dummyData.ndrdeleverd);
 
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
   return (
     <>
       <div className="grid gap-3">
         {/* Card 1 */}
         <div className="">
-          <div className="box-shadow shadow-sm p10 card-height wave-bg green-wave">
+          <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-12">
-                <div className="row align-items-center">
-                  <div className="col-10 left-text">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
+                <div className="d-flex justify-content-start gap-10">
+                  <div className="">
                     <div className="infoCardIconContainer bg-green-light">
                       <NdrIcon />
                     </div>
-                    <div>
-                      <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
-                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.total_ndr}</h3>
-                    </div>
                   </div>
-                  <div className="col-2">
-                    <HiTrendingUp className="trending-icon" />
-                  </div>
-                  <div className="card-footer1">
-                    <span className="text-green font13 pt20 bold-600 d-block text-end">
-                      {0} %
-                    </span>
-                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      Comparative analysis
-                    </p>
+                  <div className="alignWord">
+                    <p className="font13 text-gray m-0">Total NDR</p>
+                    <h2 className="font20r title-text p-y bold-600 m0">
+                      {counterData?.total_ndr}
+                    </h2>
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-                {/* <img src={redSineWave} alt="redSineWave" /> */}
+              <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
+                <div className="card-footer">
+                  <span className="text-green font13 pt20 bold-600 d-block text-end">
+                    {0}%
+                  </span>
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
+                    Comparative analysis
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
 
         {/* Card 2 */}
         <div className="">
-          <div className="box-shadow shadow-sm p10 card-height wave-bg yellow-wave">
+          <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-12">
-                <div className="row align-items-center">
-                  <div className="col-10 left-text">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
+                <div className="d-flex justify-content-start gap-10">
+                  <div className="">
                     <div className="infoCardIconContainer bg-orange-light">
                       <ActionRequiredIcon />
                     </div>
-                    <div>
-                      <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
-                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_required}</h3>
-                    </div>
                   </div>
-                  <div className="col-2">
-                    <HiTrendingUp className="trending-icon" />
-                  </div>
-                  <div className="card-footer1">
-                    <span className="text-yellow font13 pt20 bold-600 d-block text-end">
-                      {0} %
-                    </span>
-                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      Comparative analysis
-                    </p>
+                  <div className="alignWord">
+                    <p className="font13 text-gray m-0">Action Required</p>
+                    <h2 className="font20r title-text p-y bold-600 m0">
+                      {counterData?.action_required}
+                    </h2>
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-                {/* <img src={redSineWave} alt="redSineWave" /> */}
+              <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
+                <div className="card-footer">
+                  <span className="text-yellow font13 pt20 bold-600 d-block text-end">
+                    +0%
+                  </span>
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
+                    Comparative analysis
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+
+
 
         {/* Card 3 */}
         <div className="">
-          <div className="box-shadow shadow-sm p10 card-height wave-bg blue-wave">
+          <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-12">
-                <div className="row align-items-center">
-                  <div className="col-10 left-text">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
+                <div className="d-flex justify-content-start gap-10">
+                  <div className="">
                     <div className="infoCardIconContainer bg-blue-light">
                       <ActionRequestedIcon />
                     </div>
-                    <div>
-                      <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
-                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_requested}</h3>
-                    </div>
                   </div>
-                  <div className="col-2">
-                    <HiTrendingUp className="trending-icon" />
-                  </div>
-                  <div className="card-footer1">
-                    <span className="text-blue font13 pt20 bold-600 d-block text-end">
-                      {0} %
-                    </span>
-                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      Comparative analysis
-                    </p>
+                  <div className="alignWord">
+                    <p className="font13 text-gray m-0">Action Requested</p>
+                    <h2 className="font20r title-text p-y bold-600 m0">
+                      {counterData?.action_requested}
+                    </h2>
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-                {/* <img src={redSineWave} alt="redSineWave" /> */}
+              <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
+                <div className="card-footer">
+                  <span className="text-blue font13 pt20 bold-600 d-block text-end">
+                    +0%
+                  </span>
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
+                    Comparative analysis</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
+
+
+
         {/* Card 4 */}
         <div className="">
-          <div className="box-shadow shadow-sm p10 card-height wave-bg red-wave">
+          <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-12">
-                <div className="row align-items-center">
-                  <div className="col-10 left-text">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
+                <div className="d-flex justify-content-start gap-10">
+                  <div className="">
                     <div className="infoCardIconContainer bg-red-light">
                       <NdrDeliveredIcon />
                     </div>
-                    <div>
-                      <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
-                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.ndr_delivered}</h3>
-                    </div>
                   </div>
-                  <div className="col-2">
-                    <HiTrendingDown className="trending-icon" />
-                  </div>
-                  <div className="card-footer1">
-                    <span className="text-red font13 pt20 bold-600 d-block text-end">
-                      {0} %
-                    </span>
-                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      Comparative analysis
-                    </p>
+                  <div className="alignWord">
+                    <p className="font13 text-gray m-0">NDR Delivered</p>
+                    <h2 className="font20r title-text p-y bold-600 m0">
+                      {counterData?.ndr_delivered}
+                    </h2>
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-                {/* <img src={redSineWave} alt="redSineWave" /> */}
+              <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
+                <div className="card-footer">
+                  <span className="text-red font13 pt20 bold-600 d-block text-end">
+                    + 0%
+                  </span>
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
+                    Comparative analysis
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+
+
+
+
+
+
+
       </div>
     </>
   );
