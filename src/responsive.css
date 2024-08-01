@@ -503,6 +503,10 @@
     .cardsSpace:first-of-type {
         padding-inline: 0px;
     }
+
+    .cardsSpace {
+        min-width: 100%;
+    }
 }
 
 @media screen and (max-width:633px) {
