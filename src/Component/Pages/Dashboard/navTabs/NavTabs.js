@@ -26,7 +26,7 @@ export default function NavTabs(props) {
 
 
   return (
-    <Navbar className="w-100 box-shadow shadow-sm p-3" variant="light" id="shipEaseNavTabs">
+    <Navbar className="w-100 box-shadow shadow-sm p7" variant="light" id="shipEaseNavTabs">
       <Navbar.Toggle aria-controls="navTabs" />
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100">

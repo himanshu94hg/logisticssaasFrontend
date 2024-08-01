@@ -9,10 +9,14 @@ import ShipmentPerformance from '../Components/Shipment/ShipmentPerformance'
 import DataTable from '../Components/Overview/DataTable/DataTable'
 import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
+import { useSelector } from 'react-redux'
 
 const ShipmentDashboard = ({ activeTab }) => {
 
   const dispatch = useDispatch()
+
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
 
   useEffect(() => {
     if (activeTab === "Shipment") {
@@ -26,7 +30,7 @@ const ShipmentDashboard = ({ activeTab }) => {
 
   return (
     <>
-      <Row className='mb-3'>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <WeightProfile />
           <ZoneWiseData />

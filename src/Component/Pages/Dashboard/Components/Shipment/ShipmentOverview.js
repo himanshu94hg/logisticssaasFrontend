@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 
 const ShipmentOverview = () => {
-   const { overviewCourier  } = useSelector(state => state?.dashboardShipmentReducer)
-   const [courierPartner, setCourierPartner] = useState([]);
-    
+    const { overviewCourier } = useSelector(state => state?.dashboardShipmentReducer)
+    const [courierPartner, setCourierPartner] = useState([]);
 
-   useEffect(() => {
-    if (overviewCourier) {
-        setCourierPartner(overviewCourier);
-    }
-}, [overviewCourier]);
+
+    useEffect(() => {
+        if (overviewCourier) {
+            setCourierPartner(overviewCourier);
+        }
+    }, [overviewCourier]);
 
 
     return (
@@ -20,7 +20,7 @@ const ShipmentOverview = () => {
                 <div className="d-flex justify-content-between align-items-center">
                     <h4 className="title">Shipment Overview by Courier</h4>
                 </div>
-                <div className="table-responsive">
+                <div className="table-responsive last-thirty-table">
                     <table className="custom-table w-100">
                         <thead>
                             <tr>
@@ -33,7 +33,7 @@ const ShipmentOverview = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            { courierPartner.map((Partner ,index) => (
+                            {courierPartner.map((Partner, index) => (
                                 <tr key={index}>
                                     <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{Partner.courier_partner}</td>
                                     <td>{Partner.allocation_number}</td>

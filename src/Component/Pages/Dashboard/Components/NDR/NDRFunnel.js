@@ -51,21 +51,21 @@ const NDRFunnel = () => {
                   <div
                     className="stage"
                     data-tip={`Delivered Shipments: ${ndrFunnel[tabId].delivered}`}
-                    style={{ width: '65%', backgroundColor: '#8ec2f1' }}
+                    style={{ width: '70%', backgroundColor: '#8ec2f1' }}
                   >
                     Delivered Shipments: {ndrFunnel[tabId].delivered}
                   </div>
                   <div
                     className="stage"
                     data-tip={`RTO: ${ndrFunnel[tabId].rto}`}
-                    style={{ width: '45%', backgroundColor: '#b7d8f6' }}
+                    style={{ width: '55%', backgroundColor: '#b7d8f6' }}
                   >
                     RTO: {ndrFunnel[tabId].rto}
                   </div>
                   <div
                     className="stage"
                     data-tip={`Lost/Damaged: ${ndrFunnel[tabId].lost_damaged}`}
-                    style={{ width: '25%', backgroundColor: '#e0eefb' }}
+                    style={{ width: '39%', backgroundColor: '#e0eefb' }}
                   >
                     Lost/Damaged: {ndrFunnel[tabId].lost_damaged}
                   </div>
