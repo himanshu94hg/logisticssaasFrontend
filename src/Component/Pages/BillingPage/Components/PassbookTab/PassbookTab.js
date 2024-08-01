@@ -107,18 +107,20 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
                                             </div>
                                         </td>
                                         <td>
-                                         <div className="d-flex">
-                                         <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order_detail?.awb_number)}>
-                                                    {row?.order_detail?.awb_number}
-                                                </p>
+                                            <div className="d-flex">
+                                                <div className='cell-inside-box'>
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order_detail?.awb_number)}>
+                                                        {row?.order_detail?.awb_number}
+                                                    </p>
+                                                </div>
+                                                {row?.order_detail?.awb_number &&
+                                                    <CustomTooltip
+                                                        triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.order_detail?.awb_number)}><FaRegCopy /></button>}
+                                                        tooltipComponent={copyText}
+                                                        addClassName='copytext-tooltip'
+                                                    />
+                                                }
                                             </div>
-                                            <CustomTooltip
-                                                triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.order_detail?.awb_number)}><FaRegCopy /></button>}
-                                                tooltipComponent={copyText}
-                                                addClassName='copytext-tooltip'
-                                            />
-                                         </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>

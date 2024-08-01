@@ -35,11 +35,11 @@ export default function NavTabs(props) {
     axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
       .then((response) => {
         if (response.status === 200) {
-          toast.success('Order fetch successfully');
+          toast.success('Order fetched successfully');
           props.setRateRef(new Date())
         }
       }).catch((error) => {
-        toast.error('Order Fetch Failed!');
+        toast.error('Order fetched Failed!');
       });
   };
 

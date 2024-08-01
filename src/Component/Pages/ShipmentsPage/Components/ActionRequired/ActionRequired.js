@@ -164,7 +164,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                     />
                                 </th>
                                 <th>Order Details</th>
-                                <th>NDR Reason</th>
+                                <th>NDR Attempt</th>
                                 <th>Package Details</th>
                                 <th>Customer details</th>
                                 <th>Tracking Detail</th>
@@ -323,7 +323,7 @@ function Preview({ show, handleClose, selectedData }) {
                 <table className="table">
                     <tbody>
                         <tr>
-                            <th>Raised Date</th>
+                            <th>Action Date</th>
                             <th>Action By</th>
                             <th>Reason</th>
                             <th>Remark</th>
@@ -331,11 +331,11 @@ function Preview({ show, handleClose, selectedData }) {
                         </tr>
                         {selectedData?.ndr_details?.map((row, index) => (
                             <tr key={index}>
-                                <td>{row?.raised_date ? moment(row?.raised_date).format("DD MMM YYYY") : "NA"}</td>
+                               <td>{row?.action_date ? <>{  moment(row?.action_date).format("DD MMM YYYY, h:mm A")}</> : "NA"}</td>
                                 <td>{row?.action_by}</td>
                                 <td>{row?.reason}</td>
-                                <td>{row?.remark}</td>
-                                <td>{row?.action_status}</td>
+                                <td className="text-capitalize">{row?.remark}</td>
+                                <td className="text-capitalize">{row?.action_status}</td>
                             </tr>
                         ))}
                     </tbody>

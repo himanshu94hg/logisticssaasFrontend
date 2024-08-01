@@ -129,11 +129,13 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                                         {row?.awb_number}
                                                     </p>
                                                 </div>
-                                                <CustomTooltip
-                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
-                                                    tooltipComponent={copyText}
-                                                    addClassName='copytext-tooltip'
-                                                />
+                                                {row?.order_detail?.awb_number &&
+                                                    <CustomTooltip
+                                                        triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                        tooltipComponent={copyText}
+                                                        addClassName='copytext-tooltip'
+                                                    />
+                                                }
                                             </div>
                                         </td>
                                         <td>
