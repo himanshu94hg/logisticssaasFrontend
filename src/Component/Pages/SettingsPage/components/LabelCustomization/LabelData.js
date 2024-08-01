@@ -21,7 +21,7 @@ const LabelData = ({ items, setItems }) => {
                                                         Gurugram, Haryana<br />
                                                         122002
                                                         <br />
-                                                        Contact : {items?.contact_mask ? "987*****10" : "9876543210"}
+                                                        Contact : {items?.contact_mask ? "**********" : "9876543210"}
                                                     </p>
                                                 </div>
                                             )}
@@ -92,7 +92,7 @@ const LabelData = ({ items, setItems }) => {
                                                     <br />
                                                     <p style={{ padding: 0, margin: 0 }}>
                                                         Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
-                                                        Contact: {items.seller_contact ? "**********" : "9876543210"}
+                                                        Contact: {items.s_contact_mask ? "**********" : "9876543210"}
                                                     </p>
                                                     GSTIN: {items.s_gst_mask ? "***************" : "22AAAAA0000A1Z5"}
                                                     <br />
