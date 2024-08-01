@@ -32,7 +32,7 @@ const BasicInfo = ({ activeTab }) => {
   const [formData, setFormData] = useState({
     company_name: '',
     email: '',
-    website_url: '',
+    website_url: 'http://',
     mobile: '',
     gst_number: '',
     gst_certificate: "",
