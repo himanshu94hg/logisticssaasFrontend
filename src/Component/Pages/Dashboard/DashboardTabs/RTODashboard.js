@@ -9,6 +9,7 @@ import RTOCount from '../Components/RTO/RTOCount'
 import TopRTOCity from '../Components/RTO/TopRTOCity'
 import TopRTOCourier from '../Components/RTO/TopRTOCourier'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
+import { useSelector } from 'react-redux'
 
 const RTODashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
@@ -23,9 +24,11 @@ const RTODashboard = ({ activeTab }) => {
     }
   }, [activeTab, dispatch])
 
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
   return (
     <>
-      <Row className='mb-3'>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           {/* <RTOOrderDetails /> */}
           <TopRTOPincodes />

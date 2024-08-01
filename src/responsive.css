@@ -139,10 +139,12 @@
 
     .cardsSpace:first-of-type {
         order: 2;
+        padding-right: 10px;
     }
 
     .cardsSpace:last-of-type {
         order: 3;
+        padding-left: 10px;
     }
 
     #shipEaseNavTabs .nav-item {
@@ -157,7 +159,7 @@
     }
 
     .support-page #shipEaseNavTabs .nav-item {
-        padding-block: 3px;
+        padding-block: 0px;
         width: 113px;
     }
 
@@ -173,8 +175,8 @@
     }
 
     #shipEaseNavTabs .dropdown-menu {
-        top: 35px;
-        left: 8px;
+        top: 36px;
+        left: 7px;
     }
 
     .m-inline-1 {
@@ -298,6 +300,37 @@
     .ServiceabilityPage .pair-hr {
         margin-block: 15px 6px;
         width: 65%;
+    }
+
+    .search-container label input {
+        height: 29px;
+        padding-block: 0px;
+    }
+
+    .search-container.ot-filters label button {
+        height: 29px;
+    }
+
+    .search-container.ot-filters label .css-15lsz6c-indicatorContainer,
+    .search-container.ot-filters label .css-1xc3v61-indicatorContainer {
+        padding-block: 0px;
+    }
+
+    .search-container.ot-filters label .css-1fdsijx-ValueContainer {
+        height: 29px;
+        padding-block: 0px;
+    }
+
+    .search-container.ot-filters label .css-qbdosj-Input {
+        margin-block: 0px;
+        padding-block: 0px;
+    }
+
+    .support-right-section .search-container,
+    .support-right-section .search-container label,
+    .support-right-section .search-container input,
+    .support-right-section .search-container button {
+        height: 29px;
     }
 }
 
@@ -464,6 +497,15 @@
 
     .default-sorting-section label {
         flex-direction: column;
+    }
+
+    .cardsSpace:last-of-type,
+    .cardsSpace:first-of-type {
+        padding-inline: 0px;
+    }
+
+    .cardsSpace {
+        min-width: 100%;
     }
 }
 
@@ -661,6 +703,10 @@
     .agreement-buttons {
         flex-direction: column;
         gap: 10px;
+    }
+
+    .ndr-funnel .nav-item button {
+        width: 81px;
     }
 }
 
