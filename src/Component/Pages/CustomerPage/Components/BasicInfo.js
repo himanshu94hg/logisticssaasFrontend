@@ -201,7 +201,7 @@ const BasicInfo = ({ activeTab }) => {
       newErrors.gst_number = "GST Number is required!"
     }
     setErrors(newErrors);
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(newErrors).length === 0) {
       globalDebouncedClick(() => handleClickSubmit(formData))
     }
   };
