@@ -16,7 +16,7 @@ const AddWarehouse = () => {
     const navigate = useNavigate()
     const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
-    const [SameRTO, setSameRTO] = useState(true);
+    const [SameRTO, setSameRTO] = useState(false);
     const [AddFields, SetAddFields] = useState(false);
     const hardcodedToken = Cookies.get("access_token");
     const [warehouseData, setWareHouseData] = useState({
@@ -70,7 +70,7 @@ const AddWarehouse = () => {
 
             }
             if (!warehouseData.address_line2) {
-                newErrors.address_line2 = "Address Line 1 is required!"
+                newErrors.address_line2 = "Address Line 2 is required!"
             }
             if (!warehouseData.pincode) {
                 newErrors.pincode = "Pincode is required!"
@@ -319,7 +319,7 @@ const AddWarehouse = () => {
                     address: prev.address_line1 + "," + prev.address_line2,
                     landmark: prev.city,
                     pincode: prev.pincode,
-                    city: prev.city,    
+                    city: prev.city,
                     state: prev.state,
                     country: "India"
                 }
@@ -342,7 +342,7 @@ const AddWarehouse = () => {
                 }
             }));
         }
-    }, [SameRTO, warehouseData.pincode,warehouseData.city,warehouseData.state])
+    }, [SameRTO, warehouseData.pincode, warehouseData.city, warehouseData.state])
 
 
     const handleReset = () => {
@@ -413,7 +413,7 @@ const AddWarehouse = () => {
                         <h3 className='mb-4'>Add New Warehouse</h3>
                         <div className='d-flex gap-3'>
                             <label>
-                                Warehouse Name (do not use special symbols)
+                                <span> Warehouse Name<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     maxLength={70}
@@ -427,7 +427,7 @@ const AddWarehouse = () => {
                                 {errors.warehouse_name && <div className="custom-error">{errors.warehouse_name}</div>}
                             </label>
                             <label>
-                                Contact Person Name
+                                <span> Contact Person Name<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     name="contact_name"
@@ -443,7 +443,7 @@ const AddWarehouse = () => {
                         </div>
                         <div className='d-flex gap-3 mt-4'>
                             <label>
-                                Contact Number
+                                <span>Contact Number<span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field'
@@ -469,7 +469,7 @@ const AddWarehouse = () => {
                                 {errors.contact_number && <div className="custom-error">{errors.contact_number}</div>}
                             </label>
                             <label>
-                                GST Number
+                                <span>GST Number<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.gst_number && 'input-field-error'}`}
@@ -485,13 +485,13 @@ const AddWarehouse = () => {
                         </div>
                         <div className='d-flex gap-3 mt-4'>
                             <label>
-                                Warehouse Address 1
+                                <span>Address Line 1<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     name="address_line1"
                                     maxLength={100}
                                     value={warehouseData.address_line1}
-                                    placeholder='Enter Warehouse Address 1'
+                                    placeholder='Enter Address Line 1'
                                     onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
                                     className={`input-field ${errors.address_line1 && 'input-field-error'}`}
@@ -499,14 +499,14 @@ const AddWarehouse = () => {
                                 {errors.address_line1 && <div className="custom-error">{errors.address_line1}</div>}
                             </label>
                             <label>
-                                Warehouse Address 2
+                                <span> Address Line 2<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.address_line2 && 'input-field-error'}`}
                                     name="address_line2"
                                     maxLength={100}
                                     value={warehouseData.address_line2}
-                                    placeholder='Enter Warehouse Address 2'
+                                    placeholder='Enter Address Line 2'
                                     onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
                                 />
@@ -515,7 +515,7 @@ const AddWarehouse = () => {
                         </div>
                         <div className='d-flex gap-3 mt-4'>
                             <label>
-                                Pincode
+                                <span>Pincode<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.pincode && 'input-field-error'}`}
@@ -533,7 +533,7 @@ const AddWarehouse = () => {
                                 {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                             </label>
                             <label>
-                                City
+                                <span>City<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.city && 'input-field-error'}`}
@@ -547,7 +547,7 @@ const AddWarehouse = () => {
                                 {errors.city && <div className="custom-error">{errors.city}</div>}
                             </label>
                             <label>
-                                State
+                                <span>State<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.state && 'input-field-error'}`}
@@ -639,11 +639,11 @@ const AddWarehouse = () => {
                             <input type="checkbox" onChange={handleCheckboxChange} defaultChecked={SameRTO} />
                             Use a different address as RTO address
                         </label>
-                        <div className={`d-flex flex-column gap-3 ${SameRTO ? 'd-none' : ''}`}>
+                        <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
                             <div className='d-flex gap-3'>
                                 <label>
-                                    Warehouse Name (do not use special symbols)
+                                    <span>State<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         name="warehouse_name"
@@ -657,7 +657,7 @@ const AddWarehouse = () => {
                                     {errors?.rto_warehouse_name && <div className="custom-error">{errors.rto_warehouse_name}</div>}
                                 </label>
                                 <label>
-                                    Contact Person Name
+                                    <span>Contact Person Name<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         name="contact_person_name"
@@ -673,7 +673,7 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 mt-4'>
                                 <label>
-                                    Contact Number
+                                    <span>Contact Number<span className='mandatory'>*</span></span>
                                     <div className='d-flex mobile-number-field'>
                                         <select
                                             className='input-field'
@@ -721,14 +721,14 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 mt-4'>
                                 <label>
-                                    Address
+                                    <span>Address<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         name="address"
                                         maxLength={100}
                                         onChange={handleChangeRto}
                                         onKeyPress={(e) => handleKeypress(e)}
-                                        placeholder='Enter Warehouse Address 1'
+                                        placeholder='Enter Address'
                                         value={warehouseData.rto_details.address}
                                         className={`input-field ${errors.address && 'input-field-error'}`}
 
@@ -751,7 +751,7 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 mt-4'>
                                 <label>
-                                    Pincode
+                                    <span>Pincode<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         name="pincode"
@@ -764,7 +764,7 @@ const AddWarehouse = () => {
                                     {errors?.rto_pincode && <div className="custom-error">{errors.rto_pincode}</div>}
                                 </label>
                                 <label>
-                                    City
+                                    <span>City<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         name="city"
@@ -777,7 +777,7 @@ const AddWarehouse = () => {
                                     {errors?.rto_city && <div className="custom-error">{errors.rto_city}</div>}
                                 </label>
                                 <label>
-                                    State
+                                    <span>State<span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         maxLength={30}
