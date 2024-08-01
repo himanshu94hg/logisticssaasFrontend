@@ -8,14 +8,14 @@ import { awsAccessKey } from '../../../../config';
 import { Document, Page, pdfjs } from 'react-pdf';
 import React, { useState, useEffect } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import globalDebouncedClick from "../../../../debounce";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { numericRegex, webUrlRegx } from '../../../../regex';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LoaderScreen from "../../../LoaderScreen/LoaderScreen";
 import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import globalDebouncedClick from "../../../../debounce";
-import LoaderScreen from "../../../LoaderScreen/LoaderScreen";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
@@ -25,10 +25,10 @@ const BasicInfo = ({ activeTab }) => {
   const [docsError, setDocsError] = useState("");
   const hardcodedToken = Cookies.get("access_token");
   const [pdfPreview, setPdfPreview] = useState(null);
+  const [LoaderRing, setLoaderRing] = useState(false)
   const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
-  const [LoaderRing, setLoaderRing] = useState(false)
   const [formData, setFormData] = useState({
     company_name: '',
     email: '',
@@ -118,22 +118,24 @@ const BasicInfo = ({ activeTab }) => {
         })
         .then(response => {
           const basicInfoData = response.data[0] || {};
-          setFormData(prevState => ({
-            ...prevState,
-            company_name: basicInfoData.company_name || '',
-            email: basicInfoData.email || '',
-            pan_number: basicInfoData.pan_number || '',
-            gst_number: basicInfoData.gst_number || '',
-            street: basicInfoData.street || '',
-            pincode: basicInfoData.pincode || '',
-            city: basicInfoData.city || '',
-            country: 'India',
-            state: basicInfoData.state || '',
-            website_url: basicInfoData.website_url || '',
-            mobile: basicInfoData.mobile || '',
-            gst_certificate: basicInfoData.gst_certificate || '',
-            company_logo: basicInfoData.company_logo || '',
-          }));
+          if (response?.data?.length > 0) {
+            setFormData(prevState => ({
+              ...prevState,
+              company_name: basicInfoData.company_name || '',
+              email: basicInfoData.email || '',
+              pan_number: basicInfoData.pan_number || '',
+              gst_number: basicInfoData.gst_number || '',
+              street: basicInfoData.street || '',
+              pincode: basicInfoData.pincode || '',
+              city: basicInfoData.city || '',
+              country: 'India',
+              state: basicInfoData.state || '',
+              website_url: basicInfoData.website_url || '',
+              mobile: basicInfoData.mobile || '',
+              gst_certificate: basicInfoData.gst_certificate || '',
+              company_logo: basicInfoData.company_logo || '',
+            }));
+          }
         })
         .catch(error => {
           customErrorFunction(error)
@@ -346,7 +348,8 @@ const BasicInfo = ({ activeTab }) => {
                       onKeyUp={handleRegex}
                       onChange={handleChange}
                       placeholder='Enter your website URL'
-                      type="text" name="website_url" value={formData.website_url}
+                      type="text" name="website_url"
+                      value={formData.website_url}
                       className={`input-field ${errors.website_url && "input-field-error"}`}
                     />
                     {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
