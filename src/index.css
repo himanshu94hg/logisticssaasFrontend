@@ -668,10 +668,10 @@ p {
 .select-field {
   height: 36px;
   border: 1px solid var(--sh-primary-middle);
-  /* background-color: var(--sh-primary-light); */
   min-width: 100%;
   padding-left: 10px;
   border-radius: 0.5rem;
+  background: #fff;
 }
 
 .input-checkbox {
@@ -905,4 +905,8 @@ input:disabled {
 
 .confirmation-modal .modal-dialog {
   max-width: 448px;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 2px;
 }
