@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import "./AddWarehouse.css";
 import './AddWarehouse.css'
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
+import { BASE_URL_CORE } from '../../../../axios/config';
+import { manageWarehousesPattern } from '../../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import 'react-datepicker/dist/react-datepicker.css';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import "./AddWarehouse.css";
-import { toast } from 'react-toastify';
-import { BASE_URL_CORE } from '../../../../axios/config';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-import { manageWarehousesPattern } from '../../../../Routes';
-import { useNavigate } from 'react-router-dom';
 
 const AddWarehouse = () => {
     const navigate = useNavigate()
-    const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
     const [SameRTO, setSameRTO] = useState(false);
     const [AddFields, SetAddFields] = useState(false);
     const hardcodedToken = Cookies.get("access_token");
+    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
     const [warehouseData, setWareHouseData] = useState({
         seller: "",
         warehouse_name: "",
@@ -104,7 +104,6 @@ const AddWarehouse = () => {
             if (!warehouseData.rto_details.state) {
                 newErrors.rto_state = "State is required!"
             }
-
             setErrors(newErrors)
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
@@ -129,18 +128,12 @@ const AddWarehouse = () => {
         }
     };
 
-
-
     const times = [
         '12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM',
         '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM',
         '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM',
         '9:00 PM', '10:00 PM', '11:00 PM'
     ];
-
-    console.log(warehouseData, "uuuuuuuuuuuuuuuuuuuuuuuuuu")
-
-
 
     const handleChangeWarehouse = (event) => {
         const { name, value } = event.target;
@@ -290,7 +283,6 @@ const AddWarehouse = () => {
                     rto_pincode: "Pincode should be 6 digits!"
                 }));
             }
-
         }
         setWareHouseData((prev) => ({
             ...prev,
@@ -300,7 +292,6 @@ const AddWarehouse = () => {
             }
         }));
     };
-
 
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
@@ -379,20 +370,9 @@ const AddWarehouse = () => {
         })
     }
 
-    console.log(warehouseData, "this is warehouse data", errors)
-
-    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-    const allowedCharacters1 = /^[a-zA-Z0-9\s]*$/;
-
-    const handleKeyDown = (e) => {
-        // const allowedCharacters2= /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-        console.log(e.target.name, e.target.value.length, "dddddddddddddddddddddddddd")
-
-    }
     const handleKeypress = (e) => {
         const { field, value } = e.target
         if (field === "gst_number") {
-
         }
         else {
             if (e.key === ' ' && e.target.value.endsWith(' ')) {
@@ -401,8 +381,6 @@ const AddWarehouse = () => {
                 e.preventDefault();
             }
         }
-
-
     }
 
     return (
@@ -805,7 +783,6 @@ const AddWarehouse = () => {
                         </div>
                     </div>
                 </div>
-                {/* Next Button */}
                 <div className='d-flex justify-content-end my-3'>
                     <button className='btn main-button-outline' type='reset' onClick={handleReset}>
                         Reset

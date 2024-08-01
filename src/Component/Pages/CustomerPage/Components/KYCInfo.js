@@ -26,6 +26,7 @@ const KYCInfo = ({ activeTab }) => {
   useEffect(() => {
     if (activeTab === "KYC Information")
       fetchKYCData();
+    setErrors({})
   }, [activeTab]);
 
   const fetchKYCData = async () => {

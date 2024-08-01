@@ -35,7 +35,7 @@ const LabelCustomization = () => {
         disclaimer_text: false,
         footer_visibility: false,
         tabular_form_enabled: false,
-        footer_customize_value: "",
+        footer_customize_value: "THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE",
         custom_footer_enable: false,
         section1: false,
         section2: false,
@@ -45,13 +45,20 @@ const LabelCustomization = () => {
         section6: false,
     });
 
+    const [acc,setAcc]=useState(false)
 
     const handleToggleChange = useCallback((key) => {
         setItems(prevState => ({
             ...prevState,
             [key]: !prevState[key]
         }));
+
+        // if(key==="custom_footer_enable"){
+        //     setAcc(!acc)
+        // }
+
     }, []);
+    console.log(acc ,"gggggggggggggggggggggggg")
 
 
     const handleParentSection = useCallback((e) => {
@@ -83,6 +90,7 @@ const LabelCustomization = () => {
                 s_gst_mask: checked,
                 order_barcode_visibility: checked,
                 ordernumber_visibility: checked,
+                manifest_date_visibility:checked,
                 order_detail_visibility: checked
             }));
         }
@@ -112,7 +120,8 @@ const LabelCustomization = () => {
                 disclaimer_text: checked,
                 footer_visibility: checked,
                 tabular_form_enabled: checked,
-                footer_customize_value: checked
+                custom_footer_enable:checked,
+                footer_customize_value: "THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE"
             }));
         }
     }, []);
@@ -298,7 +307,7 @@ const LabelCustomization = () => {
                                             onChange={() => handleToggleChange('s_gst_mask')}
                                         />
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <p>Order Details</p>
                                         <Toggle
                                             aria-label="Toggle order details"
@@ -306,7 +315,7 @@ const LabelCustomization = () => {
                                             disabled={items.section3 ? false : true}
                                             onChange={() => handleToggleChange('order_detail_visibility')}
                                         />
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <p>Manifest Date</p>
                                         <Toggle
