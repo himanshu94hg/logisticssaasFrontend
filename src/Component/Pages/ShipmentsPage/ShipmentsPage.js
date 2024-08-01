@@ -211,8 +211,9 @@ const ShipmentsPage = () => {
     const handleClick = () => {
         setSearchValue("")
         pageStatusSet(true);
-        setHandleResetFrom(true)
         setQueryParamTemp({})
+        setHandleResetFrom(true)
+        setSearchOption(SearchOptions[0])
         axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
@@ -227,15 +228,6 @@ const ShipmentsPage = () => {
             });
     }
 
-    const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 1000),
-        []
-    );
-    const handleReset = () => {
-        debouncedHandleClick();
-        setSearchOption(SearchOptions[0])
-
-    }
 
     const handleChange = (option) => {
         setSearchOption(option);
@@ -334,7 +326,7 @@ const ShipmentsPage = () => {
                                         {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                                     </ul>
                                 </div>
-                                <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                                <button className='btn main-button-outline ms-2' onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</button>
                             </>
                         }
                     </div>
@@ -355,7 +347,7 @@ const ShipmentsPage = () => {
                         <div className="nav-actions-list">
                             <ul>
                                 <li onClick={handleSidePanel}><HiOutlineFilter className='align-text-bottom' /> More Filters</li>
-                                <li onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</li>
+                                <li onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</li>
                             </ul>
                         </div>
                     </div>
