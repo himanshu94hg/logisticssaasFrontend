@@ -332,6 +332,22 @@
     .support-right-section .search-container button {
         height: 29px;
     }
+
+    .courier-dashboard .accordion-row hr {
+        margin-block: 3px 14px !important;
+    }
+
+    .courier-dashboard .accordion-header {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding-bottom: 20px;
+    }
+
+    .courier-dashboard .accordion-header span {
+        bottom: 0;
+        position: absolute;
+        right: 0;
+    }
 }
 
 @media screen and (max-width:767px) {
@@ -507,6 +523,12 @@
     .cardsSpace {
         min-width: 100%;
     }
+
+    .courier-dashboard .counters-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        gap: 10px;
+    }
 }
 
 @media screen and (max-width:633px) {
@@ -537,6 +559,12 @@
 @media screen and (max-width:567px) {
     .edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item {
         width: 100%;
+    }
+
+
+    .courier-dashboard .counters-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
     }
 }
 
@@ -707,6 +735,10 @@
 
     .ndr-funnel .nav-item button {
         width: 81px;
+    }
+
+    .courier-dashboard .accordion-header {
+        grid-template-columns: auto;
     }
 }
 
