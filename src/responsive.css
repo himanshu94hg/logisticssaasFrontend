@@ -139,10 +139,12 @@
 
     .cardsSpace:first-of-type {
         order: 2;
+        padding-right: 10px;
     }
 
     .cardsSpace:last-of-type {
         order: 3;
+        padding-left: 10px;
     }
 
     #shipEaseNavTabs .nav-item {
@@ -495,6 +497,11 @@
 
     .default-sorting-section label {
         flex-direction: column;
+    }
+
+    .cardsSpace:last-of-type,
+    .cardsSpace:first-of-type {
+        padding-inline: 0px;
     }
 }
 
