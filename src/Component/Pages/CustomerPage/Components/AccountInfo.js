@@ -44,7 +44,7 @@ const AccountInfo = ({ activeTab }) => {
         }
       });
       if (response.data.length > 0) {
-        setAccounts(response.data.map(account => ({
+        setAccounts(response?.data?.map(account => ({
           ...account,
           accountHolderName: account.account_holder_name,
           accountNumber: account.account_number,
