@@ -250,25 +250,27 @@ const ReportsMIS = ({ activeTab }) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            Type
-                            <Select
-                                value={firstSelectedOption}
-                                onChange={handleFirstSelectChange}
-                                options={firstOptions}
-                                placeholder="Select an option"
-                            />
-                        </label>
-                        <label>
-                            subtype
-                            <Select
-                                value={secondSelectedOption}
-                                onChange={handleSecondSelectChange}
-                                options={secondOptions}
-                                placeholder="Select a suboption"
-                                isDisabled={!firstSelectedOption}
-                            />
-                        </label>
+                        <div className="option-labels">
+                            <label>
+                                Type
+                                <Select
+                                    value={firstSelectedOption}
+                                    onChange={handleFirstSelectChange}
+                                    options={firstOptions}
+                                    placeholder="Select an option"
+                                />
+                            </label>
+                            <label>
+                                subtype
+                                <Select
+                                    value={secondSelectedOption}
+                                    onChange={handleSecondSelectChange}
+                                    options={secondOptions}
+                                    placeholder="Select a suboption"
+                                    isDisabled={!firstSelectedOption}
+                                />
+                            </label>
+                        </div>
                         {/* <label> */}
                         <div className='date-picker-container'>
                             From Date
@@ -303,7 +305,6 @@ const ReportsMIS = ({ activeTab }) => {
                         </div>
                         {/* </label> */}
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
-
                     </div>
 
                 </div>
