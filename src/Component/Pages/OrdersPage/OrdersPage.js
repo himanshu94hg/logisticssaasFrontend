@@ -83,6 +83,8 @@ const OrdersPage = () => {
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
+ const [searchStatus,setSearchStatus]=useState(false)
+
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled])
@@ -100,6 +102,7 @@ const OrdersPage = () => {
             setSearchValue("")
             setSelectedRows([])
             setQueryParamTemp({});
+            setSearchStatus(false)
             setBulkActionShow(false)
             setSearchOption(SearchOptions[0])
             setsearchType(SearchOptions[0].value)
@@ -193,9 +196,8 @@ const OrdersPage = () => {
     };
 
     const handleSearch = () => {
-        let sanitizedSearchValue = searchValue;
-        sanitizedSearchValue = sanitizedSearchValue.replace(/#/g, '');
-
+        let sanitizedSearchValue = searchValue.replace(/#/g, '');;
+      
         if (validateData()) {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
                 headers: {
@@ -205,15 +207,16 @@ const OrdersPage = () => {
                 .then(response => {
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
+                    setSearchStatus(true)
                 })
                 .catch(error => {
                     customErrorFunction(error)
                 });
-            setQueryParamTemp({
-                search_by: searchType,
-                q: searchValue
-            })
-            setCurrentPage(1)
+            // setQueryParamTemp({
+            //     search_by: searchType,
+            //     q: searchValue
+            // })
+            // setCurrentPage(1)
         }
     };
 
@@ -279,7 +282,7 @@ const OrdersPage = () => {
                 apiUrl = '';
         }
 
-        if (apiUrl) {
+        if (apiUrl && !searchStatus) {
             const queryParams = { ...queryParamTemp };
             const queryString = Object.keys(queryParams)
                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))

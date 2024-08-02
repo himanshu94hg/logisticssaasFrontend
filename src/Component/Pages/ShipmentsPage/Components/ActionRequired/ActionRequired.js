@@ -329,15 +329,26 @@ function Preview({ show, handleClose, selectedData }) {
                             <th>Remark</th>
                             <th>Status</th>
                         </tr>
-                        {selectedData?.ndr_details?.map((row, index) => (
-                            <tr key={index}>
-                               <td>{row?.action_date ? <>{  moment(row?.action_date).format("DD MMM YYYY, h:mm A")}</> : "NA"}</td>
-                                <td>{row?.action_by}</td>
-                                <td>{row?.reason}</td>
-                                <td className="text-capitalize">{row?.remark}</td>
-                                <td className="text-capitalize">{row?.action_status}</td>
+                        {selectedData?.ndr_details.length > 0 ? <>
+                            {selectedData?.ndr_details?.map((row, index) => (
+                                <tr key={index}>
+                                    <td>{row?.action_date ? <>{moment(row?.action_date).format("DD MMM YYYY, h:mm A")}</> : "NA"}</td>
+                                    <td>{row?.action_by}</td>
+                                    <td>{row?.reason}</td>
+                                    <td className="text-capitalize">{row?.remark}</td>
+                                    <td className="text-capitalize">{row?.action_status}</td>
+                                </tr>
+                            ))}
+                        </>
+                            :
+                            <tr>
+                                <td>{selectedData?.other_details?.ndr_action_date ? <>{moment(selectedData?.other_details?.ndr_action_date).format("DD MMM YYYY, h:mm A")}</> : "NA"}</td>
+                                <td>Courier</td>
+                                <td>{selectedData?.other_details?.ndr_reason}</td>
+                                <td>{selectedData?.other_details?.ndr_reason}</td>
+                                <td>{selectedData?.other_details?.ndr_action}</td>
                             </tr>
-                        ))}
+                        }
                     </tbody>
                 </table>
 

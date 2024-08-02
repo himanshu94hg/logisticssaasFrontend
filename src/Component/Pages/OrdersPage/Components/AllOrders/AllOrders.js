@@ -93,7 +93,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
     };
 
 
-    
+
 
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
@@ -166,7 +166,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
             axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
-                    setSingleShip(true);    
+                    setSingleShip(true);
 
                 }).catch((error) => {
                     customErrorFunction(error)
@@ -174,7 +174,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
         }
     };
 
-    console.log(shipingResponse,"shipingResponse")
 
     const handleShipReassign = (orderId, status) => {
         if (status === "pending") {
@@ -361,10 +360,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {
-                // setcopyText("Url Copied")
             })
             .catch(err => {
-                console.error('Failed to copy text: ', err);
             });
     };
 
