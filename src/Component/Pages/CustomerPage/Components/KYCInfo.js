@@ -11,9 +11,11 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const KYCInfo = ({ activeTab }) => {
+  const [show, setShow] = useState(false);
   const [errors, setErrors] = useState([]);
   const [resData, setResData] = useState("");
   const [formList, setFormList] = useState([]);
+  const [previewImage, setPreviewImage] = useState("");
   const [hardcodedToken] = useState(Cookies.get('access_token'));
   const [formData, setFormData] = useState({
     company_type: "",
@@ -24,10 +26,34 @@ const KYCInfo = ({ activeTab }) => {
   });
 
   useEffect(() => {
-    if (activeTab === "KYC Information")
+    if (activeTab === "KYC Information") {
       fetchKYCData();
-    setErrors({})
-  }, [activeTab]);
+      setErrors({})
+    }
+  }, [activeTab])
+
+  useEffect(() => {
+    if (formList?.length < 1) {
+      setResData("")
+      setFormData({
+        company_type: "",
+        document_type: "",
+        document_id: "",
+        document_name: "",
+        document_upload: "",
+      })
+      if (formList?.length < 1 && activeTab) {
+        setResData("")
+        setFormData({
+          company_type: "",
+          document_type: "",
+          document_id: "",
+          document_name: "",
+          document_upload: "",
+        })
+      }
+    }
+  }, [formList, activeTab])
 
   const fetchKYCData = async () => {
     try {
@@ -41,14 +67,24 @@ const KYCInfo = ({ activeTab }) => {
         ...prev,
         company_type: response?.data[0]?.company_type
       }))
-      setFormList(response.data.map(item => ({
-        id: item?.id,
-        documentType: item.document_type,
-        documentName: item.document_name,
-        documentNumber: item.document_id,
-        companyType: item.company_type,
-        previewImg: item.document_upload
-      })));
+      if (response?.data?.length > 0) {
+        setFormList(response.data.map(item => ({
+          id: item?.id,
+          documentType: item.document_type,
+          documentName: item.document_name,
+          documentNumber: item.document_id,
+          companyType: item.company_type,
+          previewImg: item.document_upload
+        })));
+      } else {
+        setFormData({
+          company_type: "",
+          document_type: "",
+          document_id: "",
+          document_name: "",
+          document_upload: "",
+        })
+      }
     } catch (error) {
       customErrorFunction(error)
     }
@@ -71,12 +107,10 @@ const KYCInfo = ({ activeTab }) => {
         if (additionalData?.status === 204) {
           updatedValue = responseData.data.url.url + "customerData/" + files[0].name.replace(/\s/g, "");
         } else {
-          throw new Error('Upload failed');
+          toast.error('Error uploading file');
         }
       } catch (error) {
-        console.error('Error handling file change:', error);
-        toast.error('Error uploading file');
-        return;
+        customErrorFunction(error)
       }
     } else {
       updatedValue = value;
@@ -90,21 +124,16 @@ const KYCInfo = ({ activeTab }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (key !== 'document_upload' && !formData[key]) {
-        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
-      } else if (key === 'document_name' && /\d/.test(formData[key])) {
-        errors[key] = "Document name should not contain numbers.";
-      } else if (key === 'document_type' && !formData[key]) {
-        errors[key] = "Please select your document.";
-      }
+      if (key !== 'document_upload' && !formData[key])  errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      else if (key === 'document_name' && /\d/.test(formData[key])) errors[key] = "Document name should not contain numbers.";
+      else if (key === 'document_type' && !formData[key])  errors[key] = "Please select your document.";
+      else if (key !== 'company_type' && !formData[key]) errors[key] = "Please select your document.";
       return errors;
     }, {});
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length !== 0) {
       return;
     }
-
     try {
       const response = await axios.post(
         `${BASE_URL_CORE}/core-api/seller/kyc-info/`,
@@ -148,7 +177,7 @@ const KYCInfo = ({ activeTab }) => {
         toast.error('Failed to delete the Document');
       } else {
         toast.success('Document deleted successfully.');
-
+        setResData("")
         setFormList(prevFormList => prevFormList.filter(item => item.id !== id));
       }
     } catch (error) {
@@ -157,8 +186,6 @@ const KYCInfo = ({ activeTab }) => {
   };
 
 
-  const [previewImage, setPreviewImage] = useState("");
-  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (image) => {
     setShow(true);
@@ -186,9 +213,8 @@ const KYCInfo = ({ activeTab }) => {
                 <label style={{ width: '49%' }}>
                   Company Type:
                   <select
-                    // isEnabled
                     disabled={resData === undefined || resData.length === 0 ? false : true}
-                    className="select-field"
+                    className={`select-field ${errors.company_type && 'input-field-error'}`}
                     name="company_type"
                     value={resData != "" ? resData : formData.company_type}
                     onChange={handleChange}
@@ -199,6 +225,7 @@ const KYCInfo = ({ activeTab }) => {
                     <option value="Partnership Firm">Partnership Firm</option>
                     <option value="Other">Other</option>
                   </select>
+                  {errors.company_type && <span className="custom-error">{errors.company_type}</span>}
                 </label>
               </div>
             </div>
@@ -226,12 +253,13 @@ const KYCInfo = ({ activeTab }) => {
                   <label>
                     <span>Upload Document: <span className='mandatory'>*</span></span>
                     <input
-                      className="form-control input-field"
+                      className={`form-control input-field ${errors?.document_upload && "input-field-error"}`}
                       type="file"
                       fileinput="fileinput"
                       name="document_upload"
                       onChange={handleChange}
                     />
+                    {errors?.document_upload && <span className="custom-error">{errors?.document_upload}</span>}
                   </label>
                 </div>
                 <div className="d-flex gap-3 mt-3 flex-column flex-md-row">
