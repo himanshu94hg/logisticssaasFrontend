@@ -83,7 +83,7 @@ const OrdersPage = () => {
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
- const [searchStatus,setSearchStatus]=useState(false)
+    const [searchStatus, setSearchStatus] = useState(false)
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
@@ -197,7 +197,6 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         let sanitizedSearchValue = searchValue.replace(/#/g, '');;
-      
         if (validateData()) {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
                 headers: {
@@ -380,7 +379,7 @@ const OrdersPage = () => {
                                         e.preventDefault();
                                     }
                                 }}
-                                />
+                            />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
