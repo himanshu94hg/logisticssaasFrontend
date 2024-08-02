@@ -43,7 +43,7 @@ const EasyShipIntegrationForm = () => {
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form action="">
-                            <div className='d-flex w-100 gap-5 mt-4'>
+                            <div className='d-flex w-100 gap-3 flex-column flex-lg-row mt-4'>
                                 <label>
                                     OMS Title
                                     <input className="input-field" type="text" />
