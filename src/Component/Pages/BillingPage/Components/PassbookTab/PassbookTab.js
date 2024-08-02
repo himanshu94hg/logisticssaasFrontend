@@ -45,12 +45,14 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {
+                setcopyText("Copied")
+                setTimeout(() => {
+                    setcopyText('Tracking Link');
+                }, 2000);
             })
             .catch(err => {
-                console.error('Failed to copy text: ', err);
             });
     };
-
 
     return (
         <section className='position-relative'>

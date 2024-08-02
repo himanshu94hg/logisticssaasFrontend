@@ -8,7 +8,7 @@ import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 
 const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
     const textRef = useRef(null);
-    const [copyText, setcopyText] = useState("Tracking Link")
+    const [copyText, setcopyText] = useState("Click to copy")
 
     const handleCopy = () => {
         if (textRef.current) {
@@ -17,10 +17,9 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                     setcopyText("Copied")
                     setTimeout(() => {
                         setcopyText('Click to copy');
-                    }, 5000);
+                    }, 3000);
                 })
                 .catch(err => {
-                    console.error('Failed to copy text: ', err);
                 });
         }
     };

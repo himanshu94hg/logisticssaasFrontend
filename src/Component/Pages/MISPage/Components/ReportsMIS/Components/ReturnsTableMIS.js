@@ -69,12 +69,15 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {
+                setcopyText("Copied")
+                setTimeout(() => {
+                    setcopyText('Tracking Link');
+                }, 2000);
             })
             .catch(err => {
-                console.error('Failed to copy text: ', err);
             });
     };
-    
+
 
     return (
         <>
@@ -198,11 +201,13 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
-                                        <CustomTooltip
-                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
-                                            tooltipComponent={copyText}
-                                            addClassName='copytext-tooltip'
-                                        />
+                                        {row?.awb_number &&
+                                            <CustomTooltip
+                                                triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                tooltipComponent={copyText}
+                                                addClassName='copytext-tooltip'
+                                            />
+                                        }
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>
