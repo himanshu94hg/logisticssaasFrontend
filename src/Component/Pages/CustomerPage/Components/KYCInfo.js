@@ -55,6 +55,8 @@ const KYCInfo = ({ activeTab }) => {
     }
   }, [formList, activeTab])
 
+  const handleClose = () => setShow(false);
+
   const fetchKYCData = async () => {
     try {
       const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/kyc-info/`, {
@@ -124,9 +126,9 @@ const KYCInfo = ({ activeTab }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (key !== 'document_upload' && !formData[key])  errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      if (key !== 'document_upload' && !formData[key]) errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       else if (key === 'document_name' && /\d/.test(formData[key])) errors[key] = "Document name should not contain numbers.";
-      else if (key === 'document_type' && !formData[key])  errors[key] = "Please select your document.";
+      else if (key === 'document_type' && !formData[key]) errors[key] = "Please select your document.";
       else if (key !== 'company_type' && !formData[key]) errors[key] = "Please select your document.";
       return errors;
     }, {});
@@ -163,7 +165,6 @@ const KYCInfo = ({ activeTab }) => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id, "Deleted Id");
     try {
       const response = await fetch(`${BASE_URL_CORE}/core-api/seller/kyc-info-detail/${id}`, {
         method: 'DELETE',
@@ -172,10 +173,7 @@ const KYCInfo = ({ activeTab }) => {
           'Content-Type': 'application/json',
         },
       });
-
-      if (!response.ok) {
-        toast.error('Failed to delete the Document');
-      } else {
+      if (response.ok) {
         toast.success('Document deleted successfully.');
         setResData("")
         setFormList(prevFormList => prevFormList.filter(item => item.id !== id));
@@ -185,8 +183,6 @@ const KYCInfo = ({ activeTab }) => {
     }
   };
 
-
-  const handleClose = () => setShow(false);
   const handleShow = (image) => {
     setShow(true);
     setPreviewImage(image)
@@ -310,7 +306,7 @@ const KYCInfo = ({ activeTab }) => {
                         <span className="">Document Number: <strong>{item.documentNumber}</strong></span>
                       </p>
                       <div className="col-2 d-flex gap-2 align-items-center">
-                        <button type="button" className="btn preview-btn" onClick={() => handleShow(item.previewImg)}>
+                        <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
                           <FontAwesomeIcon icon={faEye} />
                         </button>
                         <button

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import moment from 'moment'
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react'
+import { FaRegCopy } from 'react-icons/fa';
+import CustomTooltip from '../../../../../../../common/CustomTooltip/CustomTooltip';
 
 const ShippingChargesMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
@@ -53,10 +53,7 @@ const ShippingChargesMIS = () => {
             },
             "description": "Order Shipping Charge Deducted"
         },
-        // Add more dummy data as needed
     ]);
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -66,23 +63,20 @@ const ShippingChargesMIS = () => {
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
+
 
     return (
         <table className=" w-100">
@@ -119,7 +113,6 @@ const ShippingChargesMIS = () => {
                                 />
                             </td>
                             <td>
-                                {/* AWB detail */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
                                         {row?.order_detail?.awb_number}
@@ -127,7 +120,6 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* Courier detail */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
                                         {row?.order_detail?.courier_partner}
@@ -135,7 +127,6 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* AWB Assigned Date */}
                                 <div className='cell-inside-box'>
                                     <p className=''>
                                         {`${moment(row?.datetime).format('DD MMM YYYY')}`}
@@ -143,7 +134,6 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* Shipment Status */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
                                         {row?.status}
@@ -151,7 +141,6 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* Applied Weight Charges */}
                                 <div className='cell-inside-box'>
                                     <p className=''>
                                         -
@@ -159,7 +148,6 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* Excess Weight Charges */}
                                 <div className='cell-inside-box'>
                                     <p className=''>
                                         -
@@ -167,20 +155,13 @@ const ShippingChargesMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* Entered Weight and dimensions */}
                                 <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
-
+                                    <p className=''>-</p>
                                 </div>
                             </td>
                             <td>
-                                {/* Charged Weight and Dimensions */}
                                 <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
+                                    <p className=''>-</p>
 
                                 </div>
 

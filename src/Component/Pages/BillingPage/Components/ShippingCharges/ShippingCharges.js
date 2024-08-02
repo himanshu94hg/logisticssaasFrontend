@@ -61,9 +61,12 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {
+                setcopyText("Copied")
+                setTimeout(() => {
+                    setcopyText('Tracking Link');
+                }, 2000);
             })
             .catch(err => {
-                console.error('Failed to copy text: ', err);
             });
     };
 
@@ -129,7 +132,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                                         {row?.awb_number}
                                                     </p>
                                                 </div>
-                                                {row?.order_detail?.awb_number &&
+                                                {row?.awb_number &&
                                                     <CustomTooltip
                                                         triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
                                                         tooltipComponent={copyText}
