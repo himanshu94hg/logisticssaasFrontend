@@ -62,20 +62,20 @@ const AccountInfo = ({ activeTab }) => {
   };
 
   const handleClickSubmit = async (formData) => {
-    await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
-      headers: {
-        'Authorization': `Bearer ${hardcodedToken}`,
-        'Content-Type': 'multipart/form-data'
-      },
-    }).then((response) => {
+    try {
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+          'Content-Type': 'multipart/form-data'
+        },
+      });
       if (response.status === 201) {
-        toast.success('Account Added successfully.');
+        toast.success('Account Added successfully');
       }
-    });
+    } catch (error) {
+      customErrorFunction(error)
+    }
   }
-
-  console.log(errors, "errorerrorerrorerror")
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,7 +104,9 @@ const AccountInfo = ({ activeTab }) => {
       }
       return error;
     });
+    console.log(newErrors, "this is merrrir",isValid,accounts)
     setErrors(newErrors);
+
     if (isValid) {
       try {
         for (const account of accounts) {
