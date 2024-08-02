@@ -28,7 +28,7 @@ const StoreHippoIntegrationForm = () => {
             store_url: "",
             woo_consumer_key: "",
             woo_consumer_secret: "",
-            store_hippo_access_key:"",
+            store_hippo_access_key: "",
             last_executed: '2024-04-22 00:00:00',
             pickup_scheduled: "",
             picked_up: "",
@@ -52,7 +52,7 @@ const StoreHippoIntegrationForm = () => {
         }
         if (!formData.channel_configuration.store_url) {
             newErrors.store_url = 'Name or Store URL is required!';
-        }         
+        }
         console.log(newErrors, "this is validate form data")
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -60,7 +60,7 @@ const StoreHippoIntegrationForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-         if (validateFormData()){
+        if (validateFormData()) {
             try {
                 const response = await axios.post(`${BASE_URL_CORE}/core-api/channel/channel/`, formData, {
                     headers: {
@@ -79,12 +79,12 @@ const StoreHippoIntegrationForm = () => {
                         confirmButtonText: 'OK'
                     });
                     navigation('/channels-integration');
-                } 
+                }
             } catch (error) {
-               customErrorFunction(error);
+                customErrorFunction(error);
             }
-            
-         }
+
+        }
     };
 
     const handleChange = (e) => {
@@ -135,7 +135,7 @@ const StoreHippoIntegrationForm = () => {
                             {[
                                 "Copy Access Key that created using previous step.",
                                 "Enter Channel Name.",
-                                "Enter Store Url.(store url should be like this(https://youstorename.storehippo.com/)",
+                                "Enter Store Url.(store url should be like this (https://youstorename.storehippo.com/)",
                                 "Paste Access Token in Access Key field.",
                                 "Admin Token start appearing in respective field. Click on submit button.",
                             ].map(
@@ -146,41 +146,41 @@ const StoreHippoIntegrationForm = () => {
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form onSubmit={handleSubmit}>
-                            <div className='d-flex w-100 gap-5 mt-4'>
+                            <div className='d-flex w-100 gap-3 mt-4 flex-column flex-lg-row'>
                                 <label>
                                     <span>Channel Name <span className='mandatory'>*</span></span>
-                                    <input 
-                                    className={`input-field ${errors.channel_name && "input-field-error"}`} 
-                                    type="text" 
-                                    name="channel.channel_name"
-                                    placeholder='Enter Channel Name'
-                                    value={formData.channel.channel_name}
-                                    maxLength={50}
-                                    onChange={handleChange}/>
+                                    <input
+                                        className={`input-field ${errors.channel_name && "input-field-error"}`}
+                                        type="text"
+                                        name="channel.channel_name"
+                                        placeholder='Enter Channel Name'
+                                        value={formData.channel.channel_name}
+                                        maxLength={50}
+                                        onChange={handleChange} />
                                     {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
-                                <label>                                 
+                                <label>
                                     <span>Store Name or URL <span className='mandatory'>*</span></span>
                                     <input
-                                    className={`input-field ${errors.store_url && "input-field-error"}`}  
-                                    type="text" 
-                                    name="channel_configuration.store_url"
-                                    placeholder='Enter Store Name or URL'
-                                    value={formData.channel_configuration.store_url}
-                                    onChange={handleChange}/>
+                                        className={`input-field ${errors.store_url && "input-field-error"}`}
+                                        type="text"
+                                        name="channel_configuration.store_url"
+                                        placeholder='Enter Store Name or URL'
+                                        value={formData.channel_configuration.store_url}
+                                        onChange={handleChange} />
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     <span>Access Key <span className='mandatory'>*</span></span>
-                                    <input 
-                                    className={`input-field ${errors.store_hippo_access_key && "input-field-error"}`}  
-                                    type="text" 
-                                    name="channel_configuration.store_hippo_access_key"
-                                    placeholder='Enter Access Key'
-                                    value={formData.channel_configuration.store_hippo_access_key}
-                                    onChange={handleChange}/>
+                                    <input
+                                        className={`input-field ${errors.store_hippo_access_key && "input-field-error"}`}
+                                        type="text"
+                                        name="channel_configuration.store_hippo_access_key"
+                                        placeholder='Enter Access Key'
+                                        value={formData.channel_configuration.store_hippo_access_key}
+                                        onChange={handleChange} />
                                     {errors.store_hippo_access_key && <span className='error-text'>{errors.store_hippo_access_key}</span>}
                                 </label>
                             </div>

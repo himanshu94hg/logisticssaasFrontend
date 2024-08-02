@@ -45,7 +45,7 @@ const ShopifyIntegrationForm = () => {
 
     return (
         <>
-            <div className='p10'>
+            <div className='int-page'>
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
