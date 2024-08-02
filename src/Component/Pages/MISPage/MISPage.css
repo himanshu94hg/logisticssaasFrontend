@@ -6,12 +6,12 @@
 .reports-mis .table-container {
     z-index: 1;
     position: relative;
-    height: calc(100vh - 301px);
+    height: calc(100vh - 305px);
     overflow-y: auto;
 }
 
 .downloads-mis .table-container {
-    height: calc(100vh - 275px);
+    height: calc(100vh - 281px);
 }
 
 .reports-mis .filter-container {
@@ -51,7 +51,9 @@
     padding-left: 10px;
 }
 
-.reports-mis .css-13cymwt-control {
+.reports-mis .css-13cymwt-control,
+.reports-mis .css-16xfy0z-control,
+.reports-mis .css-t3ipsp-control {
     height: 36px;
     min-height: unset;
 }
@@ -69,12 +71,21 @@
     z-index: 1;
 }
 
-@media screen and (max-width:1600px) {
-    .downloads-mis .table-container {
-        height: calc(100vh - 265px);
-    }
+/* .reports-mis .search-container>label,
+.reports-mis .search-container>div {
+    flex: 1 1;
+} */
 
-    .reports-mis .table-container {
-        height: calc(100vh - 288px);
-    }
+.reports-mis .search-container .option-labels {
+    display: flex;
+    gap: 20px;
+}
+
+.reports-mis .search-container .option-labels label {
+    white-space: nowrap;
+    flex: 1 1;
+}
+
+.reports-mis .search-container .date-picker-container {
+    max-width: 250px;
 }

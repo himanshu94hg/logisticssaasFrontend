@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import DeleteIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/DeleteIcon'
 import MergeIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/MergeIcon';
 import ShippingIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ShippingIcon';
+import { Width } from 'devextreme-react/cjs/chart';
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setSelectedRows, setSplitStatus, setSelectAll }) => {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     const bulkDeleted = () => {
         dispatch({
@@ -95,16 +97,20 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
         setSelectAll(false)
     };
 
+    const shortWidth = {
+        width: '190px'
+    }
+
     return (
         <>
             {selectedRows.length > 0 && (
-                <section className='bulk-action-container box-shadow'>
+                <section style={screenWidthData < 992 ? shortWidth : {}} className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
                             <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
-                        <ul className='ba-actions'>
+                        <ul className='ba-actions d-flex'>
                             {activeTab === "Merge Order" && <>
                                 <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
                                 <li onClick={() => handleMergeOrders()}><MergeIcon /><span>Merge</span></li>

@@ -15,6 +15,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     const handleExport = async () => {
         setExportButtonClick(true);
@@ -83,17 +84,20 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
         }
     }, [exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard, exportCard]);
 
+    const shortWidth = {
+        width: '190px'
+    }
 
     return (
         <>
             {selectedRows.length > 0 && (
-                <section className='bulk-action-container box-shadow'>
+                <section style={screenWidthData < 992 ? shortWidth : {}} className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
                             <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
-                        <ul className='ba-actions'>
+                        <ul className='ba-actions d-flex'>
                             <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                             {activeTab === "Remittance Logs" &&
                                 <li onClick={handleExportData}><ExportIcon /><span>Export data</span></li>
