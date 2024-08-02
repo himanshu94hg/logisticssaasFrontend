@@ -80,8 +80,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
     };
 
 
-    console.log(partnerList,"this is partner list data")
-
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
