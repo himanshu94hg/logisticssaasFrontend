@@ -26,6 +26,14 @@
     .billing-page-container .table-container {
         height: calc(100vh - 269px);
     }
+
+    .downloads-mis .table-container {
+        height: calc(100vh - 269px);
+    }
+
+    .reports-mis .table-container {
+        height: calc(100vh - 290px);
+    }
 }
 
 @media screen and (max-width:1366px) {}
@@ -348,7 +356,50 @@
         position: absolute;
         right: 0;
     }
+
+    .downloads-mis .table-container {
+        height: calc(100vh - 298px);
+    }
+
+    .reports-mis .search-container>label,
+    .reports-mis .search-container .option-labels>label,
+    .reports-mis .search-container>div {
+        flex: unset;
+        width: 100%;
+    }
+
+    .reports-mis .search-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+
+    .reports-mis .search-container> :nth-child(1) {
+        grid-column: 1 / span 3;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .reports-mis .search-container .date-picker-container {
+        max-width: unset;
+    }
+
+    .reports-mis .table-container {
+        height: calc(100vh - 389px);
+    }
+
+    .downloads-mis .search-container label button {
+        height: 29px;
+    }
+
+    .downloads-mis .search-container .main-button-outline {
+        padding-block: 3px;
+    }
 }
+
+
 
 @media screen and (max-width:767px) {
 
@@ -644,6 +695,16 @@
 
     .customer-details-form .details-form-row {
         padding-inline: 0px;
+    }
+
+    .reports-mis .search-container {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 4px;
+    }
+
+    .reports-mis .table-container {
+        height: calc(100vh - 481px);
     }
 }
 
