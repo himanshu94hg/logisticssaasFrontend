@@ -12,12 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const SourceOptions = [
-    { label: "Amazon", value: "amazon" },
-    { label: "Custom", value: "Custom" },
-    { label: "Shopify", value: "shopify" },
-];
-
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
     { label: "Pending", value: "pending" },
@@ -41,26 +35,6 @@ const paymentOptions = [
     { label: "COD", value: "COD" },
 ]
 
-const Ordertags = [
-    { label: "Tag 1", value: "tag1" },
-    { label: "Tag 2", value: "tag2" },
-    { label: "Tag 3", value: "tag3" },
-];
-
-const CourierPartner = [
-    { label: "Smartr", value: "smartr" },
-    { label: "Ekart", value: "ekart" },
-    { label: "Ekart 5kg", value: "ekart_5kg" },
-    { label: "Bluedart", value: "bluedart" },
-    { label: "Shadowfax", value: "shadowfax" },
-    { label: "Delhivery", value: "delhivery" },
-    { label: "Amazon Swa", value: "amazon_swa" },
-    { label: "Xpressbees", value: "xpressbees" },
-    { label: "Professional", value: "professional" },
-    { label: "Ecom Express", value: "ecom_express" },
-];
-
-
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
@@ -69,8 +43,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [orderTag, setorderTag] = useState([]);
     const authToken = Cookies.get("access_token")
     const [saveFav, setSaveFav] = useState(false);
+    const [orderSource, setOrderSource] = useState([]);
     const [SaveFilter, setSaveFilter] = useState(false)
+    const [courierPartners, setCourierPartners] = useState([]);
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
     const [filterParams, setFilterParams] = useState({
         start_date: "",
         end_date: "",
@@ -85,71 +63,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: "",
         pickup_address_id: ""
     })
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
-    
-    useEffect(() => {
-        if (tagListData && tagListData.length > 0) {
-            const formattedData = tagListData.map(item => ({
-                value: item.id,
-                label: item.name
-            }));
-            setorderTag(formattedData);
-        } else {
-            setorderTag([]);
-        }
-    }, [tagListData]);
-
-
-    useEffect(() => {
-        if (MoreFilters) {
-            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
-        }
-    }, [MoreFilters])
-
-
-    const handleCheckboxChange = () => {
-        setSaveFilter(prevState => !prevState);
-        setSaveFav(true)
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        const encodedParams = Object.entries(filterParams)
-            .filter(([key, value]) => value !== null && value !== '')
-            .map(([key, value]) => {
-                if (key === 'start_date' || key === 'end_date') {
-                    const formattedDate = moment(value).format('YYYY-MM-DD');
-                    return `${key}=${formattedDate}`;
-                }
-                else {
-                    const trimmedValue = value.replace(/,+$/, '');
-                    return `${key}=${trimmedValue}`;
-                }
-            })
-            .join('&');
-
-        if (SaveFilter && favName.trim() === "") {
-            const validationErrors = {};
-            if (!favName.trim() & favName !== null) {
-                validationErrors.favName = "Required";
-            }
-            setErrors(validationErrors);
-            return;
-        }
-
-        handleMoreFilter(filterParams)
-        CloseSidePanel()
-        if (saveFav) {
-            dispatch({
-                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
-                    filter_query: encodedParams,
-                    filter_name: favName
-                }
-            })
-        }
-        setSaveFilter(false)
-        setFavName("")
-    };
 
     useEffect(() => {
         if (activeTab) {
@@ -192,6 +105,90 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setErrors({})
         }
     }, [handleResetFrom])
+
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setorderTag(formattedData);
+        } else {
+            setorderTag([]);
+        }
+    }, [tagListData]);
+
+    useEffect(() => {
+        if (courierPartnerData?.data?.length) {
+            const formattedData = courierPartnerData?.data.map(item => ({
+                value: item.keyword,
+                label: item.title
+            }));
+            setCourierPartners(formattedData);
+        } else {
+            setCourierPartners([]);
+        }
+    }, [courierPartnerData])
+
+    useEffect(() => {
+        if (orderSourceListData && orderSourceListData.length > 0) {
+            const formattedData = orderSourceListData
+                .filter(item => item?.order_source)
+                .map(item => ({
+                    value: item.order_source,
+                    label: item.order_source
+                }));
+            setOrderSource(formattedData);
+        } else {
+            setOrderSource([]);
+        }
+    }, [orderSourceListData]);
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "COURIER_PARTNER_ACTION" });
+        }
+    }, [MoreFilters]);
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (MoreFilters) {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    const temp = response?.data?.map((item) => ({
+                        id: item.id,
+                        label: item.warehouse_name,
+                        value: item.warehouse_name,
+                    }));
+                    setPickupAddresses(temp)
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [MoreFilters]);
+
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
+    };
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -243,29 +240,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     };
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (MoreFilters) {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
-                        headers: {
-                            Authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    const temp = response?.data?.map((item) => ({
-                        id: item.id,
-                        label: item.warehouse_name,
-                        value: item.warehouse_name,
-                    }));
-                    setPickupAddresses(temp)
-                }
-            } catch (error) {
-                customErrorFunction(error)
-            }
-        };
-        fetchData();
-    }, [MoreFilters, sellerData, authToken]);
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     const handleReset = () => {
         setFilterParams({
@@ -286,6 +269,43 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         // setSaveFav(true)
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        const encodedParams = Object.entries(filterParams)
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/, '');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
+        if (SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            return;
+        }
+        handleMoreFilter(filterParams)
+        CloseSidePanel()
+        if (saveFav) {
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
+        }
+        setSaveFilter(false)
+        setFavName("")
+    };
+
     return (
         <>
             <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
@@ -300,53 +320,51 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                {/* <label> */}
                                 <div className="date-picker-container">
                                     Start Date
                                     <DatePicker
                                         showIcon
-                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        isClearable
+                                        showTimeInput
+                                        showYearDropdown
+                                        showMonthDropdown
+                                        maxDate={new Date()}
                                         className='input-field'
                                         selected={filterParams?.start_date}
-                                        onChange={(e) => handleChange("start_date", e)}
-                                        maxDate={new Date()}
-                                        dateFormat="dd MMMM, yyyy, h:mm aa"
-                                        isClearable
-                                        closeOnScroll={(e) => e.target === document}
-                                        showTimeInput
-                                        showMonthDropdown
-                                        showYearDropdown
                                         placeholderText='select start date'
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        closeOnScroll={(e) => e.target === document}
+                                        onChange={(e) => handleChange("start_date", e)}
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                     />
                                 </div>
-                                {/* </label> */}
-                                {/* <label> */}
                                 <div className="date-picker-container">
                                     End Date
                                     <DatePicker
                                         showIcon
-                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-                                        className='input-field'
-                                        selected={filterParams?.end_date}
-                                        onChange={(e) => handleChange("end_date", e)}
-                                        maxDate={new Date()}
-                                        dateFormat="dd MMMM, yyyy, h:mm aa"
                                         isClearable
-                                        closeOnScroll={(e) => e.target === document}
                                         showTimeInput
-                                        showMonthDropdown
                                         showYearDropdown
+                                        showMonthDropdown
+                                        maxDate={new Date()}
+                                        className='input-field'
                                         placeholderText='select end date'
+                                        selected={filterParams?.end_date}
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        closeOnScroll={(e) => e.target === document}
+                                        onChange={(e) => handleChange("end_date", e)}
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                     />
                                 </div>
-                                {/* </label> */}
                             </div>
                             <div className='filter-row'>
                                 <label >Order Status
                                     <Select
-                                        options={OrderStatus}
                                         isMulti
                                         isSearchable
+                                        options={OrderStatus}
                                         onChange={(e) => handleChange("status", e)}
                                         value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
                                     />
@@ -355,33 +373,34 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label >Order Source
                                     <Select
-                                        options={SourceOptions}
-                                        onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.order_source ? SourceOptions.filter(option => filterParams.order_source.includes(option.value)) : null}
+                                        options={orderSource}
+                                        onChange={(e) => handleChange("order_source", e)}
+                                        value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
-                                        options={CourierPartner}
-                                        onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.courier_partner ? CourierPartner.filter(option => filterParams.courier_partner.includes(option.value)) : null}
+                                        options={courierPartners}
+                                        onChange={(e) => handleChange("courier_partner", e)}
+                                        value={courierPartners.filter(option => filterParams.courier_partner.split(",").includes(option.value))}
+
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Payment Option
                                     <Select
+                                        isMulti
                                         options={paymentOptions}
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
                                         value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        isMulti
                                     />
                                 </label>
                             </div>
@@ -410,8 +429,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>SKU
                                     <input
-                                        className='input-field'
                                         type="text"
+                                        className='input-field'
                                         value={filterParams.sku}
                                         placeholder='Enter SKU'
                                         onChange={(e) => handleChange("sku", e)}
@@ -446,7 +465,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="matchExact"
                                         value="exact"
-                                        // checked={filterParams.skuType === "exact"}
                                         onChange={() => handleChange("sku_match_type", "exact")}
                                     />
                                 </label>
