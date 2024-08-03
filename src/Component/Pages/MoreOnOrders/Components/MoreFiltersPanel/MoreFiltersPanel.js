@@ -37,6 +37,10 @@ const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
 ]
+const orderTypeOptions = [
+    { label: "Forward", value: "forward" },
+    { label: "Reverse", value: "reverse" },
+]
 
 const CourierPartner = [
     { label: "Smartr", value: "smartr" },
@@ -76,6 +80,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_tag: "",
         sku: "",
         sku_match_type: "",
+        order_type:null,
         pickup_address: ""
     })
 
@@ -157,6 +162,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
+                order_type:null,
                 pickup_address: ""
             })
             setErrors({})
@@ -176,6 +182,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
+                order_type:null,
                 pickup_address: ""
             })
             setHandleResetFrom(false)
@@ -191,7 +198,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type","order_type"].includes(name)) {
             const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
@@ -252,7 +259,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_tag: "",
             sku: "",
             sku_match_type: "",
-            pickup_address: ""
+            pickup_address: "",
+            order_type:null
         })
         setSaveFilter(false)
         setSaveFav(true)
@@ -314,6 +322,28 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 {/* </label> */}
                             </div>
                             <div className='filter-row'>
+                                <label>Order Type
+                                    <Select
+                                        options={orderTypeOptions}
+                                        defaultValue={filterParams?.payment_type}
+                                        onChange={(e) => handleChange("order_type", e)}
+                                        value={filterParams.order_type !== null ? orderTypeOptions.find(option => option.value === filterParams.order_type) : null}
+                                        isMulti
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Payment Type
+                                    <Select
+                                        options={paymentOptions}
+                                        defaultValue={filterParams?.payment_type}
+                                        onChange={(e) => handleChange("payment_type", e)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
                                 <label >Order Status
                                     <Select
                                         options={OrderStatus}
@@ -346,17 +376,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
-                                <label>Payment Option
-                                    <Select
-                                        options={paymentOptions}
-                                        defaultValue={filterParams?.payment_type}
-                                        onChange={(e) => handleChange("payment_type", e)}
-                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        isMulti
-                                    />
-                                </label>
-                            </div>
+                           
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
