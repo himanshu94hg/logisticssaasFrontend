@@ -204,9 +204,9 @@ const KYCInfo = ({ activeTab }) => {
         <div className="customer-details-container">
           <div className="customer-details-form">
             <div className="details-form-row row">
-              <h5 className="col-3"></h5>
-              <div className="col-9">
-                <label style={{ width: '49%' }}>
+              <h5 className="col-4 col-md-3"></h5>
+              <div className="col-8 col-md-9">
+                <label style={{ maxWidth: '360px' }}>
                   Company Type:
                   <select
                     disabled={resData === undefined || resData.length === 0 ? false : true}
