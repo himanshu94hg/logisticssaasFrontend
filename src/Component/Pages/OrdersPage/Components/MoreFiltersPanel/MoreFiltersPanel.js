@@ -34,6 +34,10 @@ const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "COD" },
 ]
+const orderTypeOptions = [
+    { label: "Forrward", value: "forward" },
+    { label: "Reverse", value: "reverse" },
+]
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
@@ -60,8 +64,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         sku: "",
         sku_match_type: "",
         pickup_address: "",
-        pickup_address_id: ""
+        pickup_address_id: "",
+        order_type: null
     })
+
 
     useEffect(() => {
         if (MoreFilters) {
@@ -158,7 +164,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku: "",
                 sku_match_type: "",
                 pickup_address: "",
-                pickup_address_id: ""
+                pickup_address_id: "",
+                order_type:""
             })
             setErrors({})
         }
@@ -178,7 +185,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku: "",
                 sku_match_type: "",
                 pickup_address: "",
-                pickup_address_id: ""
+                pickup_address_id: "",
+                order_type: null
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
@@ -198,7 +206,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type"].includes(name)) {
             const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
@@ -235,7 +243,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             e.preventDefault();
         }
     }
-   
+
     const handleReset = () => {
         setFilterParams({
             start_date: null,
@@ -249,7 +257,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku: "",
             sku_match_type: "",
             pickup_address: "",
-            pickup_address_id: ""
+            pickup_address_id: "",
+            order_type: null
         })
         setErrors({})
     };
@@ -347,8 +356,30 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("end_date", e)}
                                         className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-                                        />
+                                    />
                                 </div>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Order Type
+                                    <Select
+                                        options={orderTypeOptions}
+                                        defaultValue={null}
+                                        onChange={(e) => handleChange("order_type", e)}
+                                        value={filterParams.order_type !== null ? orderTypeOptions.find(option => option.value === filterParams.order_type) : null}
+                                        isMulti
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Payment Type
+                                    <Select
+                                        options={paymentOptions}
+                                        defaultValue={null}
+                                        onChange={(e) => handleChange("payment_type", e)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
+                                    />
+                                </label>
                             </div>
                             <div className='filter-row'>
                                 <label >Order Status
@@ -384,17 +415,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
-                                <label>Payment Option
-                                    <Select
-                                        options={paymentOptions}
-                                        defaultValue={null}
-                                        onChange={(e) => handleChange("payment_type", e)}
-                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        isMulti
-                                    />
-                                </label>
-                            </div>
+
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
