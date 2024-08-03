@@ -423,6 +423,16 @@
     .manage-warehouse .box-grid {
         grid-template-columns: repeat(2, minmax(150px, 1fr));
     }
+
+    .reports-mis .search-container .type-label {
+        gap: 0;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .reports-mis .search-container .type-label .css-b62m3t-container {
+        min-width: 100%;
+    }
 }
 
 
@@ -743,6 +753,7 @@
         display: flex;
         flex-wrap: wrap;
         row-gap: 4px;
+        justify-content: flex-end;
     }
 
     .reports-mis .table-container {

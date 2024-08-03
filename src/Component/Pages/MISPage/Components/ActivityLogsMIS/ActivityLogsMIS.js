@@ -21,6 +21,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 
     const { activitiesLog } = useSelector(state => state?.misSectionReducer)
@@ -180,12 +181,18 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
 
     console.log(activitylog?.length, "selectedRowsselectedRowsselectedRows")
 
+    const typeLabelResponsiveStyle = {
+        gap: '0px',
+        flexDirection: 'column',
+        alignItems: 'start'
+    }
+
     return (
         <section className='position-relative reports-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
+                        <label className='type-label'>
                             Type
                             <Select
                                 value={firstSelectedOption}
