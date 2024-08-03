@@ -134,8 +134,8 @@ const DownloadMIS = ({ activeTab }) => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
-                        <button className='btn main-button-outline' onClick={() => handleRefresh()}> Refresh</button>
+                        <button className='d-none d-sm-block btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline' onClick={() => handleRefresh()}>Refresh</button>
                     </div>
                 </div>
                 <div className='table-container'>
