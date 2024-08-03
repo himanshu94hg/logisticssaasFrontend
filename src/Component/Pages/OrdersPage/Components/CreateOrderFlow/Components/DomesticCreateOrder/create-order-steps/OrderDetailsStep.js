@@ -379,7 +379,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                     </div>
                     <hr />
                     {/* Payment Section */}
-                    <div className='row row-gap-2'>
+                    <div className='row row-gap-3'>
                         <label className='col'>
                             <span> Payment Type<span className='mandatory'>*</span>                            </span>
                             <select
