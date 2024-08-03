@@ -56,7 +56,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }
     });
 
-    console.log("SameRTOSameRTOSameRTOSameRTO",SameRTO)
+    console.log("SameRTOSameRTOSameRTOSameRTO", SameRTO)
     const { warehouseDetails } = useSelector(state => state?.settingsSectionReducer)
     useEffect(() => {
         if (warehouseDetails) {
@@ -154,8 +154,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             errors.country = 'Enter country name!';
         }
 
-        if(SameRTO === true)
-        {
+        if (SameRTO === true) {
             if (!formData?.rto_details?.warehouse_name?.trim()) {
                 valid = false;
                 errors.warehouse_name1 = 'Enter Warehouse Name!';
@@ -191,7 +190,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             if (!formData?.rto_details?.country?.trim()) {
                 valid = false;
                 errors.country1 = 'Enter country name!';
-            }   
+            }
         }
 
         setFormErrors(errors);
@@ -351,73 +350,214 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     }
     useEffect(() => {
         const handleClickOutside = (event) => {
-          if (popRef.current && !popRef.current.contains(event.target)) {
-            setEditWarehouse(false);
-          }
+            if (popRef.current && !popRef.current.contains(event.target)) {
+                setEditWarehouse(false);
+            }
         };
-      
+
         document.addEventListener('mousedown', handleClickOutside);
-        
+
         return () => {
-          document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-      }, [setEditWarehouse]);
-      
+    }, [setEditWarehouse]);
+
 
     return (
         <>
             <div className="modal-content" ref={popRef}>
-            <form id="formSubmit" onSubmit={handleSubmit}>
-                <div className='box-shadow shadow-sm p10 w-100 add-warehouse-section'>
-                    <div className='mx-auto mb-3'>
-                        <div className='d-flex gap-3'>
-                            <label>
-                                <span>Warehouse Name <span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    value={formData.warehouse_name}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    className={`input-field`}
-                                    name="warehouse_name"
-                                    maxLength={100}
-                                    placeholder='Enter Warehouse Name'
-                                    onKeyPress={(e) => handleKeyPress(e)}
-                                />
-                                <br />
-                                <span className="custom-error">{formErrors.warehouse_name}</span>
-                            </label>
-                            <label>
-                                <span>Contact Person Name<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    value={formData.contact_name}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    className={`input-field`}
-                                    name="contact_name"
-                                    maxLength={100}
-                                    placeholder='Enter Contact Person Name'
-                                    onKeyPress={(e) => handleKeyPress(e)}
-                                />
-                                <span className="custom-error">{formErrors.contact_name}</span>
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                <span>Contact Number<span className='mandatory'> *</span></span>
-                                <div className='d-flex mobile-number-field'>
-                                    <select
-                                        className='input-field '
-                                        disabled
-                                    >
-                                        <option value="+91">+91</option>
-                                    </select>
+                <form id="formSubmit" onSubmit={handleSubmit}>
+                    <div className='box-shadow shadow-sm p10 w-100 add-warehouse-section'>
+                        <div className='mx-auto mb-3'>
+                            <div className='d-flex gap-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>Warehouse Name <span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
-                                        maxLength={10}
-                                        name="contact_number"
+                                        value={formData.warehouse_name}
+                                        onChange={(e) => handleInputChange(e, "")}
                                         className={`input-field`}
-                                        placeholder='XXXXXXXXXX'
-                                        value={formData.contact_number || ''}
+                                        name="warehouse_name"
+                                        maxLength={100}
+                                        placeholder='Enter Warehouse Name'
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <br />
+                                    <span className="custom-error">{formErrors.warehouse_name}</span>
+                                </label>
+                                <label>
+                                    <span>Contact Person Name<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        value={formData.contact_name}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                        className={`input-field`}
+                                        name="contact_name"
+                                        maxLength={100}
+                                        placeholder='Enter Contact Person Name'
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <span className="custom-error">{formErrors.contact_name}</span>
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>Contact Number<span className='mandatory'> *</span></span>
+                                    <div className='d-flex mobile-number-field'>
+                                        <select
+                                            className='input-field '
+                                            disabled
+                                        >
+                                            <option value="+91">+91</option>
+                                        </select>
+                                        <input
+                                            type="text"
+                                            maxLength={10}
+                                            name="contact_number"
+                                            className={`input-field`}
+                                            placeholder='XXXXXXXXXX'
+                                            value={formData.contact_number || ''}
+                                            onChange={(e) => handleInputChange(e, "")}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key)) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                    <span className="custom-error">{formErrors.contact_number}</span>
+                                </label>
+                                <label>
+                                    <span>GST Number<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        maxLength={15}
+                                        name="gst_number"
+                                        className={`input-field`}
+                                        placeholder='Enter GST Number'
+                                        value={formData.gst_number || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                    />
+                                    <span className="custom-error">{formErrors.gst_number}</span>
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>Warehouse Address 1<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field`}
+                                        name="address_line1"
+                                        maxLength={100}
+                                        placeholder='Enter Warehouse Address 1'
+                                        value={formData.address_line1 || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <span className="custom-error">{formErrors.address_line1}</span>
+                                </label>
+                                <label>
+                                    <span>Warehouse Address 2<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field`}
+                                        maxLength={100}
+                                        name="address_line2"
+                                        placeholder='Enter Warehouse Address 2'
+                                        value={formData.address_line2 || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <span className="custom-error">{formErrors.address_line2}</span>
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>Pincode<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field`}
+                                        name="pincode"
+                                        placeholder='Enter Pincode'
+                                        ref={pincodeRef1}
+                                        onBlur={handlePincodeChange1}
+                                        maxLength={6}
+                                        value={formData.pincode || ''}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                    />
+                                    <span className="custom-error">{formErrors.pincode}</span>
+                                </label>
+                                <label>
+                                    <span>City<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        name="city"
+                                        ref={cityRef1}
+                                        disabled
+                                        value={formData.city || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <span className="custom-error">{formErrors.city}</span>
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>State<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        name="state"
+                                        ref={stateRef1}
+                                        disabled
+                                        value={formData.state || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                    />
+                                    <span className="custom-error">{formErrors.state}</span>
+                                </label>
+                                <label>
+                                    <span>Country<span className='mandatory'> *</span></span>
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        name="country"
+                                        ref={countryRef1}
+                                        disabled
+                                        value={formData.country || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                    />
+                                    <span className="custom-error">{formErrors.country}</span>
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                <label>
+                                    Support Email
+                                    <input
+                                        type="email"
+                                        className='input-field'
+                                        name="support_email"
+                                        maxLength={100}
+                                        placeholder='Enter Support Email'
+                                        value={formData.support_email || ''}
+                                        onChange={(e) => handleInputChange(e, "")}
+                                    />
+                                    {/* <span className="custom-error">{formErrors.support_email}</span> */}
+                                </label>
+                                <label>
+                                    Support Phone
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        name="support_phone"
+                                        placeholder='Enter Support Contact'
+                                        value={formData.support_phone || ''}
+                                        maxLength={10}
                                         onChange={(e) => handleInputChange(e, "")}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
@@ -425,344 +565,203 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             }
                                         }}
                                     />
+                                    {/* <span className="custom-error">{formErrors.support_phone}</span> */}
+                                </label>
+                            </div>
+                            <hr />
+                            <label className='d-flex flex-row align-items-center mt-3 gap-2'>
+                                <input
+                                    type="checkbox"
+                                    onChange={handleCheckboxChange}
+                                    defaultChecked={!formData.is_rto_same}
+                                />
+                                Use a different address as RTO address
+                            </label>
+                            <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
+                                <h3 className='mt-3 mb-0'>Add RTO Address</h3>
+                                <div className='d-flex gap-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>Warehouse Name <span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="warehouse_name"
+                                            placeholder='Enter Warehouse Name'
+                                            value={formData.rto_details.warehouse_name || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            onKeyPress={(e) => handleKeyPress(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.warehouse_name1}</span>
+                                    </label>
+                                    <label>
+                                        <span>Contact Person Name<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="contact_person_name"
+                                            placeholder='Enter Contact Person Name'
+                                            value={formData.rto_details.contact_person_name}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            onKeyPress={(e) => handleKeyPress(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.contact_person_name1}</span>
+                                    </label>
                                 </div>
-                                <span className="custom-error">{formErrors.contact_number}</span>
-                            </label>
-                            <label>
-                                <span>GST Number<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    maxLength={15}
-                                    name="gst_number"
-                                    className={`input-field`}
-                                    placeholder='Enter GST Number'
-                                    value={formData.gst_number || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                />
-                                <span className="custom-error">{formErrors.gst_number}</span>
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                <span>Warehouse Address 1<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field`}
-                                    name="address_line1"
-                                    maxLength={100}
-                                    placeholder='Enter Warehouse Address 1'
-                                    value={formData.address_line1 || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    onKeyPress={(e) => handleKeyPress(e)}
-                                />
-                                <span className="custom-error">{formErrors.address_line1}</span>
-                            </label>
-                            <label>
-                                <span>Warehouse Address 2<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field`}
-                                    maxLength={100}
-                                    name="address_line2"
-                                    placeholder='Enter Warehouse Address 2'
-                                    value={formData.address_line2 || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    onKeyPress={(e) => handleKeyPress(e)}
-                                />
-                                <span className="custom-error">{formErrors.address_line2}</span>
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                <span>Pincode<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field`}
-                                    name="pincode"
-                                    placeholder='Enter Pincode'
-                                    ref={pincodeRef1}
-                                    onBlur={handlePincodeChange1}
-                                    maxLength={6}
-                                    value={formData.pincode || ''}
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                />
-                                <span className="custom-error">{formErrors.pincode}</span>
-                            </label>
-                            <label>
-                                <span>City<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    name="city"
-                                    ref={cityRef1}
-                                    disabled
-                                    value={formData.city || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    onKeyPress={(e) => handleKeyPress(e)}
-                                />
-                                <span className="custom-error">{formErrors.city}</span>
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                <span>State<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    name="state"
-                                    ref={stateRef1}
-                                    disabled
-                                    value={formData.state || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                />
-                                <span className="custom-error">{formErrors.state}</span>
-                            </label>
-                            <label>
-                                <span>Country<span className='mandatory'> *</span></span>
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    name="country"
-                                    ref={countryRef1}
-                                    disabled
-                                    value={formData.country || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                />
-                                <span className="custom-error">{formErrors.country}</span>
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                Support Email
-                                <input
-                                    type="email"
-                                    className='input-field'
-                                    name="support_email"
-                                    maxLength={100}
-                                    placeholder='Enter Support Email'
-                                    value={formData.support_email || ''}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                />
-                                {/* <span className="custom-error">{formErrors.support_email}</span> */}
-                            </label>
-                            <label>
-                                Support Phone
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    name="support_phone"
-                                    placeholder='Enter Support Contact'
-                                    value={formData.support_phone || ''}
-                                    maxLength={10}
-                                    onChange={(e) => handleInputChange(e, "")}
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                                {/* <span className="custom-error">{formErrors.support_phone}</span> */}
-                            </label>
-                        </div>
-                        <hr />
-                        <label className='d-flex flex-row align-items-center mt-3 gap-2'>
-                            <input
-                                type="checkbox"
-                                onChange={handleCheckboxChange}
-                                defaultChecked={!formData.is_rto_same}
-                            />
-                            Use a different address as RTO address
-                        </label>
-                        <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
-                            <h3 className='mt-3 mb-0'>Add RTO Address</h3>
-                            <div className='d-flex gap-3'>
-                                <label>
-                                    <span>Warehouse Name <span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="warehouse_name"
-                                        placeholder='Enter Warehouse Name'
-                                        value={formData.rto_details.warehouse_name || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        onKeyPress={(e) => handleKeyPress(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.warehouse_name1}</span>
-                                </label>
-                                <label>
-                                    <span>Contact Person Name<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="contact_person_name"
-                                        placeholder='Enter Contact Person Name'
-                                        value={formData.rto_details.contact_person_name}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        onKeyPress={(e) => handleKeyPress(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.contact_person_name1}</span>
-                                </label>
-                            </div>
-                            <div className='d-flex gap-3 mt-3'>
-                                <label>
-                                    <span>Contact Number<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="contact_number"
-                                        placeholder='Enter Contact Person Number'
-                                        value={formData.rto_details.contact_number || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        maxLength={10}
-                                        onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
-                                                e.preventDefault();
-                                            }
-                                        }}
-                                    />
-                                    <span className="custom-error">{formErrors.contact_number1}</span>
-                                </label>
-                                <label>
-                                    Alternate Number
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="alternate_number"
-                                        placeholder='Enter Alternate Contact'
-                                        value={formData.rto_details.alternate_number || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        maxLength={10}
-                                        onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
-                                                e.preventDefault();
-                                            }
-                                        }}
-                                    />
-                                </label>
-                            </div>
-                            <div className='d-flex gap-3 mt-3'>
-                                <label>
-                                <span>Email<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="email"
-                                        className='input-field'
-                                        name="email"
-                                        placeholder='Enter Email'
-                                        value={formData.rto_details.email || ''}
-                                        onChange={(e) => handleInputChange1(e)}
+                                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>Contact Number<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="contact_number"
+                                            placeholder='Enter Contact Person Number'
+                                            value={formData.rto_details.contact_number || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            maxLength={10}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key)) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                        />
+                                        <span className="custom-error">{formErrors.contact_number1}</span>
+                                    </label>
+                                    <label>
+                                        Alternate Number
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="alternate_number"
+                                            placeholder='Enter Alternate Contact'
+                                            value={formData.rto_details.alternate_number || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            maxLength={10}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key)) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                        />
+                                    </label>
+                                </div>
+                                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>Email<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="email"
+                                            className='input-field'
+                                            name="email"
+                                            placeholder='Enter Email'
+                                            value={formData.rto_details.email || ''}
+                                            onChange={(e) => handleInputChange1(e)}
 
-                                    />
-                                    <span className="custom-error">{formErrors.email}</span>
-                                </label>
-                                <label>
-                                <span>Address<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="address"
-                                        placeholder='Enter Warehouse Address 1'
-                                        value={formData.rto_details.address || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        maxLength={100}
-                                        onKeyPress={(e) => handleKeyPress(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.address}</span>
-                                </label>
-                            </div>
-                            <div className='d-flex gap-3 mt-3'>
-                                <label>
-                                    Landmark
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="landmark"
-                                        placeholder='Enter Landmark'
-                                        value={formData.rto_details.landmark || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        maxLength={100}
-                                        onKeyPress={(e) => handleKeyPress(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.contact_number}</span>
-                                </label>
-                                <label>
-                                <span>Pincode<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="pincode"
-                                        placeholder='Enter Pincode'
-                                        ref={pincodeRef}
-                                        maxLength={6}
-                                        onBlur={handlePincodeChange}
-                                        value={formData.rto_details.pincode || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.pincode1}</span>
-                                </label>
-                            </div>
-                            <div className='d-flex gap-3 mt-3'>
-                                <label>
-                                <span>City<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="city"
-                                        ref={cityRef}
-                                        disabled
-                                        value={formData.rto_details.city || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                        maxLength={100}
-                                        onKeyPress={(e) => handleKeyPress(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.city1}</span>
-                                </label>
-                                <label>
-                                <span>State<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="state"
-                                        ref={stateRef}
-                                        disabled
-                                        value={formData.rto_details.state || ''}
-                                        maxLength={100}
-                                        onChange={(e) => handleInputChange1(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.state1}</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                <span>Country<span className='mandatory'> *</span></span>
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        name="country"
-                                        ref={countryRef}
-                                        disabled
-                                        value={formData.rto_details.country || ''}
-                                        onChange={(e) => handleInputChange1(e)}
-                                    />
-                                    <span className="custom-error">{formErrors.country1}</span>
-                                </label>
+                                        />
+                                        <span className="custom-error">{formErrors.email}</span>
+                                    </label>
+                                    <label>
+                                        <span>Address<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="address"
+                                            placeholder='Enter Warehouse Address 1'
+                                            value={formData.rto_details.address || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            maxLength={100}
+                                            onKeyPress={(e) => handleKeyPress(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.address}</span>
+                                    </label>
+                                </div>
+                                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                    <label>
+                                        Landmark
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="landmark"
+                                            placeholder='Enter Landmark'
+                                            value={formData.rto_details.landmark || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            maxLength={100}
+                                            onKeyPress={(e) => handleKeyPress(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.contact_number}</span>
+                                    </label>
+                                    <label>
+                                        <span>Pincode<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="pincode"
+                                            placeholder='Enter Pincode'
+                                            ref={pincodeRef}
+                                            maxLength={6}
+                                            onBlur={handlePincodeChange}
+                                            value={formData.rto_details.pincode || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.pincode1}</span>
+                                    </label>
+                                </div>
+                                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>City<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="city"
+                                            ref={cityRef}
+                                            disabled
+                                            value={formData.rto_details.city || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                            maxLength={100}
+                                            onKeyPress={(e) => handleKeyPress(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.city1}</span>
+                                    </label>
+                                    <label>
+                                        <span>State<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="state"
+                                            ref={stateRef}
+                                            disabled
+                                            value={formData.rto_details.state || ''}
+                                            maxLength={100}
+                                            onChange={(e) => handleInputChange1(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.state1}</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <span>Country<span className='mandatory'> *</span></span>
+                                        <input
+                                            type="text"
+                                            className='input-field'
+                                            name="country"
+                                            ref={countryRef}
+                                            disabled
+                                            value={formData.rto_details.country || ''}
+                                            onChange={(e) => handleInputChange1(e)}
+                                        />
+                                        <span className="custom-error">{formErrors.country1}</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-end my-3'>
-                    <button onClick={() => setEditWarehouse(false)} className='btn cancel-button' type='button'>
-                        Cancel
-                    </button>
-                    <button className='btn main-button ms-2' type='submit'>
-                        Submit
-                    </button>
-                </div>
-            </form>
+                    <div className='d-flex justify-content-end my-3'>
+                        <button onClick={() => setEditWarehouse(false)} className='btn cancel-button' type='button'>
+                            Cancel
+                        </button>
+                        <button className='btn main-button ms-2' type='submit'>
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </>
     );

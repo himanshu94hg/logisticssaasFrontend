@@ -46,7 +46,7 @@ const EasyEcomIntegrationForm = () => {
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form action="">
-                            <div className='d-flex w-100 gap-5 mt-4'>
+                            <div className='d-flex w-100 gap-3 mt-4 flex-column flex-lg-row'>
                                 <label>
                                     Username
                                     <input className="input-field" type="text" />
@@ -57,7 +57,7 @@ const EasyEcomIntegrationForm = () => {
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
                             </div>
-                            <div className='d-flex w-100 gap-5 mt-4'>
+                            <div className='d-flex w-100 gap-3 mt-4 flex-column flex-lg-row'>
                                 <label>
                                     Shipease Token
                                     <input className="input-field" type="text" />

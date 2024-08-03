@@ -389,7 +389,7 @@ const AddWarehouse = () => {
                 <div className='box-shadow shadow-sm p10 w-100 add-warehouse-section'>
                     <div className='inputs-container mx-auto mb-3'>
                         <h3 className='mb-4'>Add New Warehouse</h3>
-                        <div className='d-flex gap-3'>
+                        <div className='d-flex gap-3 flex-column flex-md-row'>
                             <label>
                                 <span> Warehouse Name<span className='mandatory'>*</span></span>
                                 <input
@@ -419,7 +419,7 @@ const AddWarehouse = () => {
                                 {errors.contact_name && <div className="custom-error">{errors.contact_name}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-4'>
+                        <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                             <label>
                                 <span>Contact Number<span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
@@ -461,7 +461,7 @@ const AddWarehouse = () => {
                                 {errors.gst_number && <div className="custom-error">{errors.gst_number}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-4'>
+                        <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                             <label>
                                 <span>Address Line 1<span className='mandatory'>*</span></span>
                                 <input
@@ -491,70 +491,74 @@ const AddWarehouse = () => {
                                 {errors.address_line2 && <div className="custom-error">{errors.address_line2}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-4'>
-                            <label>
-                                <span>Pincode<span className='mandatory'>*</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field ${errors.pincode && 'input-field-error'}`}
-                                    name="pincode"
-                                    placeholder='Enter Pincode'
-                                    value={warehouseData.pincode}
-                                    maxLength={6}
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    onChange={handleChangeWarehouse}
-                                />
-                                {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
-                            </label>
-                            <label>
-                                <span>City<span className='mandatory'>*</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field ${errors.city && 'input-field-error'}`}
-                                    name="city"
-                                    maxLength={50}
-                                    value={warehouseData.city}
-                                    placeholder='Enter city'
-                                    onKeyPress={(e) => handleKeypress(e)}
-                                    onChange={handleChangeWarehouse}
-                                />
-                                {errors.city && <div className="custom-error">{errors.city}</div>}
-                            </label>
-                            <label>
-                                <span>State<span className='mandatory'>*</span></span>
-                                <input
-                                    type="text"
-                                    className={`input-field ${errors.state && 'input-field-error'}`}
-                                    name="state"
-                                    maxLength={30}
-                                    value={warehouseData.state}
-                                    onChange={handleChangeWarehouse}
-                                    placeholder='Enter state'
-                                    onKeyPress={(e) => handleKeypress(e)}
+                        <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
+                            <div className='d-flex gap-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>Pincode<span className='mandatory'>*</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field ${errors.pincode && 'input-field-error'}`}
+                                        name="pincode"
+                                        placeholder='Enter Pincode'
+                                        value={warehouseData.pincode}
+                                        maxLength={6}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                        onChange={handleChangeWarehouse}
+                                    />
+                                    {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
+                                </label>
+                                <label>
+                                    <span>City<span className='mandatory'>*</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field ${errors.city && 'input-field-error'}`}
+                                        name="city"
+                                        maxLength={50}
+                                        value={warehouseData.city}
+                                        placeholder='Enter city'
+                                        onKeyPress={(e) => handleKeypress(e)}
+                                        onChange={handleChangeWarehouse}
+                                    />
+                                    {errors.city && <div className="custom-error">{errors.city}</div>}
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 flex-column flex-md-row'>
+                                <label>
+                                    <span>State<span className='mandatory'>*</span></span>
+                                    <input
+                                        type="text"
+                                        className={`input-field ${errors.state && 'input-field-error'}`}
+                                        name="state"
+                                        maxLength={30}
+                                        value={warehouseData.state}
+                                        onChange={handleChangeWarehouse}
+                                        placeholder='Enter state'
+                                        onKeyPress={(e) => handleKeypress(e)}
 
-                                />
-                                {errors.state && <div className="custom-error">{errors.state}</div>}
-                            </label>
-                            <label>
-                                Country
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    name="country"
-                                    maxLength={30}
-                                    value={warehouseData.country}
-                                    onChange={handleChangeWarehouse}
-                                    placeholder='Enter country'
-                                    onKeyPress={(e) => handleKeypress(e)}
+                                    />
+                                    {errors.state && <div className="custom-error">{errors.state}</div>}
+                                </label>
+                                <label>
+                                    Country
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        name="country"
+                                        maxLength={30}
+                                        value={warehouseData.country}
+                                        onChange={handleChangeWarehouse}
+                                        placeholder='Enter country'
+                                        onKeyPress={(e) => handleKeypress(e)}
 
-                                />
-                            </label>
+                                    />
+                                </label>
+                            </div>
                         </div>
-                        <div className='d-flex gap-3 mt-4'>
+                        <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                             <label>
                                 Support Email
                                 <input
@@ -619,7 +623,7 @@ const AddWarehouse = () => {
                         </label>
                         <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
-                            <div className='d-flex gap-3'>
+                            <div className='d-flex gap-3 flex-column flex-md-row'>
                                 <label>
                                     <span>State<span className='mandatory'>*</span></span>
                                     <input
@@ -649,7 +653,7 @@ const AddWarehouse = () => {
                                     {errors?.contact_person_name && <div className="custom-error">{errors.contact_person_name}</div>}
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-4'>
+                            <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                                 <label>
                                     <span>Contact Number<span className='mandatory'>*</span></span>
                                     <div className='d-flex mobile-number-field'>
@@ -697,7 +701,7 @@ const AddWarehouse = () => {
                                     />
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-4'>
+                            <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                                 <label>
                                     <span>Address<span className='mandatory'>*</span></span>
                                     <input
@@ -727,58 +731,63 @@ const AddWarehouse = () => {
                                     />
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-4'>
-                                <label>
-                                    <span>Pincode<span className='mandatory'>*</span></span>
-                                    <input
-                                        type="text"
-                                        name="pincode"
-                                        placeholder='Enter Pincode'
-                                        onChange={handleChangeRto}
-                                        maxLength={6}
-                                        value={warehouseData.rto_details.pincode}
-                                        className={`input-field ${errors.rto_pincode && 'input-field-error'}`}
-                                    />
-                                    {errors?.rto_pincode && <div className="custom-error">{errors.rto_pincode}</div>}
-                                </label>
-                                <label>
-                                    <span>City<span className='mandatory'>*</span></span>
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        maxLength={30}
-                                        onChange={handleChangeRto}
-                                        onKeyPress={(e) => handleKeypress(e)}
-                                        value={warehouseData.rto_details.city}
-                                        className={`input-field ${errors.rto_city && 'input-field-error'}`}
-                                    />
-                                    {errors?.rto_city && <div className="custom-error">{errors.rto_city}</div>}
-                                </label>
-                                <label>
-                                    <span>State<span className='mandatory'>*</span></span>
-                                    <input
-                                        type="text"
-                                        maxLength={30}
-                                        name="state"
-                                        onChange={handleChangeRto}
-                                        onKeyPress={(e) => handleKeypress(e)}
-                                        value={warehouseData.rto_details.state}
-                                        className={`input-field ${errors.rto_city && 'input-field-error'}`}
-                                    />
-                                    {errors?.rto_state && <div className="custom-error">{errors.rto_state}</div>}
-                                </label>
-                                <label>
-                                    Country
-                                    <input
-                                        type="text"
-                                        maxLength={30}
-                                        name="country"
-                                        className='input-field'
-                                        onKeyPress={(e) => handleKeypress(e)}
-                                        onChange={handleChangeRto}
-                                        value={warehouseData.rto_details.country}
-                                    />
-                                </label>
+                            <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
+                                <div className='d-flex gap-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>Pincode<span className='mandatory'>*</span></span>
+                                        <input
+                                            type="text"
+                                            name="pincode"
+                                            placeholder='Enter Pincode'
+                                            onChange={handleChangeRto}
+                                            maxLength={6}
+                                            value={warehouseData.rto_details.pincode}
+                                            className={`input-field ${errors.rto_pincode && 'input-field-error'}`}
+                                        />
+                                        {errors?.rto_pincode && <div className="custom-error">{errors.rto_pincode}</div>}
+                                    </label>
+                                    <label>
+                                        <span>City<span className='mandatory'>*</span></span>
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            maxLength={30}
+                                            onChange={handleChangeRto}
+                                            onKeyPress={(e) => handleKeypress(e)}
+                                            value={warehouseData.rto_details.city}
+                                            className={`input-field ${errors.rto_city && 'input-field-error'}`}
+                                        />
+                                        {errors?.rto_city && <div className="custom-error">{errors.rto_city}</div>}
+                                    </label>
+                                </div>
+
+                                <div className='d-flex gap-3 flex-column flex-md-row'>
+                                    <label>
+                                        <span>State<span className='mandatory'>*</span></span>
+                                        <input
+                                            type="text"
+                                            maxLength={30}
+                                            name="state"
+                                            onChange={handleChangeRto}
+                                            onKeyPress={(e) => handleKeypress(e)}
+                                            value={warehouseData.rto_details.state}
+                                            className={`input-field ${errors.rto_city && 'input-field-error'}`}
+                                        />
+                                        {errors?.rto_state && <div className="custom-error">{errors.rto_state}</div>}
+                                    </label>
+                                    <label>
+                                        Country
+                                        <input
+                                            type="text"
+                                            maxLength={30}
+                                            name="country"
+                                            className='input-field'
+                                            onKeyPress={(e) => handleKeypress(e)}
+                                            onChange={handleChangeRto}
+                                            value={warehouseData.rto_details.country}
+                                        />
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
