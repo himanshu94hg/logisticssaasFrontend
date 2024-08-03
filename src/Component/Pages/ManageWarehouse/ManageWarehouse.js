@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import FileSaver from 'file-saver';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import { RxReset } from "react-icons/rx";
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png'
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -179,6 +180,7 @@ const ManageWarehouse = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [ValidateShow, setValidateShow] = useState(false)
   const [loader, setLoader] = useState(false)
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -324,11 +326,29 @@ const ManageWarehouse = () => {
               <RxReset className='align-text-bottom' /> Reset
             </button>
           </div>
-          <div className='button-container'>
-            <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
-            <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25} /> Export</button>
-            <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
-          </div>
+          {
+            screenWidthData > 991 &&
+            <div className='button-container'>
+              <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
+              <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25} /> Export</button>
+              <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
+            </div>
+          }
+
+          {screenWidthData < 992 &&
+            <div className="nav-actions-container">
+              <div className="nav-action-dots">
+                <img src={ThreeDots} alt="ThreeDots" width={24} />
+              </div>
+              <div className="nav-actions-list">
+                <ul>
+                  <li onClick={handleShow}><AiOutlineCloudUpload className='align-text-bottom' /> Import</li>
+                  <li onClick={handleExport}><AiOutlineCloudDownload className='align-text-bottom' /> Export</li>
+                  <li onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</li>
+                </ul>
+              </div>
+            </div>
+          }
         </section>
 
         <section className='warehouse-grid-container'>

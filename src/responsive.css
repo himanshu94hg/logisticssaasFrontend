@@ -36,7 +36,15 @@
     }
 }
 
-@media screen and (max-width:1366px) {}
+@media screen and (max-width:1366px) {
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+
+    .add-warehouse-section .inputs-container {
+        width: 90%
+    }
+}
 
 @media screen and (max-width:1305px) {
     .create-rules-section .created-rules {
@@ -394,8 +402,26 @@
         height: 29px;
     }
 
-    .downloads-mis .search-container .main-button-outline {
+    .downloads-mis .search-container .main-button-outline,
+    .manage-warehouse .search-container .main-button-outline {
         padding-block: 3px;
+    }
+
+    .manage-warehouse .search-container label input {
+        max-width: 207px;
+    }
+
+    .manage-warehouse .search-container label button {
+        height: 29px;
+    }
+
+    .manage-warehouse .filter-container .nav-actions-container:hover .nav-actions-list {
+        width: 182px;
+        height: 160px;
+    }
+
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
     }
 }
 
@@ -588,6 +614,10 @@
     .int-body>section {
         width: 100%;
     }
+
+    .warehouse-edit.open {
+        width: 92%;
+    }
 }
 
 @media screen and (max-width:633px) {
@@ -612,6 +642,10 @@
 
     .filter-row {
         flex-direction: column;
+    }
+
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
     }
 }
 
@@ -775,6 +809,7 @@
     .support-right-section {
         gap: 5px;
     }
+
 
     .ticket-slider {
         width: 90%;
