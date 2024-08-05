@@ -74,6 +74,17 @@
     justify-content: center;
 }
 
+.logo-file-upload .upload-logo-input span {
+    font-size: 1.25rem;
+    white-space: nowrap;
+    margin-top: 10px;
+}
+
+.logo-file-upload .upload-logo-input span .upload-icon {
+    font-size: 1.875rem;
+}
+
+
 .eye-button {
     background-color: transparent;
     border: none;

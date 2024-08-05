@@ -36,7 +36,15 @@
     }
 }
 
-@media screen and (max-width:1366px) {}
+@media screen and (max-width:1366px) {
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+
+    .add-warehouse-section .inputs-container {
+        width: 90%
+    }
+}
 
 @media screen and (max-width:1305px) {
     .create-rules-section .created-rules {
@@ -394,8 +402,36 @@
         height: 29px;
     }
 
-    .downloads-mis .search-container .main-button-outline {
+    .downloads-mis .search-container .main-button-outline,
+    .manage-warehouse .search-container .main-button-outline {
         padding-block: 3px;
+    }
+
+    .manage-warehouse .search-container label input {
+        max-width: 207px;
+    }
+
+    .manage-warehouse .search-container label button {
+        height: 29px;
+    }
+
+    .manage-warehouse .filter-container .nav-actions-container:hover .nav-actions-list {
+        width: 182px;
+        height: 160px;
+    }
+
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+
+    .reports-mis .search-container .type-label {
+        gap: 0;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .reports-mis .search-container .type-label .css-b62m3t-container {
+        min-width: 100%;
     }
 }
 
@@ -580,6 +616,18 @@
         grid-template-rows: auto;
         gap: 10px;
     }
+
+    .int-body {
+        flex-direction: column;
+    }
+
+    .int-body>section {
+        width: 100%;
+    }
+
+    .warehouse-edit.open {
+        width: 92%;
+    }
 }
 
 @media screen and (max-width:633px) {
@@ -604,6 +652,18 @@
 
     .filter-row {
         flex-direction: column;
+    }
+
+    .manage-warehouse .box-grid {
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
+    }
+
+    .logo-file-upload .upload-logo-input span {
+        font-size: 1rem;
+    }
+
+    .logo-file-upload .upload-logo-input span .upload-icon {
+        font-size: 1.1rem;
     }
 }
 
@@ -701,6 +761,7 @@
         display: flex;
         flex-wrap: wrap;
         row-gap: 4px;
+        justify-content: flex-end;
     }
 
     .reports-mis .table-container {
@@ -768,6 +829,7 @@
         gap: 5px;
     }
 
+
     .ticket-slider {
         width: 90%;
     }
@@ -800,6 +862,30 @@
 
     .courier-dashboard .accordion-header {
         grid-template-columns: auto;
+    }
+
+    .card-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+}
+
+@media screen and (max-width:400px) {
+
+    .int-header-left {
+        white-space: nowrap;
+    }
+
+    .int-header-left h2 {
+        font-size: 18px;
+    }
+
+    .int-header-right {
+        white-space: nowrap;
+    }
+
+    .int-header-right:after {
+        left: 30px;
     }
 }
 
