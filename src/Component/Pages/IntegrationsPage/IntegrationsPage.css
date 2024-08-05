@@ -181,6 +181,10 @@
     background-color: #c7daf7;
 }
 
+.whatsapp .int-header {
+    background-color: #cdf5dc;
+}
+
 /* .int-form {
     width: 60%;
     margin-inline: auto;
@@ -266,6 +270,10 @@
 
 .vineretail .int-header-right:after {
     background-color: #f47374;
+}
+
+.whatsapp .int-header-right:after {
+    background-color: #25d366;
 }
 
 .int-body {
@@ -360,6 +368,11 @@
     height: 90%;
 }
 
+.whatsapp .timeline::after {
+    background-color: #ead2da;
+    height: 90%;
+}
+
 .timeline-list {
     padding: 10px 40px;
     position: relative;
@@ -417,5 +430,9 @@
 }
 
 .vineretail .timeline-list:after {
+    border: 4px solid #f47374;
+}
+
+.whatsapp .timeline-list:after {
     border: 4px solid #f47374;
 }

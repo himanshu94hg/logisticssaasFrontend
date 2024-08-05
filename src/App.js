@@ -30,7 +30,7 @@ import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWareho
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
 import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerSupportPage';
-import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
+import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration/OtherIntegration';
 import ZoneMappingPop from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
 import ReferAndEarnPage from "./Component/Pages/EarnAndGrowPages/ReferAndEarnPage/ReferAndEarnPage";
 import BusinessPlanPage from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPage";
@@ -70,7 +70,8 @@ import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/Courie
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPop";
 // import "./responsive.css";
-import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern } from "./Routes";
+import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern } from "./Routes";
+import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 
 function App() {
   const dispatch = useDispatch()
@@ -105,7 +106,7 @@ function App() {
               Authorization: `Bearer ${token}`
             }
           });
-          const temp_data= response.data.reduce((acc, item) => {
+          const temp_data = response.data.reduce((acc, item) => {
             acc[item.keyword] = {
               image: item.image,
               title: item.title
@@ -217,6 +218,7 @@ function App() {
             <Route path={signUpPattern} element={<SignUpPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />
+            <Route path={WhatsAppIntegrationPattern} element={<WhatsAppIntegration />} />
           </Routes>
         </div>
       </div>
