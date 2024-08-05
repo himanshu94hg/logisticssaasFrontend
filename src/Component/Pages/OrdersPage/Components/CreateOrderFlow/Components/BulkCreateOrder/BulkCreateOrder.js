@@ -33,7 +33,7 @@ const BulkCreateOrder = () => {
             });
             if (response.status === 200) {
                 const responseData = response.data;
-                toast.success('Bulk Order Created Successfully');
+                toast.success('Order file uploaded Successfully!');
                 setBulkOrdersStatus(true);
                 setLoader(false)
             }

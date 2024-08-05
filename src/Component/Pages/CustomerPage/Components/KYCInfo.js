@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
+import { useSelector } from 'react-redux';
 
 const KYCInfo = ({ activeTab }) => {
   const [show, setShow] = useState(false);
@@ -17,6 +18,8 @@ const KYCInfo = ({ activeTab }) => {
   const [formList, setFormList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
   const [hardcodedToken] = useState(Cookies.get('access_token'));
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
   const [formData, setFormData] = useState({
     company_type: "",
     document_type: "",
@@ -312,6 +315,7 @@ const KYCInfo = ({ activeTab }) => {
                         <button
                           type="button"
                           className="btn delete-btn"
+                          disabled={userData?.is_kyc_info_verified?true:false}
                           onClick={() => handleDelete(item.id)}
                         >
                           <FontAwesomeIcon icon={faTrashCan} />

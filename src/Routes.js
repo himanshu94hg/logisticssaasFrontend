@@ -270,4 +270,9 @@ export const shopifyRedirectIntegrationRoutes = () => {
     return generatePath(shopifyRedirectIntegrationPattern);
 };
 
+export const WhatsAppIntegrationPattern = "/WhatsApp-integration";
+export const WhatsAppIntegrationRoutes = () => {
+    return generatePath(WhatsAppIntegrationPattern);
+};
+
 
