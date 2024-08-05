@@ -323,7 +323,7 @@ const BasicInfo = ({ activeTab }) => {
                       <div className='logo-img-cont'>
                         <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
                       </div>
-                      <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
+                      <span className='fw-bold'><BsCloudUpload className='upload-icon' /> Upload your Company Logo</span>
                     </div>
                   </div>
                 </label>

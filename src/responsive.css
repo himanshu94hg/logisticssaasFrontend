@@ -657,6 +657,14 @@
     .manage-warehouse .box-grid {
         grid-template-columns: repeat(1, minmax(150px, 1fr));
     }
+
+    .logo-file-upload .upload-logo-input span {
+        font-size: 1rem;
+    }
+
+    .logo-file-upload .upload-logo-input span .upload-icon {
+        font-size: 1.1rem;
+    }
 }
 
 @media screen and (max-width:567px) {
