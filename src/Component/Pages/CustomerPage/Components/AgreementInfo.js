@@ -8,49 +8,80 @@ import Cookies from 'js-cookie';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-
+import { BASE_URL_CORE } from '../../../../axios/config';
+import { toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
 const AgreementInfo = () => {
-  const [Basicinfo, setBasicinfo] = useState([]);
-  const [hardcodedToken] = useState(Cookies.get("access_token"));
+  const componentRef = useRef();
+  const [data, setData] = useState(null);
+  const hardcodedToken = useState(Cookies.get("access_token"));
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
+  console.log(userData, "userData")
+
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
     place: '',
     date: '',
+    document_upload: null
   });
 
+  useEffect(() => {
+    if (userData) {
+      setDynamicContent({
+        name: "dddd",
+        place: userData?.city || 'Gurugram',
+        date: moment(new Date()).format("YYYY-MM-DD"),
+        document_upload: null
+      })
+    }
+  }, [userData])
 
-  const componentRef = useRef();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, {
+          headers: {
+            Authorization: `Bearer ${hardcodedToken}`,
+          },
+        });
+        setData(response.data);
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  console.log(data, "this is a data value")
+
+  const handleClickSubmit = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, dynamicContent, {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response?.status === 201) {
+        toast.success("Details updated successfully");
+      }
+    } catch (error) {
+      customErrorFunction(error);
+    }
+  };
+
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   const updateContent = () => {
-    try {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You are about to update the content!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'No, cancel!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const newDate = moment(new Date()).format("DD MMM YYYY");
-          const newPlace = 'New Dynamic Place';
-          setDynamicContent({
-            name: userData?.first_name + ' ' + userData?.last_name,
-            place: userData?.city || 'Gurugram',
-            date: newDate,
-          });
-        }
-      });
-    } catch (error) {
-     customErrorFunction(error)
-    }
+    setShow(true)
   };
-  
 
   return (
     <>
@@ -71,7 +102,7 @@ const AgreementInfo = () => {
             </div>
           </div>
           <div className='agreement-buttons mt-4'>
-            <button className='btn btn-success' onClick={updateContent}>Accept and Sign Agreement</button>
+            <button className='btn btn-success' disabled={userData?.is_agreement_info_verified ? true : false} onClick={updateContent}>Accept and Sign Agreement</button>
             <button className='btn main-button' onClick={handlePrint}><FontAwesomeIcon icon={faDownload} /> Download Agreement</button>
           </div>
           <div style={{ display: 'none' }}>
@@ -94,7 +125,27 @@ const AgreementInfo = () => {
 
         </div>
       </div>
-
+      <Modal
+        show={show}
+        onHide={handleClose}
+        keyboard={false}
+        className='confirmation-modal'
+      >
+        <Modal.Header>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          You are about to update the content!
+        </Modal.Body>
+        <Modal.Footer>
+          <div className='d-flex gap-2'>
+            <button className="btn cancel-button" onClick={handleClose}>
+              No, cancel!
+            </button>
+            <button className="btn main-button" onClick={handleClickSubmit}>Yes, update it!</button>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

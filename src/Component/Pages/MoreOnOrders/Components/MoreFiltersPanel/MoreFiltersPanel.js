@@ -19,18 +19,8 @@ const SourceOptions = [
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
     { label: "Pending", value: "pending" },
-    { label: "cancelled", value: "cancelled" },
-    { label: "Delivered", value: "delivered" },
-    { label: "Picked Up", value: "picked_up" },
-    { label: "In Transit", value: "in_transit" },
-    { label: "Out of Delivery", value: "out_for_delivery" },
     { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
-    { label: "Manifested", value: "manifested" },
-    { label: "RTO Initiated", value: "rto_initiated" },
-    { label: "NDR", value: "ndr" },
-    { label: "Lost", value: "lost" },
-    { label: "Damaged", value: "damaged" },
 ];
 
 const paymentOptions = [
@@ -56,6 +46,8 @@ const CourierPartner = [
 ];
 
 
+
+
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
@@ -67,6 +59,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [orderTag, setorderTag] = useState([]);
     const [clearState, setClearState] = useState(false)
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const [orderStatusOptions, setOrderStatusOptions] = useState([]);
+
     const { tagListData, } = useSelector(state => state?.orderSectionReducer);
 
     const [filterParams, setFilterParams] = useState({
@@ -83,6 +77,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_type:null,
         pickup_address: ""
     })
+
+    useEffect(()=>{
+        if(activeTab){
+
+        }
+
+    },[activeTab])
 
     useEffect(() => {
         if (MoreFilters) {
