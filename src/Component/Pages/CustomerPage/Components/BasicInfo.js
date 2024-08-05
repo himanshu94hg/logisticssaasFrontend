@@ -16,6 +16,7 @@ import LoaderScreen from "../../../LoaderScreen/LoaderScreen";
 import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
+import { useSelector } from "react-redux";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
@@ -30,6 +31,8 @@ const BasicInfo = ({ activeTab }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
   const [formData, setFormData] = useState({
     company_name: '',
     email: '',
@@ -315,7 +318,7 @@ const BasicInfo = ({ activeTab }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className='customer-details-container mb-2' style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
+        <div className='customer-details-container mb-2' style={{ pointerEvents: userData?.is_basic_info_verified ? 'none' : 'auto', opacity:  userData?.is_basic_info_verified  ? 0.7 : 1 }}>
           <div className='customer-details-form'>
             <div className='details-form-row row'>
               <h5 className='col-3'>Primary Details</h5>
@@ -548,7 +551,7 @@ const BasicInfo = ({ activeTab }) => {
                       <button
                         type="button"
                         // style={{ float: 'right' }}
-                        className="btn preview-btn"
+                        className="btn eye-button"
                         onClick={() => handleShow(formData.gst_certificate)}
                       >
                         <FontAwesomeIcon icon={faEye} />
