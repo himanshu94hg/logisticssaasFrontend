@@ -408,7 +408,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
+                <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
 

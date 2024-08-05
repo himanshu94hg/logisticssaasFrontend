@@ -18,7 +18,7 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
+const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
@@ -40,24 +40,29 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                     toast.success('Order Shipped Successfully!');
                     dispatch(shipNowAction(new Date()))
                     dispatch({ type: "PAYMENT_DATA_ACTION" });
+                    setLoader(false)
                 }
                 else {
                     setSingleShip(true);
+                    setLoader(false)
                     toast.error(response.data.message);
                 }
             }).catch((error) => {
                 customErrorFunction(error)
+                setLoader(true)
             });
     };
 
     const debouncedHandleClick = useCallback(
-        debounce((param, orderId) => handleClick(param, orderId), 1500),
+        debounce((param, orderId) => handleClick(param, orderId), 700),
         []
     );
 
     const handleSubmit = (courier, orderId, shipCharge) => {
+        setLoader(true)
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
             debouncedHandleClick(courier, orderId);
+            setSingleShip(false)
         } else {
             Swal.fire({
                 icon: "error",
@@ -65,6 +70,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                 <b>Please recharge the wallet!</b>
               `,
             });
+            setLoader(false)
         }
     };
 
@@ -102,7 +108,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                         <div className='ship-container-row box-shadow shadow-sm' key={index}>
                             <div className='d-flex gap-2'>
                                 <div className='img-container'>
-                                    {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner'/>}
+                                    {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner' />}
                                 </div>
                                 <div className='d-flex flex-column justify-content-center'>
                                     <p className='fw-bold fs-large'>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>

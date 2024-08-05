@@ -104,7 +104,7 @@ const AccountInfo = ({ activeTab }) => {
       }
       return error;
     });
-    console.log(newErrors, "this is merrrir",isValid,accounts)
+    console.log(newErrors, "this is merrrir", isValid, accounts)
     setErrors(newErrors);
 
     if (isValid) {
@@ -252,7 +252,7 @@ const AccountInfo = ({ activeTab }) => {
       e.preventDefault();
     }
   };
-
+  
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -260,12 +260,13 @@ const AccountInfo = ({ activeTab }) => {
           <div>
             {accounts?.map((account, index) => (
               <div className='customer-details-form' key={index}>
-                <div className='details-form-row row'>
+                { console.log( account,"hhhhhhhhhhhhhhhhh")}
+                <div className='details-form-row row' >
                   <div className='col-3'>
                     <h5>Account Details</h5>
                     <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                   </div>
-                  <div className='col-9'>
+                  <div className='col-9' style={{ pointerEvents: account?.is_primary ? 'none' : 'auto', opacity: account?.is_primary ? 0.5 : 1 }}>
                     <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
                       <label>
                         <span> Account Holder Name<span className='mandatory'> *</span></span>
