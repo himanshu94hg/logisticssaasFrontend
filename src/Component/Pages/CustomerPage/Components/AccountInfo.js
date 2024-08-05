@@ -223,7 +223,7 @@ const AccountInfo = ({ activeTab }) => {
         toast.error('Failed to fetch branch and bank details.');
       }
     } catch (error) {
-      customErrorFunction(error)
+      toast.error('Please enter valid Ifsc code!');
     }
   };
 
@@ -252,7 +252,7 @@ const AccountInfo = ({ activeTab }) => {
       e.preventDefault();
     }
   };
-  
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -260,7 +260,7 @@ const AccountInfo = ({ activeTab }) => {
           <div>
             {accounts?.map((account, index) => (
               <div className='customer-details-form' key={index}>
-                { console.log( account,"hhhhhhhhhhhhhhhhh")}
+                {console.log(account, "hhhhhhhhhhhhhhhhh")}
                 <div className='details-form-row row' >
                   <div className='col-3'>
                     <h5>Account Details</h5>

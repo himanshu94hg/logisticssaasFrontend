@@ -227,7 +227,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                     >
                       <NavDropdown.Item eventKey="4.1">
                         Hello, {userData?.first_name || "Seller"} <br />
-                        ({userData?.code})
+                        {userData?.code && <>({ userData?.code})</>}
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
                       <NavDropdown.Item
