@@ -9,7 +9,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import React, { useState, useEffect } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import globalDebouncedClick from "../../../../debounce";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faL } from "@fortawesome/free-solid-svg-icons";
 import { numericRegex, webUrlRegx } from '../../../../regex';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoaderScreen from "../../../LoaderScreen/LoaderScreen";
@@ -26,6 +26,7 @@ const BasicInfo = ({ activeTab }) => {
   const hardcodedToken = Cookies.get("access_token");
   const [pdfPreview, setPdfPreview] = useState(null);
   const [LoaderRing, setLoaderRing] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
@@ -119,6 +120,7 @@ const BasicInfo = ({ activeTab }) => {
         .then(response => {
           const basicInfoData = response.data[0] || {};
           if (response?.data?.length > 0) {
+            setIsDisabled(true)
             setFormData(prevState => ({
               ...prevState,
               company_name: basicInfoData.company_name || '',
@@ -135,6 +137,8 @@ const BasicInfo = ({ activeTab }) => {
               gst_certificate: basicInfoData.gst_certificate || '',
               company_logo: basicInfoData.company_logo || '',
             }));
+          } else {
+            setIsDisabled(false)
           }
         })
         .catch(error => {
@@ -151,8 +155,6 @@ const BasicInfo = ({ activeTab }) => {
           'Authorization': `Bearer ${hardcodedToken}`,
         },
       });
-
-      console.log(response.status, "this is  a a a a a a")
       if (response?.status === 201) {
         toast.success("Details update successfully")
         setLoaderRing(false)
@@ -308,10 +310,12 @@ const BasicInfo = ({ activeTab }) => {
     }
   };
 
+  console.log(Object.values(formData).length != 0, "formData")
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className='customer-details-container mb-2'>
+        <div className='customer-details-container mb-2' style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
           <div className='customer-details-form'>
             <div className='details-form-row row'>
               <h5 className='col-3'>Primary Details</h5>
@@ -323,7 +327,7 @@ const BasicInfo = ({ activeTab }) => {
                       <div className='logo-img-cont'>
                         <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
                       </div>
-                      <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
+                      <span className='fw-bold'><BsCloudUpload className='upload-icon' /> Upload your Company Logo</span>
                     </div>
                   </div>
                 </label>
