@@ -81,8 +81,6 @@ const AddWarehouse = () => {
             if (!warehouseData.state) {
                 newErrors.state = "State is required!"
             }
-
-            //rto
             if (!warehouseData.rto_details.warehouse_name) {
                 newErrors.rto_warehouse_name = "Warehouse Name is required!"
             }
@@ -105,6 +103,8 @@ const AddWarehouse = () => {
                 newErrors.rto_state = "State is required!"
             }
             setErrors(newErrors)
+
+            console.log(newErrors,"this is a issue data")
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -298,7 +298,7 @@ const AddWarehouse = () => {
     };
 
     useEffect(() => {
-        if (SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
+        if (!SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
             setWareHouseData((prev) => ({
                 ...prev,
                 rto_details: {
@@ -391,7 +391,7 @@ const AddWarehouse = () => {
                         <h3 className='mb-4'>Add New Warehouse</h3>
                         <div className='d-flex gap-3 flex-column flex-md-row'>
                             <label>
-                                <span> Warehouse Name<span className='mandatory'>*</span></span>
+                                <span> Warehouse Name<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     maxLength={70}
@@ -405,7 +405,7 @@ const AddWarehouse = () => {
                                 {errors.warehouse_name && <div className="custom-error">{errors.warehouse_name}</div>}
                             </label>
                             <label>
-                                <span> Contact Person Name<span className='mandatory'>*</span></span>
+                                <span> Contact Person Name<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     name="contact_name"
@@ -421,7 +421,7 @@ const AddWarehouse = () => {
                         </div>
                         <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                             <label>
-                                <span>Contact Number<span className='mandatory'>*</span></span>
+                                <span>Contact Number<span className='mandatory'> *</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field'
@@ -447,7 +447,7 @@ const AddWarehouse = () => {
                                 {errors.contact_number && <div className="custom-error">{errors.contact_number}</div>}
                             </label>
                             <label>
-                                <span>GST Number<span className='mandatory'>*</span></span>
+                                <span>GST Number<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.gst_number && 'input-field-error'}`}
@@ -463,7 +463,7 @@ const AddWarehouse = () => {
                         </div>
                         <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                             <label>
-                                <span>Address Line 1<span className='mandatory'>*</span></span>
+                                <span>Address Line 1<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     name="address_line1"
@@ -477,7 +477,7 @@ const AddWarehouse = () => {
                                 {errors.address_line1 && <div className="custom-error">{errors.address_line1}</div>}
                             </label>
                             <label>
-                                <span> Address Line 2<span className='mandatory'>*</span></span>
+                                <span> Address Line 2<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.address_line2 && 'input-field-error'}`}
@@ -494,7 +494,7 @@ const AddWarehouse = () => {
                         <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
                             <div className='d-flex gap-3 flex-column flex-md-row'>
                                 <label>
-                                    <span>Pincode<span className='mandatory'>*</span></span>
+                                    <span>Pincode<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className={`input-field ${errors.pincode && 'input-field-error'}`}
@@ -512,7 +512,7 @@ const AddWarehouse = () => {
                                     {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                                 </label>
                                 <label>
-                                    <span>City<span className='mandatory'>*</span></span>
+                                    <span>City<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className={`input-field ${errors.city && 'input-field-error'}`}
@@ -528,7 +528,7 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 flex-column flex-md-row'>
                                 <label>
-                                    <span>State<span className='mandatory'>*</span></span>
+                                    <span>State<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className={`input-field ${errors.state && 'input-field-error'}`}
@@ -625,7 +625,7 @@ const AddWarehouse = () => {
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
                             <div className='d-flex gap-3 flex-column flex-md-row'>
                                 <label>
-                                    <span>State<span className='mandatory'>*</span></span>
+                                    <span>Warehouse Name<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         name="warehouse_name"
@@ -639,7 +639,7 @@ const AddWarehouse = () => {
                                     {errors?.rto_warehouse_name && <div className="custom-error">{errors.rto_warehouse_name}</div>}
                                 </label>
                                 <label>
-                                    <span>Contact Person Name<span className='mandatory'>*</span></span>
+                                    <span>Contact Person Name<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         name="contact_person_name"
@@ -655,7 +655,7 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                                 <label>
-                                    <span>Contact Number<span className='mandatory'>*</span></span>
+                                    <span>Contact Number<span className='mandatory'> *</span></span>
                                     <div className='d-flex mobile-number-field'>
                                         <select
                                             className='input-field'
@@ -703,7 +703,7 @@ const AddWarehouse = () => {
                             </div>
                             <div className='d-flex gap-3 mt-4 flex-column flex-md-row'>
                                 <label>
-                                    <span>Address<span className='mandatory'>*</span></span>
+                                    <span>Address<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         name="address"
@@ -734,7 +734,7 @@ const AddWarehouse = () => {
                             <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
                                 <div className='d-flex gap-3 flex-column flex-md-row'>
                                     <label>
-                                        <span>Pincode<span className='mandatory'>*</span></span>
+                                        <span>Pincode<span className='mandatory'> *</span></span>
                                         <input
                                             type="text"
                                             name="pincode"
@@ -747,7 +747,7 @@ const AddWarehouse = () => {
                                         {errors?.rto_pincode && <div className="custom-error">{errors.rto_pincode}</div>}
                                     </label>
                                     <label>
-                                        <span>City<span className='mandatory'>*</span></span>
+                                        <span>City<span className='mandatory'> *</span></span>
                                         <input
                                             type="text"
                                             name="city"
@@ -763,7 +763,7 @@ const AddWarehouse = () => {
 
                                 <div className='d-flex gap-3 flex-column flex-md-row'>
                                     <label>
-                                        <span>State<span className='mandatory'>*</span></span>
+                                        <span>State<span className='mandatory'> *</span></span>
                                         <input
                                             type="text"
                                             maxLength={30}
