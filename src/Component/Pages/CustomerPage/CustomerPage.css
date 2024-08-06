@@ -167,3 +167,12 @@
     bottom: 0px;
     padding: 0.3125rem;
 }
+
+.input-box-disable{
+  pointer-events: none;
+  opacity: 0.7;
+}
+.input-box-enable{
+    pointer-events:all;
+    opacity: 1;
+  }

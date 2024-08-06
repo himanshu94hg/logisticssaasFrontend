@@ -316,7 +316,7 @@ const BasicInfo = ({ activeTab }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className='customer-details-container mb-2' style={{ pointerEvents: userData?.is_basic_info_verified ? 'none' : 'auto', opacity:  userData?.is_basic_info_verified  ? 0.7 : 1 }}>
+        <div className={`customer-details-container mb-2 ${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
           <div className='customer-details-form'>
             <div className='details-form-row row'>
               <h5 className='col-3'>Primary Details</h5>

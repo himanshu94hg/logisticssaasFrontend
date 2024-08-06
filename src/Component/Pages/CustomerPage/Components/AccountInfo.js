@@ -13,6 +13,7 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import globalDebouncedClick from "../../../../debounce";
+import { useSelector } from "react-redux";
 
 const AccountInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState([]);
@@ -23,6 +24,7 @@ const AccountInfo = ({ activeTab }) => {
   const [handelAWSImage, sethandelAWSImage] = useState("");
   const [hardcodedToken] = useState(Cookies.get("access_token"));
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
 
   useEffect(() => {
     if (activeTab === "Account Information") {
@@ -259,15 +261,14 @@ const AccountInfo = ({ activeTab }) => {
         <div className='customer-details-container'>
           <div>
             {accounts?.map((account, index) => (
-              <div className='customer-details-form' key={index}>
-                {console.log(account, "hhhhhhhhhhhhhhhhh")}
+              <div className={`customer-details-form`} key={index} >
                 <div className='details-form-row row' >
                   <div className='col-3'>
                     <h5>Account Details</h5>
                     <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                   </div>
                   <div className='col-9' >
-                    <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
+                    <div className={`d-flex w-100 gap-3 mt-4 flex-column flex-md-row ${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`}>
                       <label>
                         <span> Account Holder Name<span className='mandatory'> *</span></span>
                         <input
@@ -297,7 +298,7 @@ const AccountInfo = ({ activeTab }) => {
                         {errors[index]?.accountNumber && <span className="custom-error">{errors[index].accountNumber}</span>}
                       </label>
                     </div>
-                    <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
+                    <div className={`d-flex w-100 gap-3 mt-4 flex-column flex-md-row ${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`}>
                       <label>
                         <span>IFSC Code<span className='mandatory'> *</span></span>
                         <input
@@ -326,7 +327,7 @@ const AccountInfo = ({ activeTab }) => {
                       </label>
                     </div>
                     <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
-                      <label>
+                      <label className={`${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`} >
                         <span> Branch Name<span className='mandatory'> *</span></span>
                         <input
                           type="text"
@@ -339,9 +340,9 @@ const AccountInfo = ({ activeTab }) => {
                         />
                         {errors[index]?.branchName && <span className="custom-error">{errors[index].branchName}</span>}
                       </label>
-                      <label className='position-relative'>
+                      <label className={`position-relative ${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`} >
                         Please Upload Cheque Image
-                        <input className="form-control input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
+                        <input className={`form-control input-field`} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
                         {account.cheque_image && (
                           <button
                             className='eye-button'
@@ -372,9 +373,9 @@ const AccountInfo = ({ activeTab }) => {
               </div>
             ))}
             <div className='d-flex justify-content-end'>
-              <div className='add-account-text' onClick={addAnotherAccount}>
+              {/* <div className='add-account-text' onClick={addAnotherAccount}>
                 <FontAwesomeIcon icon={faPlus} /> Add Another Account
-              </div>
+              </div> */}
             </div>
           </div>
           <div className='d-flex justify-content-end'>
