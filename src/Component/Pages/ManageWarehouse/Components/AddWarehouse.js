@@ -81,8 +81,6 @@ const AddWarehouse = () => {
             if (!warehouseData.state) {
                 newErrors.state = "State is required!"
             }
-
-            //rto
             if (!warehouseData.rto_details.warehouse_name) {
                 newErrors.rto_warehouse_name = "Warehouse Name is required!"
             }
@@ -105,6 +103,8 @@ const AddWarehouse = () => {
                 newErrors.rto_state = "State is required!"
             }
             setErrors(newErrors)
+
+            console.log(newErrors,"this is a issue data")
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -298,7 +298,7 @@ const AddWarehouse = () => {
     };
 
     useEffect(() => {
-        if (SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
+        if (!SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
             setWareHouseData((prev) => ({
                 ...prev,
                 rto_details: {
