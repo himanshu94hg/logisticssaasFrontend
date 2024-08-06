@@ -436,3 +436,46 @@
 .whatsapp .timeline-list:after {
     border: 4px solid #f47374;
 }
+
+.whatsapp .whatsapp-benefits {
+    list-style: none;
+    display: flex;
+    text-align: center;
+    margin-block: 20px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.whatsapp .whatsapp-benefits li {
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.whatsapp .whatsapp-get-started {
+    width: 100%;
+    position: relative;
+    max-width: 320px;
+}
+
+.whatsapp .whatsapp-get-started input {
+    width: 100%;
+    border: 1px solid var(--sh-primary-light);
+    border-radius: 0.5rem;
+    height: 36px;
+    padding-inline: 10px;
+}
+
+.whatsapp .whatsapp-get-started button {
+    position: absolute;
+    right: 0px;
+    height: 36px;
+    background: var(--sh-primary);
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 0.8rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
