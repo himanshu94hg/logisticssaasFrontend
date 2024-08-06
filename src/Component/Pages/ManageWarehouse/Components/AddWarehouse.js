@@ -298,7 +298,7 @@ const AddWarehouse = () => {
     };
 
     useEffect(() => {
-        if (!SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
+        if (!SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "" && warehouseData.state !== "") {
             setWareHouseData((prev) => ({
                 ...prev,
                 rto_details: {
