@@ -101,7 +101,7 @@ function App() {
     if (token) {
       const fetchData = async () => {
         try {
-          const response = await axios.get("https://uat.shipease.in/core-api/features/partner-list/", {
+          const response = await axios.get("https://app.shipease.in/core-api/features/partner-list/", {
             headers: {
               Authorization: `Bearer ${token}`
             }
