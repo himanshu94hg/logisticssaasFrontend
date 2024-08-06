@@ -282,7 +282,7 @@ const AccountInfo = ({ activeTab }) => {
                         {errors[index]?.accountHolderName && <span className="custom-error">{errors[index].accountHolderName}</span>}
                       </label>
                       <label>
-                        <span>  Account Number<span className='mandatory'> *</span></span>
+                        <span>Account Number<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           maxLength={50}
@@ -340,20 +340,29 @@ const AccountInfo = ({ activeTab }) => {
                         />
                         {errors[index]?.branchName && <span className="custom-error">{errors[index].branchName}</span>}
                       </label>
-                      <label className={`position-relative ${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`} >
+                      <label className={`position-relative`} >
                         Please Upload Cheque Image
-                        <input className={`form-control input-field`} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
-                        {account.cheque_image && (
-                          <button
-                            className='eye-button'
-                            type='button'
-                            onClick={() => {
-                              handleShow(account.cheque_image);
-                            }}
+                        <input className={`form-control input-field`} disabled={userData?.is_acc_info_verified ? true : false} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
+                        {(account.cheque_image && account.cheque_image?.endsWith('.pdf')) ? <>
+                          <a
+                            href={account?.cheque_image}
+                            className="btn eye-button"
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <FontAwesomeIcon icon={faEye} />
-                          </button>
-                        )}
+                          </a>
+                        </> :
+                          <>
+                            <button
+                              type="button"
+                              className="btn eye-button"
+                              onClick={() => handleShow(account.cheque_image)}
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                          </>
+                        }
                       </label>
                     </div>
                   </div>
@@ -411,13 +420,7 @@ function Preview({ show, handleClose, previewImage, handelAWSImage }) {
         <Modal.Title>Image/PDF Preview</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {isPDF ? (
-          <Document file={previewImage}>
-            <Page pageNumber={1} width={400} />
-          </Document>
-        ) : (
-          <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-        )}
+        <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </Modal.Body>
     </Modal>
   );

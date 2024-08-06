@@ -197,52 +197,29 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     };
 
     const handleChange = (name, value) => {
-        if (name === "start_date" || name === "end_date") {
+        if (["start_date", "end_date"].includes(name)) {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value
             }));
-        }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "order_tag") {
-            let temp_data = ''
-            let temp = value.map((item, index) => {
-                temp_data += item.value;
-                if (index !== value.length - 1) {
-                    temp_data += ",";
-                }
-            })
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type"].includes(name)) {
+            const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
             }));
-        }
-        if (name === "payment_type") {
-            let tempValue = Array.isArray(value) ? value.map(option => option.value).join(",") : value.value;
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: tempValue
-            }));
-        }
-        if (name === "order_type") {
-            let tempValue = Array.isArray(value) ? value.map(option => option.value).join(",") : value.value;
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: tempValue
-            }));
-        }
-        if (name === "order_id" || name === "sku") {
+        } else if (name === "order_id" || name === "sku") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
             }));
-        }
-        if (name === "sku_match_type") {
+        } else if (name === "sku_match_type") {
             setFilterParams(prev => ({
                 ...prev,
-                skuType: value
-            }))
+                sku_match_type: value
+            }));
         }
-        if (name === "pickup_address") {
+        else if (name === "pickup_address") {
             const ids = value.map(item => item.id).join(",");
             const names = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
@@ -448,7 +425,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>

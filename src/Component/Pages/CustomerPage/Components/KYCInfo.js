@@ -10,6 +10,7 @@ import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
+import { Document, Page } from 'react-pdf';
 
 const KYCInfo = ({ activeTab }) => {
   const [show, setShow] = useState(false);
@@ -309,13 +310,36 @@ const KYCInfo = ({ activeTab }) => {
                         <span className="">Document Number: <strong>{item.documentNumber}</strong></span>
                       </p>
                       <div className="col-2 d-flex gap-2 align-items-center">
-                        <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
+                        {/* <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
                           <FontAwesomeIcon icon={faEye} />
-                        </button>
+                        </button> */}
+
+                        {(item?.previewImg && item?.previewImg?.endsWith('.pdf')) ? <>
+                          <a
+                            href={item?.previewImg}
+                            className="btn preview-btn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FontAwesomeIcon icon={faEye} />
+                          </a>
+                        </> :
+                          <>
+                            <button
+                              type="button"
+                              className="btn preview-btn"
+                              onClick={() => handleShow(item?.previewImg)}                        >
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                          </>
+                        }
+
+
+
                         <button
                           type="button"
                           className="btn delete-btn"
-                          disabled={userData?.is_kyc_info_verified?true:false}
+                          disabled={userData?.is_kyc_info_verified ? true : false}
                           onClick={() => handleDelete(item.id)}
                         >
                           <FontAwesomeIcon icon={faTrashCan} />
@@ -339,16 +363,13 @@ const KYCInfo = ({ activeTab }) => {
       <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
 
     </>
-
-
   );
 };
 
 export default KYCInfo;
 
 
-
-function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
+function Preview({ show, handleClose, previewImage }) {
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -356,11 +377,7 @@ function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
           <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body className='p-1'>
-          {previewImage ? (
-            <img src={previewImage} width={"100%"} height={"400px"} alt="" />
-          ) : (
-            <h2 className='p-4'>No image or document available!</h2>
-          )}
+            <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
         </Modal.Body>
       </Modal>
     </>
