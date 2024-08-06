@@ -266,7 +266,7 @@ const AccountInfo = ({ activeTab }) => {
                     <h5>Account Details</h5>
                     <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                   </div>
-                  <div className='col-9' style={{ pointerEvents: account?.is_primary ? 'none' : 'auto', opacity: account?.is_primary ? 0.5 : 1 }}>
+                  <div className='col-9' >
                     <div className='d-flex w-100 gap-3 mt-4 flex-column flex-md-row'>
                       <label>
                         <span> Account Holder Name<span className='mandatory'> *</span></span>
