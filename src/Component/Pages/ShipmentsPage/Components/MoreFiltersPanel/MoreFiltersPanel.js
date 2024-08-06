@@ -379,7 +379,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={OrderStatus}
                                         onChange={(e) => handleChange("status", e)}
-                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                        value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>

@@ -63,6 +63,24 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const { tagListData, } = useSelector(state => state?.orderSectionReducer);
 
+
+    useEffect(() => {
+        if (activeTab === "Reassign Order") {
+            setOrderStatusOptions([
+                { label: "Shipped", value: "shipped" },
+                { label: "Pickup Requested", value: "pickup_requested" },
+                { label: "Pickup Scheduled", value: "pickup_scheduled" },
+            ])
+        }
+        if (activeTab === "Split Order" || activeTab === "Merge Order") {
+            setOrderStatusOptions([
+                { label: "Pending", value: "pending" },
+            ])
+        }
+    }, [activeTab])
+
+
+
     const [filterParams, setFilterParams] = useState({
         start_date: "",
         end_date: "",
@@ -74,16 +92,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_tag: "",
         sku: "",
         sku_match_type: "",
-        order_type:null,
+        order_type: null,
         pickup_address: ""
     })
 
-    useEffect(()=>{
-        if(activeTab){
+    useEffect(() => {
+        if (activeTab) {
 
         }
 
-    },[activeTab])
+    }, [activeTab])
 
     useEffect(() => {
         if (MoreFilters) {
@@ -163,7 +181,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                order_type:null,
+                order_type: null,
                 pickup_address: ""
             })
             setErrors({})
@@ -183,7 +201,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                order_type:null,
+                order_type: null,
                 pickup_address: ""
             })
             setHandleResetFrom(false)
@@ -199,7 +217,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type","order_type"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type"].includes(name)) {
             const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
@@ -261,7 +279,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku: "",
             sku_match_type: "",
             pickup_address: "",
-            order_type:null
+            order_type: null
         })
         setSaveFilter(false)
         setSaveFav(true)
@@ -347,11 +365,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label >Order Status
                                     <Select
-                                        options={OrderStatus}
+                                        options={orderStatusOptions}
                                         isMulti
                                         isSearchable
                                         onChange={(e) => handleChange("status", e)}
-                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                        value={filterParams.status ? orderStatusOptions?.filter(option => filterParams.status.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -377,7 +395,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                           
+
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select

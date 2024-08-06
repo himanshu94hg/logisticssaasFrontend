@@ -381,17 +381,18 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
-                                <label >Order Status
-                                    <Select
-                                        isMulti
-                                        isSearchable
-                                        options={OrderStatus}
-                                        onChange={(e) => handleChange("status", e)}
-                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
-                                    />
-                                </label>
-                            </div>
+                             {activeTab!="Processing" &&
+                             <div className='filter-row'>
+                             <label >Order Status
+                                 <Select
+                                     isMulti
+                                     isSearchable
+                                     options={OrderStatus}
+                                     onChange={(e) => handleChange("status", e)}
+                                     value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
+                                 />
+                             </label>
+                         </div>}
                             <div className='filter-row'>
                                 <label >Order Source
                                     <Select
