@@ -313,8 +313,6 @@ const BasicInfo = ({ activeTab }) => {
     }
   };
 
-  console.log(Object.values(formData).length != 0, "formData")
-
   return (
     <>
       <form onSubmit={handleSubmit}>

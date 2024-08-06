@@ -105,7 +105,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   useEffect(() => {
     dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
-  }, [dispatch])
+  }, [])
 
   const handleSwitch = () => {
     window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`

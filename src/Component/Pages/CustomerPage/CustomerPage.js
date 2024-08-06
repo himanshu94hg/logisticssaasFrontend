@@ -54,7 +54,7 @@ console.log(activeTab,"activeTabactiveTab")
 
       {/* Agreement */}
       <div className={`${activeTab === "Agreement" ? "d-block" : "d-none"}`}>
-        <AgreementInfo />
+        <AgreementInfo activeTab={activeTab} />
       </div>
       <LoaderScreen loading={loader} />
     </>

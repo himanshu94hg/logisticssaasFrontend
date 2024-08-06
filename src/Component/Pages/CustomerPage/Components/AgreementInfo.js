@@ -1,25 +1,26 @@
+import axios from 'axios';
+import moment from 'moment';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import { useDispatch } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { BASE_URL_CORE } from '../../../../axios/config';
+import React, { useEffect, useRef, useState } from 'react';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
-import { useReactToPrint } from 'react-to-print';
-import Swal from 'sweetalert2';
-import Cookies from 'js-cookie';
-import moment from 'moment';
-import { useSelector } from 'react-redux';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-import { BASE_URL_CORE } from '../../../../axios/config';
-import { toast } from 'react-toastify';
-import Modal from 'react-bootstrap/Modal';
-const AgreementInfo = () => {
+
+const AgreementInfo = ({ activeTab }) => {
+  const dispatch = useDispatch()
   const componentRef = useRef();
   const [data, setData] = useState(null);
-  const hardcodedToken = useState(Cookies.get("access_token"));
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  const [refresh, setRefresh] = useState(new Date())
+  const hardcodedToken = Cookies.get("access_token");
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-
-  console.log(userData, "userData")
 
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
@@ -29,9 +30,13 @@ const AgreementInfo = () => {
   });
 
   useEffect(() => {
+    dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
+  }, [refresh])
+
+  useEffect(() => {
     if (userData) {
       setDynamicContent({
-        name: "dddd",
+        name: userData?.first_name,
         place: userData?.city || 'Gurugram',
         date: moment(new Date()).format("YYYY-MM-DD"),
         document_upload: null
@@ -44,7 +49,7 @@ const AgreementInfo = () => {
       try {
         const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, {
           headers: {
-            Authorization: `Bearer ${hardcodedToken}`,
+            'Authorization': `Bearer ${hardcodedToken}`,
           },
         });
         setData(response.data);
@@ -52,26 +57,28 @@ const AgreementInfo = () => {
         customErrorFunction(error);
       }
     };
-    fetchData();
-  }, []);
+    if (activeTab === "Agreement") {
+      fetchData();
+    }
 
-
-  console.log(data, "this is a data value")
+  }, [refresh, activeTab]);
 
   const handleClickSubmit = async () => {
     try {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, dynamicContent, {
         headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
+          'Authorization': `Bearer  ${hardcodedToken}`,
           'Content-Type': 'application/json'
         }
       });
       if (response?.status === 201) {
         toast.success("Details updated successfully");
+        setRefresh(new Date())
       }
     } catch (error) {
-      customErrorFunction(error);
+      // customErrorFunction(error);
     }
+    setShow(false)
   };
 
 
@@ -87,8 +94,6 @@ const AgreementInfo = () => {
     <>
       <div className='customer-details-container'>
         <div className='customer-details-form'>
-          {/* <h5>Agreement</h5>
-          <p style={{ color: 'blue' }}>View and Download Agreement</p> */}
           <div className='agreement-section'>
             <h5>MERCHANT AGREEMENT</h5>
             <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
@@ -96,9 +101,9 @@ const AgreementInfo = () => {
             <h5>BACKGROUND</h5>
             <p>This Agreement comes into effect when you register to use the Services (as defined below), or click on “Continue” box, and accept the terms and conditions provided herein. By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and unconditional consent to all the provisions of this Agreement in its entirety. This Agreement constitutes a legally binding agreement between you and Shipease. This Agreement defines the terms and conditions under which you’re allowed to use the Shipease’s website (“Website”) and Shipease’s mobile application (“Mobile App”), and how Shipease will treat your account while you are a member. If you have any questions about our terms, feel free to contact us at support@Shipease.in. You are advised to read this Agreement carefully. You expressly represent and warrant that you will not avail the Services if you do not understand, agree to become a party to, and abide by all of the terms and conditions specified below. Any violation of this Agreement may result in legal liability upon you. The Website/ Mobile App and the online/ offline services of Shipease or its affiliates, provides access to a platform that facilitates more comfortable form of e-commerce where you can use the logistics services according to your requirements within India and in countries designated by Shipease from time to time (“Service(s)”). This Agreement, among other things, provides the terms and conditions for use of the Services, primarily through a web-based practice management software hosted and managed remotely through the Website/Mobile App. This Agreement is an electronic record in terms of Information Technology Act, 2000 and generated by a computer system, and does not require any physical or digital signatures. This Agreement is published in accordance with the provisions of Rule 3(1) of the Information Technology (Intermediaries guidelines) Rules, 2011 that require publishing of the rules and regulations, privacy policy and terms of usage for access or usage of the website/ service.</p>
             <div className='Sign-section'>
-              <p>Name: <span>{dynamicContent.name}</span></p>
-              <p>Place: <span>{dynamicContent.place}</span></p>
-              <p>Date: <span>{dynamicContent.date}</span></p>
+              <p>Name: <span>{data?.name}</span></p>
+              <p>Place: <span>{data?.place}</span></p>
+              <p>Date: <span>{data?.date}</span></p>
             </div>
           </div>
           <div className='agreement-buttons mt-4'>
@@ -107,7 +112,6 @@ const AgreementInfo = () => {
           </div>
           <div style={{ display: 'none' }}>
             <div ref={componentRef}>
-              {/* Content to be printed */}
               <div className='agreement-section'>
                 <h5>MERCHANT AGREEMENT</h5>
                 <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
@@ -115,14 +119,13 @@ const AgreementInfo = () => {
                 <h5>BACKGROUND</h5>
                 <p>This Agreement comes into effect when you register to use the Services (as defined below), or click on “Continue” box, and accept the terms and conditions provided herein. By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and unconditional consent to all the provisions of this Agreement in its entirety. This Agreement constitutes a legally binding agreement between you and Shipease. This Agreement defines the terms and conditions under which you’re allowed to use the Shipease’s website (“Website”) and Shipease’s mobile application (“Mobile App”), and how Shipease will treat your account while you are a member. If you have any questions about our terms, feel free to contact us at support@Shipease.in. You are advised to read this Agreement carefully. You expressly represent and warrant that you will not avail the Services if you do not understand, agree to become a party to, and abide by all of the terms and conditions specified below. Any violation of this Agreement may result in legal liability upon you. The Website/ Mobile App and the online/ offline services of Shipease or its affiliates, provides access to a platform that facilitates more comfortable form of e-commerce where you can use the logistics services according to your requirements within India and in countries designated by Shipease from time to time (“Service(s)”). This Agreement, among other things, provides the terms and conditions for use of the Services, primarily through a web-based practice management software hosted and managed remotely through the Website/Mobile App. This Agreement is an electronic record in terms of Information Technology Act, 2000 and generated by a computer system, and does not require any physical or digital signatures. This Agreement is published in accordance with the provisions of Rule 3(1) of the Information Technology (Intermediaries guidelines) Rules, 2011 that require publishing of the rules and regulations, privacy policy and terms of usage for access or usage of the website/ service.</p>
                 <div className='Sign-section'>
-                  <p>Name: <span>{dynamicContent.name}</span></p>
-                  <p>Place: <span>{dynamicContent.place}</span></p>
-                  <p>Date: <span>{dynamicContent.date}</span></p>
+                  <p>Name: <span>{data?.name}</span></p>
+                  <p>Place: <span>{data?.place}</span></p>
+                  <p>Date: <span>{data?.date}</span></p>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <Modal
