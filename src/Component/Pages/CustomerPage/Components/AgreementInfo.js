@@ -71,12 +71,12 @@ const AgreementInfo = ({ activeTab }) => {
           'Content-Type': 'application/json'
         }
       });
-      if (response?.status === 201) {
-        toast.success("Details updated successfully");
+      if (response?.status === 200) {
+        toast.success("Agreement signed successfully!");
         setRefresh(new Date())
       }
     } catch (error) {
-      // customErrorFunction(error);
+      customErrorFunction(error);
     }
     setShow(false)
   };
