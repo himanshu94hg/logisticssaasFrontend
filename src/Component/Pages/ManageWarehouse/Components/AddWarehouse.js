@@ -104,7 +104,7 @@ const AddWarehouse = () => {
             }
             setErrors(newErrors)
 
-            console.log(newErrors,"this is a issue data")
+            console.log(newErrors, "this is a issue data")
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -492,7 +492,7 @@ const AddWarehouse = () => {
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
-                            <div className='d-flex gap-3 flex-column flex-md-row'>
+                            <div className='d-flex gap-3 flex-column flex-md-row w-100'>
                                 <label>
                                     <span>Pincode<span className='mandatory'> *</span></span>
                                     <input
@@ -526,7 +526,7 @@ const AddWarehouse = () => {
                                     {errors.city && <div className="custom-error">{errors.city}</div>}
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 flex-column flex-md-row'>
+                            <div className='d-flex gap-3 flex-column flex-md-row w-100'>
                                 <label>
                                     <span>State<span className='mandatory'> *</span></span>
                                     <input
@@ -732,7 +732,7 @@ const AddWarehouse = () => {
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-4 flex-column flex-lg-row'>
-                                <div className='d-flex gap-3 flex-column flex-md-row'>
+                                <div className='d-flex gap-3 flex-column flex-md-row w-100'>
                                     <label>
                                         <span>Pincode<span className='mandatory'> *</span></span>
                                         <input
@@ -761,7 +761,7 @@ const AddWarehouse = () => {
                                     </label>
                                 </div>
 
-                                <div className='d-flex gap-3 flex-column flex-md-row'>
+                                <div className='d-flex gap-3 flex-column flex-md-row w-100'>
                                     <label>
                                         <span>State<span className='mandatory'> *</span></span>
                                         <input
