@@ -37,7 +37,7 @@ const AgreementInfo = ({ activeTab }) => {
     if (userData) {
       setDynamicContent({
         name: userData?.first_name,
-        place: userData?.city || 'Gurugram',
+        place: userData?.place || 'Gurugram',
         date: moment(new Date()).format("YYYY-MM-DD"),
         document_upload: null
       })
