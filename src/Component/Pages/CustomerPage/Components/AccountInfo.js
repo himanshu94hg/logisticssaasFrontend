@@ -340,9 +340,9 @@ const AccountInfo = ({ activeTab }) => {
                         />
                         {errors[index]?.branchName && <span className="custom-error">{errors[index].branchName}</span>}
                       </label>
-                      <label className={`position-relative ${userData?.is_acc_info_verified ? "input-box-disable" : "input-box-enable"}`} >
+                      <label className={`position-relative`} >
                         Please Upload Cheque Image
-                        <input className={`form-control input-field`} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
+                        <input className={`form-control input-field`} disabled={userData?.is_acc_info_verified ? true : false} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
                         {account.cheque_image && (
                           <button
                             className='eye-button'

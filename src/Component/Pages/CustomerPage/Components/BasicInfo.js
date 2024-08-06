@@ -316,11 +316,11 @@ const BasicInfo = ({ activeTab }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className={`customer-details-container mb-2 ${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
+        <div className={`customer-details-container mb-2`}>
           <div className='customer-details-form'>
             <div className='details-form-row row'>
               <h5 className='col-3'>Primary Details</h5>
-              <div className='col-9'>
+              <div className={`col-9 ${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
                 <label className='logo-file-upload'>
                   <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
                   <div className='upload-logo-input'>
@@ -363,7 +363,7 @@ const BasicInfo = ({ activeTab }) => {
               </div>
             </div>
             <hr />
-            <div className='details-form-row row'>
+            <div className={`details-form-row row ${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
               <h5 className='col-3'>Contact Details</h5>
               <div className='col-9 d-flex gap-3 flex-column flex-md-row'>
                 <label>
@@ -408,7 +408,7 @@ const BasicInfo = ({ activeTab }) => {
               </div>
             </div>
             <hr />
-            <div className='details-form-row row'>
+            <div className={`details-form-row row ${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
               <h5 className='col-3'>Address Details</h5>
               <div className='col-9'>
                 <div className='d-flex gap-3 flex-column flex-md-row'>
@@ -504,8 +504,8 @@ const BasicInfo = ({ activeTab }) => {
             <div className="details-form-row row">
               <h5 className='col-3'>Taxation Details</h5>
               <div className='col-9'>
-                <div className='d-flex gap-3 mt-3 flex-column flex-md-row'>
-                  <label>
+                <div className={`d-flex gap-3 mt-3 flex-column flex-md-row`}>
+                  <label className={`${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
                     <span>PAN Number <span className='mandatory'>*</span></span>
                     <input
                       onChange={handleChange}
@@ -523,7 +523,7 @@ const BasicInfo = ({ activeTab }) => {
                     />
                     {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
                   </label>
-                  <label>
+                  <label className={`${userData?.is_basic_info_verified ? "input-box-disable" : "input-box-enable"}`}>
                     <span>GST Number <span className='mandatory'>*</span></span>
                     <input
                       maxLength={15}
@@ -543,7 +543,7 @@ const BasicInfo = ({ activeTab }) => {
                   </label>
                   <label className='position-relative'>
                     <span>GST Certificate <span className='mandatory'>*</span></span>
-                    <input className="form-control input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
+                    <input className={`form-control input-field`} disabled={userData?.is_basic_info_verified ? true : false} type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
                     {formData.gst_certificate && (
                       <button
@@ -563,7 +563,7 @@ const BasicInfo = ({ activeTab }) => {
             {/* Add other form sections here */}
           </div>
           <div className='d-flex justify-content-end mt-4'>
-            <button className='btn main-button' type="submit">Save</button>
+            <button disabled={userData?.is_basic_info_verified ? true : false} className='btn main-button' type="submit">Save</button>
           </div>
         </div>
       </form>
