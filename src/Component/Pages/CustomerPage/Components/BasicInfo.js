@@ -543,24 +543,29 @@ const BasicInfo = ({ activeTab }) => {
                     <span>GST Certificate <span className='mandatory'>*</span></span>
                     <input className={`form-control input-field`} disabled={userData?.is_basic_info_verified ? true : false} type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
-                    {(formData.gst_certificate && formData.gst_certificate?.endsWith('.pdf')) ? <>
-                      <a
-                        href={formData.gst_certificate}
-                        className="btn eye-button"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FontAwesomeIcon icon={faEye} />
-                      </a>
-                    </> :
+                    {
+                      formData.gst_certificate &&
                       <>
-                        <button
-                          type="button"
-                          className="btn eye-button"
-                          onClick={() => handleShow(formData.gst_certificate)}
-                        >
-                          <FontAwesomeIcon icon={faEye} />
-                        </button>
+                        {(formData.gst_certificate && formData.gst_certificate?.endsWith('.pdf')) ? <>
+                          <a
+                            href={formData.gst_certificate}
+                            className="btn eye-button"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FontAwesomeIcon icon={faEye} />
+                          </a>
+                        </> :
+                          <>
+                            <button
+                              type="button"
+                              className="btn eye-button"
+                              onClick={() => handleShow(formData.gst_certificate)}
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                          </>
+                        }
                       </>
                     }
                   </label>

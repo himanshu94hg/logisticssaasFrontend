@@ -343,26 +343,29 @@ const AccountInfo = ({ activeTab }) => {
                       <label className={`position-relative`} >
                         Please Upload Cheque Image
                         <input className={`form-control input-field`} disabled={userData?.is_acc_info_verified ? true : false} accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
-                        {(account.cheque_image && account.cheque_image?.endsWith('.pdf')) ? <>
-                          <a
-                            href={account?.cheque_image}
-                            className="btn eye-button"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <FontAwesomeIcon icon={faEye} />
-                          </a>
-                        </> :
+                        {account?.cheque_image &&
                           <>
-                            <button
-                              type="button"
-                              className="btn eye-button"
-                              onClick={() => handleShow(account.cheque_image)}
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
-                          </>
-                        }
+                            {(account.cheque_image && account.cheque_image?.endsWith('.pdf')) ? <>
+                              <a
+                                href={account?.cheque_image}
+                                className="btn eye-button"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <FontAwesomeIcon icon={faEye} />
+                              </a>
+                            </> :
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn eye-button"
+                                  onClick={() => handleShow(account.cheque_image)}
+                                >
+                                  <FontAwesomeIcon icon={faEye} />
+                                </button>
+                              </>
+                            }
+                          </>}
                       </label>
                     </div>
                   </div>
