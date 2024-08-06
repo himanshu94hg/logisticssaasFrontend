@@ -72,6 +72,7 @@ import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPo
 // import "./responsive.css";
 import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern } from "./Routes";
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
+import { BASE_URL_CORE } from './axios/config';
 
 function App() {
   const dispatch = useDispatch()
@@ -101,7 +102,7 @@ function App() {
     if (token) {
       const fetchData = async () => {
         try {
-          const response = await axios.get("https://app.shipease.in/core-api/features/partner-list/", {
+          const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list/`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
