@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import Modal from "react-bootstrap/Modal";
 import { BsCloudUpload } from "react-icons/bs";
 import { awsAccessKey } from '../../../../config';
-import { Document, Page, pdfjs } from 'react-pdf';
 import React, { useState, useEffect } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import globalDebouncedClick from "../../../../debounce";
@@ -17,7 +16,6 @@ import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
 import { useSelector } from "react-redux";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
@@ -545,22 +543,30 @@ const BasicInfo = ({ activeTab }) => {
                     <span>GST Certificate <span className='mandatory'>*</span></span>
                     <input className={`form-control input-field`} disabled={userData?.is_basic_info_verified ? true : false} type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
-                    {formData.gst_certificate && (
-                      <button
-                        type="button"
-                        // style={{ float: 'right' }}
+                    {(formData.gst_certificate && formData.gst_certificate?.endsWith('.pdf')) ? <>
+                      <a
+                        href={formData.gst_certificate}
                         className="btn eye-button"
-                        onClick={() => handleShow(formData.gst_certificate)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <FontAwesomeIcon icon={faEye} />
-                      </button>
-                    )}
+                      </a>
+                    </> :
+                      <>
+                        <button
+                          type="button"
+                          className="btn eye-button"
+                          onClick={() => handleShow(formData.gst_certificate)}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                      </>
+                    }
                   </label>
                 </div>
               </div>
             </div>
-
-            {/* Add other form sections here */}
           </div>
           <div className='d-flex justify-content-end mt-4'>
             <button disabled={userData?.is_basic_info_verified ? true : false} className='btn main-button' type="submit">Save</button>
@@ -591,11 +597,7 @@ function Preview({ show, handleClose, previewImage }) {
         <Modal.Title>PDF Preview</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {previewImage && (
-          <Document file={previewImage}>
-            <Page pageNumber={1} width={400} height={300} />
-          </Document>
-        )}
+        <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </Modal.Body>
     </Modal>
   );
