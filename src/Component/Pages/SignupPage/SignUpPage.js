@@ -76,6 +76,14 @@ const SignUpPage = () => {
         setPasswordShow(!PasswordShow)
     }
 
+    const customStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            maxHeight: '100px',
+            overflowY: 'auto',
+        }),
+    };
+
     return (
         <>
             <section className='signup-section'>
@@ -281,6 +289,7 @@ const SignUpPage = () => {
                                                 onChange={handleSelectChange}
                                                 options={options}
                                                 placeholder='How many orders do you ship in a month?'
+                                                styles={customStyles}
                                             />
                                             {/* <i className={`${numberOfOrders == null || numberOfOrders === "" ? '' : 'd-none'}`}>How many orders do you ship in a month ?</i> */}
                                         </label>
