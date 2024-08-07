@@ -116,7 +116,7 @@ function* courierAllocationRulePostAction(action) {
 async function courierAllocationRuleDeleteAPI(data) {
     let listData = axios.request({
         method: "DELETE",
-        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}/`,
         data
     });
     return listData
