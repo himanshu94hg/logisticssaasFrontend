@@ -4,42 +4,20 @@ const LabelIcon = () => {
     return (
         <>
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                version="1.1"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
                 width={24}
                 height={24}
-                x={0}
-                y={0}
-                viewBox="0 0 48 48"
-                style={{ enableBackground: "new 0 0 512 512" }}
-                xmlSpace="preserve"
-                fillRule="evenodd"
-                className=""
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
             >
-                <g>
-                    <linearGradient
-                        id="a"
-                        x1={0}
-                        x2={1}
-                        y1={0}
-                        y2={0}
-                        gradientTransform="matrix(47 47 -47 47 217 0)"
-                        gradientUnits="userSpaceOnUse"
-                    >
-                        <stop stopOpacity={1} stopColor="#1975c9" offset="0.2471042471042471" />
-                        <stop stopOpacity={1} stopColor="#c5dcf1" offset={1} />
-                    </linearGradient>
-                    <path
-                        fill="url(#a)"
-                        d="M254 4.5a2.5 2.5 0 0 0-2.5-2.5h-23a2.5 2.5 0 0 0-2.5 2.5v39a2.499 2.499 0 0 0 3.548 2.27l10.242-4.728a.505.505 0 0 1 .42 0l10.242 4.728A2.502 2.502 0 0 0 254 43.5z"
-                        transform="translate(-216)"
-                        opacity={1}
-                        data-original="url(#a)"
-                        className=""
-                    />
-                </g>
+                <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19 2.25C19 1.91848 18.8683 1.60054 18.6339 1.36612C18.3995 1.1317 18.0815 1 17.75 1H6.25C5.91848 1 5.60054 1.1317 5.36612 1.36612C5.1317 1.60054 5 1.91848 5 2.25V21.75C4.99985 21.9598 5.05254 22.1663 5.15323 22.3504C5.25391 22.5346 5.39934 22.6903 5.5761 22.8034C5.75286 22.9165 5.95526 22.9833 6.16461 22.9975C6.37397 23.0118 6.58354 22.9731 6.774 22.885L11.895 20.521C11.928 20.5059 11.9638 20.4981 12 20.4981C12.0362 20.4981 12.0721 20.5059 12.105 20.521L17.226 22.885C17.4165 22.9727 17.626 23.011 17.8352 22.9966C18.0444 22.9822 18.2466 22.9154 18.4232 22.8023C18.5998 22.6893 18.7452 22.5337 18.846 22.3499C18.9468 22.166 18.9998 21.9597 19 21.75V2.25Z"
+                    fill="#1975C9"
+                />
             </svg>
+
 
         </>
     )

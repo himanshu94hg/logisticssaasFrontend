@@ -29,7 +29,7 @@
     padding-left: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     height: calc(100vh - 139px);
     overflow: auto;
 }
@@ -43,20 +43,22 @@
 
 .tracking-body ul li .track-icon {
     position: relative;
+    height: 100%;
+    overflow: hidden;
 }
 
 .tracking-body ul li .track-icon::after {
     position: absolute;
     content: '';
-    height: 45px;
+    height: 100%;
     width: 2px;
-    bottom: 35px;
+    top: 34px;
     left: 12px;
     border-left: 1px dashed #000;
     z-index: -1;
 }
 
-.tracking-body ul li:first-of-type .track-icon::after {
+.tracking-body ul li:last-of-type .track-icon::after {
     display: none;
 }
 
