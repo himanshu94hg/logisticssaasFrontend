@@ -49,7 +49,7 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                 }
             }).catch((error) => {
                 customErrorFunction(error)
-                setLoader(true)
+                // setLoader(true)
             });
     };
 

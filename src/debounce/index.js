@@ -2,6 +2,6 @@ import { debounce } from 'lodash';
 
 const globalDebouncedClick = debounce((func) => {
   func();
-}, 800);
+}, 300);
 
 export default globalDebouncedClick;
