@@ -585,7 +585,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                         </table>
                         {orders?.length === 0 && <NoData />}
                     </div>
-                    <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
+                    <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                     <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                     <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
                     <div onClick={() => setSingleShipReassign(false)} className={`backdrop ${!SingleShipReassign && 'd-none'}`}></div>

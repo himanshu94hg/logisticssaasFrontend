@@ -28,7 +28,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
         const fetchOrderStatus = async () => {
             if (awbNo !== "" && orderTracking) {
                 try {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/shipping/track-order/${awbNo}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/shipping/track-order/${awbNo}/`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }
