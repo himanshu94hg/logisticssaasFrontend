@@ -301,6 +301,7 @@
 
 .int-checkbox label input {
     min-width: unset;
+    width: auto;
 }
 
 .timeline {
