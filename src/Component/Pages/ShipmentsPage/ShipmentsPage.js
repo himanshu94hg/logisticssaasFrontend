@@ -427,7 +427,9 @@ const ShipmentsPage = () => {
                         filterData={filterData}
                         setFilterData={setFilterData}
                         queryParamTemp={queryParamTemp}
-                        setQueryParamTemp={setQueryParamTemp} />
+                        setQueryParamTemp={setQueryParamTemp}
+                        searchType={searchType}
+                        searchValue={searchValue} />
                 )
                 }
             </div>

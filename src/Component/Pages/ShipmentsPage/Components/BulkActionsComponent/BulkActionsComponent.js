@@ -9,7 +9,7 @@ import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Compone
 import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
 // import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, queryParamTemp, setSelectAll, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, queryParamTemp, setSelectAll, setBulkActionShow,searchType,searchValue }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -87,9 +87,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
                         "type": "Shipment",
                         "subtype": activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""
                     },
-                    "order_id": "",
+                    "order_id": searchType === "customer_order_number" ? searchValue : "",
                     "courier": queryParamTemp?.courier_partner || "",
-                    "awb_number": queryParamTemp?.awb_number || "",
+                    "awb_number": searchType === "awb_number" ? searchValue : "",
                     "min_awb_assign_date": queryParamTemp?.start_date ? moment(queryParamTemp.start_date).format("YYYY-MM-DD") : "",
                     "max_awb_assign_date": queryParamTemp?.end_date ? moment(queryParamTemp.end_date).format("YYYY-MM-DD") : "",
                     "status": queryParamTemp?.status || "",

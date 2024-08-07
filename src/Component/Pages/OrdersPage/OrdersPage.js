@@ -600,6 +600,8 @@ const OrdersPage = () => {
                         setQueryParamTemp={setQueryParamTemp}
                         setBulkActionShow={setBulkActionShow}
                         setUpdateWarehouse={setUpdateWarehouse}
+                        searchType={searchType}
+                        searchValue={searchValue}
                     />
                 )
                 }

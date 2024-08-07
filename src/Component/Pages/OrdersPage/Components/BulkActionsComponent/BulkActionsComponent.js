@@ -18,7 +18,7 @@ import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems,searchType,searchValue }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState(false)
@@ -191,9 +191,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                         "type": "Orders",
                         "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
                     },
-                    "order_id": "",
+                    "order_id": searchType === "customer_order_number" ? searchValue : "",
                     "courier": queryParamTemp?.courier_partner || "",
-                    "awb_number": queryParamTemp?.awb_number || "",
+                    "awb_number": searchType === "awb_number" ? searchValue : "",
                     "min_awb_assign_date": "",
                     "max_awb_assign_date": "",
                     "status": queryParamTemp?.status || "",
