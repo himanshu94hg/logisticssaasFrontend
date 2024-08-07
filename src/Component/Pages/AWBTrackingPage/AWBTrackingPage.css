@@ -41,24 +41,24 @@
 
 }
 
-.tracking-body ul li .track-icon {
+.tracking-body ul li .tracking-status {
     position: relative;
     height: 100%;
-    overflow: hidden;
+    overflow-y: clip;
 }
 
-.tracking-body ul li .track-icon::after {
+.tracking-body ul li .tracking-status::after {
     position: absolute;
     content: '';
     height: 100%;
     width: 2px;
     top: 34px;
-    left: 12px;
+    left: -22px;
     border-left: 1px dashed #000;
     z-index: -1;
 }
 
-.tracking-body ul li:last-of-type .track-icon::after {
+.tracking-body ul li:last-of-type .tracking-status::after {
     display: none;
 }
 
@@ -69,7 +69,7 @@
 
 .tracking-body ul li.active h4 {
     color: green;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 400;
 }
 

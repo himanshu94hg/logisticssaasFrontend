@@ -65,7 +65,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
                                 <div className={`track-icon ${item?.status === "Delivered" && 'active'}`}>
                                     {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
-                                <div>
+                                <div className='tracking-status'>
                                     <h4>{item?.status_description}</h4>
                                     <p>Status: {item?.status}</p>
                                     <p>{item?.location}</p>
