@@ -458,12 +458,23 @@
 .whatsapp .whatsapp-benefits li.plus-middle {
     font-size: 50px;
     letter-spacing: 12px;
-    color: var(--sh-primary-middle);
+    /* color: var(--sh-primary-middle); */
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
+.whatsapp .whatsapp-benefits li.plus-middle hr {
+    min-height: 150px;
+    height: 100%;
+    width: 1px;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, #fff 0%, #60a9eb 25%, #60a9eb 75%, #fff 100%);
+    border-top: none;
+    padding: 0;
+    opacity: 1;
+    margin: 0px;
+}
 
 /* .whatsapp .whatsapp-benefits li:after {
     content: "---+---";
@@ -482,7 +493,7 @@
 .whatsapp .whatsapp-get-started {
     width: 100%;
     position: relative;
-    max-width: 320px;
+    /* max-width: 320px; */
 }
 
 .whatsapp .whatsapp-get-started input {
@@ -497,10 +508,32 @@
     position: absolute;
     right: 0px;
     height: 36px;
-    background: var(--sh-primary);
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
     color: #fff;
     border: none;
     outline: none;
     font-size: 0.8rem;
     border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.color-whatsapp {
+    color: #25d366;
+}
+
+.whatsapp .try-it-out {
+    background: url("../../../assets//image/whatsappBG.jpg");
+    padding: 15px;
+    border-radius: 0.5rem 0 0 0.5rem;
+    width: 100%;
+    /* border: 1px solid #e1e1e1; */
+    display: flex;
+    align-items: center;
+}
+
+.whatsapp .pricing-section {
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    border-left: none;
+    border-radius: 0 0.5rem 0.5rem 0;
+    width: 100%;
 }
