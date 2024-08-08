@@ -435,15 +435,21 @@ const SetPreferenceRules = ({ activeTab }) => {
                 show={show}
                 onHide={handleClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to delete the rule ?</Modal.Title>
+                    <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete the rule ?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={makeApiCall}>Continue</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
 
