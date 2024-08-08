@@ -245,7 +245,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-                                                <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
+                                                <p><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
                                                     <InfoIcon onClick={() => handleShow(row)} />
                                                 </p>
                                             </div>
