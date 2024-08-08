@@ -138,7 +138,7 @@ function* courierAllocationRuleDeleteAction(action) {
 async function courierAllocationRuleEditAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}/`,
         data: data
     });
     return listData
