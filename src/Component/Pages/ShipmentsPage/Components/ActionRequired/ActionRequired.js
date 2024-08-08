@@ -234,7 +234,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                     {row.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
-                                                    {
+                                                    {/* {
                                                         row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
@@ -250,7 +250,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                                 </div>
                                                             }
                                                         />
-                                                    }
+                                                    } */}
                                                 </p>
                                             </div>
                                         </td>

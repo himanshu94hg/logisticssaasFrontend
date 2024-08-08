@@ -18,7 +18,11 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
 import { FaRegCopy } from "react-icons/fa";
-
+import VerifiedOrderIcon from "../../../../common/Icons/VerifiedOrderIcon";
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
+import OrderTagsIcon from "../../../../common/Icons/OrderTagsIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
     const [show, setShow] = useState(false);
@@ -175,25 +179,52 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                    : ""}
-                                                    &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                                                : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                    : <CustomIcon />}
+                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
+                                                    </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    <OverlayTrigger
-                                                        placement="right"
-                                                        overlay={
-                                                            <Tooltip id={`tooltip-right`}>
-                                                                {row?.order_type}
-                                                            </Tooltip>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <img
+                                                                src={ForwardIcon}
+                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                alt="Forward/Reverse"
+                                                                width={24}
+                                                            />
                                                         }
-                                                    >
-                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    </OverlayTrigger>
+                                                        tooltipComponent={<>{row?.order_type}</>}
+                                                        addClassName='verified-hover'
+                                                    />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
                                                     {row.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
+                                                    {/* {
+                                                        row?.order_tag.length > 0 && <CustomTooltip
+                                                            triggerComponent={<span className='ms-1'>
+                                                                <OrderTagsIcon />
+                                                            </span>}
+                                                            tooltipComponent={
+                                                                <div className='Labels-pool'>
+                                                                    {row?.order_tag?.map((item) => {
+                                                                        return (
+                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                            }
+                                                        />
+                                                    } */}
                                                 </p>
                                             </div>
                                         </td>
