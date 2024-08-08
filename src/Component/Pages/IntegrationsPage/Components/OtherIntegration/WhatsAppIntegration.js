@@ -25,34 +25,44 @@ const WhatsAppIntegration = () => {
                         <li className='plus-middle'><hr /></li>
                         <li><PackageMagnifyingIcon />Reduce customer inquiries by increasing the visibility of shipment details.</li>
                     </ul>
-                    <div className='mt-5'>
+                    <div className='mt-5 d-flex flex-column align-items-center gap-3'>
                         <h5>Keep your buyers informed with live updates that have a <span>93%</span> read rate.</h5>
-                        <p className='font30 py-2'><span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span></p>
+                        <p className='font30 py-2'><span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span><button className='btn main-button ms-3'>Activate Now</button></p>
                         <p className='font12 pt-2'><span className='fw-bold'>Note:</span> Customise real time tracking update to share with your buyers, per status just @ &#8377;0.99. Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.</p>
-                        {/* <h4>Key Benefits</h4> */}
                     </div>
                     <div className='mt-5 d-flex w-100'>
                         <div className='try-it-out'>
-                            <div>
-                                <h4>Try It Out!</h4>
-                                <p>Enter your number to receive live tracking updates via WhatsApp.</p>
+                            <div style={{ zIndex: '1' }}>
+                                <h3 className='mb-3'>Experience It Now!</h3>
+                                <h5 className='mb-2'>Enter your number to receive live tracking updates via WhatsApp.</h5>
                                 <label className='whatsapp-get-started'>
                                     <input type="text" placeholder='Enter 10 Digit Mobile Number' />
-                                    <button>Get Started</button>
+                                    <button>Get Demo Now</button>
                                 </label>
                             </div>
                         </div>
-                        <div className='pricing-section'>
-                            <div>
-                                <h4>Rate pr message &#8377; 0.99</h4>
-                                <h5>Features!</h5>
-                                <ul>
-                                    <li>Customise number of messages</li>
-                                    <li>Pay per message</li>
-                                    <li>At low prices</li>
-                                </ul>
-                                <button className='btn main-button'>Activate Now</button>
-                            </div>
+                    </div>
+                    <div className='mt-5'>
+                        <h4>Additional Features</h4>
+                        <div className='table-container'>
+                            <table className='w-100'>
+                                <thead className='sticky-header'>
+                                    <tr>
+                                        <td>Feature</td>
+                                        <td>Description</td>
+                                        <td>Price</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
