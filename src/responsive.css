@@ -332,12 +332,14 @@
         padding-block: 0px;
     }
 
-    .search-container.ot-filters label .css-1fdsijx-ValueContainer {
+    .search-container.ot-filters label .css-1fdsijx-ValueContainer,
+    .search-container.ot-filters label .css-hlgwow {
         height: 29px;
         padding-block: 0px;
     }
 
-    .search-container.ot-filters label .css-qbdosj-Input {
+    .search-container.ot-filters label .css-qbdosj-Input,
+    .search-container.ot-filters label .css-19bb58m {
         margin-block: 0px;
         padding-block: 0px;
     }
