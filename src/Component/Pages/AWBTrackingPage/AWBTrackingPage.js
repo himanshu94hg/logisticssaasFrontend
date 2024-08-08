@@ -22,9 +22,11 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
     const CloseSidePanel = () => {
         setOrderTracking(false)
         setAwbNo("")
-
     }
+
+
     useEffect(() => {
+        setOrderStatus([])
         const fetchOrderStatus = async () => {
             if (awbNo !== "" && orderTracking) {
                 try {
@@ -41,6 +43,8 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
         };
         fetchOrderStatus();
     }, [awbNo, orderTracking, authToken]);
+
+
 
 
     return (
