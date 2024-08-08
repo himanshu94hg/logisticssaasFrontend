@@ -106,6 +106,7 @@ const OrdersPage = () => {
             setBulkActionShow(false)
             setSearchOption(SearchOptions[0])
             setsearchType(SearchOptions[0].value)
+            setSearchStatus(false)
         }
     }, [activeTab])
 
@@ -113,6 +114,7 @@ const OrdersPage = () => {
         if (itemsPerPage || MoreFilters) {
             setBulkActionShow(false)
             setSelectedRows([])
+            setSearchStatus(false)
         }
     }, [itemsPerPage, MoreFilters])
 
@@ -256,62 +258,67 @@ const OrdersPage = () => {
             });
     }
 
+
+    console.log(searchStatus,"searchStatus")
     useEffect(() => {
-        let apiUrl = '';
-        switch (activeTab) {
-            case "All":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Unprocessable":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Processing":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Ready to Ship":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Pickup":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Returns":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            default:
-                apiUrl = '';
-        }
-
-        if (apiUrl && !searchStatus) {
-            const queryParams = { ...queryParamTemp };
-            const queryString = Object.keys(queryParams)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                .join('&');
-
-            const decodedURL = decodeURIComponent(queryString);
-
-            if (decodedURL) {
-                apiUrl += '&' + decodedURL;
+        if(!searchStatus){
+            let apiUrl = '';
+            switch (activeTab) {
+                case "All":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Unprocessable":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Processing":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Ready to Ship":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Pickup":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Returns":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                default:
+                    apiUrl = '';
             }
-            axios.get(apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
+    
+            if (apiUrl) {
+                const queryParams = { ...queryParamTemp };
+                const queryString = Object.keys(queryParams)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                    .join('&');
+    
+                const decodedURL = decodeURIComponent(queryString);
+    
+                if (decodedURL) {
+                    apiUrl += '&' + decodedURL;
                 }
-            })
-                .then(response => {
-                    setTotalItems(response?.data?.count)
-                    setLoader(false)
-                    const start = performance.now();
-                    setOrders(response.data.results);
-                    const end = performance.now();
-
+                axios.get(apiUrl, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
                 })
-                .catch(error => {
-                    // customErrorFunction(error)
-                    //    setLoader(false)
-                });
+                    .then(response => {
+                        setTotalItems(response?.data?.count)
+                        setLoader(false)
+                        const start = performance.now();
+                        setOrders(response.data.results);
+                        const end = performance.now();
+    
+                    })
+                    .catch(error => {
+                        // customErrorFunction(error)
+                        //    setLoader(false)
+                    });
+            }
         }
+      
 
-    }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
+    }, [activeTab,searchStatus, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
 
     useEffect(() => {
