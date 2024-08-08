@@ -70,6 +70,12 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
+    const handleWorkingDownload = (id, event) => {
+        event.preventDefault(); 
+        const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${id}`;
+        window.open(invoiceUrlData, '_self');
+    };
+    
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
@@ -168,7 +174,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                         <InvoiceIcon />
                                                     </button>
                                                 </>}
-                                            {row.uploaded_invoice ?
+                                            {row?.uploaded_invoice?.awb_file ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
                                                         const pdfUrl = row.uploaded_invoice?.awb_file
@@ -181,7 +187,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                     }}
                                                 ><MdOutlineFileDownload /></button>
                                                 :
-                                                <button title='Download Working' style={downloadButton} className='btn p-0' onClick={() => handleDataAndView(row)}><MdOutlineFileDownload /></button>
+                                                <button title='Download Working' style={downloadButton} className='btn p-0' onClick={(event) => handleWorkingDownload(row?.id, event)}><MdOutlineFileDownload /></button>
                                             }
                                         </div>
                                     </div>
