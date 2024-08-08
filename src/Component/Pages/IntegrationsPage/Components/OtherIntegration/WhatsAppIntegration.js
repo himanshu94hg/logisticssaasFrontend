@@ -33,11 +33,11 @@ const WhatsAppIntegration = () => {
                     <div className='mt-5 d-flex w-100'>
                         <div className='try-it-out'>
                             <div style={{ zIndex: '1' }}>
-                                <h3 className='mb-3'>Try It Out!</h3>
+                                <h3 className='mb-3'>Experience It Now!</h3>
                                 <h5 className='mb-2'>Enter your number to receive live tracking updates via WhatsApp.</h5>
                                 <label className='whatsapp-get-started'>
                                     <input type="text" placeholder='Enter 10 Digit Mobile Number' />
-                                    <button>Get Started</button>
+                                    <button>Get Demo Now</button>
                                 </label>
                             </div>
                         </div>
