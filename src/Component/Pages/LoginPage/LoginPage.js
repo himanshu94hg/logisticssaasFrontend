@@ -110,11 +110,21 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   };
 
   const handleSendOTP = async () => {
+    if (!username) {
+      toast.error("Please enter your mobile number.");
+      return;
+    }
+  
     setSentOtp(true);
     setTimer(20);
     setIsTimerRunning(true);
     try {
-      const response = await axios.get(`${BASE_URL_CORE}/core-api/accounts/send-otp/?contact_number=${username}&feature=sign-in`);
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/accounts/send-otp/`, {
+        params: {
+          contact_number: username,
+          feature: 'sign-in'
+        }
+      });
       if (response.status === 200) {
         toast.success("OTP Sent successfully!");
       }
@@ -122,6 +132,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       customErrorFunction(error);
     }
   };
+  
 
   const handleLoginOptions = () => {
     setOtpLogin(!OtpLogin);
