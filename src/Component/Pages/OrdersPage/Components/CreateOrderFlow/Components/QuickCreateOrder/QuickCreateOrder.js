@@ -35,6 +35,7 @@ const QuickCreateOrder = (activeTab) => {
     const [Exitpop, setExitpop] = useState(false)
     const [pincodeError, setPincodeError] = useState(false)
     const [pincodeError1, setPincodeError1] = useState(false)
+    const [loader, setLoader] = useState(false)
 
 
 
@@ -411,7 +412,7 @@ console.log(errors,"this is a from data")
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop orderId={selectedOrderId} Exitpop={Exitpop} setExitpop={setExitpop} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
+            <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} Exitpop={Exitpop} setExitpop={setExitpop} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
             <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             <div style={{ zIndex: '7' }} className={`backdrop ${!Exitpop && 'd-none'}`}></div>
         </div>

@@ -19,7 +19,7 @@ async function moreorderFileAPI(data) {
 async function moreorderShipFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_SHIP_URL}${data?.order_id}?courier_partner=${data?.courier}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_SHIP_URL}${data?.order_id}/?courier_partner=${data?.courier}`,
         data: data
     });
     return listData;
