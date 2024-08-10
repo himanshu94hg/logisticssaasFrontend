@@ -4,9 +4,11 @@ import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import Cookies from 'js-cookie';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { useDispatch } from 'react-redux';
 
 const ShopifyIntegrationForm = () => {
     const navigation = useNavigate();
+    const dispatch=useDispatch()
     const hardcodedToken = Cookies.get("access_token");
 
     const handleSubmit = async (event) => {
@@ -23,7 +25,7 @@ const ShopifyIntegrationForm = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 const { redirect_url, nonce } = data;
-
+                dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
                 Cookies.set('redirect_url', redirect_url, { expires: 1 });
                 Cookies.set('nonce', nonce, { expires: 1 });
 
