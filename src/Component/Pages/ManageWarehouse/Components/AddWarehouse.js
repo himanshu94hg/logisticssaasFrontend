@@ -11,6 +11,7 @@ import { manageWarehousesPattern } from '../../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
+import { useSelector } from 'react-redux';
 
 const AddWarehouse = () => {
     const navigate = useNavigate()
@@ -19,6 +20,7 @@ const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false);
     const hardcodedToken = Cookies.get("access_token");
     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+    const sellerData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [warehouseData, setWareHouseData] = useState({
         seller: "",
         warehouse_name: "",
@@ -109,7 +111,15 @@ const AddWarehouse = () => {
                 setErrors(newErrors);
                 return;
             }
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/warehouse/`, warehouseData, {
+
+            const warehouse_code = `${warehouseData.warehouse_name}_${sellerData?.code}`;
+
+            const updatedWarehouseData = {
+                ...warehouseData,
+                warehouse_code
+            };
+
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/warehouse/`, updatedWarehouseData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
