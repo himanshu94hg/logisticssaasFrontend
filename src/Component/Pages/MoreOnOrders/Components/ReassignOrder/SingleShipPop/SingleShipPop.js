@@ -13,10 +13,12 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partn
     const [shipingData, setShipingData] = useState(false);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     const handleSubmit = (option, shipCharge) => {
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
+            console.log(option, shipCharge, "hhhhhhhhhh", paymentCard)
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
         } else {
@@ -62,10 +64,10 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partn
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                            {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner'/>}
+                                {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner' />}
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
-                            <p>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
+                                <p>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
                             </div>

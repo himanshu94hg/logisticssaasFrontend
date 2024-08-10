@@ -17,7 +17,7 @@ import Select from 'react-select';
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
     const [numberOfOrders, setnumberOfOrders] = useState(null)
-    const [TrackOption, setTrackOption] = useState('AWB No.')
+    const [TrackOption, setTrackOption] = useState('Mobile Number')
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -314,7 +314,7 @@ const SignUpPage = () => {
                                         </label>
                                         <label className='inputBox'>
                                             <input type="text" className='input-field' required />
-                                            <i>Enter your {TrackOption}</i>
+                                            <i>Enter your {TrackOption.split("_").join(" ")}</i>
                                         </label>
                                     </div>
                                     {

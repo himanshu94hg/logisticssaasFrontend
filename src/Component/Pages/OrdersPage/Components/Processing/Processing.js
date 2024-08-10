@@ -103,6 +103,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
 
                 }).catch((error) => {
                     customErrorFunction(error)
+                    setSingleShip(true);
                 });
         }
     };
