@@ -85,24 +85,21 @@ const OrdersPage = () => {
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
-
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled, orderdelete])
 
     useEffect(() => {
         if (activeTab) {
-            setbulkAwb([])
             setOrders([])
             setErrors({})
-            setSearchValue("")
+            setbulkAwb([])
             setSelectedRows([])
-            setQueryParamTemp({});
+            setQueryParamTemp({})
+            setSearchStatus(false)
             setSearchStatus(false)
             setBulkActionShow(false)
             setSearchOption(SearchOptions[0])
-            setsearchType(SearchOptions[0].value)
-            setSearchStatus(false)
         }
     }, [activeTab])
 
@@ -289,7 +286,16 @@ const OrdersPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
+            <NavTabs
+                activeTab={activeTab}
+                setRateRef={setRateRef}
+                setActiveTab={setActiveTab}
+                SearchOptions={SearchOptions}
+                setsearchType={setsearchType}
+                setCurrentPage={setCurrentPage}
+                setSearchValue={setSearchValue}
+                setItemsPerPage={setItemsPerPage}
+            />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
