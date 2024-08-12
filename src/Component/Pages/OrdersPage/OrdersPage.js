@@ -289,7 +289,7 @@ const OrdersPage = () => {
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
                     break;
                 case "Pickup":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}}`;
                     break;
                 case "Returns":
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
@@ -332,6 +332,7 @@ const OrdersPage = () => {
     console.log(reset, "lllllllllll", searchStatus)
 
     useEffect(() => {
+        setLoader(true)
         if (activeTab === "Manifest") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
                 headers: {
@@ -341,9 +342,11 @@ const OrdersPage = () => {
                 .then(response => {
                     setTotalItems(response?.data?.count)
                     setManifestOrders(response.data.results);
+                    setLoader(false)
                 })
                 .catch(error => {
                     customErrorFunction(error)
+                    setLoader(false)
                 });
         }
     }, [activeTab, itemsPerPage, currentPage])
