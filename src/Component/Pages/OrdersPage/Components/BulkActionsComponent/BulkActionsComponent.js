@@ -18,7 +18,7 @@ import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems,searchType,searchValue }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems, searchType, searchValue }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState(false)
@@ -34,7 +34,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
-    console.log("labelDatalabelData",orderdelete)
+    console.log("labelDatalabelData", orderdelete)
 
 
     console.log(loaderState, "loaderStateloaderStateloaderStateloaderState")
@@ -291,7 +291,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     }, [orderdelete, orderCancelled, loaderState])
 
     const returnsBulkActions = {
-        width: '210px',
+        width: 'fit-content',
     }
 
 

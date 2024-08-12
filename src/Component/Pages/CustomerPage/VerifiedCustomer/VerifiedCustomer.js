@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { FiDownload } from 'react-icons/fi'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -122,9 +123,9 @@ const VerifiedCustomer = () => {
                             <div className='detail-label'>GST Number <span>{formData.gst_number}</span></div>
                             <div className='detail-label'>GST Number <span>{formData.gst_number}</span></div>
                             <div className='detail-label'>GST Certficate
-                                <span onClick={handleClick}>
-                                    <FontAwesomeIcon icon={faEye} />
-                                </span>
+                                <a onClick={handleClick}>
+                                    <FiDownload /> Download
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -156,7 +157,9 @@ const VerifiedCustomer = () => {
                             </div>
                             <div className='detail-label'>
                                 Attachment
-                                <span><FontAwesomeIcon icon={faEye} /></span>
+                                <a>
+                                    <FiDownload /> Download
+                                </a>
                             </div>
 
                         </div>
@@ -179,7 +182,9 @@ const VerifiedCustomer = () => {
                             </div>
                             <div className='detail-label'>
                                 Attachment
-                                <span><FontAwesomeIcon icon={faEye} /></span>
+                                <a>
+                                    <FiDownload /> Download
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -187,7 +192,9 @@ const VerifiedCustomer = () => {
                     <div className='detail-section row'>
                         <div className='details-title col-3'>Agreement</div>
                         <div className='follow-details col-9'>
-                            Download Agreement
+                            <a>
+                                <FiDownload /> Download
+                            </a>
                         </div>
                     </div>
                 </div>

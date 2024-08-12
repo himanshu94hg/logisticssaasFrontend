@@ -44,26 +44,14 @@ const WhatsAppIntegration = () => {
                     </div>
                     <div className='mt-5'>
                         <h4>Additional Features</h4>
-                        <div className='table-container'>
-                            <table className='w-100'>
-                                <thead className='sticky-header'>
-                                    <tr>
-                                        <td>Feature</td>
-                                        <td>Description</td>
-                                        <td>Price</td>
-                                        <td>Action</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className='additional-features-nav'>
+                            <ul>
+                                <li className='active'>Book Order</li>
+                                <li>Cancel Order</li>
+                                <li>Track Order</li>
+                            </ul>
                         </div>
+                        <div className='additional-features'></div>
                     </div>
                 </section>
             </div>
