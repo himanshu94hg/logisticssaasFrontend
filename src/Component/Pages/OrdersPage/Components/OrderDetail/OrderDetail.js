@@ -151,9 +151,15 @@ const OrderDetail = () => {
                                         <h6>Package Details</h6>
                                     </div>
                                     <ul className='od-list od-pd-list'>
-                                        <li><span>Dead Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.weight / 1000}</span></li>
-                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length} x {orderDetails?.dimension_detail?.breadth} x {orderDetails?.dimension_detail?.height}</span></li>
-                                        <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${(orderDetails.dimension_detail.vol_weight/1000)} Kg` : "NA"}</span></li>
+                                        <li><span>Dead Weight (in Kg):</span><span>{(orderDetails?.dimension_detail?.weight / 1000).toFixed(2)}</span></li>
+                                        <li><span>Dimensions (in cm):</span>
+                                            <span>
+                                                {parseFloat(orderDetails?.dimension_detail?.length || 0).toFixed(2)} x
+                                                {parseFloat(orderDetails?.dimension_detail?.breadth || 0).toFixed(2)} x
+                                                {parseFloat(orderDetails?.dimension_detail?.height || 0).toFixed(2)}
+                                            </span>
+                                        </li>
+                                        <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${(orderDetails.dimension_detail.vol_weight / 1000).toFixed(2)} Kg` : "NA"}</span></li>
                                         <li><span>Applied Weight (in Kg):</span><span> {weightGreater(orderDetails?.dimension_detail?.weight, orderDetails?.dimension_detail?.vol_weight)} Kg</span></li>
                                     </ul>
                                 </div>
@@ -191,10 +197,6 @@ const OrderDetail = () => {
                                             <th style={{ width: '10%' }}>HSN</th>
                                             <th style={{ width: '10%' }}>SKU</th>
                                             <th style={{ width: '2%' }}>Qt.</th>
-                                            {/* <th style={{ width: '10%' }}>Unit Price</th> */}
-                                            {/* <th style={{ width: '10%' }}>Discount</th> */}
-                                            {/* <th style={{ width: '10%' }}>Tax</th> */}
-                                            {/* <th style={{ width: '10%' }}>Total</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,10 +209,6 @@ const OrderDetail = () => {
                                                     <td>{item?.hsn_code ? item?.hsn_code : ""}</td>
                                                     <td>{item?.sku ? item?.sku : ""}</td>
                                                     <td>{item?.quantity ? item?.quantity : ""}</td>
-                                                    {/* <td>{item?.unit_price ? item?.unit_price : ""}</td> */}
-                                                    {/* <td>{item?.product_discount ? item?.product_discount : ""}</td> */}
-                                                    {/* <td>{item?.tax_rate ? item?.tax_rate : ""}</td> */}
-                                                    {/* <td>{item?.quantity * item?.unit_price}</td> */}
                                                 </tr>
                                             )
                                         })}
@@ -224,7 +222,7 @@ const OrderDetail = () => {
                                             <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Product Total ({orderDetails?.order_products?.length} Item)</td>
                                             <td style={{ width: '20%', paddingBottom: '20px' }}>
                                                 <p className='text-end'>
-                                                    ₹ {orderDetails?.invoice_amount || 0.00}
+                                                    ₹ {parseFloat(orderDetails?.invoice_amount || 0).toFixed(2)}
                                                 </p>
                                             </td>
                                         </tr>
@@ -232,7 +230,7 @@ const OrderDetail = () => {
                                             <td style={{ width: '70%', textAlign: 'end', paddingRight: '25px' }}>Order Total</td>
                                             <td style={{ width: '20%' }}>
                                                 <p className='text-end'>
-                                                    ₹ {orderDetails?.invoice_amount || 0.00}
+                                                    ₹ {parseFloat(orderDetails?.invoice_amount || 0).toFixed(2)}
                                                 </p>
                                             </td>
                                         </tr>

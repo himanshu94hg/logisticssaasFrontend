@@ -111,7 +111,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                                         <span className="mps-flag">MPS</span>
                                                     }
                                                     {
-                                                        row?.order_tag.length > 0 && <CustomTooltip
+                                                        row?.order_tag?.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
                                                             </span>}

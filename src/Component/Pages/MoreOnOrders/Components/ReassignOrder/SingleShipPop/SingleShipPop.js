@@ -18,7 +18,6 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partn
 
     const handleSubmit = (option, shipCharge) => {
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
-            console.log(option, shipCharge, "hhhhhhhhhh", paymentCard)
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
         } else {
