@@ -12,7 +12,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
-const AgreementInfo = ({ activeTab }) => {
+const AgreementInfo = ({ activeTab, DetailsView, setDetailsView }) => {
   const dispatch = useDispatch()
   const componentRef = useRef();
   const [data, setData] = useState(null);
@@ -79,6 +79,7 @@ const AgreementInfo = ({ activeTab }) => {
       customErrorFunction(error);
     }
     setShow(false)
+    setDetailsView(true)
   };
 
 
