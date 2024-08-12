@@ -234,6 +234,14 @@ const OrderDetail = () => {
                                                 </p>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Collectable Amount </td>
+                                            <td style={{ width: '20%', paddingBottom: '20px' }}>
+                                                <p className='text-end'>
+                                                    ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)?.toFixed(2)}
+                                                </p>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
