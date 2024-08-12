@@ -84,10 +84,11 @@ const OrdersPage = () => {
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
     const [searchStatus, setSearchStatus] = useState(false)
+    const [reset, setReset] = useState(null)
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
-    }, [orderCancelled,orderdelete])
+    }, [orderCancelled, orderdelete])
 
 
     useEffect(() => {
@@ -109,6 +110,12 @@ const OrdersPage = () => {
             setSearchStatus(false)
         }
     }, [activeTab])
+
+    useEffect(() => {
+        if (itemsPerPage || currentPage) {
+            setSearchStatus(false)
+        }
+    }, [itemsPerPage, currentPage])
 
     useEffect(() => {
         if (itemsPerPage || MoreFilters) {
@@ -198,9 +205,9 @@ const OrdersPage = () => {
     };
 
     const handleSearch = () => {
-        let sanitizedSearchValue = searchValue.replace(/#/g, '');;
+        let sanitizedSearchValue = searchValue.replace(/#/g, '');
         if (validateData()) {
-            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${itemsPerPage}&page=${currentPage}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -242,26 +249,27 @@ const OrdersPage = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setItemsPerPage(20)
+        setCurrentPage(1)
         setQueryParamTemp({})
+        setReset(new Date())
         setSearchOption(SearchOptions[0])
-        axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-            })
-            .catch(error => {
-                customErrorFunction(error)
-            });
+        setSearchStatus(false)
+        // axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
+        //     headers: {
+        //         Authorization: `Bearer ${authToken}`
+        //     }
+        // })
+        //     .then(response => {
+        //         setTotalItems(response?.data?.count)
+        //         setOrders(response.data.results);
+        //     })
+        //     .catch(error => {
+        //         customErrorFunction(error)
+        //     });
     }
 
-
-    console.log(searchStatus,"searchStatus")
     useEffect(() => {
-        if(!searchStatus){
+        if (!searchStatus) {
             let apiUrl = '';
             switch (activeTab) {
                 case "All":
@@ -271,7 +279,7 @@ const OrdersPage = () => {
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
                     break;
                 case "Processing":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}&q=${searchValue}`;
                     break;
                 case "Ready to Ship":
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -285,15 +293,14 @@ const OrdersPage = () => {
                 default:
                     apiUrl = '';
             }
-    
             if (apiUrl) {
                 const queryParams = { ...queryParamTemp };
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-    
+
                 const decodedURL = decodeURIComponent(queryString);
-    
+
                 if (decodedURL) {
                     apiUrl += '&' + decodedURL;
                 }
@@ -305,10 +312,7 @@ const OrdersPage = () => {
                     .then(response => {
                         setTotalItems(response?.data?.count)
                         setLoader(false)
-                        const start = performance.now();
                         setOrders(response.data.results);
-                        const end = performance.now();
-    
                     })
                     .catch(error => {
                         // customErrorFunction(error)
@@ -316,10 +320,12 @@ const OrdersPage = () => {
                     });
             }
         }
-      
 
-    }, [activeTab,searchStatus, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
+    }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
+
+
+    console.log(reset, "lllllllllll", searchStatus)
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -584,6 +590,7 @@ const OrdersPage = () => {
                     />
                 </div>
                 <Pagination
+                    activeTab={activeTab}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
