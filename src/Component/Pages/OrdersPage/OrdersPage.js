@@ -82,7 +82,6 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
-
     const [searchStatus, setSearchStatus] = useState(false)
     const [reset, setReset] = useState(null)
 
@@ -92,11 +91,7 @@ const OrdersPage = () => {
 
 
     useEffect(() => {
-        // setLoader(true)
         if (activeTab) {
-            // setTimeout(() => {
-            //     setLoader(false)
-            // }, 500);
             setbulkAwb([])
             setOrders([])
             setErrors({})
@@ -117,7 +112,7 @@ const OrdersPage = () => {
         }
     }, [itemsPerPage, currentPage])
 
-   
+
     useEffect(() => {
         if (itemsPerPage || MoreFilters) {
             setBulkActionShow(false)
@@ -173,61 +168,9 @@ const OrdersPage = () => {
         setBackDrop(false)
     }
 
-    const validateData = () => {
-        const newErrors = {};
-        if (searchType === 'customer_order_number' && !searchValue) {
-            newErrors.customer_order_number = 'Order Number is required!';
-        }
-        if (searchType === 'shipping_detail__mobile_number' && !searchValue) {
-            newErrors.customer_order_number = 'Mobile Number is required!';
-        }
-        if (searchType === 'shipping_detail__email' && !searchValue) {
-            newErrors.shipping_detail__email = 'Email is required!';
-        }
-        if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
-            newErrors.shipping_detail__recipient_name = 'Name is required!';
-        }
-        if (searchType === 'shipping_detail__pincode' && !searchValue) {
-            newErrors.customer_order_number = 'Pincode Number is required!';
-        }
-        if (searchType === 'shipping_detail__city' && !searchValue) {
-            newErrors.customer_order_number = 'City is required!';
-        }
-        if (searchType === 'awb_number' && !searchValue) {
-            newErrors.customer_order_number = 'AWB is required!';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
     const handleChange = (option) => {
         setSearchOption(option);
         setsearchType(option.value)
-    };
-
-    const handleSearch = () => {
-        // let sanitizedSearchValue = searchValue.replace(/#/g, '');
-        // if (validateData()) {
-        //     axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${itemsPerPage}&page=${currentPage}`, {
-        //         headers: {
-        //             Authorization: `Bearer ${authToken}`
-        //         }
-        //     })
-        //         .then(response => {
-        //             setTotalItems(response?.data?.count)
-        //             setOrders(response.data.results);
-        //             setSearchStatus(true)
-        //         })
-        //         .catch(error => {
-        //             customErrorFunction(error)
-        //         });
-        // setQueryParamTemp({
-        //     search_by: searchType,
-        //     q: searchValue
-        // })
-        // setCurrentPage(1)
-        // }
-        setReset(new Date())
     };
 
     const handleMoreFilter = (data) => {
@@ -247,6 +190,10 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
+    const handleSearch = () => {
+        setReset(new Date())
+    };
+
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
@@ -256,23 +203,11 @@ const OrdersPage = () => {
         setReset(new Date())
         setSearchOption(SearchOptions[0])
         setSearchStatus(false)
-        // axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
-        //     headers: {
-        //         Authorization: `Bearer ${authToken}`
-        //     }
-        // })
-        //     .then(response => {
-        //         setTotalItems(response?.data?.count)
-        //         setOrders(response.data.results);
-        //     })
-        //     .catch(error => {
-        //         customErrorFunction(error)
-        //     });
     }
 
     useEffect(() => {
-        setLoader(true)
         let sanitizedSearchValue = searchValue.replace(/#/g, '');
+        setLoader(true)
         if (!searchStatus) {
             let apiUrl = '';
             switch (activeTab) {
@@ -289,7 +224,7 @@ const OrdersPage = () => {
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
                     break;
                 case "Pickup":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}}`;
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
                     break;
                 case "Returns":
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}`;
@@ -302,9 +237,7 @@ const OrdersPage = () => {
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-
                 const decodedURL = decodeURIComponent(queryString);
-
                 if (decodedURL) {
                     apiUrl += '&' + decodedURL;
                 }
@@ -324,12 +257,8 @@ const OrdersPage = () => {
                     });
             }
         }
-
-
     }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
-
-    console.log(reset, "lllllllllll", searchStatus)
 
     useEffect(() => {
         setLoader(true)
