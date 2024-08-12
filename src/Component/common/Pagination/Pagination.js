@@ -22,7 +22,6 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
         if(activeTab){
             setGoToPage('')
         }
-      
     }, [itemsPerPage, totalItemsCount]);
 
 
