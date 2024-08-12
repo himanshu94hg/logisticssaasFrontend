@@ -8,19 +8,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partnerList }) => {
+const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partnerList, setLoader }) => {
     const dispatch = useDispatch()
     const [shipingData, setShipingData] = useState(false);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     const handleSubmit = (option, shipCharge) => {
+        setLoader(true)
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
+            setSingleShip(false)
+            // setLoader(false)
         } else {
+            setSingleShip(false)
+            setLoader(false)
             Swal.fire({
                 icon: "error",
                 html: `

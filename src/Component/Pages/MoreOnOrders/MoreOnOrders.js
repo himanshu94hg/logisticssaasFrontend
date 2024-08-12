@@ -68,6 +68,8 @@ const MoreOnOrders = () => {
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
+    const [reset, setReset] = useState(null)
+
     const activeTabValueSet =
         activeTab === "Reassign Order"
             ? "core-api/shipping/reassign/"
@@ -150,7 +152,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), reset,currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -198,11 +200,11 @@ const MoreOnOrders = () => {
             .catch(error => {
                 customErrorFunction(error)
             });
-        setQueryParamTemp({
-            search_by: searchType,
-            q: searchValue
-        })
-        setCurrentPage(1)
+        // setQueryParamTemp({
+        //     search_by: searchType,
+        //     q: searchValue
+        // })
+        // setCurrentPage(1)
     }
 
     const handleChange = (option) => {
@@ -214,20 +216,22 @@ const MoreOnOrders = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setQueryParamTemp({})
-        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setMergeOrders(response.data.results);
-                setReassOrders(response.data.results)
-                setSplitOrders(response.data.results)
-            })
-            .catch(error => {
-                customErrorFunction(error)
-            });
+        setReset(new Date())
+        setCurrentPage(1)
+        // axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
+        //     headers: {
+        //         Authorization: `Bearer ${authToken}`
+        //     }
+        // })
+        //     .then(response => {
+        //         setTotalItems(response?.data?.count)
+        //         setMergeOrders(response.data.results);
+        //         setReassOrders(response.data.results)
+        //         setSplitOrders(response.data.results)
+        //     })
+        //     .catch(error => {
+        //         customErrorFunction(error)
+        //     });
         setSearchOption(SearchOptions[0])
 
     }
@@ -358,6 +362,7 @@ const MoreOnOrders = () => {
                     <ReassignOrder
                         orders={reassOrders}
                         setAwbNo={setAwbNo}
+                        setLoader={setLoader}
                         selectAll={selectAll}
                         activeTab={activeTab}
                         setSelectAll={setSelectAll}

@@ -5,13 +5,14 @@ import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { REASSIGN_DATA_ACTION, REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
 import { GET_REASSIGN_DATA, GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
+import { ERROR_RESPONSE_DATA } from '../../../constants/error';
 
 
 async function moreorderFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_URL}?order_id=${data}`,
-        
+
     });
     return listData;
 }
@@ -48,6 +49,7 @@ function* moreorderShipFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error)
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 

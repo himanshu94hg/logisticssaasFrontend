@@ -25,20 +25,21 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 
-const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
+const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setLoader, setBulkActionShow, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const [SingleShip, setSingleShip] = useState(false)
     const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const {loaderState} = useSelector(state => state?.errorLoaderReducer)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
 
     useEffect(() => {
-        if (moreorderShipCardStatusData) {
-            setSingleShip(false)
+        if (moreorderShipCardStatusData || loaderState) {
+            setLoader(false)
         }
-    }, [moreorderShipCardStatusData])
+    }, [moreorderShipCardStatusData,loaderState])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -70,10 +71,10 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     };
 
     const handleShipNow = (orderId) => {
-        setSelectedOrderId(orderId)
-        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
         setSingleShip(true);
         setBulkActionShow(false)
+        setSelectedOrderId(orderId)
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
     };
 
     const handleClickAWB = (orders) => {
@@ -219,23 +220,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
-                                                    {/* {
-                                                        row?.order_tag.length > 0 && <CustomTooltip
-                                                            triggerComponent={<span className='ms-1'>
-                                                                <OrderTagsIcon />
-                                                            </span>}
-                                                            tooltipComponent={
-                                                                <div className='Labels-pool'>
-                                                                    {row?.order_tag?.map((item) => {
-                                                                        return (
-                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
-
-                                                                        )
-                                                                    })}
-                                                                </div>
-                                                            }
-                                                        />
-                                                    } */}
                                                 </p>
                                             </div>
                                         </td>
@@ -325,7 +309,7 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} />
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} setLoader={setLoader}/>
             </div>
         </section>
     );
