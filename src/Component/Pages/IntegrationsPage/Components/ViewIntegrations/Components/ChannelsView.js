@@ -18,7 +18,6 @@ const ChannelsView = ({ channelData }) => {
     const handleShow = (row) => {
         setSelectedRow(row);
         setShow(true);
-        console.log(row, "selectedRowselectedRow")
     };
 
 

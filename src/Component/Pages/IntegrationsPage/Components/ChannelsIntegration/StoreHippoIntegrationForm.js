@@ -9,9 +9,10 @@ import Cookies from 'js-cookie';
 import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
+import { useDispatch } from 'react-redux';
 
 const StoreHippoIntegrationForm = () => {
-
+    const dispatch=useDispatch()
     const navigation = useNavigate();
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
@@ -71,7 +72,7 @@ const StoreHippoIntegrationForm = () => {
 
                 if (response.status === 201) {
                     const responseData = response.data;
-                    console.log('API Response:', responseData);
+                    dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',

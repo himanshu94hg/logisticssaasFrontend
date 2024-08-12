@@ -87,7 +87,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
-    }, [orderCancelled])
+    }, [orderCancelled,orderdelete])
 
 
     useEffect(() => {
