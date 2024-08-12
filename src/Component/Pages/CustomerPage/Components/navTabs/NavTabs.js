@@ -46,42 +46,45 @@ export default function NavTabs(props) {
       <Navbar.Toggle aria-controls="navTabs" />
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
-          <div className="alignContent">
-            {
-              navItems.map((item) => (
-                <Nav.Link key={item.name} className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
-                  onClick={() => {
-                    props.setActiveTab(item.name);
-                  }}
-                  title={item.title}
-                >
-                  <div className="navItemsContainer">
-                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+          {
+            !props.DetailsView &&
+            <div className="alignContent">
+              {
+                navItems.map((item) => (
+                  <Nav.Link key={item.name} className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
+                    onClick={() => {
+                      props.setActiveTab(item.name);
+                    }}
+                    title={item.title}
+                  >
+                    <div className="navItemsContainer">
+                      {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                      {item.title}
+                    </div>
+                  </Nav.Link>
+                ))
+              }
+
+              <NavDropdown
+                title={activeTabTitle}
+                id="nav-dropdown"
+                onSelect={handleSelect}
+                className="d-block d-lg-none"
+                drop="left"
+              >
+                {navItems.map((item) => (
+                  <NavDropdown.Item
+                    key={item.name}
+                    eventKey={item.name}
+                    active={props.activeTab === item.name}
+                  >
                     {item.title}
-                  </div>
-                </Nav.Link>
-              ))
-            }
+                  </NavDropdown.Item>
+                ))}
+              </NavDropdown>
 
-            <NavDropdown
-              title={activeTabTitle}
-              id="nav-dropdown"
-              onSelect={handleSelect}
-              className="d-block d-lg-none"
-              drop="left"
-            >
-              {navItems.map((item) => (
-                <NavDropdown.Item
-                  key={item.name}
-                  eventKey={item.name}
-                  active={props.activeTab === item.name}
-                >
-                  {item.title}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-
-          </div>
+            </div>
+          }
         </Nav>
       </Navbar.Collapse>
       <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>

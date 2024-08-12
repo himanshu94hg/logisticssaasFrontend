@@ -191,8 +191,7 @@ function App() {
             <Route path={billingPattern} element={<BillingPage />} />
             <Route path={weightReconciliationPattern} element={<WeightRecoPage />} />
             <Route path={misPattern} element={<MISPage />} />
-            {/* <Route path={customerPattern} element={<CustomerPage />} /> */}
-            <Route path={customerPattern} element={<VerifiedCustomer />} />
+            <Route path={customerPattern} element={<CustomerPage />} />
             <Route path={customerSupportPattern} element={<CustomerSupportPage />} />
             <Route path={settingsPattern} element={<SettingsPage />} />
             <Route path={helpArticlesPattern} element={<HelpArticles />} />
