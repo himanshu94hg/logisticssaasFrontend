@@ -73,6 +73,7 @@ import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPo
 import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern } from "./Routes";
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 import { BASE_URL_CORE } from './axios/config';
+import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/VerifiedCustomer";
 
 function App() {
   const dispatch = useDispatch()
@@ -190,7 +191,8 @@ function App() {
             <Route path={billingPattern} element={<BillingPage />} />
             <Route path={weightReconciliationPattern} element={<WeightRecoPage />} />
             <Route path={misPattern} element={<MISPage />} />
-            <Route path={customerPattern} element={<CustomerPage />} />
+            {/* <Route path={customerPattern} element={<CustomerPage />} /> */}
+            <Route path={customerPattern} element={<VerifiedCustomer />} />
             <Route path={customerSupportPattern} element={<CustomerSupportPage />} />
             <Route path={settingsPattern} element={<SettingsPage />} />
             <Route path={helpArticlesPattern} element={<HelpArticles />} />
