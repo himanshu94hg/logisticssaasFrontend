@@ -39,10 +39,11 @@
 }
 
 .verified-customer .follow-details {
-    display: flex;
+    display: grid;
     column-gap: 100px;
     flex-wrap: wrap;
     row-gap: 40px;
+    grid-template-columns: auto auto auto;
 }
 
 .verified-customer .detail-label {
@@ -57,6 +58,18 @@
     font-size: 1rem;
     white-space: nowrap;
 }
+
+.verified-customer .follow-details a {
+    text-decoration: none;
+    background: #fff;
+    padding: 5px 10px;
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    width: fit-content;
+    font-size: 0.9rem;
+    color: #696969;
+}
+
 
 .details-container hr {
     margin-block: 40px;
