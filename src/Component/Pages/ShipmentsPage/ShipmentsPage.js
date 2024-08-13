@@ -80,6 +80,7 @@ const ShipmentsPage = () => {
 
     useEffect(() => {
         let apiUrl = '';
+        setLoader(true)
         switch (activeTab) {
             case "Action Required":
                 apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -114,9 +115,11 @@ const ShipmentsPage = () => {
                 .then(response => {
                     setTotalItems(response?.data?.count)
                     setShipment(response.data.results);
+                    setLoader(false)
                 })
                 .catch(error => {
                     customErrorFunction(error);
+                    setLoader(false)
                 });
         }
     }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
@@ -142,9 +145,9 @@ const ShipmentsPage = () => {
             setBulkActionShow(false)
             setQueryParamSearch(null);
             setSearchOption(SearchOptions[0])
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
+            // setTimeout(() => {
+            //     setLoader(false)
+            // }, 500);
         }
     }, [activeTab])
 
