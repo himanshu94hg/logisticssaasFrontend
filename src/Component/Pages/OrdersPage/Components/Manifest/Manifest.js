@@ -6,13 +6,13 @@ import globalDebouncedClick from '../../../../../debounce';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 
 
-const Manifest = ({ manifestOrders, activeTab, partnerList,setLoader }) => {
+const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
     const dispatch = useDispatch();
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
-
     const { downloadManifest } = useSelector(state => state?.orderSectionReducer)
-    const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const { labelData, invoiceData, orderdelete } = useSelector(state => state?.orderSectionReducer)
+
 
     useEffect(() => {
         if (labelData) {
@@ -162,7 +162,7 @@ const Manifest = ({ manifestOrders, activeTab, partnerList,setLoader }) => {
                                                 {row?.courier && <img src={partnerList[row.courier]["image"]} title='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize' >
-                                                    {row.courier && partnerList[row.courier]["title"]}
+                                                        {row.courier && partnerList[row.courier]["title"]}
                                                     </p>
                                                 </div>
                                             </div>

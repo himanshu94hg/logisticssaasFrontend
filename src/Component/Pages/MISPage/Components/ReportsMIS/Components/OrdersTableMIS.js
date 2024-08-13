@@ -16,6 +16,8 @@ import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import NoData from '../../../../../common/noData'
 import { FaRegCopy } from 'react-icons/fa'
 import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip'
+import APIChannelIcon from "../../../../../../assets/image/integration/APIChannelIcon.png"
+
 
 const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [ordersData, setOrdersData] = useState([]);
@@ -134,8 +136,8 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                                             : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                     : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                            : ""}
+                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                    : <CustomIcon />}
                                             &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                         </p>
                                         <p className='ws-nowrap d-flex align-items-center'>

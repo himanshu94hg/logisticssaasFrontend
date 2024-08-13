@@ -15,6 +15,8 @@ import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
 import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLogo.png"
+import APIChannelIcon from "../../../../../../assets/image/integration/APIChannelIcon.png"
+
 
 const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, partnerList }) => {
     const [returnsData, setReturnsData] = useState([]);
@@ -123,8 +125,8 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                                             : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                     : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                            : ""}
+                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                    : <CustomIcon />}
                                             &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                         </p>
                                         <p className='ws-nowrap d-flex align-items-center'>
