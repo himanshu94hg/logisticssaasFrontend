@@ -34,11 +34,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
-    console.log("labelDatalabelData", orderdelete)
-
-
-    console.log(loaderState, "loaderStateloaderStateloaderStateloaderState")
-
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
 

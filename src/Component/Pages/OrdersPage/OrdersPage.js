@@ -80,14 +80,18 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    const { loaderState } = useSelector(state => state?.errorLoaderReducer)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
-        dispatch({ type: "PAYMENT_DATA_ACTION" });
-    }, [orderCancelled, orderdelete])
+        if (orderCancelled || orderdelete || loaderState) {
+            dispatch({ type: "PAYMENT_DATA_ACTION" });
+            setLoader(false)
+        }
+    }, [orderCancelled, orderdelete, loaderState])
 
     useEffect(() => {
         if (activeTab) {
@@ -148,7 +152,6 @@ const OrdersPage = () => {
 
     useEffect(() => {
         let sanitizedSearchValue = searchValue.replace(/#/g, '');
-        setLoader(true)
         if (!searchStatus) {
             let apiUrl = '';
             switch (activeTab) {
@@ -174,6 +177,7 @@ const OrdersPage = () => {
                     apiUrl = '';
             }
             if (apiUrl) {
+                setLoader(true)
                 const queryParams = { ...queryParamTemp };
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
@@ -283,7 +287,7 @@ const OrdersPage = () => {
                 customErrorFunction(error)
             });
     }
-
+    console.log(loader, "ggggggggggggggggggggg")
     return (
         <>
             <NavTabs
