@@ -25,7 +25,6 @@ import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 import WeightRecoPage from './Component/Pages/WeightRecoPage/WeightRecoPage';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
-import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
@@ -74,6 +73,7 @@ import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 import { BASE_URL_CORE } from './axios/config';
 import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/VerifiedCustomer";
+import RateCard from "./Component/Pages/ToolsPage/Components/RateCard/RateCard";
 
 function App() {
   const dispatch = useDispatch()
@@ -197,7 +197,7 @@ function App() {
             <Route path={helpArticlesPattern} element={<HelpArticles />} />
             <Route path={manageWarehousesPattern} element={<ManageWarehouse />} />
             <Route path={pickupAddressPattern} element={<AddWarehouse />} />
-            <Route path={shippingRatesPattern} element={<ShippingRates />} />
+            <Route path={shippingRatesPattern} element={<RateCard />} />
             <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
             <Route path={shopifyIntegrationPattern} element={<ShopifyIntegrationForm />} />
             <Route path={shopifyRedirectIntegrationPattern} element={<ShopifyRedirect />} />

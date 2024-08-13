@@ -2,7 +2,8 @@ import Select from 'react-select';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Toggle from 'react-toggle';
-import '../ToolsPage.css';
+import '../../ToolsPage.css';
+import NavTabs from './NavTabs/NavTabs';
 
 const ShippingRates = () => {
     const dispatch = useDispatch();
@@ -77,57 +78,58 @@ const ShippingRates = () => {
     };
 
     return (
-        <section className='position-relative rate-card-page'>
-            <div className="position-relative">
-                <h3>Shipping Rates</h3>
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container d-flex gap-2">
-                        <label>
-                            <Select
-                                value={selectedCourier}
-                                onChange={handleCourierChange}
-                                closeMenuOnSelect={false}
-                                options={shippingSelectData}
-                                placeholder="Select Courier"
-                                isSearchable
-                                isMulti
+        <>
+            <section className='position-relative rate-card-page'>
+                <div className="position-relative">
+                    <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                        <div className="search-container d-flex gap-2">
+                            <label>
+                                <Select
+                                    value={selectedCourier}
+                                    onChange={handleCourierChange}
+                                    closeMenuOnSelect={false}
+                                    options={shippingSelectData}
+                                    placeholder="Select Courier"
+                                    isSearchable
+                                    isMulti
+                                />
+                            </label>
+                        </div>
+                        <div className='button-container d-flex align-items-center gap-2'>
+                            {!isChecked ? 'Include GST' : 'Exclude GST'}
+                            <Toggle
+                                checked={isChecked}
+                                onChange={handleToggle}
                             />
-                        </label>
+                        </div>
                     </div>
-                    <div className='button-container d-flex align-items-center gap-2'>
-                        {!isChecked ? 'Include GST' : 'Exclude GST'}
-                        <Toggle
-                            checked={isChecked}
-                            onChange={handleToggle}
-                        />
+                    <div className='table-container'>
+                        <table className="mt-0 w-100">
+                            <thead className="sticky-header">
+                                <tr className="table-header-row">
+                                    <th style={{ width: '18%' }}>Courier Partner</th>
+                                    <th style={{ width: '12.5%' }}>Type</th>
+                                    <th style={{ width: '12.5%' }}>ZONE A</th>
+                                    <th style={{ width: '12.5%' }}>ZONE B</th>
+                                    <th style={{ width: '12.5%' }}>ZONE C</th>
+                                    <th style={{ width: '12.5%' }}>ZONE D</th>
+                                    <th style={{ width: '12.5%' }}>ZONE E</th>
+                                    <th style={{ width: '10%' }}>COD Charges </th>
+                                    <th style={{ width: '10%' }}>COD <br /> Maintenance</th>
+                                </tr>
+                                <tr className="blank-row"><td></td></tr>
+                            </thead>
+                            <tbody>
+                                {renderRows(ratingCardData)}
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div className='table-container'>
-                    <table className="mt-0 w-100">
-                        <thead className="sticky-header">
-                            <tr className="table-header-row">
-                                <th style={{ width: '18%' }}>Courier Partner</th>
-                                <th style={{ width: '12.5%' }}>Type</th>
-                                <th style={{ width: '12.5%' }}>ZONE A</th>
-                                <th style={{ width: '12.5%' }}>ZONE B</th>
-                                <th style={{ width: '12.5%' }}>ZONE C</th>
-                                <th style={{ width: '12.5%' }}>ZONE D</th>
-                                <th style={{ width: '12.5%' }}>ZONE E</th>
-                                <th style={{ width: '10%' }}>COD Charges </th>
-                                <th style={{ width: '10%' }}>COD <br /> Maintenance</th>
-                            </tr>
-                            <tr className="blank-row"><td></td></tr>
-                        </thead>
-                        <tbody>
-                            {renderRows(ratingCardData)}
-                        </tbody>
-                    </table>
-                </div>
-                {/* <div className='box-shadow shadow-sm p10 my-3'>
+                    {/* <div className='box-shadow shadow-sm p10 my-3'>
                     <p className='mb-0 font12 text-red'>** Gati Rates include INR 100 docket charges and INR 100 ROV charges</p>
                 </div> */}
-            </div>
-        </section>
+                </div>
+            </section>
+        </>
     );
 };
 
