@@ -19,6 +19,7 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
@@ -175,7 +176,8 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : <CustomIcon />}
+                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
