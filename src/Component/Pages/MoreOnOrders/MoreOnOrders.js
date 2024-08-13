@@ -83,9 +83,6 @@ const MoreOnOrders = () => {
     useEffect(() => {
         setLoader(true)
         if (activeTab) {
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
             setCurrentPage(1)
             setSearchValue("");
             setQueryParamTemp({});
@@ -109,6 +106,7 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         let apiUrl = '';
+        setLoader(true)
         switch (activeTab) {
             case "Reassign Order":
                 apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
@@ -137,6 +135,7 @@ const MoreOnOrders = () => {
                 }
             })
                 .then(response => {
+                    setLoader(false)
                     setTotalItems(response?.data?.count)
                     if (activeTab === "Reassign Order") {
                         setReassOrders(response.data.results);
