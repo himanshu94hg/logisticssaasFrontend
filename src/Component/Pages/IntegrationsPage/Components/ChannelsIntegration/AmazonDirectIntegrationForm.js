@@ -13,9 +13,9 @@ const AmazonDirectIntegrationForm = () => {
     const authToken = Cookies.get("access_token")
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setValue("")
-    },[])
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -69,7 +69,7 @@ const AmazonDirectIntegrationForm = () => {
                             </div>
                             <div className='mt-3 d-flex justify-content-between'>
                                 <div>
-                                    <input type="text" className={`input-field`} onChange={(e) => setValue(e.target.value)} name="" id="" />
+                                    <input type="text" className={`input-field`} onChange={(e) => setValue(e.target.value)} maxLength={50} />
                                 </div>
                                 <button type='submit' className='btn main-button'>One Click Integration</button>
                             </div>

@@ -10,7 +10,7 @@ import MISPage from './Component/Pages/MISPage/MISPage';
 import React, { useEffect, useState, lazy } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
 import IndiaMapp from './Component/common/Graph/IndiaMapp';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import LoginPage from './Component/Pages/LoginPage/LoginPage';
@@ -76,6 +76,7 @@ import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/Ve
 import RateCard from "./Component/Pages/ToolsPage/Components/RateCard/RateCard";
 
 function App() {
+  const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const [userID, setUserID] = useState("")
@@ -84,6 +85,8 @@ function App() {
   const [ZoneMapping, setZoneMapping] = useState(false)
   const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
+  const urlParams = new URLSearchParams(location?.search);
+  const status = urlParams.get('status');
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
   useEffect(() => {
@@ -98,6 +101,13 @@ function App() {
       navigate(loginPattern);
     }
   }, [tokenChecked, tokenExists, navigate]);
+
+  useEffect(() => {
+    if (status) {
+      navigate('/channels-integration')
+      toast.success("Amazon integrated successfully!")
+    }
+  }, [status])
 
   useEffect(() => {
     if (token) {
@@ -124,25 +134,19 @@ function App() {
     }
   }, [token]);
 
+  useEffect(() => {
+    const updateWidth = () => {
+      dispatch(screenWidth(window.innerWidth))
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   // useEffect(() => {
   //   dispatch({ type: "PATHNAME_ACTION", payload: window.location.pathname })
   //   Cookies.set('pathName', window.location.pathname);
   // }, [window.location.pathname])
-
-  const [ScreenWidth, setScreenWidth] = useState(null);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      setScreenWidth(window.innerWidth);
-      dispatch(screenWidth(window.innerWidth))
-    };
-
-    updateWidth(); // Set initial width
-    window.addEventListener('resize', updateWidth);
-
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
 
   return (
     <>

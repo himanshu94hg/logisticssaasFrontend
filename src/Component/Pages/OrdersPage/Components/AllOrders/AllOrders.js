@@ -157,7 +157,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
     };
 
     const handleShipNow = (orderId) => {
-        console.log(orderId,"this is not null")
+        console.log(orderId, "this is not null")
         setSelectedOrderId(orderId);
         if (orderId !== null) {
             const config = {
@@ -533,7 +533,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* shiping section here */}
                                                 <div className='cell-inside-box shipping-details'>
                                                     {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
@@ -557,13 +556,31 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button' style={{ width: '100%' }}>{
-                                                        row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
-                                                            : row?.status === "pending" ? <span onClick={() => globalDebouncedClick(() => handleShipNow(row?.id))}>Ship Now</span>
-                                                                : row?.status === "pickup_requested" ? <span onClick={() => globalDebouncedClick(() => generateManifest(row?.id))}>Generate Manifest</span>
-                                                                    : row?.status === "shipped" ? <span onClick={() => globalDebouncedClick(() => handleGeneratePickup(row?.id))}>Generate Pickup</span>
-                                                                        : <span onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>Clone Order</span>
-                                                    }</button>
+                                                    {row?.order_courier_status === 'Unprocessable' && (
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => { }}>
+                                                            Edit Order
+                                                        </button>
+                                                    )}
+                                                    {row?.status === 'pending' && (
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => handleShipNow(row?.id))}>
+                                                            Ship Now
+                                                        </button>
+                                                    )}
+                                                    {row?.status === 'pickup_requested' && (
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => generateManifest(row?.id))}>
+                                                            Generate Manifest
+                                                        </button>
+                                                    )}
+                                                    {row?.status === 'shipped' && (
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => handleGeneratePickup(row?.id))}>
+                                                            Generate Pickup
+                                                        </button>
+                                                    )}
+                                                    {row?.status !== 'Unprocessable' && row?.status !== 'pending' && row?.status !== 'pickup_requested' && row?.status !== 'shipped' && (
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>
+                                                            Clone Order
+                                                        </button>
+                                                    )}
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />

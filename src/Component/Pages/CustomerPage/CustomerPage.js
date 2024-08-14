@@ -14,7 +14,7 @@ const CustomerPage = () => {
   const defaultTab = location.state?.activeTab || "Basic Information";
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [loader, setLoader] = useState(false)
-  const [DetailsView, setDetailsView] = useState(true)
+  const [DetailsView, setDetailsView] = useState(false)
 
   useEffect(() => {
     if (location.state?.activeTab) {
