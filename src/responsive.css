@@ -11,10 +11,6 @@
         height: calc(100vh - 275px);
     }
 
-    .table-row th {
-        white-space: nowrap;
-    }
-
     .bulk-import-input {
         min-height: 200px;
     }
@@ -50,6 +46,10 @@
     .create-rules-section .created-rules {
         width: fit-content;
         min-width: 100%;
+    }
+
+    .table-row th {
+        white-space: nowrap;
     }
 }
 
