@@ -24,6 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
+import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 
 const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setLoader, setBulkActionShow, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
@@ -32,14 +33,14 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
-    const {loaderState} = useSelector(state => state?.errorLoaderReducer)
+    const { loaderState } = useSelector(state => state?.errorLoaderReducer)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
 
     useEffect(() => {
         if (moreorderShipCardStatusData || loaderState) {
             setLoader(false)
         }
-    }, [moreorderShipCardStatusData,loaderState])
+    }, [moreorderShipCardStatusData, loaderState])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -190,8 +191,9 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                    : <CustomIcon />}
+                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                        : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
@@ -309,7 +311,7 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} setLoader={setLoader}/>
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} setLoader={setLoader} />
             </div>
         </section>
     );
