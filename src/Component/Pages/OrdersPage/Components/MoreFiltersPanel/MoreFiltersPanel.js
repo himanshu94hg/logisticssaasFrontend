@@ -107,9 +107,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 customErrorFunction(error)
             }
         };
-
         fetchData();
-
     }, [MoreFilters]);
 
     useEffect(() => {

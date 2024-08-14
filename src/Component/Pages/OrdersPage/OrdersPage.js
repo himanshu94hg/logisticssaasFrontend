@@ -288,7 +288,6 @@ const OrdersPage = () => {
                 customErrorFunction(error)
             });
     }
-    console.log(loader, "ggggggggggggggggggggg")
     return (
         <>
             <NavTabs

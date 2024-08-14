@@ -151,7 +151,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), reset,currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), reset, currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })

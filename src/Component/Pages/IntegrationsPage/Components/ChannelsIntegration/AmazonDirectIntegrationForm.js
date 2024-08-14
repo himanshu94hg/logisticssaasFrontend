@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/AmazonLogo.png';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import Logo from '../../../../../assets/image/integration/AmazonLogo.png';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+
 
 const AmazonDirectIntegrationForm = () => {
+    const [value, setValue] = useState("")
+    const authToken = Cookies.get("access_token")
 
-    const [selectedDate, setSelectedDate] = useState(null);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+    useEffect(()=>{
+        setValue("")
+    },[])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/amazon/get-redirect-url/?channel_name=${value}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            if (response.status === 200) {
+                window.location.href = response?.data?.url
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
 
     return (
         <>
@@ -41,11 +63,14 @@ const AmazonDirectIntegrationForm = () => {
                         </ul>
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
-                        <form action="">
+                        <form onSubmit={handleSubmit}>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <h3>Integrate Amazon to Shipease</h3>
                             </div>
-                            <div className='mt-3 d-flex justify-content-end'>
+                            <div className='mt-3 d-flex justify-content-between'>
+                                <div>
+                                    <input type="text" className={`input-field`} onChange={(e) => setValue(e.target.value)} name="" id="" />
+                                </div>
                                 <button type='submit' className='btn main-button'>One Click Integration</button>
                             </div>
                         </form>

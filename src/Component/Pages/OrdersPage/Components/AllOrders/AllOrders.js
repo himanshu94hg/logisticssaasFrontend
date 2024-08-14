@@ -157,6 +157,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
     };
 
     const handleShipNow = (orderId) => {
+        console.log(orderId,"this is not null")
         setSelectedOrderId(orderId);
         if (orderId !== null) {
             const config = {
