@@ -97,8 +97,13 @@ function* bulkCancelOrderAction(action) {
     try {
         let response = yield call(bulkCancelOrderApi, payload);
         if (response.status === 200) {
-            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-            toast.success("Order cancelled successfully")
+            if (response?.data?.count > 0) {
+                yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+                toast.success(response?.data?.count + " Order cancelled successfully")
+            } else {
+                yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+                toast.error(response?.data?.message)
+            }
         }
 
     } catch (error) {

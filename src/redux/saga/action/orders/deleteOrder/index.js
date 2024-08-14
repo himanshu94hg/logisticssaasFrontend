@@ -20,14 +20,18 @@ function* cancelOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(cancelOrderApi, payload);
-        if (response.status === 200) {
-            yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
-            toast.success("Order cancelled successfully")
+        if (response?.status === 200) {
+            if (response?.data?.count > 0) {
+                yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
+                toast.success("Order cancelled successfully")
+            } else {
+                yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
+                toast.error(response?.data?.message)
+            }
         }
-
     } catch (error) {
-      customErrorFunction(error)
-      yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
+        customErrorFunction(error)
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -94,7 +98,7 @@ function* generateManifestAction(action) {
 
     } catch (error) {
         toast.error(error?.response?.data?.detail)
-        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
