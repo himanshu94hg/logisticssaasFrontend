@@ -16,6 +16,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 
 const ScheduledReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
+    const [reset, setReset] = useState(null)
     let authToken = Cookies.get("access_token")
     const [searchValue, setSearchValue] = useState("")
     const [totalItems, setTotalItems] = useState("");
@@ -25,8 +26,10 @@ const ScheduledReportsMIS = ({ activeTab }) => {
     const { scheduleReportsData } = useSelector(state => state?.misSectionReducer)
 
     useEffect(() => {
-        dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-    }, [dispatch, activeTab, itemsPerPage, currentPage])
+        if (activeTab === "ScheduledReportsMIS") {
+            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+        }
+    }, [activeTab, reset, currentPage])
 
     useEffect(() => {
         if (scheduleReportsData?.results !== null && scheduleReportsData !== undefined) {
@@ -152,6 +155,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                     {scheduledReport?.length === 0 && <NoData />}
                 </div>
                 <Pagination
+                    setReset={setReset}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}

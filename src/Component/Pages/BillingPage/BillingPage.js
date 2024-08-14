@@ -18,6 +18,7 @@ import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsC
 const BillingPage = () => {
     const dispatch = useDispatch();
     const [awbNo, setAwbNo] = useState(null)
+    const [reset, setReset] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [loader, setLoader] = useState(false)
     const [totalItems, setTotalItems] = useState("");
@@ -32,23 +33,28 @@ const BillingPage = () => {
     const [activeTab, setActiveTab] = useState("Shipping Charges");
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+    const { loaderState } = useSelector(state => state?.errorLoaderReducer);
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard, billingPassbookCounterCard, billingRechargeCounterCard, billingShippingCounterCard, billingRemitanceExportCard } = billingSectionReducer;
 
     useEffect(() => {
-        setLoader(true)
         if (activeTab) {
             setSelectAll(false)
             setSelectedRows([]);
             setCurrentPage(1)
             setBulkActionShow(false);
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
         }
     }, [activeTab])
 
+
     useEffect(() => {
+        if (billingCard || billingShipingReceiptCard || billingShipingCard || billingShipingRemitanceCard || billingShipingRechargeCard || billingShipingInvoiceCard || loaderState) {
+            setLoader(false)
+        }
+    }, [billingCard, billingShipingReceiptCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, loaderState])
+
+    useEffect(() => {
+        setLoader(true)
         switch (activeTab) {
             case "Shipping Charges":
                 dispatch({ type: "BILLING_SHIPPING_COUNTER_DATA_ACTION" });
@@ -74,7 +80,7 @@ const BillingPage = () => {
             default:
                 break;
         }
-    }, [activeTab, dispatch, itemsPerPage, currentPage]);
+    }, [activeTab, reset, currentPage]);
 
     useEffect(() => {
         if (billingShipingCard?.count !== undefined) {
@@ -189,6 +195,7 @@ const BillingPage = () => {
                     setBulkActionShow={setBulkActionShow} />}
 
                 <Pagination
+                    setReset={setReset}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}

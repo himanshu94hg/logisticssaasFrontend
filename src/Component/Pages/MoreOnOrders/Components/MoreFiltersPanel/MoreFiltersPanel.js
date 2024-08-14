@@ -80,7 +80,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [activeTab])
 
 
-
     const [filterParams, setFilterParams] = useState({
         start_date: "",
         end_date: "",

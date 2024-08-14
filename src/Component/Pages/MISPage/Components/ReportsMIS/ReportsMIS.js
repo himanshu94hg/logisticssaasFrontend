@@ -19,6 +19,7 @@ import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
 
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
+    const [reset, setReset] = useState(null)
     const [stateData, setStateData] = useState(false)
     const [selectAll, setSelectAll] = useState(false);
     const [totalItems, setTotalItems] = useState("");
@@ -172,7 +173,7 @@ const ReportsMIS = ({ activeTab }) => {
                 }
             })
         }
-    }, [itemsPerPage, currentPage]);
+    }, [reset, currentPage]);
 
     useEffect(() => {
         if (reportShipmentsData?.count > 0) {
@@ -381,6 +382,7 @@ const ReportsMIS = ({ activeTab }) => {
             </div>
 
             <Pagination
+                setReset={setReset}
                 totalItems={totalItems}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}

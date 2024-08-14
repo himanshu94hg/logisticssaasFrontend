@@ -40,6 +40,7 @@ const ShipmentsPage = () => {
     const apiEndpoint = `${BASE_URL_ORDER}`;
     const [errors, setErrors] = useState({});
     const [awbNo, setAwbNo] = useState(null)
+    const [reset, setReset] = useState(null)
     let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
     const [queryName, setQueryName] = useState([])
@@ -122,7 +123,7 @@ const ShipmentsPage = () => {
                     setLoader(false)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
+    }, [JSON.stringify(queryParamTemp), activeTab, reset, currentPage]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -414,6 +415,7 @@ const ShipmentsPage = () => {
                     />
                 </div>
                 <Pagination
+                    setReset={setReset}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}

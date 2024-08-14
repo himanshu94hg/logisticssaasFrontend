@@ -5,6 +5,7 @@ import { API_URL, BASE_URL_BILLING } from "../../../../axios/config";
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { GET_BILLING_DATA, GET_BILLING_SHIPING_DATA, GET_BILLING_SHIPING_REMITANCE_DATA, GET_BILLING_SHIPING_RECHARGE_DATA, GET_BILLING_SHIPING_INVOICE_DATA, GET_BILLING_SHIPING_RECEIPT_DATA, GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA, GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA, GET_BILLING_PASSBOOK_COUNTER_DATA, GET_BILLING_RECHARGE_COUNTER_DATA, GET_BILLING_SHIPPING_COUNTER_DATA, GET_BILLING_REMITANCE_EXPORT_DATA, GET_BILLING_INVOICE_DOWNLOAD_DATA, GET_BILLING_SELLER_DATA } from "../../../constants/billing";
 import { BILLING_DATA_ACTION, BILLING_SHIPING_DATA_ACTION, BILLING_SHIPING_REMITANCE_DATA_ACTION, BILLING_SHIPING_RECHARGE_DATA_ACTION, BILLING_SHIPING_INVOICE_DATA_ACTION, BILLING_SHIPING_RECEIPT_DATA_ACTION, BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION, BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION, BILLING_PASSBOOK_COUNTER_DATA_ACTION, BILLING_RECHARGE_COUNTER_DATA_ACTION, BILLING_SHIPPING_COUNTER_DATA_ACTION, BILLING_REMITANCE_EXPORT_DATA_ACTION, BILLING_INVOICE_DOWNLOAD_DATA_ACTION, BILLING_SELLER_DATA_ACTION } from "../../constant/billing";
+import { ERROR_RESPONSE_DATA } from "../../../constants/error";
 
 
 async function billingFileAPI(data) {
@@ -91,6 +92,7 @@ function* billingFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -103,6 +105,7 @@ function* billingShipingFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -115,6 +118,7 @@ function* billingShipingRemitanceFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -127,6 +131,7 @@ function* billingShipingRechargeFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -139,6 +144,7 @@ function* billingShipingInvoiceFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -152,6 +158,7 @@ function* billingShipingReceiptFilesAction(action) {
 
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 

@@ -17,7 +17,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [activitylog, setActivitylog] = useState([]);
-
+    const [reset, setReset] = useState(null)
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
@@ -129,10 +129,10 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault();
         if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
-            await dispatch({
+             dispatch({
                 type: "MIS_ACTIVITIES_LOG_ACTION",
                 payload: {
                     from_date: "2023-04-09",
@@ -141,7 +141,6 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
                     page: currentPage
                 }
             });
-
             setActivitylog(activitiesLog?.results);
             setTotalItems(activitiesLog?.count);
         }
@@ -327,6 +326,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
                 </div>
             </div>
             <Pagination
+                setReset={setReset}
                 totalItems={totalItems}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}

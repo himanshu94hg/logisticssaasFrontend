@@ -21,6 +21,7 @@ import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-ic
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
   const [viewId, setId] = useState('');
+  const [reset, setReset] = useState(null)
   const [allTicket, setAllTicket] = useState([]);
   const [ticketId, setTicketId] = useState(null);
   const [NewTicket, setNewTicket] = useState(false);
@@ -85,7 +86,7 @@ const CustomerSupportPage = () => {
     }
 
 
-  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage, queryParamTemp]);
+  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate, Severity) => {
     const queryParams = new URLSearchParams();
@@ -285,6 +286,7 @@ const CustomerSupportPage = () => {
           }
         </div>
         <Pagination
+          setReset={setReset}
           totalItems={totalItems}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}

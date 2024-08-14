@@ -6,7 +6,7 @@ import FirstIcon from './Icons/FirstIcon';
 import PreviousIcon from './Icons/PreviousIcon';
 import React, { useState, useEffect } from 'react';
 
-const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, setCurrentPage,activeTab }) => {
+const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, setCurrentPage, activeTab, setReset }) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
@@ -19,10 +19,18 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     }, [totalItems])
 
     useEffect(() => {
-        if(activeTab){
+        if (activeTab) {
             setGoToPage('')
         }
     }, [itemsPerPage, totalItemsCount]);
+
+    useEffect(() => {
+        if (currentPage > 1 && itemsPerPage) {
+            setCurrentPage(1)
+        } else {
+            setReset(new Date())
+        }
+    }, [itemsPerPage])
 
 
     const handleFirstPage = () => {

@@ -202,9 +202,9 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
+    }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
-    useEffect(() => {
+    useEffect(() => {   
         setLoader(true)
         if (activeTab === "Manifest") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
@@ -524,6 +524,7 @@ const OrdersPage = () => {
                     />
                 </div>
                 <Pagination
+                    setReset={setReset}
                     activeTab={activeTab}
                     totalItems={totalItems}
                     currentPage={currentPage}

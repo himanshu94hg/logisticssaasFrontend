@@ -37,6 +37,7 @@ const MoreOnOrders = () => {
     const dispatch = useDispatch()
     const apiEndpoint = `${BASE_URL_CORE}`;
     const [awbNo, setAwbNo] = useState(null)
+    const [reset, setReset] = useState(null);
     let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
     const [queryName, setQueryName] = useState([])
@@ -67,8 +68,6 @@ const MoreOnOrders = () => {
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
-
-    const [reset, setReset] = useState(null)
 
     const activeTabValueSet =
         activeTab === "Reassign Order"
@@ -149,9 +148,10 @@ const MoreOnOrders = () => {
                 })
                 .catch(error => {
                     customErrorFunction(error)
+                    setLoader(false)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), reset, currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), reset, currentPage, activeTab, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -396,6 +396,7 @@ const MoreOnOrders = () => {
                     />
                 </div>
                 <Pagination
+                    setReset={setReset}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}

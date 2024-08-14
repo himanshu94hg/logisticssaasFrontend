@@ -17,6 +17,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch();
+    const [reset, setReset] = useState(null)
     const authToken = Cookies.get("access_token");
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,8 +27,10 @@ const DownloadMIS = ({ activeTab }) => {
     const { misDownloadData } = useSelector(state => state?.misSectionReducer);
 
     useEffect(() => {
-        dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
-    }, [dispatch, activeTab, itemsPerPage, currentPage]);
+        if (activeTab === "DownloadMIS") {
+            dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
+        }
+    }, [activeTab, itemsPerPage, currentPage]);
 
     useEffect(() => {
         if (activeTab) {
@@ -206,6 +209,7 @@ const DownloadMIS = ({ activeTab }) => {
                 </div>
             </div>
             <Pagination
+                setReset={setReset}
                 totalItems={totalItems}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}

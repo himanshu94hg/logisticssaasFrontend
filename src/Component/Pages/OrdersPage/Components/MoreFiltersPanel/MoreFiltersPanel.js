@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const OrderStatus = [
+const orderStatusAll = [
     { label: "Shipped", value: "shipped" },
     { label: "Pending", value: "pending" },
     { label: "cancelled", value: "cancelled" },
@@ -28,6 +28,18 @@ const OrderStatus = [
     { label: "NDR", value: "ndr" },
     { label: "Lost", value: "lost" },
     { label: "Damaged", value: "damaged" },
+];
+const orderStatusReadytoShip = [
+    { label: "Shipped", value: "shipped" },
+];
+const orderStatusPickup = [
+    { label: "Pickup Requested", value: "pickup_requested" },
+    { label: "Pickup Scheduled", value: "pickup_scheduled" },
+];
+const orderStatusReturns = [
+    { label: "RTO In Transit", value: "rto_in_transit" },
+    { label: "RTO Initiated", value: "rto_initiated" },
+    { label: "RTO Delivered", value: "rto_delivered" },
 ];
 
 const paymentOptions = [
@@ -50,6 +62,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const [courierPartners, setCourierPartners] = useState([]);
+    const [orderStatusOptions, setOrderStatusOptions] = useState([]);
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
     const [filterParams, setFilterParams] = useState({
@@ -67,6 +80,21 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address_id: "",
         order_type: null
     })
+
+    useEffect(() => {
+        if (activeTab === "All") {
+            setOrderStatusOptions(orderStatusAll)
+        }
+        if (activeTab === "Ready to Ship") {
+            setOrderStatusOptions(orderStatusReadytoShip)
+        }
+        if (activeTab === "Pickup") {
+            setOrderStatusOptions(orderStatusPickup)
+        }
+        if (activeTab === "Returns") {
+            setOrderStatusOptions(orderStatusReturns)
+        }
+    }, [activeTab])
 
 
     useEffect(() => {
@@ -385,9 +413,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <Select
                                             isMulti
                                             isSearchable
-                                            options={OrderStatus}
+                                            options={orderStatusOptions}
                                             onChange={(e) => handleChange("status", e)}
-                                            value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
+                                            value={orderStatusOptions?.filter(option => filterParams.status.split(",").includes(option.value))}
                                         />
                                     </label>
                                 </div>}

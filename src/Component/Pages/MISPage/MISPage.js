@@ -25,22 +25,18 @@ const MISPage = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='mis-page-container'>
-                {/* OrdersMIS */}
                 <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
                     <ActivityLogsMIS activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
-                {/* ShipmentsMIS */}
                 <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
                     <ScheduledReportsMIS activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
-                {/* BillingMIS */}
                 <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
                     <ReportsMIS activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
-                {/* ReturnsMIS */}
                 <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
                     <DownloadMIS activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
