@@ -258,6 +258,7 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         setReset(new Date())
+        setCurrentPage(1)
     };
 
     const handleReset = () => {
