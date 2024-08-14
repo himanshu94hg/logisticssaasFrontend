@@ -22,6 +22,7 @@ import { FaRegCopy } from "react-icons/fa";
 import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
 import VerifiedOrderIcon from "../../../../common/Icons/VerifiedOrderIcon";
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
+import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 import OrderTagsIcon from "../../../../common/Icons/OrderTagsIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -187,8 +188,9 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                    : <CustomIcon />}
+                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                        : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&

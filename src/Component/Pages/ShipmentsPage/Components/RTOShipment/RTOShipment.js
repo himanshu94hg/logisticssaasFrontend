@@ -16,6 +16,7 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
 import { FaRegCopy } from "react-icons/fa";
 import VerifiedOrderIcon from "../../../../common/Icons/VerifiedOrderIcon";
@@ -179,8 +180,9 @@ const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setS
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                    : <CustomIcon />}
+                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                        : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
