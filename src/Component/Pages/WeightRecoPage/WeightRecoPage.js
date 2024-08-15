@@ -33,6 +33,7 @@ const SearchOptions = [
 const WeightRecoPage = () => {
     const dispatch = useDispatch();
     const [awbNo, setAwbNo] = useState(null)
+    const [reset, setReset] = useState(null)
     const [loader, setLoader] = useState(false)
     const [queryName, setQueryName] = useState([])
     const [backDrop, setBackDrop] = useState(false);
@@ -320,6 +321,7 @@ const WeightRecoPage = () => {
                     />
                 </div>
                 <Pagination
+                    setReset={setReset}
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
