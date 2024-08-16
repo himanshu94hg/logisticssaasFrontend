@@ -69,9 +69,12 @@ const VerifiedCustomer = () => {
                     <div className='detail-section row'>
                         <div className='details-title col-3'>Basic Details</div>
                         <div className='follow-details col-9'>
-                            <div className='detail-label'>Mobile No. <span>{formData?.basic_info?.mobile}</span></div>
+                            <div className='detail-label'>Company Name <span>{formData?.basic_info?.company_name}</span></div>
+                            <div className='detail-label'>Mobile No <span>{formData?.basic_info?.mobile}</span></div>
                             <div className='detail-label'>Email <span>{formData?.basic_info?.email}</span></div>
                             <div className='detail-label'>Website <span>{formData?.basic_info?.website_url}</span></div>
+                            <div className='detail-label'>PAN No <span>{formData?.basic_info?.pan_number}</span></div>
+                            <div className='detail-label'>GST Number <span>{formData?.basic_info?.gst_number}</span></div>
                             <div className='detail-label'>Address
                                 <span>
                                     {formData?.basic_info?.street},
@@ -82,9 +85,6 @@ const VerifiedCustomer = () => {
                                     {formData?.basic_info?.pincode}
                                 </span>
                             </div>
-                            <div className='detail-label'>Pan No. <span>{formData?.basic_info?.pan_number}</span></div>
-                            <div className='detail-label'>GST Number <span>{formData?.basic_info?.gst_number}</span></div>
-                            <div className='detail-label'>GST Number <span>{formData?.basic_info?.gst_number}</span></div>
                             <div className='detail-label'>GST Certficate
                                 <a href={formData?.basic_info?.gst_certificate}>
                                     <FiDownload /> Download
