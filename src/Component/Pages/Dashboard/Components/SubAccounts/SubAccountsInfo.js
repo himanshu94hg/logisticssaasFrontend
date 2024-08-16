@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import Col from "react-bootstrap/Col";
-import DataTable from "../Overview/DataTable/DataTable";
-import TableDashboard from '../Overview/TableDashboard';
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
-import iconRTO from '../../../../../assets/image/icons/RTO_icon.png';
-import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png';
-import NDRicon from '../../../../../assets/image/icons/NDRicon.png';
-import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png';
 import NdrIcon from "../../../../common/Icons/InfoCardsIcons/NdrIcon";
 import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequiredIcon";
 import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";

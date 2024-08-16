@@ -6,7 +6,6 @@ import TableDashboard from "./TableDashboard";
 import './totalInfoDashboard.css'
 import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
-import DataTable from "./DataTable/DataTable";
 import { useDispatch, useSelector } from "react-redux";
 import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import TotalCustomersIcon from "../../../../common/Icons/InfoCardsIcons/TotalCustomersIcon";
@@ -173,11 +172,7 @@ function TotalInfoDashboard() {
           </div>
         </div>
       </div>
-      {/* <TableDashboard /> */}
-      {/* <div className="mt-3 datatable-container">
-      <h4 className="title">Last 30 Days Order</h4>
-      <DataTable/>
-      </div> */}
+     
     </>
   );
 }

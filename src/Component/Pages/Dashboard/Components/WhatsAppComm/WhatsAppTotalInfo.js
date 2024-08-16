@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Col from "react-bootstrap/Col";
+import React, { useState } from "react";
 import '../Overview/totalInfoDashboard.css'
-import DataTable from "../Overview/DataTable/DataTable";
-import TableDashboard from '../Overview/TableDashboard'
 import './WhatsAppTotalInfo.css'
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
-import iconRTO from '../../../../../assets/image/icons/RTO_icon.png'
-import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
-import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
-import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
 import NdrIcon from "../../../../common/Icons/InfoCardsIcons/NdrIcon";
 import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequiredIcon";
 import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";
@@ -20,32 +12,6 @@ function WhatsAppTotalInfo() {
   const [actionRequested, setActionRequested] = useState(null);
   const [actionReq, setActionreq] = useState(null);
   const [ndrdeleverd, setndrDeleverd] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const [
-  //         totalNdrResponse,
-  //         actionRequestedResponse,
-  //         actionReqResponse,
-  //         ndrdeleverdResponse,
-  //       ] = await Promise.all([
-  //         axios.get('http://dev.shipease.in:8088/api/v1/total-ndr/'),
-  //         axios.get('http://dev.shipease.in:8088/api/v1/total-requested-ndr/'),
-  //         axios.get('http://dev.shipease.in:8088/api/v1/total-required-ndr/'),
-  //         axios.get('http://dev.shipease.in:8088/api/v1/total-deleverd-ndr/'),
-  //       ]);
-  //       setTotalNdr(totalNdrResponse.data);
-  //       setActionreq(actionReqResponse.data);
-  //       setActionRequested(actionRequestedResponse.data);
-  //       setndrDeleverd(ndrdeleverdResponse.data);
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   return (
     <>
@@ -150,11 +116,6 @@ function WhatsAppTotalInfo() {
           </div>
         </div>
       </div>
-      {/* <TableDashboard /> */}
-      {/* <div className="mt-3 datatable-container">
-        <h4 className="title">Last 30 Days Order</h4>
-        <DataTable />
-      </div> */}
     </>
   );
 }

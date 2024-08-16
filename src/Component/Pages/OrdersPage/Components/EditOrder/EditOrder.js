@@ -15,7 +15,6 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
 import ErrorIcon from './ErrorIcon';
-import { error } from 'jquery';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()

@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import DeleteIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/DeleteIcon'
 import MergeIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/MergeIcon';
 import ShippingIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ShippingIcon';
-import { Width } from 'devextreme-react/cjs/chart';
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setSelectedRows, setSplitStatus, setSelectAll }) => {
     const dispatch = useDispatch();
