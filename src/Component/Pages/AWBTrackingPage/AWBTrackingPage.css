@@ -69,8 +69,8 @@
 
 .tracking-body ul li.active h4 {
     color: green;
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 .tracking-body ul li.active .track-icon {
