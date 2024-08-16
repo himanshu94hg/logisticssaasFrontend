@@ -674,6 +674,12 @@ p {
   background: #fff;
 }
 
+.inputs-container .input-field,
+.inputs-container .select-field {
+  min-width: 100%;
+  width: auto;
+}
+
 .input-checkbox {
   border: 1px solid var(--sh-primary-middle);
   border-radius: 0.5rem;
