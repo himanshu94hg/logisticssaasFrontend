@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/integration/whatsappIcon.png';
+import WhatsAppChatScreen from '../../../../../assets/image/WhatsChatBot.png';
 import HeartIcon from './HeartIcon';
 import TruckIcon from './TruckIcon';
 import PackageMagnifyingIcon from './PackageMagnifyingIcon';
 
 const WhatsAppIntegration = () => {
+    const [BotTabs, setBotTabs] = useState("book")
     return (
         <>
             <div className='whatsapp'>
@@ -17,7 +19,7 @@ const WhatsAppIntegration = () => {
                         <p className='mb-0'>Need Help?</p>
                     </div>
                 </section>
-                <section className='box-shadow shadow-sm p-3 mt-3'>
+                <section style={{ overflow: 'hidden' }} className='box-shadow shadow-sm p-3 my-3'>
                     <ul className='whatsapp-benefits'>
                         <li><HeartIcon />Enhance customer satisfaction by providing real-time updates to buyers.</li>
                         <li className='plus-middle'><hr /></li>
@@ -43,15 +45,54 @@ const WhatsAppIntegration = () => {
                         </div>
                     </div>
                     <div className='mt-5'>
-                        <h4>Additional Features</h4>
-                        <div className='additional-features-nav'>
-                            <ul>
-                                <li className='active'>Book Order</li>
-                                <li>Cancel Order</li>
-                                <li>Track Order</li>
-                            </ul>
+                        <h4>Seamless Experience with Our WhatsApp Bot</h4>
+                        <p>Say hello to effortless shopping with our new WhatsApp Bot! Now, managing your orders is as easy as sending a message. Here’s how our WhatsApp integration can enhance your shopping experience</p>
+                        <div className='row'>
+                            <div className="col-4 chat-window">
+                                <img src={WhatsAppChatScreen} alt="" />
+                            </div>
+                            <div className='col-8'>
+                                <ul className='additional-features-nav'>
+                                    <li onClick={() => setBotTabs("book")} className={`${BotTabs === "book" && 'active'}`}>Book Order</li>
+                                    <li onClick={() => setBotTabs("track")} className={`${BotTabs === "track" && 'active'}`}>Track Order</li>
+                                    <li onClick={() => setBotTabs("cancel")} className={`${BotTabs === "cancel" && 'active'}`}>Cancel Order</li>
+                                    <li onClick={() => setBotTabs("support")} className={`${BotTabs === "support" && 'active'}`}>Support</li>
+                                </ul>
+                                <div className="additional-features">
+                                    {
+                                        BotTabs === "book" &&
+                                        <>
+                                            <h5>Instant Order Placement</h5>
+                                            <p>No more navigating through multiple pages to place an order. Simply message us the product name or code on WhatsApp, and our bot will guide you through a quick and easy order process.</p>
+                                        </>
+                                    }
+                                    {
+                                        BotTabs === "track" &&
+                                        <>
+                                            <h5>Real-Time Order Tracking</h5>
+                                            <p>Wondering where your order is? Just ask! Our WhatsApp bot provides real-time updates on your order status, so you always know when to expect your delivery.</p>
+                                        </>
+                                    }
+                                    {
+                                        BotTabs === "cancel" &&
+                                        <>
+                                            <h5>Hassle-Free Order Cancellation</h5>
+                                            <p>Change of mind? No problem! You can cancel your order directly through WhatsApp without any fuss.</p>
+                                        </>
+                                    }
+                                    {
+                                        BotTabs === "support" &&
+                                        <>
+                                            <h5>Personalized Support</h5>
+                                            <p>Need help? Our WhatsApp bot is here 24/7 to assist with any questions or issues you may have, from product inquiries to order modifications.</p>
+                                        </>
+                                    }
+                                    <div>
+                                        <button className='btn main-button float-end'>Activate Now</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className='additional-features'></div>
                     </div>
                 </section>
             </div>
