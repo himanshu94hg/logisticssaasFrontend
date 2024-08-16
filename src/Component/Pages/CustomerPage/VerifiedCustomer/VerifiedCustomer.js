@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import './VerifiedCustomer.css'
-import Logo from '../../../../assets/image/logo/mobileLogo.svg'
-import sellerProfileImage from '../../../../assets/image/sellerProfileImage.svg'
 import axios from 'axios'
-import { BASE_URL_CORE } from '../../../../axios/config';
+import './VerifiedCustomer.css'
 import Cookies from 'js-cookie';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { FiDownload } from 'react-icons/fi'
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import React, { useEffect, useState } from 'react'
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 const VerifiedCustomer = () => {
     const hardcodedToken = Cookies.get("access_token");
-    const [fileType, setFileType] = useState("");
     const [formData, setFormData] = useState([]);
 
     useEffect(() => {
@@ -34,22 +26,6 @@ const VerifiedCustomer = () => {
             })
     }, []);
 
-    const determineFileType = (url) => {
-        const fileExtension = url.split(".").pop().toLowerCase();
-
-        if (fileExtension === "pdf") {
-            return "pdf";
-        } else if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
-            return "image";
-        } else {
-            return "unsupported";
-        }
-    };
-    const handleClick = () => {
-        // const type = determineFileType(formData.gst_certificate);
-        // setFileType(type);
-    };
-
 
     return (
         <>
@@ -60,9 +36,6 @@ const VerifiedCustomer = () => {
                         <div className='company-logo'>
                             <img src={formData?.basic_info?.company_logo} alt="Company Logo" />
                         </div>
-                        {/* <div className='shipease-logo'>
-                            <img src={Logo} alt="Shipease Logo" />
-                        </div> */}
                     </div>
                 </div>
                 <div className='details-container mb-3'>
@@ -173,19 +146,6 @@ const VerifiedCustomer = () => {
                     </div>
                 </div>
             </section>
-
-            {/* {fileType === "pdf" && (
-                <div>
-                    <Document
-                        file={formData.gst_certificate}
-                        onLoadSuccess={onDocumentLoadSuccess}
-                    >
-                        <Page pageNumber={1} />
-                    </Document>
-                </div>
-            )}
-            {fileType === "image" && <img src={formData.gst_certificate} alt="file" style={{ maxWidth: "100%", height: "auto" }} />}
-            {fileType === "unsupported" && <p>Unsupported file type</p>} */}
         </>
     )
 }
