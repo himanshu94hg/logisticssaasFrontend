@@ -107,7 +107,9 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-
+                                        <p className='text-capitalize'>
+                                            {row?.other_details?.ndr_reason}
+                                        </p>
                                     </div>
                                 </td>
                                 <td>
