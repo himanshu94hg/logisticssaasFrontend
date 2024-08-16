@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-import 'devextreme/dist/css/dx.light.css';
+// import 'devextreme/dist/css/dx.light.css';
 import { useDispatch } from "react-redux";
 import BypassPage from "./Component/Pages/bypass";
 import screenWidth from "./redux/action/screenWidth";

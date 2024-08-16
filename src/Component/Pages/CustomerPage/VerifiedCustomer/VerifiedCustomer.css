@@ -24,6 +24,7 @@
 .verified-customer .header-section img {
     width: 40px;
     height: 40px;
+    border-radius: 50%;
 }
 
 .verified-customer .header-section hr {
@@ -44,6 +45,9 @@
     flex-wrap: wrap;
     row-gap: 40px;
     grid-template-columns: auto auto auto auto;
+    background: beige;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .verified-customer .detail-label {

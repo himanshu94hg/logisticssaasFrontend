@@ -8,6 +8,7 @@ import AgreementInfo from './Components/AgreementInfo';
 import AccountInfo from './Components/AccountInfo';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import VerifiedCustomer from './VerifiedCustomer/VerifiedCustomer';
+import { useSelector } from 'react-redux';
 
 const CustomerPage = () => {
   const location = useLocation();
@@ -15,6 +16,14 @@ const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [loader, setLoader] = useState(false)
   const [DetailsView, setDetailsView] = useState(false)
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
+  useEffect(() => {
+    if (userData?.is_basic_info_verified && userData?.is_acc_info_verified && userData?.is_kyc_info_verified && userData?.is_agreement_info_verified) {
+      setDetailsView(true)
+    }
+  }, [userData])
+
 
   useEffect(() => {
     if (location.state?.activeTab) {
@@ -41,31 +50,25 @@ const CustomerPage = () => {
 
       {
         DetailsView ?
-
           <VerifiedCustomer /> :
           <>
-            {/* Basic Information */}
             <div className={`${activeTab === "Basic Information" ? "d-block" : "d-none"}`}>
               <BasicInfo activeTab={activeTab} />
             </div>
 
-            {/* Account Information */}
             <div className={`${activeTab === "Account Information" ? "d-block" : "d-none"}`}>
               <AccountInfo activeTab={activeTab} />
             </div>
 
-            {/* KYC Information */}
             <div className={`${activeTab === "KYC Information" ? "d-block" : "d-none"}`}>
               <KYCInfo activeTab={activeTab} />
             </div>
 
-            {/* Agreement */}
             <div className={`${activeTab === "Agreement" ? "d-block" : "d-none"}`}>
               <AgreementInfo activeTab={activeTab} DetailsView={DetailsView} setDetailsView={setDetailsView} />
             </div>
           </>
       }
-
 
       <LoaderScreen loading={loader} />
     </>

@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp, faChevronDown, } from '@fortawesome/free-solid-svg-icons';
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -18,10 +13,6 @@ export default function NavTabs(props) {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
   };
 
   const navItems = [
@@ -58,7 +49,6 @@ export default function NavTabs(props) {
                     title={item.title}
                   >
                     <div className="navItemsContainer">
-                      {/* <FontAwesomeIcon icon={faBinoculars} /> */}
                       {item.title}
                     </div>
                   </Nav.Link>
@@ -72,7 +62,7 @@ export default function NavTabs(props) {
                 className="d-block d-lg-none"
                 drop="left"
               >
-                {navItems.map((item) => (
+                {navItems?.map((item) => (
                   <NavDropdown.Item
                     key={item.name}
                     eventKey={item.name}
@@ -101,18 +91,6 @@ export default function NavTabs(props) {
           >
             Parent Account
           </div>
-          {/* <div
-            className={`option ${selectedOption === "Sub Acount One" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Sub Acount One")}
-          >
-            Sub Acount One
-          </div> */}
-          {/* <div
-            className={`option ${selectedOption === "Sub Acount Two" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Sub Acount Two")}
-          >
-            Sub Acount Two
-          </div> */}
         </div>
 
       </div>
