@@ -11,6 +11,7 @@ import Pagination from '../../../../common/Pagination/Pagination';
 
 const ReportSchedulerPage = () => {
   const dispatch = useDispatch()
+  const [reset, setReset] = useState(null)
   const [emails, setEmails] = useState([]);
   const [reports, setReports] = useState([]);
   const [focused, setFocused] = useState(false);
@@ -103,7 +104,7 @@ const ReportSchedulerPage = () => {
 
   useEffect(() => {
     dispatch({ type: "REPORT_SCHEDULER_GET_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-  }, [dispatch, itemsPerPage, currentPage])
+  }, [reset, currentPage])
 
 
   useEffect(() => {
@@ -242,6 +243,7 @@ const ReportSchedulerPage = () => {
           </table>
         </div>
         <Pagination
+          setReset={setReset}
           totalItems={totalItems}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
