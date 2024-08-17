@@ -45,11 +45,11 @@ const ChannelByOrder = () => {
                   <div key={index} className="mb-4">
                     <div className='d-flex justify-content-between mb-1'>
                       <div className='d-flex align-items-center'>
-                        <img src={item.channel_logo} alt={item?.channel} width={24} />
+                        <img src={item?.channel_logo} alt={item?.channel} width={24} />
                         <p className="font12 bold-600 mb-1 ms-2">{capatlize(item?.channel) || 'Unknown'}</p>
                       </div>
                       <p className="font12 text-gray mb-0">
-                        {item.count} {percentage(item?.count,totalCount)}
+                        {item?.count} {percentage(item?.count,totalCount)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -58,9 +58,9 @@ const ChannelByOrder = () => {
                         role="progressbar"
                         style={{
                           width:`${(item?.count/totalCount)*100}%` ,
-                          backgroundColor: colorScale[item.channel],
+                          backgroundColor: colorScale[item?.channel],
                         }}
-                        aria-valuenow={item.total_percentage}
+                        aria-valuenow={item?.total_percentage}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>

@@ -24,8 +24,8 @@ const ShippingRates = () => {
     };
 
     const shippingSelectData = ratingCardData?.map(item => ({
-        value: item.partner,
-        label: item.partner
+        value: item?.partner,
+        label: item?.partner
     }));
     shippingSelectData?.unshift({ value: 'all', label: 'All Couriers' });
     const renderRows = data => {
@@ -33,11 +33,11 @@ const ShippingRates = () => {
 
         if (selectedCourier && selectedCourier.length > 0 && selectedCourier[0].value !== 'all') {
             const selectedValues = selectedCourier.map(option => option.value);
-            filteredData = data.filter(item => selectedValues.includes(item.partner));
+            filteredData = data.filter(item => selectedValues.includes(item?.partner));
         }
 
         return filteredData?.map((item, index) => (
-            <React.Fragment key={item.partner + index}>
+            <React.Fragment key={item?.partner + index}>
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3} className=''>
                         <img
@@ -45,16 +45,16 @@ const ShippingRates = () => {
                             height={"40px"}
                             style={{ borderRadius: 30, border: "1px solid lightgray", padding: 2 }}
                             src={item?.partner_image} alt="" />
-                        <p className='fw-bold'>  {item.partner}</p>
+                        <p className='fw-bold'>  {item?.partner}</p>
                     </td>
                     <td>Forward</td>
-                    <td>₹ {(isChecked ? (item.zone_a * 1.18).toFixed(2) : item.zone_a)}</td>
-                    <td>₹ {(isChecked ? (item.zone_b * 1.18).toFixed(2) : item.zone_b)}</td>
-                    <td>₹ {(isChecked ? (item.zone_c * 1.18).toFixed(2) : item.zone_c)}</td>
-                    <td>₹ {(isChecked ? (item.zone_d * 1.18).toFixed(2) : item.zone_d)}</td>
-                    <td>₹ {(isChecked ? (item.zone_e * 1.18).toFixed(2) : item.zone_e)}</td>
-                    <td className='rowfull3' rowSpan={3}>₹ {(isChecked ? (item.cod_charge * 1.18).toFixed(2) : item.cod_charge)}</td>
-                    <td className='rowfull3' rowSpan={3}>{item.cod_maintenance} %</td>
+                    <td>₹ {(isChecked ? (item?.zone_a * 1.18).toFixed(2) : item?.zone_a)}</td>
+                    <td>₹ {(isChecked ? (item?.zone_b * 1.18).toFixed(2) : item?.zone_b)}</td>
+                    <td>₹ {(isChecked ? (item?.zone_c * 1.18).toFixed(2) : item?.zone_c)}</td>
+                    <td>₹ {(isChecked ? (item?.zone_d * 1.18).toFixed(2) : item?.zone_d)}</td>
+                    <td>₹ {(isChecked ? (item?.zone_e * 1.18).toFixed(2) : item?.zone_e)}</td>
+                    <td className='rowfull3' rowSpan={3}>₹ {(isChecked ? (item?.cod_charge * 1.18).toFixed(2) : item?.cod_charge)}</td>
+                    <td className='rowfull3' rowSpan={3}>{item?.cod_maintenance} %</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>Additional Weight</td>
@@ -66,13 +66,13 @@ const ShippingRates = () => {
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>RTO</td>
-                    <td>₹ {(isChecked ? (item.rto_charge_a * 1.18).toFixed(2) : item.rto_charge_a)}</td>
-                    <td>₹ {(isChecked ? (item.rto_charge_b * 1.18).toFixed(2) : item.rto_charge_b)}</td>
-                    <td>₹ {(isChecked ? (item.rto_charge_c * 1.18).toFixed(2) : item.rto_charge_c)}</td>
-                    <td>₹ {(isChecked ? (item.rto_charge_d * 1.18).toFixed(2) : item.rto_charge_d)}</td>
-                    <td>₹ {(isChecked ? (item.rto_charge_e * 1.18).toFixed(2) : item.rto_charge_e)}</td>
+                    <td>₹ {(isChecked ? (item?.rto_charge_a * 1.18).toFixed(2) : item?.rto_charge_a)}</td>
+                    <td>₹ {(isChecked ? (item?.rto_charge_b * 1.18).toFixed(2) : item?.rto_charge_b)}</td>
+                    <td>₹ {(isChecked ? (item?.rto_charge_c * 1.18).toFixed(2) : item?.rto_charge_c)}</td>
+                    <td>₹ {(isChecked ? (item?.rto_charge_d * 1.18).toFixed(2) : item?.rto_charge_d)}</td>
+                    <td>₹ {(isChecked ? (item?.rto_charge_e * 1.18).toFixed(2) : item?.rto_charge_e)}</td>
                 </tr>
-                <tr className='blank-row' key={`empty-${item.partner}-${index}`}><td></td></tr>
+                <tr className='blank-row' key={`empty-${item?.partner}-${index}`}><td></td></tr>
             </React.Fragment>
         ));
     };

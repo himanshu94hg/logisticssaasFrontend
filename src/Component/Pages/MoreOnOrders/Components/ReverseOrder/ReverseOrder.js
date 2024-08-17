@@ -188,7 +188,7 @@ const ReverseOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, set
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                     {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                     {/* <InfoIcon /> */}
-                                                    {/* <span>{row?.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                    {/* <span>{row?.product_name}<br />{row?.product_sku}<br /> Qt. {row?.product_qty}</span> */}
                                                     {/* </span> */}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>

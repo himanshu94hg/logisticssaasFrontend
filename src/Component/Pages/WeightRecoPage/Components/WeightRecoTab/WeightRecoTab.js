@@ -41,7 +41,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(weightRecoData.map(row => row.id));
+            setSelectedRows(weightRecoData?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -60,7 +60,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === weightRecoData?.length - 1 && isSelected) {
+        if (selectedRows?.length === weightRecoData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -204,7 +204,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
                                                         {row?.order?.awb_number}
                                                     </p>
-                                                    <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
+                                                    <p className='text-capitalize'>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                                 </div>
                                                 <CustomTooltip
                                                     triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
@@ -236,10 +236,10 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             <div className='d-flex align-items-center gap-3'>
                                                 {row?.status === "pending" ? (
                                                     <React.Fragment>
-                                                        <button className='btn main-button' title='Accept' onClick={() => handleAccept(row.id)}>
+                                                        <button className='btn main-button' title='Accept' onClick={() => handleAccept(row?.id)}>
                                                             <FaCheckSquare />
                                                         </button>
-                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row.id)} >
+                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row?.id)} >
                                                             <FaTimes />
                                                         </button>
                                                     </React.Fragment>
@@ -256,7 +256,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                         <div className='action-list'>
                                                             <ul>
                                                                 {row?.status === "pending" ? (
-                                                                    <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                                    <li className='pt-4' onClick={() => handleShowComment(row?.id)}>Add Comment</li>
                                                                 ) : (
                                                                     <li >....</li>
                                                                 )}

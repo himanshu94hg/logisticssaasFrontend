@@ -97,9 +97,9 @@ const SetPreferenceRules = ({ activeTab }) => {
             const temp = []
             allRules?.map((item, index) => {
                 temp.push({
-                    rule_id: item.id,
+                    rule_id: item?.id,
                     position: index + 1,
-                    status: item.status
+                    status: item?.status
                 })
             })
             setPreferData(temp)
@@ -187,19 +187,19 @@ const SetPreferenceRules = ({ activeTab }) => {
 
         if (conditions.length > 0) {
             conditions.map((item) => {
-                // if (item.condition) {
+                // if (item?.condition) {
                 //     formIsValid = false;
                 //     errors.conditions = "All fields are mandatory!";
                 // }
-                if (!item.condition_type) {
+                if (!item?.condition_type) {
                     formIsValid = false;
                     errors.conditions = "All fields are mandatory!";
                 }
-                if (!item.match_type) {
+                if (!item?.match_type) {
                     formIsValid = false;
                     errors.conditions = "All fields are mandatory!";
                 }
-                if (!item.match_value) {
+                if (!item?.match_value) {
                     formIsValid = false;
                     errors.conditions = "All fields are mandatory!";
                 }
@@ -222,10 +222,10 @@ const SetPreferenceRules = ({ activeTab }) => {
             priority_3: selectedPartners3,
             priority_4: selectedPartners4,
             rules: conditions.map(item => ({
-                condition: item.condition,
-                condition_type: item.condition_type,
-                match_type: item.match_type,
-                match_value: item.match_value
+                condition: item?.condition,
+                condition_type: item?.condition_type,
+                match_type: item?.match_type,
+                match_value: item?.match_value
             }))
         };
 

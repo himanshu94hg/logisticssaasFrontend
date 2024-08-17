@@ -87,7 +87,7 @@ const CourierDashboard = ({activeTab}) => {
           {courierData?.map((item, index) => (
             <div key={index} className="accordion-row box-shadow shadow-sm mb-3 p10">
               <div className="accordion-header" onClick={() => toggleRow(index)}>
-                <h4>{item.courier_name}</h4>
+                <h4>{item?.courier_name}</h4>
                 <div>Mode: Surface</div>
                 <div>Shipment Count: {item?.total_shipment}</div>
                 <div>

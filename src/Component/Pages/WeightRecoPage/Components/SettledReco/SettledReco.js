@@ -40,7 +40,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(weightRecoData.map(row => row.id));
+            setSelectedRows(weightRecoData?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -49,9 +49,9 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
@@ -59,7 +59,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows?.length === data?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);

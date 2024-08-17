@@ -54,7 +54,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                 <div key={index} className='minor-rule-row'>
                     <select
                         className='select-field'
-                        value={row.condition}
+                        value={row?.condition}
                         style={{ width: '100px' }}
                         onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                         disabled={index === 0}
@@ -65,7 +65,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.condition_type}
+                        value={row?.condition_type}
                         onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
                     >
                         <option value="">Select Condition</option>
@@ -80,132 +80,132 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.match_type}
+                        value={row?.match_type}
                         onChange={(e) => handleSelectChange(index, 'match_type', e.target.value)}
                     >
                         <option value="">Select Match Type</option>
-                        {row.condition_type === "order_amount" && (
+                        {row?.condition_type === "order_amount" && (
                             <>
                                 <option value="greater_than">Greater than</option>
                                 <option value="less_than">Less than</option>
                             </>
                         )}
-                        {row.condition_type === "payment_type" && (
+                        {row?.condition_type === "payment_type" && (
                             <>
                                 <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                             </>
                         )}
-                        {row.condition_type === "pickup_pincode" && (
+                        {row?.condition_type === "pickup_pincode" && (
                             <>
                                 <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                             </>
                         )}
-                        {row.condition_type === "delivery_pincode" && (
+                        {row?.condition_type === "delivery_pincode" && (
                             <>
                                 <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                                 <option value="starts_with">Starts with</option>
                             </>
                         )}
-                        {row.condition_type === "weight" && (
+                        {row?.condition_type === "weight" && (
                             <>
                                 <option value="greater_than">GT - Greater than</option>
                                 <option value="less_than">LE - Less than Equal to</option>
                             </>
                         )}
-                        {row.condition_type === "product_name" && (
+                        {row?.condition_type === "product_name" && (
                             <>
                                 <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                                 <option value="starts_with">Starts with</option>
                             </>
                         )}
-                        {row.condition_type === "product_sku" && (
+                        {row?.condition_type === "product_sku" && (
                             <>
                                 <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                                 <option value="starts_with">Starts with</option>
                             </>
                         )}
-                        {row.condition_type === "order_type" && (
+                        {row?.condition_type === "order_type" && (
                             <>
                                 <option value="is">Is</option>
                             </>
                         )}
                     </select>
-                    {row.condition_type === "" && (
+                    {row?.condition_type === "" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             placeholder="Enter text"
                             disabled
                         />
-                    )}{row.condition_type === "order_amount" && (
+                    )}{row?.condition_type === "order_amount" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter amount"
                         />
                     )}
-                    {row.condition_type === "payment_type" && (
-                        <select className='select-field'  value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
+                    {row?.condition_type === "payment_type" && (
+                        <select className='select-field'  value={row?.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
                             <option value="prepaid">Prepaid</option>
                             <option value="cod">COD</option>
                         </select>
                     )}
-                    {row.condition_type === "pickup_pincode" && (
+                    {row?.condition_type === "pickup_pincode" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter pickup pincode"
                         />
                     )}
-                    {row.condition_type === "delivery_pincode" && (
+                    {row?.condition_type === "delivery_pincode" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter delivery pincode"
                         />
                     )}
-                    {row.condition_type === "weight" && (
+                    {row?.condition_type === "weight" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter weight"
                         />
                     )}
-                    {row.condition_type === "product_name" && (
+                    {row?.condition_type === "product_name" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter product name"
                         />
                     )}
-                    {row.condition_type === "product_sku" && (
+                    {row?.condition_type === "product_sku" && (
                         <input
                             className='input-field'
                             type="text"
-                            value={row.match_value}
+                            value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter product SKU"
                         />
                     )}
-                    {row.condition_type === "order_type" && (
-                        <select className='select-field' value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
+                    {row?.condition_type === "order_type" && (
+                        <select className='select-field' value={row?.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
                             <option value="forward">Forward</option>
                             <option value="reverse">Reverse</option>

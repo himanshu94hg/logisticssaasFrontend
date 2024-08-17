@@ -406,7 +406,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                             <div className='Labels-pool'>
                                                                 {row?.order_tag?.map((item) => {
                                                                     return (
-                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}</button></div>
 
                                                                     )
                                                                 })}

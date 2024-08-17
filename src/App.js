@@ -119,9 +119,9 @@ function App() {
             }
           });
           const temp_data = response.data.reduce((acc, item) => {
-            acc[item.keyword] = {
-              image: item.image,
-              title: item.title
+            acc[item?.keyword] = {
+              image: item?.image,
+              title: item?.title
             };
             return acc;
           }, {});

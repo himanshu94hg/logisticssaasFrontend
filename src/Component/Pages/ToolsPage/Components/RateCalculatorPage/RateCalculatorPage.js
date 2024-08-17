@@ -564,7 +564,7 @@ const RateCalculatorPage = () => {
                           {item?.partner_keyword && <img src={partnerList[item?.partner_keyword]["image"]} alt='Partner' />}
                         </div>
                         <div className='d-flex flex-column justify-content-center'>
-                          {item.partner_keyword && partnerList[item.partner_keyword]["title"]}
+                          {item?.partner_keyword && partnerList[item?.partner_keyword]["title"]}
                           <p>{"Delivering Excellence, Every Mile"}</p>
                           <p>RTO Charges: ₹{item?.rto_charge.toFixed(2)}</p>
                         </div>
@@ -604,7 +604,7 @@ const RateCalculatorPage = () => {
                       </p>
                     </div>
                     <div className='d-flex flex-column gap-2 align-items-end'>
-                      <button className='btn main-button' onClick={() => handleShip(item.partner_keyword)}>Ship Now</button>
+                      <button className='btn main-button' onClick={() => handleShip(item?.partner_keyword)}>Ship Now</button>
                       <p><span>EDD: <strong>{item?.estimate_days} days</strong></span></p>
                     </div>
                     {item?.is_recommended && <span className="recommended"></span>}

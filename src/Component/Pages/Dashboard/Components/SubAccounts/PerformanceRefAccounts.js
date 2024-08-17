@@ -45,12 +45,12 @@ const PerformanceRefAccounts = () => {
                         <tbody>
                             {courierPartner.map((item, index) => (
                                 <tr className="text-nowrap" key={index}>
-                                    <td>{item.counter_itme}</td>
-                                    <td>{item.one}</td>
-                                    <td>{item.one}</td>
-                                    <td>{item.one}</td>
-                                    <td>{item.one}</td>
-                                    <td>{item.one}</td>
+                                    <td>{item?.counter_itme}</td>
+                                    <td>{item?.one}</td>
+                                    <td>{item?.one}</td>
+                                    <td>{item?.one}</td>
+                                    <td>{item?.one}</td>
+                                    <td>{item?.one}</td>
                                 </tr>
                             ))}
                         </tbody>

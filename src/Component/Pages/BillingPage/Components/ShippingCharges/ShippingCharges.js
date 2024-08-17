@@ -17,8 +17,8 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
-            setSelectedOrderRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row?.id));
+            setSelectedOrderRows(billingCard?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -28,10 +28,10 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-            setSelectedOrderRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
+            setSelectedOrderRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
@@ -115,14 +115,14 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                         </thead>
                         <tbody>
                             {billingCard?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id, row.id)}
+                                                checked={selectedRows?.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id, row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -190,7 +190,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {row.charge_detail?.c_weight ? <p>Wt:  {row?.charge_detail?.c_weight} kg
+                                                {row?.charge_detail?.c_weight ? <p>Wt:  {row?.charge_detail?.c_weight} kg
                                                     LBH(cm): {row?.charge_detail?.c_length} x {row?.charge_detail?.c_breadth} x {row?.charge_detail?.c_height}
                                                 </p> : "-"}
                                             </div>

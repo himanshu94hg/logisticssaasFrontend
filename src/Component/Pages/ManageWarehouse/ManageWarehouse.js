@@ -30,8 +30,8 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
     if (boxData) {
       let temp = null;
       boxData.map((item) => {
-        if (item.is_default) {
-          temp = item.id
+        if (item?.is_default) {
+          temp = item?.id
         }
       })
       setDefaultWarehouseIndex(temp)

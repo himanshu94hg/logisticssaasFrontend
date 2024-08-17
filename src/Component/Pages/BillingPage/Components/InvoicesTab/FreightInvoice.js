@@ -31,7 +31,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -40,9 +40,9 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
@@ -50,7 +50,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows?.length === data?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -62,7 +62,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     });
 
     const handleDataAndView = (row) => {
-        if (row.id !== null) {
+        if (row?.id !== null) {
             setAllInvoiceData(row);
             setTimeout(() => {
                 handlePrint();
@@ -115,7 +115,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                 </thead>
                 <tbody>
                     {billingCard?.map((row, index) => (
-                        <React.Fragment key={row.id}>
+                        <React.Fragment key={row?.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
                                 <td className='checkbox-cell'>
@@ -163,10 +163,10 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                 <td>
                                     <div className='cell-inside-box'>
                                         <div className='d-flex gap-3'>
-                                            {row.uploaded_invoice !== null ?
+                                            {row?.uploaded_invoice !== null ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
-                                                        window.open(row.uploaded_invoice?.invoice_file)
+                                                        window.open(row?.uploaded_invoice?.invoice_file)
                                                     }}
                                                 >    <InvoiceIcon /></button>
                                                 : <>
@@ -177,7 +177,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             {row?.uploaded_invoice?.awb_file ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
-                                                        const pdfUrl = row.uploaded_invoice?.awb_file
+                                                        const pdfUrl = row?.uploaded_invoice?.awb_file
                                                         const link = document.createElement('a');
                                                         link.href = pdfUrl;
                                                         link.download = 'invoice.pdf';

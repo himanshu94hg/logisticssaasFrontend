@@ -123,15 +123,15 @@ const ServiceabilityPage = () => {
   useEffect(() => {
     if (courierPartnerName && Array.isArray(courierPartnerName?.results)) {
       const transformedData = courierPartnerName?.results?.map(item => ({
-        value: item.id,
-        label: item.title,
+        value: item?.id,
+        label: item?.title,
       }));
       setCourierOptions(transformedData);
     }
   }, [courierPartnerName]);
 
   useEffect(() => {
-    const temp_data = selectedOptions?.map((item) => item.value);
+    const temp_data = selectedOptions?.map((item) => item?.value);
     const commaSeparatedString = temp_data.join(',');
     setCourierId(commaSeparatedString)
   }, [selectedOptions])

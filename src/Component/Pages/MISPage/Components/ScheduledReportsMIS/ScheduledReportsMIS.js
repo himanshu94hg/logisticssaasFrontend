@@ -34,7 +34,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
     useEffect(() => {
         if (scheduleReportsData?.results !== null && scheduleReportsData !== undefined) {
             setscheduledReport(scheduleReportsData?.results)
-            setTotalItems(scheduleReportsData.count)
+            setTotalItems(scheduleReportsData?.count)
         }
     }, [scheduleReportsData])
 
@@ -45,7 +45,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
             }
         }).then(response => {
             console.log(response, "this is response")
-            setscheduledReport(response.data.results)
+            setscheduledReport(response?.data?.results)
         })
             .catch(error => {
                 customErrorFunction(error)
@@ -111,7 +111,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                         </thead>
                         <tbody>
                             {scheduledReport && scheduledReport?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td>

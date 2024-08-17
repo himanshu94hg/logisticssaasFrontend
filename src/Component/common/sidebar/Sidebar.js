@@ -80,13 +80,13 @@ export default function Sidebar() {
           {sidebarItems.map((item, index) => (
             <Link
               key={`${item.label}_${index}`}
-              to={item.to}
+              to={item?.to}
               className="nav-link"
               onClick={()=>{setExpanded(false)}}
             >
               <div className="sidebar-label-wrapper">
                 <item.icon />
-                {expanded && <span className="mx-2">{item.label}
+                {expanded && <span className="mx-2">{item?.label}
                 
                 </span>}
               </div>

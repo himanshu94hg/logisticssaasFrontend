@@ -116,34 +116,34 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                 </thead>
                 <tbody>
                     {ordersData?.map((row, index) => (
-                        <React.Fragment key={row.id}>
+                        <React.Fragment key={row?.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
                                 <td className='checkbox-cell'>
                                     <input
                                         type="checkbox"
-                                        checked={selectedRows?.includes(row.id)}
-                                        onChange={() => handleSelectRow(row.id)}
+                                        checked={selectedRows?.includes(row?.id)}
+                                        onChange={() => handleSelectRow(row?.id)}
                                     />
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                    : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                            {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                    : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                     : <CustomIcon />}
-                                            &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                            &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                         </p>
                                         <p className='ws-nowrap d-flex align-items-center'>
-                                            <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                            <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                             <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                            {row.is_mps === true &&
+                                            {row?.is_mps === true &&
                                                 <span className="mps-flag">MPS</span>
                                             }
                                         </p>
@@ -166,7 +166,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                 <td>
                                     {/* Package Details */}
                                     <div className='cell-inside-box'>
-                                        <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                        <p className='width-eclipse'>{row?.order_products.product_name}</p>
                                         <p>Wt:  {row?.dimension_detail?.weight / 1000} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
@@ -217,7 +217,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                         {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
+                                            <p className='text-capitalize'>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                         </div>
                                         {row?.awb_number && 
                                         <CustomTooltip

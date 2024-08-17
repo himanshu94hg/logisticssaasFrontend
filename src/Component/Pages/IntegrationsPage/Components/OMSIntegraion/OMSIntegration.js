@@ -39,12 +39,12 @@ const OMSIntegration = () => {
                 <div className="card-grid-container">
                     {OMSData.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={40} />
+                            <div className={`card-img-container ${item?.title}`}>
+                                <img src={item?.imageUrl} alt={item?.title} width={40} />
                             </div>
                             <div className="card-content">
-                                <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>                            </div>
+                                <h3 className="card-title">{item?.title}</h3>
+                                <button onClick={() => navigate(`/${item?.child}-integration`)} className='btn main-button'>Integrate</button>                            </div>
                         </div>
                     ))}
                 </div>
@@ -55,12 +55,12 @@ const OMSIntegration = () => {
                 <div className="card-grid-container">
                     {OtherOMS.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={40} />
+                            <div className={`card-img-container ${item?.title}`}>
+                                <img src={item?.imageUrl} alt={item?.title} width={40} />
                             </div>
                             <div className="card-content">
-                                <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>                            </div>
+                                <h3 className="card-title">{item?.title}</h3>
+                                <button onClick={() => navigate(`/${item?.child}-integration`)} className='btn main-button'>Integrate</button>                            </div>
                         </div>
                     ))}
                 </div>

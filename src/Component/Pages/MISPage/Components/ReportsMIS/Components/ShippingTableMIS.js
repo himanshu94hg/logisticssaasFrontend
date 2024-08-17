@@ -90,7 +90,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                 </thead>
                 <tbody>
                     {shipmentData?.length > 0 && shipmentData?.map((row, index) => (
-                        <React.Fragment key={row.id}>
+                        <React.Fragment key={row?.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
                                 <td className='checkbox-cell'>
@@ -151,7 +151,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                         {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
+                                            <p className='text-capitalize'>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                         </div>
                                         {row?.awb_number &&
                                             <CustomTooltip

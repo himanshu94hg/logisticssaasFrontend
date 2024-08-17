@@ -53,9 +53,9 @@ const NewComponent = () => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    setPool(data.find((item) => item.title === 'Buffer Pool')?.partners || []);
-                    setSequenceOne(data.find((item) => item.title === 'B2C')?.partners || []);
-                    setSequenceTwo(data.find((item) => item.title === 'B2B')?.partners || []);
+                    setPool(data.find((item) => item?.title === 'Buffer Pool')?.partners || []);
+                    setSequenceOne(data.find((item) => item?.title === 'B2C')?.partners || []);
+                    setSequenceTwo(data.find((item) => item?.title === 'B2B')?.partners || []);
                 })
                 .catch(customErrorFunction);
         }
@@ -100,7 +100,7 @@ const NewComponent = () => {
         const destinationItems = Array.from(getList(destination.droppableId));
         const [movedItem] = sourceItems.splice(source.index, 1);
 
-        if (movedItem.courier_category_id.toString() !== destination.droppableId.toString() && destination.droppableId !== DROPPABLE_IDS.POOL) {
+        if (movedItem?.courier_category_id.toString() !== destination.droppableId.toString() && destination.droppableId !== DROPPABLE_IDS.POOL) {
             toast.error(`This Courier doesn't belong to ${destination.droppableId === DROPPABLE_IDS.B2C ? 'B2C' : 'B2B'} category`);
             return;
         }
@@ -148,20 +148,20 @@ const NewComponent = () => {
 
     useEffect(() => {
         const tempOne = sequenceOne?.map((item, index) => ({
-            courier_category: item.courier_category_id,
+            courier_category: item?.courier_category_id,
             priority: index + 1,
             partner: item?.id,
         })) || [];
 
         const tempTwo = sequenceTwo?.map((item, index) => ({
-            courier_category: item.courier_category_id,
+            courier_category: item?.courier_category_id,
             priority: index + 1,
             partner: item?.id,
         })) || [];
 
         const combined = [...tempOne, ...tempTwo];
         const uniqueCombined = combined.filter(
-            (item, index, self) => index === self.findIndex((t) => t.partner === item.partner)
+            (item, index, self) => index === self.findIndex((t) => t.partner === item?.partner)
         );
 
         setAllocatedData(uniqueCombined);

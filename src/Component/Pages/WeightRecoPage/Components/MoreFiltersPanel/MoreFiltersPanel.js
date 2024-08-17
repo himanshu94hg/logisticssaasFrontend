@@ -163,7 +163,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         if (name === "status" || name === "order_tag" || name === "pickup_address") {
             let temp_data = ''
             let temp = value.map((item) => {
-                temp_data += item.value + ","
+                temp_data += item?.value + ","
             })
             setFilterParams(prev => ({
                 ...prev,
@@ -173,7 +173,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         if (name === "order_source") {
             let temp_data = ''
             let temp = value.map((item) => {
-                temp_data += item.value + ","
+                temp_data += item?.value + ","
             })
             setFilterParams(prev => ({
                 ...prev,
@@ -189,7 +189,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         if (name === "courier_partner") {
             let temp_data = ''
             let temp = value.map((item) => {
-                temp_data += item.value + ","
+                temp_data += item?.value + ","
             })
             setFilterParams(prev => ({
                 ...prev,
@@ -227,8 +227,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                         }
                     });
                     const temp = response?.data?.map((item) => ({
-                        label: item.warehouse_name,
-                        value: item.warehouse_name,
+                        label: item?.warehouse_name,
+                        value: item?.warehouse_name,
                     }));
                     setPickupAddresses(temp)
                 }
@@ -292,8 +292,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
-                value: item.id,
-                label: item.name
+                value: item?.id,
+                label: item?.name
             }));
             setorderTag(formattedData);
         } else {

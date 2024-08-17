@@ -76,11 +76,11 @@ const KYCInfo = ({ activeTab }) => {
       if (response?.data?.length > 0) {
         setFormList(response.data.map(item => ({
           id: item?.id,
-          documentType: item.document_type,
-          documentName: item.document_name,
-          documentNumber: item.document_id,
-          companyType: item.company_type,
-          previewImg: item.document_upload
+          documentType: item?.document_type,
+          documentName: item?.document_name,
+          documentNumber: item?.document_id,
+          companyType: item?.company_type,
+          previewImg: item?.document_upload
         })));
       } else {
         setFormData({
@@ -180,7 +180,7 @@ const KYCInfo = ({ activeTab }) => {
       if (response.ok) {
         toast.success('Document deleted successfully.');
         setResData("")
-        setFormList(prevFormList => prevFormList.filter(item => item.id !== id));
+        setFormList(prevFormList => prevFormList.filter(item => item?.id !== id));
       }
     } catch (error) {
       customErrorFunction(error)
@@ -299,15 +299,15 @@ const KYCInfo = ({ activeTab }) => {
               <h5 className="col-4 col-md-3">Uploaded Documents</h5>
               <ul className="col-8 col-md-9 upload-doc-list">
                 {formList.map((item, index) =>
-                  (item.documentType === "Pan Card" ||
-                    item.documentType === "Aadhar Card" ||
-                    item.documentType === "Driving License" ||
-                    item.documentType === "Voter ID Card") && (
+                  (item?.documentType === "Pan Card" ||
+                    item?.documentType === "Aadhar Card" ||
+                    item?.documentType === "Driving License" ||
+                    item?.documentType === "Voter ID Card") && (
                     <li key={index} className="row flex-column flex-md-row">
                       <p className="col-10 d-flex gap-3 flex-wrap">
-                        <span className="">Document Type: <strong>{item.documentType}</strong></span>
-                        <span className="">Document Name: <strong>{item.documentName}</strong></span>
-                        <span className="">Document Number: <strong>{item.documentNumber}</strong></span>
+                        <span className="">Document Type: <strong>{item?.documentType}</strong></span>
+                        <span className="">Document Name: <strong>{item?.documentName}</strong></span>
+                        <span className="">Document Number: <strong>{item?.documentNumber}</strong></span>
                       </p>
                       <div className="col-2 d-flex gap-2 align-items-center">
                         {/* <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
@@ -340,7 +340,7 @@ const KYCInfo = ({ activeTab }) => {
                           type="button"
                           className="btn delete-btn"
                           disabled={userData?.is_kyc_info_verified ? true : false}
-                          onClick={() => handleDelete(item.id)}
+                          onClick={() => handleDelete(item?.id)}
                         >
                           <FontAwesomeIcon icon={faTrashCan} />
                         </button>

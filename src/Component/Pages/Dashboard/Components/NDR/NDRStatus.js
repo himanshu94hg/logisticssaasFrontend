@@ -17,11 +17,11 @@ const StatusBarChart = () => {
       const extractedLost = [];
       const extractedPending = [];
       ndrStatus?.forEach(item => {
-        extractedWeekNumbers.push("Week "+item.week_number);
-        extractedDelivered.push(item.delivered);
-        extractedRTO.push(item.rto);
-        extractedPending.push(item.pending);
-        extractedLost.push(item.lost);
+        extractedWeekNumbers.push("Week "+item?.week_number);
+        extractedDelivered.push(item?.delivered);
+        extractedRTO.push(item?.rto);
+        extractedPending.push(item?.pending);
+        extractedLost.push(item?.lost);
       });
       setWeekNumbers(extractedWeekNumbers);
       setDelivered(extractedDelivered);

@@ -12,9 +12,9 @@ const WarehouseInformation = () => {
     useEffect(() => {
         if (warehouseData) {
             const transformedData = warehouseData?.reduce((acc, item) => {
-                acc[item.pickup_details__p_state] = {
-                    sales: item.count,
-                    value: item.pickup_details__p_state
+                acc[item?.pickup_details__p_state] = {
+                    sales: item?.count,
+                    value: item?.pickup_details__p_state
                 };
                 return acc;
             }, {});

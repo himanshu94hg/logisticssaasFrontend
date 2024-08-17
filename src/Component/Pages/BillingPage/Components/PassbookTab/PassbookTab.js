@@ -10,7 +10,7 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(billingCard.map(row => row.id));
+            setSelectedRows(billingCard?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -19,9 +19,9 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows?.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
@@ -29,7 +29,7 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === billingCard.length - 1 && isSelected) {
+        if (selectedRows?.length === billingCard?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -91,14 +91,14 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
                         </thead>
                         <tbody>
                             {billingCard?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -137,28 +137,28 @@ const PassbookTab = ({ billingCard, selectedRows, setAwbNo, setOrderTracking, se
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.transaction_type == "c" ? "₹ " + row.amount : null}
+                                                    {row?.transaction_type == "c" ? "₹ " + row?.amount : null}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             <div classamount='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.transaction_type == "d" ? ("₹ " + row.amount) : null}
+                                                    {row?.transaction_type == "d" ? ("₹ " + row?.amount) : null}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.balance}
+                                                    ₹ {row?.balance}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.description}
+                                                    {row?.description}
                                                 </p>
                                             </div>
                                         </td>

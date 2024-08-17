@@ -15,10 +15,10 @@ const TopRTOPincodes = () => {
     if(rtoTop){
       const filtered = rtoTop?.filter(
         (item) =>
-          item.shipping_detail__pincode?.includes(searchTerm) ||
-          item.shipping_detail__city?.toLowerCase()?.includes(searchTerm) ||
-          item.shipping_detail__state?.toLowerCase()?.includes(searchTerm) ||
-          String(item.rto_count)?.includes(searchTerm)
+          item?.shipping_detail__pincode?.includes(searchTerm) ||
+          item?.shipping_detail__city?.toLowerCase()?.includes(searchTerm) ||
+          item?.shipping_detail__state?.toLowerCase()?.includes(searchTerm) ||
+          String(item?.rto_count)?.includes(searchTerm)
       );
       setFilteredData(filtered);
     }
@@ -59,10 +59,10 @@ const TopRTOPincodes = () => {
               <tbody>
                 {filteredData?.map((item, index) => (
                   <tr key={index} className={`bg-${index % 2 === 0 ? 'red' : 'green'}-light text-${index % 2 === 0 ? 'red' : 'green'}`}>
-                    <td>{item.shipping_detail__pincode}</td>
-                    <td className='text-capitalize'>{item.shipping_detail__city}</td>
-                    <td className='text-capitalize'>{item.shipping_detail__state}</td>
-                    <td>{item.rto_count}</td>
+                    <td>{item?.shipping_detail__pincode}</td>
+                    <td className='text-capitalize'>{item?.shipping_detail__city}</td>
+                    <td className='text-capitalize'>{item?.shipping_detail__state}</td>
+                    <td>{item?.rto_count}</td>
                   </tr>
                 ))}
               </tbody>

@@ -60,7 +60,7 @@ const WeightRecoMIS = () => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(orders.map(row => row?.id));
         } else {
             setSelectedRows([]);
         }
@@ -108,14 +108,14 @@ const WeightRecoMIS = () => {
             </thead>
             <tbody>
                 {orders.map((row, index) => (
-                    <React.Fragment key={row.id}>
+                    <React.Fragment key={row?.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
                             <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
-                                    checked={selectedRows.includes(row.id)}
-                                    onChange={() => handleSelectRow(row.id)}
+                                    checked={selectedRows.includes(row?.id)}
+                                    onChange={() => handleSelectRow(row?.id)}
                                 />
                             </td>
                             <td>

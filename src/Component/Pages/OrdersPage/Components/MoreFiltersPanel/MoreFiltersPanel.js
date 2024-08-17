@@ -125,9 +125,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                         }
                     });
                     const temp = response?.data?.map((item, index) => ({
-                        id: item.id,
-                        label: item.warehouse_name,
-                        value: item.warehouse_name,
+                        id: item?.id,
+                        label: item?.warehouse_name,
+                        value: item?.warehouse_name,
                     }));
                     setPickupAddresses(temp)
                 }
@@ -141,8 +141,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     useEffect(() => {
         if (courierPartnerData?.data?.length) {
             const formattedData = courierPartnerData?.data.map(item => ({
-                value: item.keyword,
-                label: item.title
+                value: item?.keyword,
+                label: item?.title
             }));
             setCourierPartners(formattedData);
         } else {
@@ -155,8 +155,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             const formattedData = orderSourceListData
                 .filter(item => item?.order_source)
                 .map(item => ({
-                    value: item.order_source,
-                    label: item.order_source
+                    value: item?.order_source,
+                    label: item?.order_source
                 }));
             setOrderSource(formattedData);
         } else {
@@ -167,8 +167,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
-                value: item.id,
-                label: item.name
+                value: item?.id,
+                label: item?.name
             }));
             setorderTag(formattedData);
         } else {
@@ -233,7 +233,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type"].includes(name)) {
-            const temp_data = value.map(item => item.value).join(",");
+            const temp_data = value.map(item => item?.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
@@ -250,8 +250,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }));
         }
         else if (name === "pickup_address") {
-            const ids = value.map(item => item.id).join(",");
-            const names = value.map(item => item.value).join(",");
+            const ids = value.map(item => item?.id).join(",");
+            const names = value.map(item => item?.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 pickup_address: names,
