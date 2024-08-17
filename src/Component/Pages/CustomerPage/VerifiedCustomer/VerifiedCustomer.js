@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import './VerifiedCustomer.css'
-import Logo from '../../../../assets/image/logo/mobileLogo.svg'
-import sellerProfileImage from '../../../../assets/image/sellerProfileImage.svg'
 import axios from 'axios'
-import { BASE_URL_CORE } from '../../../../axios/config';
+import './VerifiedCustomer.css'
 import Cookies from 'js-cookie';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { FiDownload } from 'react-icons/fi'
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import React, { useEffect, useState } from 'react'
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 const VerifiedCustomer = () => {
     const hardcodedToken = Cookies.get("access_token");
-    const [fileType, setFileType] = useState("");
     const [formData, setFormData] = useState([]);
+    const logoImg = "https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"
 
     useEffect(() => {
         axios
@@ -34,22 +27,6 @@ const VerifiedCustomer = () => {
             })
     }, []);
 
-    const determineFileType = (url) => {
-        const fileExtension = url.split(".").pop().toLowerCase();
-
-        if (fileExtension === "pdf") {
-            return "pdf";
-        } else if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
-            return "image";
-        } else {
-            return "unsupported";
-        }
-    };
-    const handleClick = () => {
-        // const type = determineFileType(formData.gst_certificate);
-        // setFileType(type);
-    };
-
 
     return (
         <>
@@ -58,11 +35,8 @@ const VerifiedCustomer = () => {
                     <h2 className='text-capitalize mb-0'>{formData.company_name}</h2>
                     <div className='d-flex gap-2 align-items-center'>
                         <div className='company-logo'>
-                            <img src={formData?.basic_info?.company_logo} alt="Company Logo" />
+                            <img src={formData?.basic_info?.company_logo ? formData?.basic_info?.company_logo : logoImg} alt="Company Logo" />
                         </div>
-                        {/* <div className='shipease-logo'>
-                            <img src={Logo} alt="Shipease Logo" />
-                        </div> */}
                     </div>
                 </div>
                 <div className='details-container mb-3'>
@@ -96,70 +70,85 @@ const VerifiedCustomer = () => {
                     <div className='detail-section row'>
                         <div className='details-title col-3'>Account Details</div>
                         <div className='col-9 px-0'>
-                            {formData?.seller_acc_info?.map((item, index) =>
-                                <div className='follow-details mb-3'>
-                                    <div className='detail-label'>
-                                        Acount Type
-                                        <span>
-                                            {index === 0 ? "Primary" : "Other"}
-                                        </span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Acount Holder Name
-                                        <span>{item?.account_holder_name}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Account Number
-                                        <span>{item?.account_number}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        IFSC Code
-                                        <span>{item?.ifsc_code}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Bank Name
-                                        <span>{item?.bank_name}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Branch Name
-                                        <span>{item?.bank_branch}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Attachment
-                                        <a href={item?.cheque_image}>
-                                            <FiDownload /> Download
-                                        </a>
-                                    </div>
-                                </div>
-                            )}
+                            {
+                                formData?.seller_acc_info?.length > 0 ?
+                                    <>
+                                        {formData?.seller_acc_info?.map((item, index) =>
+                                            <div className='follow-details mb-3'>
+                                                <div className='detail-label'>
+                                                    Acount Type
+                                                    <span>
+                                                        {index === 0 ? "Primary" : "Other"}
+                                                    </span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    Acount Holder Name
+                                                    <span>{item?.account_holder_name}</span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    Account Number
+                                                    <span>{item?.account_number}</span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    IFSC Code
+                                                    <span>{item?.ifsc_code}</span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    Bank Name
+                                                    <span>{item?.bank_name}</span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    Branch Name
+                                                    <span>{item?.bank_branch}</span>
+                                                </div>
+                                                <div className='detail-label'>
+                                                    Attachment
+                                                    <a href={item?.cheque_image}>
+                                                        <FiDownload /> Download
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                    : <p className='follow-details'>
+                                        Data Not Avaliable
+                                    </p>
+                            }
                         </div>
                     </div>
                     <hr />
                     <div className='detail-section row'>
                         <div className='details-title col-3'>KYC Details</div>
                         <div className=' col-9 px-0'>
-                            {formData?.kyc_info?.map((item) =>
-                                <div className='follow-details mb-3'>
-                                    <div className='detail-label'>
-                                        Document Type
-                                        <span>{item?.document_type}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Document Name
-                                        <span>{item?.document_name}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Document Number
-                                        <span>{item?.document_id}</span>
-                                    </div>
-                                    <div className='detail-label'>
-                                        Attachment
-                                        <a href={item?.document_upload}>
-                                            <FiDownload /> Download
-                                        </a>
-                                    </div>
-                                </div>
-                            )}
+                            {formData?.seller_acc_info?.length > 0 ?
+                                <>
+                                    {formData?.kyc_info?.map((item) =>
+                                        <div className='follow-details mb-3'>
+                                            <div className='detail-label'>
+                                                Document Type
+                                                <span>{item?.document_type}</span>
+                                            </div>
+                                            <div className='detail-label'>
+                                                Document Name
+                                                <span>{item?.document_name}</span>
+                                            </div>
+                                            <div className='detail-label'>
+                                                Document Number
+                                                <span>{item?.document_id}</span>
+                                            </div>
+                                            <div className='detail-label'>
+                                                Attachment
+                                                <a href={item?.document_upload}>
+                                                    <FiDownload /> Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                </> :
+                                <p className='follow-details'>
+                                    Data Not Avaliable
+                                </p>
+                            }
                         </div>
                     </div>
                     <hr />
@@ -173,19 +162,6 @@ const VerifiedCustomer = () => {
                     </div>
                 </div>
             </section>
-
-            {/* {fileType === "pdf" && (
-                <div>
-                    <Document
-                        file={formData.gst_certificate}
-                        onLoadSuccess={onDocumentLoadSuccess}
-                    >
-                        <Page pageNumber={1} />
-                    </Document>
-                </div>
-            )}
-            {fileType === "image" && <img src={formData.gst_certificate} alt="file" style={{ maxWidth: "100%", height: "auto" }} />}
-            {fileType === "unsupported" && <p>Unsupported file type</p>} */}
         </>
     )
 }

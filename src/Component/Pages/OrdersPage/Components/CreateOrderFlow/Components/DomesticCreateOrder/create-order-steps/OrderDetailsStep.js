@@ -54,9 +54,6 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
     }, [location, pathName, editStatus, formData]);
 
 
-
-
-
     useEffect(() => {
         if (formData.order_details.order_type === "Reverse") {
             setFormData(prevFormData => ({
@@ -109,9 +106,6 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Select the Order Type!';
         }
-        // if (!formData.order_details.channel) {
-        //     newErrors.channel = 'Select the Channel !';
-        // }
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Select the Payment Type!';
         }

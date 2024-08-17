@@ -499,7 +499,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         className='input-field'
                                         name="city"
                                         ref={cityRef1}
-                                        disabled
                                         value={formData.city || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                         onKeyPress={(e) => handleKeyPress(e)}
@@ -515,7 +514,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         className='input-field'
                                         name="state"
                                         ref={stateRef1}
-                                        disabled
                                         value={formData.state || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                     />
@@ -528,7 +526,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         className='input-field'
                                         name="country"
                                         ref={countryRef1}
-                                        disabled
                                         value={formData.country || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                     />
@@ -712,7 +709,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             className='input-field'
                                             name="city"
                                             ref={cityRef}
-                                            disabled
                                             value={formData.rto_details.city || ''}
                                             onChange={(e) => handleInputChange1(e)}
                                             maxLength={100}
@@ -727,7 +723,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             className='input-field'
                                             name="state"
                                             ref={stateRef}
-                                            disabled
                                             value={formData.rto_details.state || ''}
                                             maxLength={100}
                                             onChange={(e) => handleInputChange1(e)}
@@ -743,7 +738,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             className='input-field'
                                             name="country"
                                             ref={countryRef}
-                                            disabled
                                             value={formData.rto_details.country || ''}
                                             onChange={(e) => handleInputChange1(e)}
                                         />

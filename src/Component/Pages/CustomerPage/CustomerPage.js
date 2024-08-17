@@ -41,9 +41,6 @@ const CustomerPage = () => {
   }, [activeTab])
 
 
-  console.log(activeTab, "activeTabactiveTab")
-
-
   return (
     <>
       <NavTabs DetailsView={DetailsView} activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -65,7 +62,7 @@ const CustomerPage = () => {
             </div>
 
             <div className={`${activeTab === "Agreement" ? "d-block" : "d-none"}`}>
-              <AgreementInfo activeTab={activeTab} DetailsView={DetailsView} setDetailsView={setDetailsView} />
+              <AgreementInfo activeTab={activeTab}  setDetailsView={setDetailsView} />
             </div>
           </>
       }

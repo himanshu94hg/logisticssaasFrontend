@@ -95,23 +95,23 @@ const Preview = ({ show, handleClose, selectedRow }) => {
                     <tbody>
                         <tr>
                             <th>Store Name</th>
-                            <td>{selectedRow?.channel_name}</td>
+                            <td>{selectedRow?.channel_name ? selectedRow?.channel_name : "NA"}</td>
                         </tr>
                         <tr>
                             <th>Store URL</th>
-                            <td>{selectedRow?.channel_configuration?.store_url}</td>
+                            <td>{selectedRow?.channel_configuration?.store_url ? selectedRow?.channel_configuration?.store_url : "NA"}</td>
                         </tr>
                         <tr>
                             <th>API Key</th>
-                            <td>{selectedRow?.channel_configuration?.api_key}</td>
+                            <td>{selectedRow?.channel_configuration?.api_key ? selectedRow?.channel_configuration?.api_key : "NA"}</td>
                         </tr>
                         <tr>
                             <th>{selectedRow?.channel_name} Password</th>
-                            <td>{selectedRow?.channel_configuration?.password}</td>
+                            <td>{selectedRow?.channel_configuration?.password ? selectedRow?.channel_configuration?.password : "NA"}</td>
                         </tr>
                         <tr>
                             <th>{selectedRow?.channel_name} Shared Secret</th>
-                            <td>{selectedRow?.channel_configuration?.shared_secret}</td>
+                            <td>{selectedRow?.channel_configuration?.shared_secret ? selectedRow?.channel_configuration?.shared_secret : "NA"}</td>
                         </tr>
                     </tbody>
                 </table>
