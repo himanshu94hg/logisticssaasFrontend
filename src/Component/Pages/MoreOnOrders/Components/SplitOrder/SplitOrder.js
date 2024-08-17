@@ -74,18 +74,18 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -195,7 +195,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                         </td>
 
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row && row.status?.split("_").join(" ")}</p>
+                                            <p className='order-Status-box'>{row && row?.status?.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

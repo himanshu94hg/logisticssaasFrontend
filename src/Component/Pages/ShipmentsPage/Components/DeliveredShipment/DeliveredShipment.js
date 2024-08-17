@@ -49,7 +49,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(shipmentCard.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -91,7 +91,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase();
+        const courierPartner = row?.courier_partner.toLowerCase();
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -172,32 +172,32 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                         </thead>
                         <tbody>
                             {allShipment?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -212,7 +212,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                                         triggerComponent={
                                                             <img
                                                                 src={ForwardIcon}
-                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
                                                                 alt="Forward/Reverse"
                                                                 width={24}
                                                             />
@@ -221,7 +221,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    {row.is_mps === true &&
+                                                    {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
                                                     {/* {
@@ -255,7 +255,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p className='width-eclipse'>{row?.order_products.product_name}</p>
                                                 <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)}kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -291,13 +291,13 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} title='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
-                                                        {row.awb_number}
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
+                                                        {row?.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                                 <CustomTooltip

@@ -159,10 +159,10 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier && <img src={partnerList[row.courier]["image"]} title='Partner' />}
+                                                {row?.courier && <img src={partnerList[row?.courier]["image"]} title='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize' >
-                                                        {row.courier && partnerList[row.courier]["title"]}
+                                                        {row?.courier && partnerList[row?.courier]["title"]}
                                                     </p>
                                                 </div>
                                             </div>
@@ -188,8 +188,8 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleDownloadLabel(row.manifest_order)}>Download Label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row.manifest_order)}>Download Invoice</li>
+                                                            <li onClick={() => handleDownloadLabel(row?.manifest_order)}>Download Label</li>
+                                                            <li onClick={() => handleDownloadInvoice(row?.manifest_order)}>Download Invoice</li>
                                                         </ul>
                                                     </div>
                                                 </div>

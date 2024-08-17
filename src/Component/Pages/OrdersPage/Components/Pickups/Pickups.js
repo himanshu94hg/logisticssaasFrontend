@@ -227,7 +227,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase();
+        const courierPartner = row?.courier_partner.toLowerCase();
 
         switch (courierPartner) {
             case "bluedart":
@@ -353,25 +353,25 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows?.includes(row?.id) || bulkAwb?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id, row.awb_number)}
+                                                onChange={() => handleSelectRow(row?.id, row?.awb_number)}
                                             />
                                         </td>
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -386,7 +386,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         triggerComponent={
                                                             <img
                                                                 src={ForwardIcon}
-                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
                                                                 alt="Forward/Reverse"
                                                                 width={24}
                                                             />
@@ -395,7 +395,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    {row.is_mps === true &&
+                                                    {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
                                                     {row?.order_tag.length > 0 && <CustomTooltip
@@ -424,17 +424,17 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row?.shipping_detail?.address && `${row.shipping_detail.address}, `}
-                                                            {row?.shipping_detail?.landmark && `${row.shipping_detail.landmark}, `}
-                                                            {row?.shipping_detail?.city && `${row.shipping_detail.city}, `}
-                                                            {row?.shipping_detail?.state && `${row.shipping_detail.state}, `}
+                                                            {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
+                                                            {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
+                                                            {row?.shipping_detail?.city && `${row?.shipping_detail.city}, `}
+                                                            {row?.shipping_detail?.state && `${row?.shipping_detail.state}, `}
                                                             {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
+                                                {/* <p>{row?.s_city}</p>
+                                                <p>{row?.s_pincode}</p>
+                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -462,8 +462,8 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                         <td>
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>₹ {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                                <p className=''>₹ {row?.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className=''>
@@ -487,13 +487,13 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} title='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                        {row.awb_number}
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row?.awb_number)}>
+                                                        {row?.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                                 <CustomTooltip
@@ -511,8 +511,8 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
                                                 {row?.manifest_status ?
-                                                    <button className='btn main-button' onClick={() => downloadManifest(row.id)}>Download Manifest</button> :
-                                                    <button className='btn main-button' onClick={() => handleShow(row.id, "generate-manifest")}>Generate Manifest</button>
+                                                    <button className='btn main-button' onClick={() => downloadManifest(row?.id)}>Download Manifest</button> :
+                                                    <button className='btn main-button' onClick={() => handleShow(row?.id, "generate-manifest")}>Generate Manifest</button>
                                                 }
 
                                                 <div className='action-options'>
@@ -521,9 +521,9 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleShow(row.id, "cancel-order")}>Cancel Order</li>
-                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                            <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
+                                                            <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
+                                                            <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
                                                         </ul>
                                                     </div>
                                                 </div>

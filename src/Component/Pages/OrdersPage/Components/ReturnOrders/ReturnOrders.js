@@ -73,7 +73,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase();
+        const courierPartner = row?.courier_partner.toLowerCase();
 
         switch (courierPartner) {
             case "bluedart":
@@ -169,17 +169,17 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                     : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -194,7 +194,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                         triggerComponent={
                                                             <img
                                                                 src={ForwardIcon}
-                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
                                                                 alt="Forward/Reverse"
                                                                 width={24}
                                                             />
@@ -204,7 +204,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                     />
 
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    {row.is_mps === true &&
+                                                    {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
                                                     {row?.order_tag.length > 0 && <CustomTooltip
@@ -284,13 +284,13 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                        {row.awb_number}
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row?.awb_number)}>
+                                                        {row?.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                                 <CustomTooltip

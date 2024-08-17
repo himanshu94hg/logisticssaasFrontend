@@ -210,7 +210,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase();
+        const courierPartner = row?.courier_partner.toLowerCase();
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -342,25 +342,25 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows?.includes(row?.id) || bulkAwb?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id, row.awb_number)}
+                                                onChange={() => handleSelectRow(row?.id, row?.awb_number)}
 
                                             />
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -375,7 +375,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         triggerComponent={
                                                             <img
                                                                 src={ForwardIcon}
-                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
                                                                 alt="Forward/Reverse"
                                                                 width={24}
                                                             />
@@ -384,7 +384,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    {row.is_mps === true &&
+                                                    {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
                                                     {row?.order_tag.length > 0 && <CustomTooltip
@@ -412,10 +412,10 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row?.shipping_detail?.address && `${row.shipping_detail.address}, `}
-                                                            {row?.shipping_detail?.landmark && `${row.shipping_detail.landmark}, `}
-                                                            {row?.shipping_detail?.city && `${row.shipping_detail.city}, `}
-                                                            {row?.shipping_detail?.state && `${row.shipping_detail.state}, `}
+                                                            {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
+                                                            {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
+                                                            {row?.shipping_detail?.city && `${row?.shipping_detail.city}, `}
+                                                            {row?.shipping_detail?.state && `${row?.shipping_detail.state}, `}
                                                             {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
@@ -444,8 +444,8 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='ws-nowrap'>₹ {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                                <p className='ws-nowrap'>₹ {row?.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className=''>
@@ -485,19 +485,19 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className="btn main-button" onClick={() => handleShow(row.id, "generate-pickup")} disabled={row?.status === "cancelled" && true}>
+                                                <button className="btn main-button" onClick={() => handleShow(row?.id, "generate-pickup")} disabled={row?.status === "cancelled" && true}>
                                                     Generate Pickup
                                                 </button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img' disabled={true}>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    {row.status !== "cancelled" ? (
+                                                    {row?.status !== "cancelled" ? (
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
-                                                                <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                <li onClick={() => handleShipNow(row.id)}>Reassign</li>
+                                                                <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
+                                                                <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
+                                                                <li onClick={() => handleShipNow(row?.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                             </ul>
