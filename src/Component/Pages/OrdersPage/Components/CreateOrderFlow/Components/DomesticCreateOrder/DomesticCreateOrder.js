@@ -130,81 +130,85 @@ const DomesticCreateOrder = (activeTab) => {
         }
     };
 
+    console.log(formData,"this is form data")
+
     useEffect(() => {
-        setStep(1)
-        setIsChecked(true)
-        setFormData({
-            order_details: {
-                customer_order_number: '',
-                invoice_amount: '',
-                is_mps: false,
-                warehouse_id: '',
-                order_tag: [],
-                payment_type: '',
-                order_date: currentDate,
-                order_type: "",
-                channel: "custom",
-                channel_id: null
-            },
-            shipping_details: {
-                recipient_name: "",
-                address: "",
-                landmark: "",
-                country: "India",
-                state: "",
-                city: "",
-                pincode: "",
-                mobile_number: "",
-                email: "",
-                company_name: "",
-                contact_code: "91"
-            },
-            billing_details: {
-                customer_name: "",
-                address: "",
-                landmark: "",
-                country: "India",
-                state: "",
-                city: "",
-                pincode: "",
-                mobile_number: "",
-                email: "",
-                company_name: "",
-                contact_code: "91"
-            },
-            other_details: {
-                number_of_packets: 0,
-                reseller_name: ""
-            },
-            charge_details: {
-                cod_charges: '',
-                shipping_charges: '',
-                transaction_fee: '',
-                is_gift_wrap: false || true
-            },
-            dimension_details: {
-                weight: '',
-                length: '',
-                breadth: '',
-                height: '',
-                vol_weight: ''
-            },
-            product_details: [
-                {
-                    product_name: "",
-                    quantity: '',
-                    unit_price: '',
-                    product_category: "",
-                    weight: 0,
-                    sku: "",
-                    hsn_code: "",
-                    tax_rate: null,
-                    product_discount: '',
-                    hts_number: "",
-                    export_reference_number: ""
-                }
-            ],
-        })
+        if (activeTab) {
+            setStep(1)
+            setIsChecked(true)
+            // setFormData({
+            //     order_details: {
+            //         customer_order_number: '',
+            //         invoice_amount: '',
+            //         is_mps: false,
+            //         warehouse_id: '',
+            //         order_tag: [],
+            //         payment_type: '',
+            //         order_date: currentDate,
+            //         order_type: "",
+            //         channel: "custom",
+            //         channel_id: null
+            //     },
+            //     shipping_details: {
+            //         recipient_name: "",
+            //         address: "",
+            //         landmark: "",
+            //         country: "India",
+            //         state: "",
+            //         city: "",
+            //         pincode: "",
+            //         mobile_number: "",
+            //         email: "",
+            //         company_name: "",
+            //         contact_code: "91"
+            //     },
+            //     billing_details: {
+            //         customer_name: "",
+            //         address: "",
+            //         landmark: "",
+            //         country: "India",
+            //         state: "",
+            //         city: "",
+            //         pincode: "",
+            //         mobile_number: "",
+            //         email: "",
+            //         company_name: "",
+            //         contact_code: "91"
+            //     },
+            //     other_details: {
+            //         number_of_packets: 0,
+            //         reseller_name: ""
+            //     },
+            //     charge_details: {
+            //         cod_charges: '',
+            //         shipping_charges: '',
+            //         transaction_fee: '',
+            //         is_gift_wrap: false || true
+            //     },
+            //     dimension_details: {
+            //         weight: '',
+            //         length: '',
+            //         breadth: '',
+            //         height: '',
+            //         vol_weight: ''
+            //     },
+            //     product_details: [
+            //         {
+            //             product_name: "",
+            //             quantity: '',
+            //             unit_price: '',
+            //             product_category: "",
+            //             weight: 0,
+            //             sku: "",
+            //             hsn_code: "",
+            //             tax_rate: null,
+            //             product_discount: '',
+            //             hts_number: "",
+            //             export_reference_number: ""
+            //         }
+            //     ],
+            // })
+        }
     }, [activeTab])
 
 
