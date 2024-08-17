@@ -41,7 +41,7 @@ const VerifiedCustomer = () => {
                 </div>
                 <div className='details-container mb-3'>
                     <div className='detail-section row'>
-                        <div className='details-title col-3'>Basic Details</div>
+                        <div className='details-title col-2'>Basic Details</div>
                         <div className='follow-details col-9'>
                             <div className='detail-label'>Company Name <span>{formData?.basic_info?.company_name}</span></div>
                             <div className='detail-label'>Mobile No <span>{formData?.basic_info?.mobile}</span></div>
@@ -68,7 +68,7 @@ const VerifiedCustomer = () => {
                     </div>
                     <hr />
                     <div className='detail-section row'>
-                        <div className='details-title col-3'>Account Details</div>
+                        <div className='details-title col-2'>Account Details</div>
                         <div className='col-9 px-0'>
                             {
                                 formData?.seller_acc_info?.length > 0 ?
@@ -118,7 +118,7 @@ const VerifiedCustomer = () => {
                     </div>
                     <hr />
                     <div className='detail-section row'>
-                        <div className='details-title col-3'>KYC Details</div>
+                        <div className='details-title col-2'>KYC Details</div>
                         <div className=' col-9 px-0'>
                             {formData?.seller_acc_info?.length > 0 ?
                                 <>
@@ -153,7 +153,7 @@ const VerifiedCustomer = () => {
                     </div>
                     <hr />
                     <div className='detail-section row'>
-                        <div className='details-title col-3'>Agreement</div>
+                        <div className='details-title col-2'>Agreement</div>
                         <div className='follow-details col-9 px-0'>
                             <a href={formData?.agreement_info} className='mx-3'>
                                 <FiDownload /> Download

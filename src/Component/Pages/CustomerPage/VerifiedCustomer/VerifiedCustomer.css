@@ -14,17 +14,17 @@
 
 /* .verified-customer .header-section .shipease-logo,*/
 .verified-customer .header-section .company-logo {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     overflow: hidden;
 }
 
 .verified-customer .header-section img,
 .verified-customer .header-section img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    height: 80px;
+    width: auto;
+    max-width: 80px;
 }
 
 .verified-customer .header-section hr {
@@ -37,6 +37,8 @@
 
 .verified-customer .details-title {
     font-size: 1.2rem;
+    display: flex;
+    align-items: center;
 }
 
 .verified-customer .follow-details {
@@ -45,7 +47,7 @@
     flex-wrap: wrap;
     row-gap: 40px;
     grid-template-columns: auto auto auto auto;
-    background: beige;
+    background: #eff6fb;
     padding: 20px;
     border-radius: 10px;
 }
