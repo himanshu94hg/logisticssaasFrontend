@@ -134,18 +134,18 @@ const DomesticCreateOrder = (activeTab) => {
         setStep(1)
         setIsChecked(true)
         setFormData({
-            // order_details: {
-            //     customer_order_number: '',
-            //     invoice_amount: '',
-            //     is_mps: false,
-            //     warehouse_id: '',
-            //     order_tag: [],
-            //     payment_type: '',
-            //     order_date: currentDate,
-            //     order_type: "",
-            //     channel: "custom",
-            //     channel_id: null
-            // },
+            order_details: {
+                customer_order_number: '',
+                invoice_amount: '',
+                is_mps: false,
+                warehouse_id: '',
+                order_tag: [],
+                payment_type: '',
+                order_date: currentDate,
+                order_type: "",
+                channel: "custom",
+                channel_id: null
+            },
             shipping_details: {
                 recipient_name: "",
                 address: "",
