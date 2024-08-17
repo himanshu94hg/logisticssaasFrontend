@@ -143,10 +143,10 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize'>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                             </div>
@@ -194,7 +194,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                                     LBH(cm): {row?.charge_detail?.c_length} x {row?.charge_detail?.c_breadth} x {row?.charge_detail?.c_height}
                                                 </p> : "-"}
                                             </div>
-
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
