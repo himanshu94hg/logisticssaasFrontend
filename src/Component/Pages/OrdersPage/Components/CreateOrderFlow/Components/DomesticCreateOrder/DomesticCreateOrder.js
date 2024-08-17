@@ -134,8 +134,8 @@ const DomesticCreateOrder = (activeTab) => {
 
     useEffect(() => {
         if (activeTab) {
-            setStep(1)
-            setIsChecked(true)
+            // setStep(1)
+            // setIsChecked(true)
             // setFormData({
             //     order_details: {
             //         customer_order_number: '',
