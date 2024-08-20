@@ -52,6 +52,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const [ShowQCStatus, setShowQCStatus] = useState(false)
 
     useEffect(() => {
         if (orderdelete) {
@@ -315,6 +316,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
 
     const handleClose = () => setShow(false);
     const handleCloseCancel = () => setShowCancel(false);
+    const handleQCCheckStatus = () => setShowQCStatus(!ShowQCStatus);
 
     const handleShowDelete = (id) => {
         setShow(true)
@@ -593,6 +595,10 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id, row?.status))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id, row?.status))}>Download label</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row?.status))}>Download Invoice</li>
+                                                                {
+                                                                    row?.order_type === "Reverse" &&
+                                                                    <li onClick={() => handleQCCheckStatus()}>QC Status</li>
+                                                                }
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -650,6 +656,46 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                     Cancel
                                 </button>
                                 <button className="btn main-button" onClick={handleCancelOrder}>Continue</button>
+                            </div>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal
+                        show={ShowQCStatus}
+                        keyboard={false}
+                        onHide={handleQCCheckStatus}
+                        className='qc-check-modal'
+                    >
+                        <Modal.Header>
+                            <Modal.Title>Quality Check Information</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <section className='d-flex flex-column gap-3 w-100'>
+                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                    <p>label</p>
+                                    <p>Color, Size</p>
+                                </div>
+                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                    <p>Value To check:</p>
+                                    <p>Color, Size</p>
+                                </div>
+                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                    <p className='ws-nowrap'>Help Description:</p>
+                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>Rare rabbit men’s sable off-white crew neck half sleeves drop shoulder with contrast overstitch boxy fit solid t-shirt.</p>
+                                </div>
+                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                    <p>Attachment(s):</p>
+                                    <p><button className='btn main-button'>Download</button></p>
+                                </div>
+
+                            </section>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <div className='d-flex gap-2'>
+                                <button className="btn cancel-button" onClick={handleQCCheckStatus}>
+                                    Close
+                                </button>
+
                             </div>
                         </Modal.Footer>
                     </Modal>

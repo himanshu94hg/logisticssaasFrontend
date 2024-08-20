@@ -613,6 +613,38 @@ ul.order-label-list li {
   margin-left: 10px;
 }
 
+
+.qc-check-modal .modal-dialog {
+  margin-top: 5%;
+}
+
+.qc-check-modal .modal-header {
+  font-weight: 500;
+  padding: 15px;
+  background: var(--sh-primary-light);
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: var(--bs-heading-color);
+  border-bottom: none;
+}
+
+.qc-check-modal .modal-header .modal-title {
+  font-size: 1.25rem;
+}
+
+.qc-check-modal .modal-footer {
+  border-top: none;
+  justify-content: end;
+}
+
+.qc-check-modal .modal-body {
+  margin-block: 15px 3px;
+  padding: 15px;
+}
+
+.qc-check-modal .modal-dialog {
+  max-width: 668px;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
