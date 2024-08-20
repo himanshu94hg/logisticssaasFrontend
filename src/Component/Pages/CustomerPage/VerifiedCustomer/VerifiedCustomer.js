@@ -40,15 +40,15 @@ const VerifiedCustomer = () => {
                     </div>
                 </div>
                 <div className='details-container mb-3'>
-                    <div className='detail-section row'>
+                    <div className='detail-section row justify-content-between mx-0 px-0'>
                         <div className='details-title col-2'>Basic Details</div>
-                        <div className='follow-details col-9'>
-                            <div className='detail-label'>Company Name <span>{formData?.basic_info?.company_name}</span></div>
+                        <div className='follow-details col-10'>
+                            <div className='detail-label'>Company Name <span className='text-capitalize'>{formData?.basic_info?.company_name}</span></div>
                             <div className='detail-label'>Mobile No <span>{formData?.basic_info?.mobile}</span></div>
                             <div className='detail-label'>Email <span>{formData?.basic_info?.email}</span></div>
                             <div className='detail-label'>Website <span>{formData?.basic_info?.website_url}</span></div>
-                            <div className='detail-label'>PAN No <span>{formData?.basic_info?.pan_number}</span></div>
-                            <div className='detail-label'>GST Number <span>{formData?.basic_info?.gst_number}</span></div>
+                            <div className='detail-label'>PAN No <span className='text-uppercase'>{formData?.basic_info?.pan_number}</span></div>
+                            <div className='detail-label'>GST Number <span className='text-uppercase'>{formData?.basic_info?.gst_number}</span></div>
                             <div className='detail-label'>Address
                                 <span>
                                     {formData?.basic_info?.street},
@@ -67,9 +67,9 @@ const VerifiedCustomer = () => {
                         </div>
                     </div>
                     <hr />
-                    <div className='detail-section row'>
+                    <div className='detail-section row justify-content-between mx-0 px-0'>
                         <div className='details-title col-2'>Account Details</div>
-                        <div className='col-9 px-0'>
+                        <div className='col-10 px-0'>
                             {
                                 formData?.seller_acc_info?.length > 0 ?
                                     <>
@@ -117,9 +117,9 @@ const VerifiedCustomer = () => {
                         </div>
                     </div>
                     <hr />
-                    <div className='detail-section row'>
+                    <div className='detail-section row justify-content-between mx-0 px-0'>
                         <div className='details-title col-2'>KYC Details</div>
-                        <div className=' col-9 px-0'>
+                        <div className=' col-10 px-0'>
                             {formData?.seller_acc_info?.length > 0 ?
                                 <>
                                     {formData?.kyc_info?.map((item) =>
@@ -152,9 +152,9 @@ const VerifiedCustomer = () => {
                         </div>
                     </div>
                     <hr />
-                    <div className='detail-section row'>
+                    <div className='detail-section row justify-content-between mx-0 px-0'>
                         <div className='details-title col-2'>Agreement</div>
-                        <div className='follow-details col-9 px-0'>
+                        <div className='follow-details col-10 px-0'>
                             <a href={formData?.agreement_info} className='mx-3'>
                                 <FiDownload /> Download
                             </a>
