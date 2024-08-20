@@ -1,37 +1,85 @@
 import React from 'react';
-import { FaShippingFast } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import API from '../../../../../assets/image/integration/Manual.png';
-import Custom from '../../../../../assets/image/integration/Manual.png';
-import Amazon from '../../../../../assets/image/integration/AmazonLogo.png';
-import WooCommerce from '../../../../../assets/image/integration/WCLogo.png';
-import Shopify from '../../../../../assets/image/integration/ShopifyLogo.png'
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png";
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png";
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png";
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png";
+import magentoImg from "../../../../../assets/image/integration/magento.png";
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png";
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png";
+import apiChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png";
+import easycomIcon from "../../../../../assets/image/integration/easyecom.png";
+import unicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png";
 import { capatlize, percentage } from '../../../../../customFunction/functionLogic';
 
 const ChannelByOrder = () => {
+  const { storeBasedData } = useSelector(state => state?.dashboardOrderReducer)
+  const totalCount = storeBasedData?.reduce((acc, data) => acc + data?.count, 0)
+
   const dummyShipmentData = [
-    { name: 'Amazon', total_count: 500, total_percentage: 25, logo: Amazon },
-    { name: 'Shopify', total_count: 300, total_percentage: 15, logo: Shopify },
-    { name: 'WooCommerce', total_count: 200, total_percentage: 10, logo: WooCommerce },
-    { name: 'Custom', total_count: 700, total_percentage: 35, logo: Custom },
-    { name: 'API', total_count: 200, total_percentage: 10, logo: API },
+    { name: 'Shopify', total_count: 300, total_percentage: 15, logo: shopifyImg },
+    { name: 'WooCommerce', total_count: 200, total_percentage: 10, logo: woocomImg },
+    { name: 'opencart', total_count: 200, total_percentage: 10, logo: openCartImg },
+    { name: 'magento', total_count: 200, total_percentage: 10, logo: magentoImg },
+    { name: 'Amazon', total_count: 500, total_percentage: 25, logo: amazonImg },
+    { name: 'api', total_count: 200, total_percentage: 10, logo: apiChannelIcon },
+    { name: 'storehippo', total_count: 200, total_percentage: 10, logo: storeHipImg },
+    { name: 'easyecom', total_count: 200, total_percentage: 10, logo: easycomIcon },
+    { name: 'custom', total_count: 700, total_percentage: 35, logo: CustomIcon },
+    { name: 'amazon_direct', total_count: 700, total_percentage: 35, logo: amazonDirImg },
+    { name: 'unicommerce', total_count: 200, total_percentage: 10, logo: unicommerceIcon },
   ];
 
   const getColorScale = data => {
     const colorScale = {
-      amazon: 'rgb(255, 0, 0)',
-      api: 'rgb(255, 165, 0)',
-      custom: 'rgb(255, 255, 0)',
-      shopify: 'rgb(0, 255, 0)',
-      woocommerce: 'rgb(0, 0, 255)'
+      shopify: '#0D9F1A',
+      woocommerce: 'rgb(0, 0, 255)',
+      opencart: '#420d9f',
+      magento: 'orange',
+      amazon: '#ffc281',
+      api: 'red',
+      storehippo: '#ffc281',
+      easyecom: 'blue',
+      amazon_direct: '#ffc281',
+      unicommerce: '#9b59b6',
+      custom: '#5dade2',
     };
 
     return colorScale;
   };
 
   const colorScale = getColorScale(dummyShipmentData || []);
-  const {storeBasedData}=useSelector(state=>state?.dashboardOrderReducer)
-  const totalCount=storeBasedData?.reduce((acc,data)=>acc+data?.count,0)
+
+
+  const getChannelIcon = (channel) => {
+    switch (channel) {
+      case "shopify":
+        return shopifyImg;
+      case "woocommerce":
+        return woocomImg;
+      case "opencart":
+        return openCartImg;
+      case "magento":
+        return magentoImg;
+      case "amazon":
+        return amazonImg;
+      case "api":
+        return apiChannelIcon;
+      case "storehippo":
+        return storeHipImg;
+      case "easyecom":
+        return easycomIcon;
+      case "amazon_direct":
+        return amazonDirImg;
+      case "unicommerce":
+        return unicommerceIcon;
+      case "custom":
+        return null;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -45,11 +93,20 @@ const ChannelByOrder = () => {
                   <div key={index} className="mb-4">
                     <div className='d-flex justify-content-between mb-1'>
                       <div className='d-flex align-items-center'>
-                        <img src={item?.channel_logo} alt={item?.channel} width={24} />
+                        {item?.channel === "custom" ? (
+                          <CustomIcon style={{ borderRadius: 20, width: 34, height: 34 }} />
+                        ) : (
+                          <img
+                            src={getChannelIcon(item?.channel)}
+                            alt={item?.channel}
+                            width={34}
+                            style={{ borderRadius: 20 }}
+                          />
+                        )}
                         <p className="font12 bold-600 mb-1 ms-2">{capatlize(item?.channel) || 'Unknown'}</p>
                       </div>
                       <p className="font12 text-gray mb-0">
-                        {item?.count} {percentage(item?.count,totalCount)}
+                        {item?.count} {percentage(item?.count, totalCount)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -57,7 +114,7 @@ const ChannelByOrder = () => {
                         className="progress-bar"
                         role="progressbar"
                         style={{
-                          width:`${(item?.count/totalCount)*100}%` ,
+                          width: `${(item?.count / totalCount) * 100}%`,
                           backgroundColor: colorScale[item?.channel],
                         }}
                         aria-valuenow={item?.total_percentage}
@@ -71,7 +128,7 @@ const ChannelByOrder = () => {
             </div>
           </div>
         </div>
-      ) }
+      )}
     </div>
   );
 }
