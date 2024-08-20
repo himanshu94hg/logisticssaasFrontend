@@ -34,7 +34,7 @@ const ChannelByOrder = () => {
   const getColorScale = data => {
     const colorScale = {
       shopify: '#0D9F1A',
-      woocommerce: 'rgb(0, 0, 255)',
+      woocommerce: '#7d0a93',
       opencart: '#420d9f',
       magento: 'orange',
       amazon: '#ffc281',
@@ -94,12 +94,12 @@ const ChannelByOrder = () => {
                     <div className='d-flex justify-content-between mb-1'>
                       <div className='d-flex align-items-center'>
                         {item?.channel === "custom" ? (
-                          <CustomIcon style={{ borderRadius: 20, width: 34, height: 34 }} />
+                          <CustomIcon  />
                         ) : (
                           <img
                             src={getChannelIcon(item?.channel)}
                             alt={item?.channel}
-                            width={34}
+                            width={24}
                             style={{ borderRadius: 20 }}
                           />
                         )}
