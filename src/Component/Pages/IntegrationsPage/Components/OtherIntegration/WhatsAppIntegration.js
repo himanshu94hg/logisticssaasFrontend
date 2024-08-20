@@ -45,13 +45,15 @@ const WhatsAppIntegration = () => {
                         </div>
                     </div>
                     <div className='mt-5'>
-                        <h4>Seamless Experience with Our WhatsApp Bot</h4>
+                        <h3>Seamless Experience with Our WhatsApp Bot</h3>
                         <p>Say hello to effortless shopping with our new WhatsApp Bot! Now, managing your orders is as easy as sending a message. Here’s how our WhatsApp integration can enhance your shopping experience</p>
                         <div className='row'>
-                            <div className="col-4 chat-window">
-                                <img src={WhatsAppChatScreen} alt="" />
+                            <div className='col-3'>
+                                <iframe src="https://lottie.host/embed/e0f8cbb6-1125-43dc-bfe2-85d1f2515588/cQ51N3voCq.json"
+                                    style={{ width: '320px', height: '320px', border: 'none' }}></iframe>
                             </div>
-                            <div className='col-8'>
+
+                            <div className='col-6'>
                                 <ul className='additional-features-nav'>
                                     <li onClick={() => setBotTabs("book")} className={`${BotTabs === "book" && 'active'}`}>Book Order</li>
                                     <li onClick={() => setBotTabs("track")} className={`${BotTabs === "track" && 'active'}`}>Track Order</li>
@@ -91,6 +93,9 @@ const WhatsAppIntegration = () => {
                                         <button className='btn main-button float-end'>Activate Now</button>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="col-3 chat-window">
+                                <img src={WhatsAppChatScreen} alt="" />
                             </div>
                         </div>
                     </div>
