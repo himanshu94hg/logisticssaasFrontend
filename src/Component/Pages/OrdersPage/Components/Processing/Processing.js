@@ -104,7 +104,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
 
                 }).catch((error) => {
                     customErrorFunction(error)
-                    setSingleShip(true);
+                    // setSingleShip(true);
                 });
         }
     };
@@ -362,7 +362,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                         {row?.pickup_details?.p_pincode}
                                                                     </span>
                                                                 </span>
-                                                            </p> : <p>{row?.shipping_detail?.address}
+                                                            </p> : <p>{row?.shipping_detail?.city}
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
