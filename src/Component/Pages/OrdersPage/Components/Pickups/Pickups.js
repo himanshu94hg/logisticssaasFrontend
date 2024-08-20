@@ -357,7 +357,6 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -417,7 +416,6 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -432,15 +430,10 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row?.s_city}</p>
-                                                <p>{row?.s_pincode}</p>
-                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
                                                 <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -460,32 +453,42 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>₹ {row?.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
-                                        <td className=''>
-                                            {/* pickup adress */}
+                                        <td className='align-middle'>
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br />
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-
+                                                {
+                                                    row?.order_type === "Forward" ?
+                                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                    {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
+                                                                    {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
+                                                                    {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
+                                                                    {row?.pickup_details?.p_pincode}
+                                                                </span>
+                                                            </span>
+                                                        </p> : <p>{row?.shipping_detail?.recipient_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
+                                                                    {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
+                                                                    {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
+                                                                    {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
+                                                                    {row?.shipping_detail?.pincode}
+                                                                </span>
+                                                            </span>
+                                                        </p>
+                                                }
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} title='Partner' />}
                                                 <div>
@@ -504,7 +507,6 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                             </div>
                                         </td>
                                         <td className='align-middle status-box position-relative'>
-                                            {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                             {row?.manifest_status && <p className='text-success fw-bold position-absolute ws-nowrap' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                         </td>

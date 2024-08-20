@@ -266,19 +266,34 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box'>
-                                                    <p>{row?.pickup_details?.p_warehouse_name}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.pickup_details?.p_address_line1}, {row?.pickup_details?.p_address_line2},<br />{row?.pickup_details?.p_city}, {row?.pickup_details?.p_state}, {row?.pickup_details?.p_pincode}
+                                            <div className='cell-inside-box'>
+                                                {
+                                                    row?.order_type === "Forward" ?
+                                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                    {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
+                                                                    {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
+                                                                    {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
+                                                                    {row?.pickup_details?.p_pincode}
+                                                                </span>
                                                             </span>
-                                                        </span>
-                                                    </p>
-
-                                                </div>
-                                            </td>
+                                                        </p> : <p>{row?.shipping_detail?.recipient_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
+                                                                    {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
+                                                                    {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
+                                                                    {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
+                                                                    {row?.shipping_detail?.pincode}
+                                                                </span>
+                                                            </span>
+                                                        </p>
+                                                }
+                                            </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>

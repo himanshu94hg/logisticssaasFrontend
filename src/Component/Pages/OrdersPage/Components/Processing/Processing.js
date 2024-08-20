@@ -362,7 +362,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                         {row?.pickup_details?.p_pincode}
                                                                     </span>
                                                                 </span>
-                                                            </p> : <p>{row?.shipping_detail?.city}
+                                                            </p> : <p>{row?.shipping_detail?.recipient_name}
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>

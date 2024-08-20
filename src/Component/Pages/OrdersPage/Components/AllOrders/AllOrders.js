@@ -516,20 +516,32 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                    {row?.pickup_details ? (
-                                                        <p>{row?.pickup_details?.p_warehouse_name}
-                                                            <span className='details-on-hover ms-2'>
-                                                                <InfoIcon />
-                                                                <span style={{ width: '250px' }}>
-                                                                    {row?.pickup_details?.p_address_line1},
-                                                                    {row?.pickup_details?.p_address_line2},<br />
-                                                                    {row?.pickup_details?.p_city},
-                                                                    {row?.pickup_details?.p_state},
-                                                                    {row?.pickup_details?.p_pincode}
+                                                    {
+                                                        row?.order_type === "Forward" ?
+                                                            <p>{row?.pickup_details?.p_warehouse_name}
+                                                                <span className='details-on-hover ms-2'>
+                                                                    <InfoIcon />
+                                                                    <span style={{ width: '250px' }}>
+                                                                        {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                        {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
+                                                                        {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
+                                                                        {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
+                                                                        {row?.pickup_details?.p_pincode}
+                                                                    </span>
                                                                 </span>
-                                                            </span>
-                                                        </p>
-                                                    ) : ''}
+                                                            </p> : <p>{row?.shipping_detail?.recipient_name}
+                                                                <span className='details-on-hover ms-2'>
+                                                                    <InfoIcon />
+                                                                    <span style={{ width: '250px' }}>
+                                                                        {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
+                                                                        {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
+                                                                        {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
+                                                                        {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
+                                                                        {row?.shipping_detail?.pincode}
+                                                                    </span>
+                                                                </span>
+                                                            </p>
+                                                    }
                                                 </div>
                                             </td>
                                             <td>
@@ -561,7 +573,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                                             Edit Order
                                                         </button>
                                                     )}
-                                                    {row?.status === 'pending' && (
+                                                    {(row?.order_courier_status === 'Processing' && row?.status === "pending") && (
                                                         <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => handleShipNow(row?.id))}>
                                                             Ship Now
                                                         </button>

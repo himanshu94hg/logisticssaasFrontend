@@ -204,7 +204,7 @@ const OrdersPage = () => {
         }
     }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
-    useEffect(() => {   
+    useEffect(() => {
         setLoader(true)
         if (activeTab === "Manifest") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
@@ -415,13 +415,14 @@ const OrdersPage = () => {
                 {/* Unprocessable */}
                 <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
                     <Unprocessable
+                        setOrderId={setOrderId}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
-
+                        setEditOrderSection={setEditOrderSection}
                     />
                 </div>
 

@@ -15,7 +15,7 @@ import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIc
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
@@ -28,7 +28,7 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
 
-const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setEditOrderSection, setOrderId, setSelectedRows }) => {
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -76,6 +76,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
         }
     };
 
+    const handleEditOrder = (id) => {
+        setEditOrderSection(true)
+        setOrderId(id)
+    }
+
 
     return (
         <section className='position-relative'>
@@ -86,11 +91,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
                                     <div className='d-flex gap-1 align-items-center'>
-                                        <input
+                                        {/* <input
                                             type="checkbox"
                                             checked={selectAll}
                                             onChange={handleSelectAll}
-                                        />
+                                        /> */}
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
@@ -109,11 +114,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
-                                            <input
+                                            {/* <input
                                                 type="checkbox"
                                                 checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
-                                            />
+                                            /> */}
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
@@ -173,8 +178,8 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.customer_order_number}</p>
-                                                <p>{row?.shipping_detail?.mobile_number}
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -190,7 +195,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -216,19 +221,32 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br />
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-
+                                                {
+                                                    row?.order_type === "Forward" ?
+                                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                    {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
+                                                                    {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
+                                                                    {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
+                                                                    {row?.pickup_details?.p_pincode}
+                                                                </span>
+                                                            </span>
+                                                        </p> : <p>{row?.shipping_detail?.recipient_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
+                                                                    {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
+                                                                    {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
+                                                                    {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
+                                                                    {row?.shipping_detail?.pincode}
+                                                                </span>
+                                                            </span>
+                                                        </p>
+                                                }
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
@@ -236,21 +254,14 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Edit Order</button>
+                                                <button className='btn main-button' onClick={() => handleEditOrder(row?.id)}>Edit Order</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Clone Order</li>
-                                                            <li>Mark As Verified</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => handleEditOrder(row?.id)}>Edit Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
