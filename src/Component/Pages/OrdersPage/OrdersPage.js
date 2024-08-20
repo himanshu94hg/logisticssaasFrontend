@@ -409,6 +409,7 @@ const OrdersPage = () => {
                         setOrderTracking={setOrderTracking}
                         setBulkActionShow={setBulkActionShow}
                         setCloneOrderSection={setCloneOrderSection}
+                        setEditOrderSection={setEditOrderSection}
                     />
                 </div>
 

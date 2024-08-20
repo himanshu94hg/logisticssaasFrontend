@@ -33,7 +33,7 @@ import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 
-const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -371,6 +371,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
             });
     };
 
+    const handleEditOrder = (id) => {
+        setEditOrderSection(true)
+        setOrderId(id)
+    }
+
     return (
         <>
             <section className='position-relative'>
@@ -569,7 +574,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
                                                     {row?.order_courier_status === 'Unprocessable' && (
-                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => { }}>
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => handleEditOrder(row?.id)}>
                                                             Edit Order
                                                         </button>
                                                     )}
