@@ -316,18 +316,18 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
     const handleClose = () => setShow(false);
     const handleCloseCancel = () => setShowCancel(false);
 
-    const [qc,setQc]=useState(null)
+    const [qc, setQc] = useState(null)
 
     const handleQCCheckStatus = async (id) => {
         setShowQCStatus(!ShowQCStatus)
         try {
-            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${56961}/`,{
+            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${56961}/`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             setQc(response?.data)
-            console.log(response,"this is eeeeeeeeeeeeee")
+            console.log(response, "this is eeeeeeeeeeeeee")
 
         } catch (error) {
             customErrorFunction(error);
@@ -718,9 +718,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    <p><a href={images[0]} className='btn main-button'>Download</a></p>
+                                    <p><a href={qc?.images[0]} className='btn main-button'>Download</a></p>
                                 </div>
-
                             </section>
                         </Modal.Body>
                         <Modal.Footer>
