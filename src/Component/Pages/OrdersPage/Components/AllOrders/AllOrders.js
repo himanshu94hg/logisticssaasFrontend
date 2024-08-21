@@ -158,7 +158,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
     };
 
     const handleShipNow = (orderId) => {
-        console.log(orderId, "this is not null")
         setSelectedOrderId(orderId);
         if (orderId !== null) {
             const config = {
@@ -316,7 +315,24 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
 
     const handleClose = () => setShow(false);
     const handleCloseCancel = () => setShowCancel(false);
-    const handleQCCheckStatus = () => setShowQCStatus(!ShowQCStatus);
+
+    const [qc,setQc]=useState(null)
+
+    const handleQCCheckStatus = async (id) => {
+        setShowQCStatus(!ShowQCStatus)
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${56961}/`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setQc(response?.data)
+            console.log(response,"this is eeeeeeeeeeeeee")
+
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    };
 
     const handleShowDelete = (id) => {
         setShow(true)
@@ -614,7 +630,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row?.status))}>Download Invoice</li>
                                                                 {
                                                                     row?.order_type === "Reverse" &&
-                                                                    <li onClick={() => handleQCCheckStatus()}>QC Information</li>
+                                                                    <li onClick={() => handleQCCheckStatus(row?.id)}>QC Information</li>
                                                                 }
                                                             </ul>
                                                         </div>
@@ -689,8 +705,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         <Modal.Body>
                             <section className='d-flex flex-column gap-3 w-100'>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p>label</p>
-                                    <p>Color, Size</p>
+                                    <p>label:Color,Size</p>
+                                    <p>Color:Red, Size:L</p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Value To check:</p>
@@ -698,11 +714,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p className='ws-nowrap'>Help Description:</p>
-                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>Rare rabbit men’s sable off-white crew neck half sleeves drop shoulder with contrast overstitch boxy fit solid t-shirt.</p>
+                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>{qc?.description}</p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    <p><button className='btn main-button'>Download</button></p>
+                                    <p><a href={images[0]} className='btn main-button'>Download</a></p>
                                 </div>
 
                             </section>
