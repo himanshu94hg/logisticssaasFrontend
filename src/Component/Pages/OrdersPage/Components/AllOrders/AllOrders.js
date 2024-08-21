@@ -158,7 +158,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
     };
 
     const handleShipNow = (orderId) => {
-        console.log(orderId, "this is not null")
         setSelectedOrderId(orderId);
         if (orderId !== null) {
             const config = {
@@ -316,7 +315,22 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
 
     const handleClose = () => setShow(false);
     const handleCloseCancel = () => setShowCancel(false);
-    const handleQCCheckStatus = () => setShowQCStatus(!ShowQCStatus);
+
+
+    const handleQCCheckStatus = async (id) => {
+        setShowQCStatus(!ShowQCStatus)
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${id}/`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(response,"this is eeeeeeeeeeeeee")
+
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    };
 
     const handleShowDelete = (id) => {
         setShow(true)
@@ -614,7 +628,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row?.status))}>Download Invoice</li>
                                                                 {
                                                                     row?.order_type === "Reverse" &&
-                                                                    <li onClick={() => handleQCCheckStatus()}>QC Information</li>
+                                                                    <li onClick={() => handleQCCheckStatus(row?.id)}>QC Information</li>
                                                                 }
                                                             </ul>
                                                         </div>
