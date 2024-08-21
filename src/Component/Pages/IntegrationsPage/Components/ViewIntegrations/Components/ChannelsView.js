@@ -101,24 +101,39 @@ const Preview = ({ show, handleClose, selectedRow }) => {
                             <th>Store URL</th>
                             <td>{selectedRow?.channel_configuration?.store_url ? selectedRow?.channel_configuration?.store_url : "NA"}</td>
                         </tr>
-                        <tr>
-                            <th>API Key</th>
-                            <td>{selectedRow?.channel_configuration?.api_key ? selectedRow?.channel_configuration?.api_key : "NA"}</td>
-                        </tr>
-                        <tr>
-                            <th>{selectedRow?.channel_name} Password</th>
-                            <td>{selectedRow?.channel_configuration?.password ? selectedRow?.channel_configuration?.password : "NA"}</td>
-                        </tr>
-                        <tr>
-                            <th>{selectedRow?.channel_name} Shared Secret</th>
-                            <td>{selectedRow?.channel_configuration?.shared_secret ? selectedRow?.channel_configuration?.shared_secret : "NA"}</td>
-                        </tr>
+                        {selectedRow?.channel === "woocommerce" &&
+                            <tr>
+                                <th>API Key</th>
+                                <td>{selectedRow?.channel_configuration?.woo_consumer_key ? selectedRow?.channel_configuration?.woo_consumer_key : "NA"}</td>
+                            </tr>
+                        }
+                        {
+                            selectedRow?.channel === "shopify" &&
+                            <tr>
+                                <th>{selectedRow?.channel_name} Password</th>
+                                <td>{selectedRow?.channel_configuration?.password ? selectedRow?.channel_configuration?.password : "NA"}</td>
+                            </tr>
+                        }
+                        {
+                            selectedRow?.channel === "amazon" &&
+                            <tr>
+                                <th>{selectedRow?.channel} Refresh Token</th>
+                                <td>{selectedRow?.channel_configuration?.amazon_refresh_token ? selectedRow?.channel_configuration?.amazon_refresh_token : "NA"}</td>
+                            </tr>
+                        }
+
+                        {selectedRow?.channel === "woocommerce" &&
+                            <tr>
+                                <th> Shared Secret</th>
+                                <td>{selectedRow?.channel_configuration?.woo_consumer_secret ? selectedRow?.channel_configuration?.woo_consumer_secret : "NA"}</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal >
     );
 };
