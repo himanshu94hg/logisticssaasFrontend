@@ -89,30 +89,16 @@ const WalletRechargeComponent = (props) => {
 
     const [validate, setValidate] = useState(false)
     const handleRecharge = useCallback(async () => {
-        if (rechargeAmount >= 1) {
+        if (rechargeAmount >= 500) {
             if (paymentMode === 'credit_card') {
                 try {
-                    const response = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/create-payment/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'Authorization': `Bearer ${token}` 
-                        },
-                        body: new URLSearchParams({
-                            amount: rechargeAmount
-                        })
-                    });
-    
-                    const data = await response.json();
-    
                     const options = {
                         key: razorpayKey,
-                        amount: data.amount, 
-                        currency: data.currency, 
+                        amount: (rechargeAmount) * 100,
+                        currency: "INR",
                         name: "Shipease",
                         description: "Wallet Recharge",
                         image: ShipeaseLogo,
-                        order_id: data.id, 
                         prefill: {
                             name: userData?.company_name || "Shipease",
                             email: userData?.email || "info@shipease.in",
@@ -122,63 +108,43 @@ const WalletRechargeComponent = (props) => {
                             address: "Testing Address",
                         },
                         theme: {
-                            color: "#3399cc",
+                            color: "3399cc",
                         },
                         handler: async (response) => {
                             if (response.razorpay_payment_id) {
                                 let data = JSON.stringify({
                                     razorpay_payment_id: response.razorpay_payment_id,
-                                    razorpay_order_id: response.razorpay_order_id,
-                                    razorpay_signature: response.razorpay_signature,
                                     amount: rechargeAmount,
                                     description: options.description
                                 });
-    
-                                const verifyResponse = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/verify-payment/`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${token}`
-                                    },
-                                    body: data
-                                });
-    
-                                const verifyResult = await verifyResponse.json();
-    
-                                if (verifyResult.status === 'Payment successful') {
-                                    alert('Payment verified successfully');
-                                    dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
-                                } else {
-                                    alert('Payment verification failed');
-                                }
+                                dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
                             }
                         }
                     };
-    
                     const rzpay = new Razorpay(options);
                     rzpay.open();
                 } catch (error) {
-                    console.error('Payment initiation failed:', error);
                 }
-            } else {
+            }
+            else {
                 const form = document.createElement('form');
                 form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
                 form.method = 'POST';
                 form.style.display = 'none';
-    
+
                 const parameters = {
                     order_id: generateOrderId(),
                     currency: 'INR',
                     amount: rechargeAmount,
                     language: 'EN',
-                    billing_name: userData?.company_name || "",
+                    billing_name: "",
                     billing_address: "",
                     billing_city: "",
                     billing_state: "",
                     billing_zip: "",
-                    billing_country: "India",
-                    billing_tel: userData?.contact_number || "",
-                    billing_email: userData?.email || "",
+                    billing_country: "",
+                    billing_tel: "",
+                    billing_email: "",
                     delivery_name: "",
                     delivery_address: "",
                     delivery_city: "",
@@ -187,10 +153,14 @@ const WalletRechargeComponent = (props) => {
                     delivery_country: "India",
                     delivery_tel: "",
                     seller_id: userData?.id,
+                    merchant_param2: "",
+                    merchant_param3: "",
+                    merchant_param4: "",
+                    merchant_param5: "",
                     promo_code: couponCode,
                     customer_identifier: "",
                 };
-    
+
                 Object.keys(parameters).forEach(key => {
                     const input = document.createElement('input');
                     input.type = 'hidden';
@@ -198,16 +168,17 @@ const WalletRechargeComponent = (props) => {
                     input.value = parameters[key];
                     form.appendChild(input);
                 });
-    
+
                 document.body.appendChild(form);
                 form.submit();
                 document.body.removeChild(form);
+
             }
         } else {
-            setValidate(true);
+            setValidate(true)
         }
-    }, [ rechargeAmount, dispatch, paymentMode, razorpayKey, userData, token, couponCode]);
-    
+
+    }, [Razorpay, rechargeAmount, dispatch]);
 
     return (
         <>
