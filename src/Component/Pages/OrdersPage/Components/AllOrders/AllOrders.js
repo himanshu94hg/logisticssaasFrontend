@@ -705,20 +705,29 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         <Modal.Body>
                             <section className='d-flex flex-column gap-3 w-100'>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p>label</p>
-                                    <p>Color, Size</p>
+                                    <p>Description:</p>
+                                    <p>{qc?.description || 'N/A'}</p>
                                 </div>
-                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p>Value To check:</p>
-                                    <p>Color, Size</p>
-                                </div>
-                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p className='ws-nowrap'>Help Description:</p>
-                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>{qc?.description}</p>
-                                </div>
+                                {/* Dynamically Render QC Checks */}
+                                {qc?.qc_checks && Object.entries(qc.qc_checks).map(([key, value], index) => (
+                                    <div key={index} className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                        <p>{key}:</p>
+                                        <p>{value || 'N/A'}</p>
+                                    </div>
+                                ))}
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    <p><a href={qc?.images[0]} className='btn main-button'>Download</a></p>
+                                    <p>
+                                        {qc?.images?.length > 0 ? (
+                                            qc.images.map((image, index) => (
+                                                <a key={index} href={image} target='_blank' className='btn main-button' download>
+                                                    Download{/* {index + 1} */}
+                                                </a>
+                                            ))
+                                        ) : (
+                                            'No attachments available'
+                                        )}
+                                    </p>
                                 </div>
                             </section>
                         </Modal.Body>
@@ -727,7 +736,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 <button className="btn cancel-button" onClick={handleQCCheckStatus}>
                                     Close
                                 </button>
-
                             </div>
                         </Modal.Footer>
                     </Modal>
