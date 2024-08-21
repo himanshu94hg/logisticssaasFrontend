@@ -705,8 +705,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         <Modal.Body>
                             <section className='d-flex flex-column gap-3 w-100'>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p>label:Color,Size</p>
-                                    <p>Color:Red, Size:L</p>
+                                    <p>label</p>
+                                    <p>Color, Size</p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Value To check:</p>
