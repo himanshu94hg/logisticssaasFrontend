@@ -55,7 +55,7 @@ const WhatsAppNotification = () => {
 
     return (
         <>
-            <div>
+            <div className='whatsapp-comm'>
                 <h4 className='my-3'>WhatsApp Communication for Status Updates</h4>
                 <div className='table-container'>
                     <table className="w-100">
@@ -73,11 +73,11 @@ const WhatsAppNotification = () => {
                                 <React.Fragment key={index}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td>{status.status}</td>
+                                        <td>{status.status} Status</td>
                                         <td>
                                             <button
-                                                className='btn'
-                                                title={status.preview}
+                                                className='btn action-btn'
+                                                title={`Preview ${status.status} Status`}
                                                 onClick={() => handlePreviewClick(status.status, status.preview)}
                                             >
                                                 <FontAwesomeIcon icon={faEye} />
@@ -85,8 +85,8 @@ const WhatsAppNotification = () => {
                                         </td>
                                         <td>
                                             <button
-                                                className='btn'
-                                                title={status.edit}
+                                                className='btn action-btn'
+                                                title={`Edit ${status.status} Status`}
                                                 onClick={() => handleEditClick(status.status, status.edit, index)}
                                             >
                                                 <FontAwesomeIcon icon={faPenToSquare} />
