@@ -718,7 +718,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    <p><a href={images[0]} className='btn main-button'>Download</a></p>
+                                    <p><a href={qc?.images[0]} className='btn main-button'>Download</a></p>
                                 </div>
 
                             </section>
