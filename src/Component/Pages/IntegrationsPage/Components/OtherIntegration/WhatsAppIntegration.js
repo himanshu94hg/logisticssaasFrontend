@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/integration/whatsappIcon.png';
 import WhatsAppChatScreen from '../../../../../assets/image/WhatsChatBot.png';
+import WhatsAppChatDomestic from '../../../../../assets/image/WhatsAppChatDomestic.png';
 import HeartIcon from './HeartIcon';
 import TruckIcon from './TruckIcon';
 import PackageMagnifyingIcon from './PackageMagnifyingIcon';
@@ -95,7 +96,10 @@ const WhatsAppIntegration = () => {
                                 </div>
                             </div>
                             <div className="col-3 chat-window">
-                                <img src={WhatsAppChatScreen} alt="" />
+                                {BotTabs === "book" && <img src={WhatsAppChatDomestic} alt="" />}
+                                {BotTabs === "track" && <img src={WhatsAppChatScreen} alt="" />}
+                                {BotTabs === "cancel" && <img src={WhatsAppChatScreen} alt="" />}
+                                {BotTabs === "support" && <img src={WhatsAppChatScreen} alt="" />}
                             </div>
                         </div>
                     </div>

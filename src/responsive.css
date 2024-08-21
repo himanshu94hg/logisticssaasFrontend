@@ -30,6 +30,10 @@
     .reports-mis .table-container {
         height: calc(100vh - 290px);
     }
+
+    .additional-features {
+        min-height: 20rem;
+    }
 }
 
 @media screen and (max-width:1366px) {
