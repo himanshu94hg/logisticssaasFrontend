@@ -614,7 +614,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row?.status))}>Download Invoice</li>
                                                                 {
                                                                     row?.order_type === "Reverse" &&
-                                                                    <li onClick={() => handleQCCheckStatus()}>QC Status</li>
+                                                                    <li onClick={() => handleQCCheckStatus()}>QC Information</li>
                                                                 }
                                                             </ul>
                                                         </div>
