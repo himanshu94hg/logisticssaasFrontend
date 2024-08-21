@@ -300,6 +300,30 @@ const SettingsPage = () => {
                     </div>
                     <img src={NotificationBG} alt="CompanyBG" />
                 </div>
+
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>WhatsApp Configuration</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate(BuyerCommunicationPagePattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        WhatsApp Notification
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={NotificationBG} alt="CompanyBG" />
+                </div>
+
+
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -512,10 +536,10 @@ const SettingsPage = () => {
                 </div>
             </section>
 
-            {/* <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
+            <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
                 <ChangePassword ChangePasswordPop={ChangePasswordPop} setChangePasswordPop={setChangePasswordPop} />
             </section>
-            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div> */}
+            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div>
         </>
     )
 }
