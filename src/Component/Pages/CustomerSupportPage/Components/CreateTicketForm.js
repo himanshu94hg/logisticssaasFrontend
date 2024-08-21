@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
@@ -53,13 +53,15 @@ const CreateTicketForm = (props) => {
   // const [categoryStatus, setCategoryStatus] = useState(false);
   const [awbStatus, setAwbStatus] = useState(false);
   const [awbErrorMessage, setAwbErrorMessage] = useState("");
-
+  const params=useLocation()
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const escalateAwbNumber = searchParams.get('awb_number');
 
   const formRef = useRef(null);
+
+  // console.log(params,"params")
 
   useEffect(() => {
     if (escalateAwbNumber !== null) {
@@ -88,7 +90,7 @@ const CreateTicketForm = (props) => {
   }));
 
   useEffect(() => {
-    if (props.categoryStatus) {
+    if (props.categoryStatus || params.search) {
       axios
         .get(`${BASE_URL_CORE}/core-api/features/ticket-category/`, {
           headers: {
@@ -103,9 +105,7 @@ const CreateTicketForm = (props) => {
           customErrorFunction(error);
         });
     }
-  }, [props.categoryStatus]);
-
-  console.log(props.categoryStatus, "categoryStatuscategoryStatus")
+  }, [props.categoryStatus,params.search]);
 
   useEffect(() => {
     if (ticketData.category) {
