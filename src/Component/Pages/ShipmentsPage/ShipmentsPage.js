@@ -79,21 +79,23 @@ const ShipmentsPage = () => {
         }
     }, [favListData])
 
+
     useEffect(() => {
         let apiUrl = '';
+        let sanitizedSearchValue = searchValue.replace(/#/g, '');
         setLoader(true)
         switch (activeTab) {
             case "Action Required":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
                 break;
             case "Action Requested":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
                 break;
             case "RTO":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
                 break;
             case "Delivered":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
                 break;
             default:
                 apiUrl = '';
@@ -146,9 +148,6 @@ const ShipmentsPage = () => {
             setBulkActionShow(false)
             setQueryParamSearch(null);
             setSearchOption(SearchOptions[0])
-            // setTimeout(() => {
-            //     setLoader(false)
-            // }, 500);
         }
     }, [activeTab])
 
@@ -162,75 +161,22 @@ const ShipmentsPage = () => {
         setBackDrop(false)
     }
 
-    const validateData = () => {
-        const newErrors = {};
-        if (searchType === 'customer_order_number' && !searchValue) {
-            newErrors.customer_order_number = 'Order Number is required!';
-        }
-        if (searchType === 'shipping_detail__mobile_number' && !searchValue) {
-            newErrors.customer_order_number = 'Mobile Number is required!';
-        }
-        if (searchType === 'shipping_detail__email' && !searchValue) {
-            newErrors.shipping_detail__email = 'Email is required!';
-        }
-        if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
-            newErrors.shipping_detail__recipient_name = 'Name is required!';
-        }
-        if (searchType === 'shipping_detail__pincode' && !searchValue) {
-            newErrors.customer_order_number = 'Pincode Number is required!';
-        }
-        if (searchType === 'shipping_detail__city' && !searchValue) {
-            newErrors.customer_order_number = 'City is required!';
-        }
-        if (searchType === 'awb_number' && !searchValue) {
-            newErrors.customer_order_number = 'AWB is required!';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
     const handleSearch = () => {
-        if (validateData()) {
-            axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-                .then(response => {
-                    setTotalItems(response?.data?.count)
-                    setShipment(response.data?.results);
-                    pageStatusSet(false)
-                })
-                .catch(error => {
-                    customErrorFunction(error);
-                });
-            setQueryParamTemp({
-                search_by: searchType,
-                q: searchValue
-            })
-            setCurrentPage(1)
-        }
+        setCurrentPage(1)
+        setReset(new Date())
     };
 
-    const handleClick = () => {
+    const handleReset = () => {
         setSearchValue("")
         pageStatusSet(true);
         setQueryParamTemp({})
         setHandleResetFrom(true)
-        setSearchOption(SearchOptions[0])
-        axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setShipment(response?.data?.results);
-            })
-            .catch(error => {
-                customErrorFunction(error);
-            });
+        setSearchOption(SearchOptions[0].value)
+        setReset(new Date())
     }
+
+    console.log(SearchOption,"searchType")
 
 
     const handleChange = (option) => {
@@ -330,7 +276,7 @@ const ShipmentsPage = () => {
                                         {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                                     </ul>
                                 </div>
-                                <button className='btn main-button-outline ms-2' onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</button>
+                                <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                             </>
                         }
                     </div>
@@ -351,7 +297,7 @@ const ShipmentsPage = () => {
                         <div className="nav-actions-list">
                             <ul>
                                 <li onClick={handleSidePanel}><HiOutlineFilter className='align-text-bottom' /> More Filters</li>
-                                <li onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</li>
+                                <li onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</li>
                             </ul>
                         </div>
                     </div>
