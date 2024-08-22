@@ -60,7 +60,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
         setLoaderRing(false);
         setTokenExists(true);
         navigate(indexPattern);
-        Cookies.set('access_token', response.data.access_token);
+        Cookies.set('access_token', response.data.access_token, { path: '/seller' });
         Cookies.set('user_id', response.data.user_id);
         dispatch({ type: LOGIN_DATA, payload: response });
         window.location.reload();

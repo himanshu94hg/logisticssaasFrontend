@@ -86,7 +86,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   const handleLogout = () => {
     localStorage.clear();
-    Cookies.remove('access_token');
+    Cookies.set('access_token', response.data.access_token, { path: '/seller' });
     localStorage.removeItem('partnerList');
     clearAllCookies()
     navigate(indexPattern)
