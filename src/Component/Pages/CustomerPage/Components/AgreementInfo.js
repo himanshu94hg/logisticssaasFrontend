@@ -73,7 +73,6 @@ const AgreementInfo = ({ activeTab, setDetailsView }) => {
       if (response?.status === 200) {
         toast.success("Agreement signed successfully!");
         setRefresh(new Date())
-        setDetailsView(true)
       }
     } catch (error) {
       customErrorFunction(error);
