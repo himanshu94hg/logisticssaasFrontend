@@ -12,7 +12,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
-const AgreementInfo = ({ activeTab,setDetailsView }) => {
+const AgreementInfo = ({ activeTab, setDetailsView }) => {
   const dispatch = useDispatch()
   const componentRef = useRef();
   const [data, setData] = useState(null);
@@ -63,24 +63,19 @@ const AgreementInfo = ({ activeTab,setDetailsView }) => {
   }, [refresh, activeTab]);
 
   const handleClickSubmit = async () => {
-    if (userData?.is_basic_info_verified && userData?.is_acc_info_verified && userData?.is_kyc_info_verified) {
-      try {
-        const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, dynamicContent, {
-          headers: {
-            'Authorization': `Bearer  ${hardcodedToken}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        if (response?.status === 200) {
-          toast.success("Agreement signed successfully!");
-          setRefresh(new Date())
-          setDetailsView(true)
+    try {
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, dynamicContent, {
+        headers: {
+          'Authorization': `Bearer  ${hardcodedToken}`,
+          'Content-Type': 'application/json'
         }
-      } catch (error) {
-        customErrorFunction(error);
+      });
+      if (response?.status === 200) {
+        toast.success("Agreement signed successfully!");
+        setRefresh(new Date())
       }
-    } else {
-      toast.error("Basic info,Account info and Kyc info should be verified!")
+    } catch (error) {
+      customErrorFunction(error);
     }
     setShow(false)
   };
