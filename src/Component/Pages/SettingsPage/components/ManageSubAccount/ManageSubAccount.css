@@ -1,0 +1,40 @@
+.subaccount-pop .modal-dialog {
+    margin-top: 10%;
+}
+
+.subaccount-pop .modal-header {
+    justify-content: start;
+}
+
+.subaccount-pop .modal-body {
+    text-align: start;
+}
+
+.subaccount-pop .modal-footer {
+    justify-content: end;
+}
+
+.add-account-panel {
+    width: 30em;
+    background: #fff;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    right: -40em;
+    transition: 0.6s;
+    z-index: 6;
+}
+
+.add-account-panel.open {
+    right: 0px;
+}
+
+.add-account-panel .panel-header {
+    background-color: #cedbf2;
+    padding: 15px 20px;
+    width: 100%;
+}
+
+.add-account-panel .panel-body {
+    padding: 20px 30px;
+}
