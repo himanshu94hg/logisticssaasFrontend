@@ -35,7 +35,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   const navigate = useNavigate()
   let authToken = Cookies.get("access_token")
   let staticToken = Cookies.get("static_token")
-  // const [userData, setUserData] = useState(null)
   const [LoaderRing, setLoaderRing] = useState(false)
   const [inputValue, setInputValue] = useState('');
   const [temp, setTemp] = useState({
