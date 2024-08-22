@@ -1,6 +1,9 @@
+.settings-page-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
 .main-container {
-    flex: 1 1;
-    min-width: 320px;
     margin-bottom: 30px;
     position: relative;
 }
@@ -178,4 +181,9 @@
 .cp-body button {
     width: 150px;
     text-align: center;
+}
+
+.whatsapp-comm .action-btn {
+    padding: 0px;
+    height: 24px;
 }

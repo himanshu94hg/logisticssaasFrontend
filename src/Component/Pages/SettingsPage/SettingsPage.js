@@ -28,6 +28,7 @@ import {
     SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
     ThemeCustomizationPattern,
+    WhatsAppNotificationPattern,
     customerPattern,
     gstInvoicingPattern,
     manageWarehousesPattern
@@ -305,12 +306,12 @@ const SettingsPage = () => {
                     <div className='tile'>
                         <div className="tile-content">
                             <div className='tile-heading'>
-                                <h3>WhatsApp Configuration</h3>
+                                <h3>WhatsApp Communication</h3>
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate(BuyerCommunicationPagePattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(WhatsAppNotificationPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

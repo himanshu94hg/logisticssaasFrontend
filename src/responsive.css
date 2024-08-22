@@ -30,6 +30,14 @@
     .reports-mis .table-container {
         height: calc(100vh - 290px);
     }
+
+    .additional-features {
+        min-height: 20rem;
+    }
+
+    .settings-page-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 @media screen and (max-width:1366px) {
@@ -60,6 +68,10 @@
 
     .new-scheduler-slider {
         width: 92%;
+    }
+
+    .settings-page-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -435,6 +447,10 @@
     .reports-mis .search-container .type-label .css-b62m3t-container {
         min-width: 100%;
     }
+
+    .settings-page-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 
@@ -635,6 +651,10 @@
 @media screen and (max-width:633px) {
     .edit-order-header h2 {
         font-size: 20px;
+    }
+
+    .settings-page-container {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 

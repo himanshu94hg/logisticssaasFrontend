@@ -583,7 +583,7 @@ ul.additional-features-nav li.active {
 }
 
 .additional-features {
-    min-height: 19rem;
+    min-height: 25rem;
     width: 100%;
     display: flex;
     flex-direction: column;
