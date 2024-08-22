@@ -698,6 +698,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         keyboard={false}
                         onHide={handleQCCheckStatus}
                         className='qc-check-modal'
+                        size="lg"
                     >
                         <Modal.Header>
                             <Modal.Title>Quality Check Information</Modal.Title>
@@ -705,12 +706,30 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         <Modal.Body>
                             <section className='d-flex flex-column gap-3 w-100'>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p>label:Color,Size</p>
-                                    <p>Color:Red, Size:L</p>
+                                    <p>label</p>
+                                    <p>
+                                        {
+                                            qc?.qc_checks != null && Object.keys(qc.qc_checks)?.map((key, index, array) =>
+                                                <span key={key}>
+                                                    {key}
+                                                    {index < array.length - 1 && ","}
+                                                </span>
+                                            )
+                                        }
+                                    </p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Value To check:</p>
-                                    <p>Color, Size</p>
+                                    <p>
+                                        {
+                                            qc?.qc_checks != null && Object.values(qc.qc_checks)?.map((value, index, array) =>
+                                                <span key={index}>
+                                                    {value === "" ? "NA" : value}
+                                                    {index < array.length - 1 && ","}
+                                                </span>
+                                            )
+                                        }
+                                    </p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p className='ws-nowrap'>Help Description:</p>
@@ -718,7 +737,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    <p><a href={images[0]} className='btn main-button'>Download</a></p>
+                                    {qc?.images?.map(item =>
+                                        <p><a href={item} className='btn main-button'>Download</a></p>
+                                    )}
                                 </div>
 
                             </section>
