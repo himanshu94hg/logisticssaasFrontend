@@ -42,6 +42,12 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
         }
     }, [moreorderShipCardStatusData, loaderState])
 
+    useEffect(() => {
+        if (reassignCard?.length) {
+            setSingleShip(true)
+        }
+    }, [reassignCard])
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -72,7 +78,7 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     };
 
     const handleShipNow = (orderId) => {
-        setSingleShip(true);
+        // setSingleShip(true);
         setBulkActionShow(false)
         setSelectedOrderId(orderId)
         dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });

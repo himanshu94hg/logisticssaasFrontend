@@ -86,7 +86,6 @@ const LabelData = ({ items, setItems }) => {
                                 <tbody>
                                     <tr>
                                         <td style={{ width: "50%", border: 0 }}>
-                                            {items.ordernumber_visibility && (
                                                 <div id="label-order-detail">
                                                     <b>Shipped By</b> (if undelivered,return to)
                                                     <br />
@@ -99,7 +98,6 @@ const LabelData = ({ items, setItems }) => {
                                                     Invoice No. : SE-1000123
                                                     <br />
                                                 </div>
-                                            )}
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
                                                     Manifest Date. : 2024-01-05
