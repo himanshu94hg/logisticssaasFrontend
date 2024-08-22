@@ -211,8 +211,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate(ManageSubAccountPattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(ManageSubAccountPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

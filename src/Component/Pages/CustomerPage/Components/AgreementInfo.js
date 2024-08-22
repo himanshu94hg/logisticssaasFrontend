@@ -38,7 +38,8 @@ const AgreementInfo = ({ activeTab, setDetailsView }) => {
       setDynamicContent({
         name: userData?.first_name,
         place: userData?.city || 'Gurugram',
-        document_upload: null
+        document_upload: null,
+        date:moment(new Date()).format("YYYY-MM-DD")
       })
     }
   }, [userData])

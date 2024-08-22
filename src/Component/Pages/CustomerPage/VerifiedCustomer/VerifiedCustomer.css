@@ -14,17 +14,15 @@
 
 /* .verified-customer .header-section .shipease-logo,*/
 .verified-customer .header-section .company-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    border-radius: 1rem;
     overflow: hidden;
 }
 
 .verified-customer .header-section img,
 .verified-customer .header-section img {
-    height: 80px;
+    height: auto;
+    max-height: 50px;
     width: auto;
-    max-width: 80px;
 }
 
 .verified-customer .header-section hr {
