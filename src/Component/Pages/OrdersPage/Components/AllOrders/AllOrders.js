@@ -706,13 +706,17 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         <Modal.Body>
                             <section className='d-flex flex-column gap-3 w-100'>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                                    <p className='ws-nowrap'>Help Description:</p>
+                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>{qc?.description}</p>
+                                </div>
+                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>label</p>
                                     <p>
                                         {
                                             qc?.qc_checks != null && Object.keys(qc.qc_checks)?.map((key, index, array) =>
                                                 <span key={key}>
                                                     {key}
-                                                    {index < array.length - 1 && ","}
+                                                    {index < array.length - 1 && ", "}
                                                 </span>
                                             )
                                         }
@@ -725,15 +729,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             qc?.qc_checks != null && Object.values(qc.qc_checks)?.map((value, index, array) =>
                                                 <span key={index}>
                                                     {value === "" ? "NA" : value}
-                                                    {index < array.length - 1 && ","}
+                                                    {index < array.length - 1 && ", "}
                                                 </span>
                                             )
                                         }
                                     </p>
-                                </div>
-                                <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
-                                    <p className='ws-nowrap'>Help Description:</p>
-                                    <p style={{ maxWidth: '370px', textAlign: 'end' }}>{qc?.description}</p>
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
@@ -748,7 +748,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 <button className="btn cancel-button" onClick={handleQCCheckStatus}>
                                     Close
                                 </button>
-
                             </div>
                         </Modal.Footer>
                     </Modal>
