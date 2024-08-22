@@ -216,16 +216,18 @@ const AccountInfo = ({ activeTab }) => {
 
   const handleIFSCChange = async (e, index) => {
     const newIFSC = e.target.value;
-    try {
-      const response = await axios.get(`https://ifsc.razorpay.com/${newIFSC}`);
-      if (response.status === 200) {
-        const { BRANCH, BANK } = response.data;
-        setAccounts(accounts.map((account, idx) => idx === index ? { ...account, branchName: BRANCH, bankName: BANK } : account));
-      } else {
-        toast.error('Failed to fetch branch and bank details.');
+    if (newIFSC.length > 0) {
+      try {
+        const response = await axios.get(`https://ifsc.razorpay.com/${newIFSC}`);
+        if (response.status === 200) {
+          const { BRANCH, BANK } = response.data;
+          setAccounts(accounts.map((account, idx) => idx === index ? { ...account, branchName: BRANCH, bankName: BANK } : account));
+        } else {
+          toast.error('Failed to fetch branch and bank details.');
+        }
+      } catch (error) {
+        toast.error('Please enter valid Ifsc code!');
       }
-    } catch (error) {
-      toast.error('Please enter valid Ifsc code!');
     }
   };
 
