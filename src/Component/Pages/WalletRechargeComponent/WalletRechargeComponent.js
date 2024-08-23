@@ -107,7 +107,7 @@ const WalletRechargeComponent = (props) => {
     const [validate, setValidate] = useState(false)
 
     const handleRecharge = useCallback(async () => {
-    if (rechargeAmount >= 500) {
+    if (rechargeAmount >= 1) {
         if (paymentMode === 'credit_card') {
             try {
                 let orderId = '';
