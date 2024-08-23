@@ -85,7 +85,14 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   const handleLogout = () => {
     localStorage.clear();
-    Cookies.set('access_token', response.data.access_token, { path: '/seller' });
+    if (location.pathname === '/seller-by-pass') {
+      Cookies.remove('access_token', { path: '/seller-by-pass' });
+      Cookies.remove('user_id', { path: '/seller-by-pass' });
+    }
+    else{
+      Cookies.remove('access_token', { path: '/seller' });
+      Cookies.remove('user_id', { path: '/seller' });
+    }
     localStorage.removeItem('partnerList');
     clearAllCookies()
     navigate(indexPattern)
