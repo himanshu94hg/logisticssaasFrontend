@@ -88,17 +88,52 @@ const WalletRechargeComponent = (props) => {
         return `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
     };
 
+    const generateOrderIdForPayment = async () => {
+        const createOrderResponse = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/create-recharge_order/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount: rechargeAmount }),
+        });
+
+        const orderData = await createOrderResponse.json();
+        if (orderData.success) {
+            return orderData.order_id;
+        }
+    };
+
+
     const [validate, setValidate] = useState(false)
+
     const handleRecharge = useCallback(async () => {
-        if (rechargeAmount >= 500 || rechargeAmount === 1) {
+        if (rechargeAmount >= 500) {
             if (paymentMode === 'credit_card') {
                 try {
+                    let orderId = '';
+
+                    const createOrderResponse = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/create-recharge_order/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ amount: rechargeAmount }),
+                    });
+
+                    const orderData = await createOrderResponse.json();
+                    if (orderData.status === 'true') {
+                        orderId = orderData.order_id;
+                    } else {
+                        throw new Error('Failed to create order');
+                    }
+
                     const options = {
                         key: razorpayKey,
-                        amount: (rechargeAmount) * 100,
+                        amount: rechargeAmount * 100,
                         currency: "INR",
                         name: "Shipease",
                         description: "Wallet Recharge",
+                        order_id: orderId,
                         image: ShipeaseLogo,
                         prefill: {
                             name: userData?.company_name || "Shipease",
@@ -124,11 +159,10 @@ const WalletRechargeComponent = (props) => {
                                             amount: rechargeAmount,
                                         }),
                                     });
-    
+
                                     const verificationResult = await verificationResponse.json();
-    
                                     if (verificationResult.success) {
-                                        let data = JSON.stringify({
+                                        const data = JSON.stringify({
                                             razorpay_payment_id: response.razorpay_payment_id,
                                             amount: rechargeAmount,
                                             description: options.description
@@ -138,16 +172,18 @@ const WalletRechargeComponent = (props) => {
                                         toast.error('Payment verification failed. Please try again.');
                                     }
                                 } catch (error) {
-                                    console.error('Payment verification error:', error);
                                     toast.error('Error in payment verification. Please try again.');
                                 }
                             }
                         }
                     };
+
+                    console.log("optionsoptionsoptionsoptions", options);
                     const rzpay = new Razorpay(options);
                     rzpay.open();
+
                 } catch (error) {
-                    console.error('Razorpay error:', error);
+                    toast.error('Error in processing payment. Please try again.');
                 }
             } 
             // else {
@@ -155,7 +191,7 @@ const WalletRechargeComponent = (props) => {
             //     form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
             //     form.method = 'POST';
             //     form.style.display = 'none';
-    
+
             //     const parameters = {
             //         order_id: generateOrderId(),
             //         currency: 'INR',
@@ -184,7 +220,7 @@ const WalletRechargeComponent = (props) => {
             //         promo_code: couponCode,
             //         customer_identifier: "",
             //     };
-    
+
             //     Object.keys(parameters).forEach(key => {
             //         const input = document.createElement('input');
             //         input.type = 'hidden';
@@ -192,7 +228,7 @@ const WalletRechargeComponent = (props) => {
             //         input.value = parameters[key];
             //         form.appendChild(input);
             //     });
-    
+
             //     document.body.appendChild(form);
             //     form.submit();
             //     document.body.removeChild(form);
@@ -200,8 +236,8 @@ const WalletRechargeComponent = (props) => {
         } else {
             setValidate(true);
         }
-    }, [Razorpay, rechargeAmount, paymentMode, userData, couponCode, dispatch]);
-    
+    }, [rechargeAmount, paymentMode, userData, couponCode, dispatch]);
+
 
     return (
         <>
