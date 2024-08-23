@@ -10,6 +10,7 @@ const OverviewStatusCard = () => {
 
     const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
 
+    console.log(codDetails, "codDetailscodDetails")
 
     return (
         <>
@@ -44,7 +45,7 @@ const OverviewStatusCard = () => {
                         <div className='status-counter'>
                             <p>Remit Date</p>
                             {codDetails?.next_remit_amount === 0 ? <p>-</p> :
-                                <p>{moment(codDetails?.next_remit_date).format("MMM Do")}</p>
+                                <p> {codDetails != null ? moment(codDetails?.next_remit_date).format("MMM Do") : "-"}</p>
                             }
                         </div>
 
