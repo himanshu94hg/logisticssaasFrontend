@@ -281,3 +281,7 @@ export const WhatsAppNotificationRoutes = () => {
 };
 
 
+export const ccavenueRedirectIntegrationPattern = "/ccavenue-response";
+export const ccavenueRedirectIntegrationRoutes = () => {
+    return generatePath(ccavenueRedirectIntegrationPattern);
+};

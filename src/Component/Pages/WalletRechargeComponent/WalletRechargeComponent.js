@@ -193,31 +193,8 @@ const WalletRechargeComponent = (props) => {
 
             const parameters = {
                 order_id: generateOrderId(),
-                currency: 'INR',
                 amount: rechargeAmount,
-                language: 'EN',
-                billing_name: "",
-                billing_address: "",
-                billing_city: "",
-                billing_state: "",
-                billing_zip: "",
-                billing_country: "",
-                billing_tel: "",
-                billing_email: "",
-                delivery_name: "",
-                delivery_address: "",
-                delivery_city: "",
-                delivery_state: "",
-                delivery_zip: "",
-                delivery_country: "India",
-                delivery_tel: "",
-                seller_id: userData?.id,
-                merchant_param2: "",
-                merchant_param3: "",
-                merchant_param4: "",
-                merchant_param5: "",
-                promo_code: couponCode,
-                customer_identifier: "",
+                seller_id: userData?.id
             };
 
             Object.keys(parameters).forEach(key => {
