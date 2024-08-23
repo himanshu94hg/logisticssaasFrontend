@@ -90,6 +90,7 @@ function App() {
   const urlParams = new URLSearchParams(location?.search);
   const status = urlParams.get('status');
   const [WalletRecharge, setWalletRecharge] = useState(false)
+  const ccavenuestatus = urlParams.get('ccavenuestatus');
 
   useEffect(() => {
     const user_id = Cookies.get('user_id');
@@ -110,6 +111,13 @@ function App() {
       toast.success("Amazon integrated successfully!")
     }
   }, [status])
+
+  useEffect(() => {
+    if (ccavenuestatus === "Success") {
+      navigate('/')
+      toast.success("Recharge Success! Your balance has been updated.")
+    }
+  }, [ccavenuestatus])
 
   useEffect(() => {
     if (token) {
