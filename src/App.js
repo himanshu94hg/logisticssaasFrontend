@@ -115,7 +115,7 @@ function App() {
   useEffect(() => {
     if (ccavenuestatus === "Success") {
       navigate('/')
-      toast.success("Recharge Success! Your balance has been updated.")
+      // toast.success("Recharge Success! Your balance has been updated.")
     }
   }, [ccavenuestatus])
 
