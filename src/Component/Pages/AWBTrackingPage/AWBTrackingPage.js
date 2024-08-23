@@ -53,7 +53,12 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
                 <FontAwesomeIcon icon={faChevronRight} />
             </div>
             <section className='tracking-header'>
-                <h4><span>AWB:</span> {awbNo}</h4>
+                <div className='d-flex flex-column gap-3'>
+                    <h4><span>AWB:</span> {awbNo}</h4>
+                    {orderStatus?.other_details?.expected_delivery_date &&
+                        <p className='font13'>EDD: <strong>{moment(orderStatus?.other_details?.expected_delivery_date).format("DD MMM YYYY")}</strong></p>
+                    }
+                </div>
                 <div className={`d-flex align-items-center gap-3 ${screenWidthData < 473 && 'flex-row-reverse'}`}>
                     <p className='text-capitalize'>
                         {orderStatus?.courier_partner && partnerList[orderStatus?.courier_partner]["title"]}
