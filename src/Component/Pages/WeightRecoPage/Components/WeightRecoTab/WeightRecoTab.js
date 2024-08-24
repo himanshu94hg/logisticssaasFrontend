@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
-import SidePanel from './SidePanel/SidePanel';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +10,6 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
@@ -26,7 +24,6 @@ import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -67,10 +64,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         }
     };
 
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
+
 
     const handleShow = (row) => {
         setSelectedRow(row);
@@ -273,8 +267,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                     </table>
                     {weightRecoData?.length === 0 && <NoData />}
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
                 <PreviewComment showComment={showComment} handleCloseComment={handleCloseComment} selectedRow={selectedRow} />
 

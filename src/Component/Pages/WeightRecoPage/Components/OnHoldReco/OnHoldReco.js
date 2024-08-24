@@ -1,13 +1,11 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import SidePanel from './SidePanel/SidePanel';
 import NoData from '../../../../common/noData';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import { FaRegCopy } from 'react-icons/fa';
 
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
-    const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [copyText, setcopyText] = useState("Tracking Link")
 
@@ -39,11 +37,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
             setSelectAll(false);
         }
     };
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
 
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
@@ -150,11 +143,8 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                     </table>
                     {weightRecoData?.length === 0 && <NoData />}
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
-        </section >
+        </section>
     );
 };
 
