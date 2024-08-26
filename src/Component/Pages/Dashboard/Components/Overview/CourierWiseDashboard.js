@@ -22,7 +22,6 @@ function CourierWiseDashboard() {
         {sortedCourierWiseData.map((courier, index) => (
           <li key={index} className="d-flex justify-content-between">
             <p className="font12 bold-600 mb-10">
-              {/* {courier} */}
               <img src={courier.courier_image} className="inline-block" alt={courier.courier_name} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
               <span className="ms-3 text-capitalize">{courier.courier_name}</span>
             </p>
