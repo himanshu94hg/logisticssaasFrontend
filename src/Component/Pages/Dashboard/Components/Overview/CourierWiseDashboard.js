@@ -23,7 +23,7 @@ function CourierWiseDashboard() {
           <li key={index} className="d-flex justify-content-between">
             <p className="font12 bold-600 mb-10">
               <img src={courier.courier_image} className="inline-block" alt={courier.courier_name} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
-              <span className="ms-3 text-capitalize">{courier?.courier_name && partnerList[courier?.courier_name]["title"]}</span>
+              <span className="ms-3 text-capitalize">{courier.courier_name}</span>
             </p>
             <p className="font12 bold-600 mb-10 hover-effect">
               <HiMiniArrowTrendingUp className="font15 text-green me-2" />{courier.value}
