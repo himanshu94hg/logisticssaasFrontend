@@ -218,13 +218,14 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                     </div>
 
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
-                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '16.5%' }}>Order Details</th>
+                                <th style={{ width: '15.5%' }}>Customer details</th>
+                                <th style={{ width: '12.5%' }}>Product details</th>
+                                <th style={{ width: '15.5%' }}>Package Details</th>
+                                <th style={{ width: '8.5%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '6%' }}>Status</th>
-                                <th style={{ width: '6%' }}>Action</th>
+                                <th style={{ width: '8%' }}>Status</th>
+                                <th style={{ width: '11%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -321,10 +322,38 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                 </div>
                                             </td>
                                             <td>
+                                                <div className="cell-inside-box">
+                                                    <p className="d-flex align-items-center gap-2">
+                                                        <p className="width-eclipse">{row?.order_products[0].product_name}</p>
+                                                        {
+                                                            row?.order_products.length > 1 &&
+                                                            <span className='details-on-hover ms-2 align-middle'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.order_products?.slice(1)?.map((product, index) => (
+                                                                        <React.Fragment key={index}>
+                                                                            <strong>Product:</strong> {product.product_name}<br />
+                                                                            <strong>SKU:</strong> {product.sku}<br />
+                                                                            <strong>Qt.:</strong> {product.quantity}<br />
+                                                                        </React.Fragment>
+                                                                    ))}
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                    </p>
+                                                    <p className="d-flex align-items-center gap-2">
+                                                        <p>Qt.<span> {row?.order_products[0].quantity}</span></p>||
+                                                        <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0].sku}</p></p>
+                                                    </p>
+                                                    <p>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <div className='cell-inside-box'>
-                                                    <p className='width-eclipse'>{row?.order_products.product_name}</p>
+                                                    {/* <p className='width-eclipse'>{row?.order_products.product_name}</p> */}
                                                     <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
-                                                        <span className='details-on-hover ms-2 align-middle'>
+                                                        {/* <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
                                                                 {row?.order_products?.map((product, index) => (
@@ -335,7 +364,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     </React.Fragment>
                                                                 ))}
                                                             </span>
-                                                        </span>
+                                                        </span> */}
                                                         <br />
                                                         LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}
                                                     </p>
