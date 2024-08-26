@@ -438,7 +438,7 @@
 }
 
 .width-eclipse {
-  max-width: 16rem;
+  max-width: 130px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
