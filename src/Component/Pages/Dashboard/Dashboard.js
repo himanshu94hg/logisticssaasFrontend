@@ -38,11 +38,11 @@ function Dashboard({ ScreenWidth }) {
   useEffect(() => {
     setLoader(true)
     if (activeTab) {
-        setTimeout(() => {
-            setLoader(false)
-        }, 230);
+      setTimeout(() => {
+        setLoader(false)
+      }, 230);
     }
-}, [activeTab])
+  }, [activeTab])
 
 
   return (
@@ -67,7 +67,6 @@ function Dashboard({ ScreenWidth }) {
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
         <NDRDashboard activeTab={activeTab} />
       </div>
-
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
