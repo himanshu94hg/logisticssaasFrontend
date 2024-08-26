@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import NoData from '../../../../common/noData';
 
-const AllOtherInvoices = ({billingCard}) => {
+const AllOtherInvoices = ({ billingCard }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [data, setData] = useState([]);
@@ -57,7 +57,7 @@ const AllOtherInvoices = ({billingCard}) => {
                     </tr>
                     <tr className="blank-row"><td></td></tr>
                 </thead>
-                <tbody>
+                {/* <tbody>
                     {billingCard?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
@@ -70,47 +70,41 @@ const AllOtherInvoices = ({billingCard}) => {
                                     />
                                 </td>
                                 <td>
-                                    {/* order detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.id ?? 0}
+                                            {row?.id}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Courier detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.invoice_date ?? "2024-01-01"}
+                                            {row?.invoice_date}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* AWB Assigned Date */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.due_date ?? "2024-01-01"}
+                                            {row?.due_date}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Shipment Status */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.total ?? 0}
+                                            {row?.total}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Applied Weight Charges */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.status ?? "Paid"}
+                                            {row?.status}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* View Transaction Details */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
                                             <button className='btn main-button' style={{ width: '100px' }}>View</button>
@@ -120,9 +114,9 @@ const AllOtherInvoices = ({billingCard}) => {
                             </tr>
                         </React.Fragment>
                     ))}
-                </tbody>
+                </tbody> */}
             </table>
-            {billingCard?.length === 0 && <NoData />}
+            <NoData />
         </div>
     )
 }
