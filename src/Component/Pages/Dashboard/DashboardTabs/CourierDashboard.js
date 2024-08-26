@@ -7,9 +7,8 @@ import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import { useSelector } from 'react-redux';
 
-const CourierDashboard = ({ activeTab }) => {
-  const dispatch = useDispatch()
-  const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+const CourierDashboard = ({activeTab}) => {
+  const dispatch=useDispatch()
   const [openIndex, setOpenIndex] = useState(0); // Defaulting the first row to be open
 
   const toggleRow = (index) => {
@@ -39,7 +38,7 @@ const CourierDashboard = ({ activeTab }) => {
   };
 
 
-  const { courierData } = useSelector(state => state?.dashboardCourierReducer);
+  const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
 
   const data = [
     {
@@ -76,11 +75,11 @@ const CourierDashboard = ({ activeTab }) => {
   ];
 
 
-  useEffect(() => {
-    if (activeTab === "Courier Delays") {
-      dispatch({ type: "DASHBOARD_COURIER_ACTION", payload: dateRangeDashboard })
+  useEffect(()=>{
+    if(activeTab==="Courier Delays"){
+      dispatch({type:"DASHBOARD_COURIER_ACTION",payload:dateRangeDashboard})
     }
-  }, [activeTab])
+  },[activeTab])
   return (
     <>
       <section className='courier-dashboard'>
@@ -88,7 +87,8 @@ const CourierDashboard = ({ activeTab }) => {
           {courierData?.map((item, index) => (
             <div key={index} className="accordion-row box-shadow shadow-sm mb-3 p10">
               <div className="accordion-header" onClick={() => toggleRow(index)}>
-                <h4>{item?.courier_name && partnerList[item?.courier_name]["title"]}</h4>
+                <h4>{item?.courier_name}</h4>
+                {/* <h4>{item?.courier_name && partnerList[item?.courier_name]["title"]}</h4> */}
                 <div>Mode: Surface</div>
                 <div>Shipment Count: {item?.total_shipment}</div>
                 <div>
