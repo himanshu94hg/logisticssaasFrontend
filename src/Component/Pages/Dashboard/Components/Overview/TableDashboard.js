@@ -24,7 +24,8 @@ function CustomTable({ data }) {
           <tr key={index}>
             <td style={{ maxWidth: '70px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.customer_order_number}</td>
             <td style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.awb_number || "N/A"}</td>
-            <td style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.courier_partner && partnerList[order?.courier_partner]["title"] || "NA"} </td>
+            <td style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.courier_partner} </td>
+            {/* <td style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.courier_partner && partnerList[order?.courier_partner]["title"] || "NA"} </td> */}
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.charge_detail__shipping_charges || 0}</td>
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.charge_detail__total_charges || 0}</td>
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.dimension_detail__weight / 1000 + "Kg" || "N/A"}</td>
