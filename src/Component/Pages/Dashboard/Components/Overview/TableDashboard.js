@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 // Custom Table component
 function CustomTable({ data }) {
+  const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+
   return (
     <table className="custom-table w-100">
       <thead>
@@ -22,10 +24,10 @@ function CustomTable({ data }) {
           <tr key={index}>
             <td style={{ maxWidth: '70px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.customer_order_number}</td>
             <td style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.awb_number || "N/A"}</td>
-            <td style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.courier_partner || "N/A"}</td>
+            <td style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.courier_partner && partnerList[order?.courier_partner]["title"] || "NA"} </td>
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.charge_detail__shipping_charges || 0}</td>
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.charge_detail__total_charges || 0}</td>
-            <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.dimension_detail__weight/1000 + "Kg" || "N/A"}</td>
+            <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.dimension_detail__weight / 1000 + "Kg" || "N/A"}</td>
             <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order?.status}</td>
           </tr>
         ))}
@@ -46,7 +48,7 @@ function TableDashboard() {
         <h4 className="title">Last 30 Days Order</h4>
       </div>
       <div className="table-responsive last-thirty-table">
-          <CustomTable data={lastOrders} />
+        <CustomTable data={lastOrders} />
       </div>
     </div>
   );

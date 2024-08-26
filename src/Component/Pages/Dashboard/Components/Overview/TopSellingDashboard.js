@@ -21,14 +21,14 @@ function CustomTable({ data }) {
         {data.map((product, index) => (
           <tr key={index}>
             <td>{index + 1}</td>
-            <td title={product.product_name}>{product.product_name}</td>
+            <td title={product?.product_name}>{product?.product_name}</td>
             <td>{product.total}</td>
             <td>
               <span className="text-green">
-                {((product.delivered / product.total) * 100).toFixed(2)}
+                {((product?.delivered / product?.total) * 100).toFixed(2)}
               </span>
             </td>
-            <td>{((product.rto_count / product.total) * 100).toFixed(2)}</td>
+            <td>{((product?.rto_count / product?.total) * 100).toFixed(2)}</td>
           </tr>
         ))}
       </tbody>

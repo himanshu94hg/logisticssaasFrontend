@@ -11,9 +11,7 @@ import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 import { useSelector } from 'react-redux'
 
 const ShipmentDashboard = ({ activeTab }) => {
-
   const dispatch = useDispatch()
-
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 

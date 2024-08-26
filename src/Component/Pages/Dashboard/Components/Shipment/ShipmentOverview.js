@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 
 const ShipmentOverview = () => {
-    const { overviewCourier } = useSelector(state => state?.dashboardShipmentReducer)
     const [courierPartner, setCourierPartner] = useState([]);
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+    const { overviewCourier } = useSelector(state => state?.dashboardShipmentReducer)
 
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const ShipmentOverview = () => {
                         <tbody>
                             {courierPartner.map((Partner, index) => (
                                 <tr key={index}>
-                                    <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{Partner.courier_partner}</td>
+                                    <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{Partner?.courier_partner && partnerList[Partner?.courier_partner]["title"]}</td>
                                     <td>{Partner.allocation_number}</td>
                                     <td>{Partner.average_tat}</td>
                                     <td>{Partner.average_shipment}</td>
