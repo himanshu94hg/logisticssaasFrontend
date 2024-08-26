@@ -39,7 +39,7 @@ const AgreementInfo = ({ activeTab, setDetailsView }) => {
         name: userData?.first_name,
         place: userData?.city || 'Gurugram',
         document_upload: null,
-        date:moment(new Date()).format("YYYY-MM-DD")
+        date: moment(new Date()).format("YYYY-MM-DD")
       })
     }
   }, [userData])

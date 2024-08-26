@@ -15,6 +15,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../../../common/Pagination/Pagination';
 import AWBTrackingPage from '../../../AWBTrackingPage/AWBTrackingPage';
 import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
+import { toast } from 'react-toastify';
 
 
 const ReportsMIS = ({ activeTab }) => {
@@ -138,15 +139,19 @@ const ReportsMIS = ({ activeTab }) => {
                 }
             })
         } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
-            dispatch({
-                type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value || 'all_ndr',
-                    start_date: moment(startDate).format("YYYY-MM-DD"),
-                    end_date: moment(endDate).format("YYYY-MM-DD"),
-                    page_size: itemsPerPage,
-                    page: currentPage
-                }
-            })
+            if(secondSelectedOption.value==="active"){
+                toast.info("functionality is not live")
+            }else{
+                dispatch({
+                    type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value || 'all_ndr',
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
+                    }
+                })
+            }
         } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_RETURNS_ACTION", payload: {
