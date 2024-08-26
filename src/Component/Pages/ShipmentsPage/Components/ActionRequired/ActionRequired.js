@@ -204,7 +204,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                                 : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Store Hippo" width="20" />
                                                                     : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Magento" width="20" />
                                                                         : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Amazon" width="20" />
-                                                                            : row?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Amazon" width="20" />
+                                                                            : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Amazon" width="20" />
                                                                                 : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Unicommerce" width="20" />
                                                                                     : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="API" width="30" />
                                                                                         : <CustomIcon />}
