@@ -58,3 +58,11 @@
 .manage-sub-accounts .channel-list div img {
     cursor: pointer;
 }
+
+.manage-sub-accounts .copied-text {
+    position: absolute;
+    bottom: 100%;
+    font-size: 12px;
+    padding: 2px;
+    left: -50%;
+}

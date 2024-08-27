@@ -29,7 +29,7 @@ const ManageSubAccount = () => {
     {
       name: 'Jane Smith',
       email: 'jane@example.com',
-      password: 'abc123456789',
+      password: 'abc12',
       status: 'Inactive',
       verificationStatus: false,
       channels: ['amazon', 'unicommerce'],
@@ -59,11 +59,22 @@ const ManageSubAccount = () => {
     );
   };
 
-  const handleCopy = (text) => {
+  const [ds, setDs] = useState(null)
+
+  const handleCopy = (text, index) => {
+    setDs(index)
     setCopiedText(text)
     setTimeout(() => {
       setCopiedText('')
+      setDs(false)
     }, 1500);
+  }
+
+  const sendEmail = (username, email, password) => {
+    const subject = `New User Registration: ${username}`;
+    const body = `Hello,\n\nPlease find the user details below:\n\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\n\nThank you.`;
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink
   }
 
   return (
@@ -84,7 +95,7 @@ const ManageSubAccount = () => {
               <th>Channels</th>
               <th>Wallet Balance</th>
               <th>Key</th>
-              <th>Status</th>
+              <th style={{ width: '10%' }}>Status</th>
               <th>Action</th>
             </tr>
             <tr className="blank-row"><td></td></tr>
@@ -97,21 +108,25 @@ const ManageSubAccount = () => {
                   <td>{account.name}</td>
                   <td>{account.email}</td>
                   <td>
-                    <span>{'*'.repeat(account.password.length)}</span>
-                    <CopyToClipboard text={account.password} onCopy={() => setCopiedText(account.password)}>
-                      <button title='Click to Copy Password' className='btn p-0 ms-2 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
-                        {copiedText === account.password && <span className='position-absolute' style={{ color: 'green' }}>Copied!</span>}
-                        s</button>
-                    </CopyToClipboard>
+                    <div className='d-flex gap-2 align-items-center'>
+                      <span style={{ height: '14px' }}>**********</span>
+                      <CopyToClipboard text={account.password} onCopy={() => handleCopy(account.password, index)}>
+                        <button title='Click to Copy Password' className='btn p-0 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
+                          {(index === ds && copiedText === account.password) &&
+                            <span className='copied-text'>Copied!</span>
+                          }
+                        </button>
+                      </CopyToClipboard>
+                    </div>
                   </td>
                   <td>
                     {account.verificationStatus ?
                       <>
-                        <MdOutlineVerified className='font20' /> Verified
+                        <MdOutlineVerified className='font20 text-success' /> Verified
                       </>
                       :
                       <>
-                        <BiError className='font20' /> Pending
+                        <BiError className='font20 text-danger' /> Pending
                       </>
                     }
                   </td>
@@ -125,10 +140,14 @@ const ManageSubAccount = () => {
                       </div>
                     </div>
                   </td>
-                  <td><IoWalletOutline className='font20 fw-bold' /> &#x20b9;{account.walletBalance}</td>
+                  <td><IoWalletOutline className='font20 fw-bold' style={{ verticalAlign: '-4px' }} /> &#x20b9;{account.walletBalance}</td>
                   <td>
-                    <CopyToClipboard text={account.apiKey} onCopy={() => setCopiedText(account.apiKey)}>
-                      <button title='Click to Copy API Key' className='btn p-0'><FontAwesomeIcon icon={faCopy} className='font20' /></button>
+                    <CopyToClipboard text={account.apiKey} onCopy={() => handleCopy(account.apiKey, index)}>
+                      <button title='Click to Copy API Key' className='btn p-0 ms-2 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
+                        {(index === ds && copiedText === account.apiKey) &&
+                          <span className='copied-text'>Copied!</span>
+                        }
+                      </button>
                     </CopyToClipboard>
                   </td>
                   <td>
@@ -141,9 +160,9 @@ const ManageSubAccount = () => {
                     />
                   </td>
                   <td>
-                    <a href={`mailto:${account.email}`} className='btn p-0'>
+                    <button onClick={() => sendEmail(account.name, account.email, account.password)} className='btn p-0'>
                       <RiMailSendLine className='font20' />
-                    </a>
+                    </button>
                   </td>
                 </tr>
               </React.Fragment>
