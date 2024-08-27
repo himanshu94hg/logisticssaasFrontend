@@ -38,3 +38,23 @@
 .add-account-panel .panel-body {
     padding: 20px 30px;
 }
+
+.manage-sub-accounts .channel-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 140px;
+    gap: 5px;
+}
+
+.manage-sub-accounts .channel-list div {
+    /* flex-grow: 1; */
+    flex-shrink: 1;
+    flex-basis: calc(25% - 10px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.manage-sub-accounts .channel-list div img {
+    cursor: pointer;
+}

@@ -310,7 +310,7 @@ const WeightRecoPage = () => {
                         setOrderTracking={setOrderTracking}
                     />
                 </div>
-                <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
+                <div className={`${activeTab === "On-Hold Reconciliation" ? "d-block" : "d-none"}`}>
                     <OnHoldReco weightRecoData={holdData?.results}
                         setAwbNo={setAwbNo}
                         partnerList={partnerList}
