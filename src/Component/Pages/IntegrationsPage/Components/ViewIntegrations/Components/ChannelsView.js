@@ -7,6 +7,7 @@ import OpenCart from '../../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../../assets/image/integration/Amazon.png'
 import Flipkart from '../../../../../../assets/image/integration/Flipkart.png'
 import Manual from '../../../../../../assets/image/integration/Manual.png'
+import moment from 'moment';
 
 
 const ChannelsView = ({ channelData }) => {
@@ -55,7 +56,7 @@ const ChannelsView = ({ channelData }) => {
                                                 <span className='text-capitalize'>{row?.channel.split("_").join(" ")}</span>
                                             </td>
                                             <td>
-                                                NA
+                                                {`${moment(row?.last_executed).format('DD MMM YYYY')} || ${moment(row?.last_executed).format('h:mm:ss A')}`}
                                             </td>
                                             <td>
                                                 {"Active"}
