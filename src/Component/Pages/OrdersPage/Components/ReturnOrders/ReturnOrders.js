@@ -223,6 +223,9 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                         }
                                                     />}
                                                 </p>
+                                                {row?.other_details?.channel_name &&
+                                                    <p>{row?.other_details?.channel_name}</p>
+                                                }
                                             </div>
                                         </td>
                                         <td>
