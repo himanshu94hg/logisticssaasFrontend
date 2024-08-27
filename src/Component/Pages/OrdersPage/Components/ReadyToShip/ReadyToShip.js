@@ -403,6 +403,9 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         }
                                                     />}
                                                 </p>
+                                                {row?.other_details?.channel_name &&
+                                                    <p>{row?.other_details?.channel_name}</p>
+                                                }
                                             </div>
                                         </td>
                                         <td>
