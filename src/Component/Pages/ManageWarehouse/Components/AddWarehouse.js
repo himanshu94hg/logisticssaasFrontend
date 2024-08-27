@@ -12,10 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
+import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 
 const AddWarehouse = () => {
     const navigate = useNavigate()
     const [errors, setErrors] = useState({});
+    const [loader, setLoader] = useState(false)
     const [SameRTO, setSameRTO] = useState(false);
     const [AddFields, SetAddFields] = useState(false);
     const hardcodedToken = Cookies.get("access_token");
@@ -105,15 +107,12 @@ const AddWarehouse = () => {
                 newErrors.rto_state = "State is required!"
             }
             setErrors(newErrors)
-
-            console.log(newErrors, "this is a issue data")
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
             }
-
+            setLoader(true)
             const warehouse_code = `${warehouseData.warehouse_name}_${sellerData?.code}`;
-
             const updatedWarehouseData = {
                 ...warehouseData,
                 warehouse_code
@@ -128,12 +127,13 @@ const AddWarehouse = () => {
             if (response.status === 201) {
                 const responseData = response.data;
                 if (responseData) {
+                    setLoader(false)
                     toast.success("Warehouse added successfully!")
                     navigate(manageWarehousesPattern)
-
                 }
             }
         } catch (error) {
+            setLoader(false)
             customErrorFunction(error)
         }
     };
@@ -811,6 +811,7 @@ const AddWarehouse = () => {
                     </button>
                 </div>
             </form>
+            <LoaderScreen loading={loader} />
         </>
     );
 };
