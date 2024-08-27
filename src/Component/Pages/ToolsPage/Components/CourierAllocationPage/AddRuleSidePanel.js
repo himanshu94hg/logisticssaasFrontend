@@ -39,7 +39,7 @@ const AddRuleSidePanel = ({ setRulePanel, formType, selectedPartners1, selectedP
                                 onChange={handlePartnerChange}
                             >
                                 <option value="">Select Partner</option>
-                                {courierPartnerData?.data?.map((partner) => (
+                                {courierPartnerData?.map((partner) => (
                                     <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                 ))}
                             </select>
@@ -53,7 +53,7 @@ const AddRuleSidePanel = ({ setRulePanel, formType, selectedPartners1, selectedP
                                 onChange={handlePartnerChange}
                             >
                                 <option value="">Select Partner</option>
-                                {courierPartnerData?.data?.map((partner) => (
+                                {courierPartnerData?.map((partner) => (
                                     <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                 ))}
                             </select>
@@ -67,7 +67,7 @@ const AddRuleSidePanel = ({ setRulePanel, formType, selectedPartners1, selectedP
                                 onChange={handlePartnerChange}
                             >
                                 <option value="">Select Partner</option>
-                                {courierPartnerData?.data?.map((partner) => (
+                                {courierPartnerData?.map((partner) => (
                                     <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                 ))}
                             </select>
@@ -81,14 +81,14 @@ const AddRuleSidePanel = ({ setRulePanel, formType, selectedPartners1, selectedP
                                 onChange={handlePartnerChange}
                             >
                                 <option value="">Select Partner</option>
-                                {courierPartnerData?.data?.map((partner) => (
+                                {courierPartnerData?.map((partner) => (
                                     <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                 ))}
                             </select>
                         </label>
                     </div>
                 </div>
-                <div className="py-3" style={{color:"#dc3545",fontSize:12}}>{formErrors.priority}</div>
+                <div className="py-3" style={{ color: "#dc3545", fontSize: 12 }}>{formErrors.priority}</div>
                 <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
                     <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} setOnRowsChange={setOnRowsChange} />
                     <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>

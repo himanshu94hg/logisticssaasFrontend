@@ -576,6 +576,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box shipping-details'>
+                                                    {console.log(row,"row?.courier_partner")}
                                                     {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
