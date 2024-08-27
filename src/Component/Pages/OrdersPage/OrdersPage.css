@@ -393,6 +393,15 @@
   z-index: 6;
 }
 
+.cell-inside-box .product-details span hr,
+.cell-inside-box .details-on-hover span hr {
+  margin-block: 4px;
+}
+
+.cell-inside-box .details-on-hover span hr:last-of-type {
+  display: none;
+}
+
 .cell-inside-box .details-on-hover.extra span:after {
   content: '';
   position: absolute;
@@ -643,6 +652,17 @@ ul.order-label-list li {
 
 .qc-check-modal .modal-dialog {
   max-width: 668px;
+}
+
+.store-name-info {
+  left: 60%;
+  width: fit-content;
+  white-space: nowrap;
+  height: 33px;
+  min-height: unset;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
 }
 
 @media screen and (max-width:1366px) {

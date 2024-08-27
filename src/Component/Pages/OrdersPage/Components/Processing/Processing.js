@@ -301,9 +301,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             />
                                                         }
                                                     </p>
-                                                    {row?.other_details?.channel_name &&
-                                                        <p>{row?.other_details?.channel_name}</p>
-                                                    }
                                                 </div>
                                             </td>
                                             <td>
@@ -328,21 +325,19 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                 <div className="cell-inside-box">
                                                     <p className="d-flex align-items-center gap-2">
                                                         <p className="width-eclipse">{row?.order_products[0].product_name}</p>
-                                                        {
-                                                            row?.order_products.length > 1 &&
-                                                            <span className='details-on-hover ms-2 align-middle'>
-                                                                <InfoIcon />
-                                                                <span style={{ width: '250px' }}>
-                                                                    {row?.order_products?.slice(1)?.map((product, index) => (
-                                                                        <React.Fragment key={index}>
-                                                                            <strong>Product:</strong> {product.product_name}<br />
-                                                                            <strong>SKU:</strong> {product.sku}<br />
-                                                                            <strong>Qt.:</strong> {product.quantity}<br />
-                                                                        </React.Fragment>
-                                                                    ))}
-                                                                </span>
+                                                        <span className='details-on-hover ms-2 align-middle'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.order_products?.map((product, index) => (
+                                                                    <React.Fragment key={index}>
+                                                                        <strong className="text-capitalize">Product:</strong> {product.product_name}<br />
+                                                                        <strong className="text-capitalize">SKU:</strong> {product.sku}<br />
+                                                                        <strong className="text-capitalize">Qt.:</strong> {product.quantity}<br />
+                                                                        <hr />
+                                                                    </React.Fragment>
+                                                                ))}
                                                             </span>
-                                                        }
+                                                        </span>
                                                     </p>
                                                     <p className="d-flex align-items-center gap-2">
                                                         <p>Qt.<span> {row?.order_products[0].quantity}</span></p>||
@@ -406,6 +401,13 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     </span>
                                                                 </span>
                                                             </p>
+                                                    }
+                                                    {row?.other_details?.channel_name &&
+                                                        <CustomTooltip
+                                                            triggerComponent={<p className="order-Status-box mt-1">{row?.other_details?.channel_name}</p>}
+                                                            tooltipComponent={"Store Name"}
+                                                            addClassName='store-name-info'
+                                                        />
                                                     }
                                                 </div>
                                             </td>
