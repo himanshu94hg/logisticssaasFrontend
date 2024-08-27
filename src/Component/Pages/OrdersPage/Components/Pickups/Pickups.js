@@ -413,6 +413,9 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         }
                                                     />}
                                                 </p>
+                                                {row?.other_details?.channel_name &&
+                                                    <p>{row?.other_details?.channel_name}</p>
+                                                }
                                             </div>
                                         </td>
                                         <td>

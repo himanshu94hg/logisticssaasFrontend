@@ -174,6 +174,9 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         addClassName=''
                                                     />
                                                 </p>
+                                                {row?.other_details?.channel_name &&
+                                                    <p>{row?.other_details?.channel_name}</p>
+                                                }
                                             </div>
                                         </td>
                                         <td>

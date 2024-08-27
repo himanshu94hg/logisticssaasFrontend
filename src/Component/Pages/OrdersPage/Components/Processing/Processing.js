@@ -301,6 +301,9 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             />
                                                         }
                                                     </p>
+                                                    {row?.other_details?.channel_name &&
+                                                        <p>{row?.other_details?.channel_name}</p>
+                                                    }
                                                 </div>
                                             </td>
                                             <td>
