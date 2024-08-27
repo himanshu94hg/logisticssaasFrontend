@@ -654,6 +654,17 @@ ul.order-label-list li {
   max-width: 668px;
 }
 
+.store-name-info {
+  left: 60%;
+  width: fit-content;
+  white-space: nowrap;
+  height: 33px;
+  min-height: unset;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;

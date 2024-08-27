@@ -175,9 +175,6 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         addClassName=''
                                                     />
                                                 </p>
-                                                {row?.other_details?.channel_name &&
-                                                    <p>{row?.other_details?.channel_name}</p>
-                                                }
                                             </div>
                                         </td>
                                         <td>
@@ -275,6 +272,13 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                                 </span>
                                                             </span>
                                                         </p>
+                                                }
+                                                {row?.other_details?.channel_name &&
+                                                    <CustomTooltip
+                                                        triggerComponent={<p className="order-Status-box mt-1">{row?.other_details?.channel_name}</p>}
+                                                        tooltipComponent={"Store Name"}
+                                                        addClassName='store-name-info'
+                                                    />
                                                 }
                                             </div>
                                         </td>
