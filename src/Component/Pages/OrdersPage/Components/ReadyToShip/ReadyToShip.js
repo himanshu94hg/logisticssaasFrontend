@@ -403,9 +403,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         }
                                                     />}
                                                 </p>
-                                                {row?.other_details?.channel_name &&
-                                                    <p>{row?.other_details?.channel_name}</p>
-                                                }
                                             </div>
                                         </td>
                                         <td>
@@ -478,6 +475,13 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                 </span>
                                                             </span>
                                                         </p>
+                                                }
+                                                {row?.other_details?.channel_name &&
+                                                    <CustomTooltip
+                                                        triggerComponent={<p className="order-Status-box mt-1">{row?.other_details?.channel_name}</p>}
+                                                        tooltipComponent={"Store Name"}
+                                                        addClassName='store-name-info'
+                                                    />
                                                 }
                                             </div>
                                         </td>
