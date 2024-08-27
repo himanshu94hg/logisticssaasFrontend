@@ -123,7 +123,7 @@ function App() {
     if (token) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list/`, {
+          const response = await axios.get(`${BASE_URL_CORE}/core-api/features/all-partner-list/`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
