@@ -1,28 +1,21 @@
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
-
-
 export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, editForm,cloneForm }) => {
-    const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
-
     const authToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
-
+    const [warehouses, setWarehouses] = useState([]);
 
     useEffect(() => {
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

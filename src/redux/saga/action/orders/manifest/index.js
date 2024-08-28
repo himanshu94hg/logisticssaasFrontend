@@ -7,7 +7,6 @@ import {  MANIFEST_LIST_API_ACTION, } from "../../../constant/orders";
 import { MANIFEST_LIST_DATA,   } from "../../../../constants/orders";
 
 
-const sellerData = Cookies.get("user_id")
 
 async function orderManifestTabApi(data) {
     let listData = axios.request({

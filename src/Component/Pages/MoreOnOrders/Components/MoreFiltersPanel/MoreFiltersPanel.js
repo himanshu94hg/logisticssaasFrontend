@@ -51,7 +51,6 @@ const CourierPartner = [
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
-    const sellerData = Cookies.get("user_id")
     const [favName, setFavName] = useState("");
     const authToken = Cookies.get("access_token")
     const [saveFav, setSaveFav] = useState(false);
@@ -248,7 +247,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         const fetchData = async () => {
             try {
                 if (MoreFilters) {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }
@@ -263,7 +262,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }
         };
         fetchData();
-    }, [MoreFilters, sellerData, authToken]);
+    }, [MoreFilters, authToken]);
 
     const handleReset = () => {
         setFilterParams({

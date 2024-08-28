@@ -9,17 +9,16 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 
 function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
     const [loading, setLoading] = useState(false);
+    const authToken = Cookies.get("access_token");
     const [warehouseData, setWarehouseData] = useState([]);
     const [selectedWarehouses, setSelectedWarehouses] = useState([]);
 
     useEffect(() => {
         if (show && orderDetails?.id) {
-            const Token = Cookies.get("access_token");
-            let userId = Cookies.get("user_id");
             setLoading(true);
-            axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${userId}`, {
+            axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                 headers: {
-                    Authorization: `Bearer ${Token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             }).then((response) => {
                 setWarehouseData(response.data);
@@ -45,10 +44,9 @@ function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
                 warehouse_id: selectedWarehouses[index]
             }))
         };
-        const Token = Cookies.get("access_token");
         axios.post(`${BASE_URL_ORDER}/orders-api/orders/split-order/`, requestData, {
             headers: {
-                Authorization: `Bearer ${Token}`,
+                Authorization: `Bearer ${authToken}`,
                 "Content-Type": "application/json"
             }
         }).then(response => {

@@ -49,9 +49,7 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
 
     ]);
 
-    const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
-
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);

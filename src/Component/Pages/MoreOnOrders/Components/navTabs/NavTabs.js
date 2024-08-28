@@ -24,7 +24,6 @@ export default function NavTabs(props) {
   const navigation = useNavigate();
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const [isOpen, setIsOpen] = useState(false);
-  const sellerData = Cookies.get("user_id");
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);

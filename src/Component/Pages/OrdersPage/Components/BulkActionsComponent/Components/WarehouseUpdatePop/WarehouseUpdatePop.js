@@ -13,8 +13,12 @@ import { customErrorFunction } from '../../../../../../../customFunction/errorHa
 const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse }) => {
     const dispatch = useDispatch()
     const dropdownRef = useRef(null);
+    const [loading, setLoading] = useState(false);
+    const authToken = Cookies.get("access_token");
+    const [searchTerm, setSearchTerm] = useState('');
     const [warehouses, setWarehouses] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [filteredWarehouses, setFilteredWarehouses] = useState([]);
     const [formData, setFormData] = useState({
         order_details: {
             customer_order_number: '',
@@ -29,11 +33,6 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
             channel_id: null
         },
     })
-    const [loading, setLoading] = useState(false);
-    const authToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
-    const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchWarehouses = async () => {
