@@ -42,7 +42,6 @@ const orderTypeOptions = [
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
-    const sellerData = Cookies.get("user_id")
     const [favName, setFavName] = useState("");
     const [orderTag, setorderTag] = useState([]);
     const authToken = Cookies.get("access_token")
@@ -172,7 +171,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         const fetchData = async () => {
             try {
                 if (MoreFilters) {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }

@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/woocommerceLogo.png';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import Cookies from 'js-cookie';
 import moment from 'moment';
+import Swal from "sweetalert2";
+import Cookies from 'js-cookie';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useDispatch,useSelector } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
-import { useDispatch } from 'react-redux';
+import Logo from '../../../../../assets/image/integration/woocommerceLogo.png';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const WooCommerceIntegrationForm = () => {
     const dispatch=useDispatch()
     const navigation = useNavigate();
-    const [selectedDate, setSelectedDate] = useState(null);
-    const hardcodedToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
+    const hardcodedToken = Cookies.get("access_token");
+    const [selectedDate, setSelectedDate] = useState(null);
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+    
     const [formData, setFormData] = useState({
-        seller_id: sellerData,
+        seller_id: userData?.id,
         channel: {
             channel_name: "",
             channel: "woocommerce"

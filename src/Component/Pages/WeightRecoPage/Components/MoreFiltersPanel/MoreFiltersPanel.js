@@ -1,15 +1,15 @@
-import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import axios from 'axios';
+import moment from 'moment';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -52,23 +52,16 @@ const CourierPartner = [
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-    const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([]);
     const dispatch = useDispatch()
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
-    const [orderTag, setorderTag] = useState([]);
-    const [saveFav, setSaveFav] = useState(false);
-    const [favName, setFavName] = useState("");
     const [errors, setErrors] = useState({})
-
-    const sellerData = Cookies.get("user_id")
+    const [favName, setFavName] = useState("");
+    const [orderTag, setorderTag] = useState([]);
     const authToken = Cookies.get("access_token")
-
+    const [saveFav, setSaveFav] = useState(false);
+    const [clearState, setClearState] = useState(false)
+    const [SaveFilter, setSaveFilter] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([]);
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
@@ -77,8 +70,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleSubmit = e => {
         e.preventDefault();
-        const moment = require('moment');
-
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -92,9 +83,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 }
             })
             .join('&');
-
-        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
-
         if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
@@ -147,7 +135,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku: "",
                 sku_match_type: "",
                 pickup_address: "",
-                order_type:null
+                order_type: null
             })
             setErrors({})
         }
@@ -221,7 +209,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         const fetchData = async () => {
             try {
                 if (MoreFilters) {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }
@@ -237,9 +225,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }
         };
 
-        fetchData(); // Call the fetchData function
+        fetchData();
 
-    }, [MoreFilters, sellerData, authToken]);
+    }, [MoreFilters, authToken]);
 
     useEffect(() => {
         if (handleResetFrom) {
@@ -409,7 +397,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                         
+
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select

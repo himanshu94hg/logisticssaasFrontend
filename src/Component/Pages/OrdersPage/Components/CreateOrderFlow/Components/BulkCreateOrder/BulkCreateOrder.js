@@ -2,28 +2,27 @@ import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { LuUploadCloud } from "react-icons/lu";
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
-import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
 import LoaderScreen from '../../../../../../LoaderScreen/LoaderScreen';
+import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
 
 const BulkCreateOrder = () => {
     const [loader, setLoader] = useState(false)
     const [inputKey, setInputKey] = useState(0);
-    const [bulkOrders, setBulkOrders] = useState([]);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
-
     const authToken = Cookies.get("access_token");
-    const sellerId = Cookies.get("user_id");
-
+    const [bulkOrders, setBulkOrders] = useState([]);
+    const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+    
     const handleFileUpload = async (event) => {
         setLoader(true)
         const formData = new FormData();
         formData.append('order_file', event.target.files[0]);
-        formData.append('seller_id', sellerId);
+        formData.append('seller_id', userData?.id);
         try {
             const response = await axios.post(`${BASE_URL_ORDER}/orders-api/orders/order-bulk-upload/`, formData, {
                 headers: {

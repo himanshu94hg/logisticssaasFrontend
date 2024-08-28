@@ -8,14 +8,13 @@ import SingleShipPop from '../../../../Processing/SingleShipPop/SingleShipPop';
 import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingleShip, errors }) => {
-    const [warehouses, setWarehouses] = useState([]);
-    const [filteredWarehouses, setFilteredWarehouses] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const authToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
     const dropdownRef = useRef(null);
+    const authToken = Cookies.get("access_token");
+    const [loading, setLoading] = useState(false);
+    const [warehouses, setWarehouses] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [filteredWarehouses, setFilteredWarehouses] = useState([]);
 
 
     useEffect(() => {
@@ -41,7 +40,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
             }
         };
         fetchWarehouses();
-    }, [authToken, sellerData]);
+    }, [authToken]);
 
     useEffect(() => {
         const filtered = warehouses.filter(warehouse =>

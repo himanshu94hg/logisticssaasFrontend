@@ -21,7 +21,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
     const authToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);

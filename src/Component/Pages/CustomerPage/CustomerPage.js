@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import './CustomerPage.css';
-import NavTabs from './Components/navTabs/NavTabs';
-import BasicInfo from './Components/BasicInfo';
+import { useSelector } from 'react-redux';
 import KYCInfo from './Components/KYCInfo';
-import AgreementInfo from './Components/AgreementInfo';
+import { useLocation } from 'react-router-dom';
+import BasicInfo from './Components/BasicInfo';
+import React, { useState, useEffect } from 'react';
+import NavTabs from './Components/navTabs/NavTabs';
 import AccountInfo from './Components/AccountInfo';
+import AgreementInfo from './Components/AgreementInfo';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import VerifiedCustomer from './VerifiedCustomer/VerifiedCustomer';
-import { useSelector } from 'react-redux';
 
 const CustomerPage = () => {
   const location = useLocation();
