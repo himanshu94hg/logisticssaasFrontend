@@ -197,23 +197,23 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         <td>
                                             <div className="cell-inside-box">
                                                 <p className="d-flex align-items-center gap-2">
-                                                    <p className="width-eclipse">{row?.order_products[0].product_name}</p>
+                                                    <p className="width-eclipse">{row?.order_products[0]?.product_name}</p>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
                                                             {row?.order_products?.map((product, index) => (
                                                                 <React.Fragment key={index}>
-                                                                    <strong>Product:</strong> {product.product_name}<br />
-                                                                    <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                    <strong>Product:</strong> {product?.product_name}<br />
+                                                                    <strong>SKU:</strong> {product?.sku}<br />
+                                                                    <strong>Qt.:</strong> {product?.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
                                                     </span>
                                                 </p>
                                                 <p className="d-flex align-items-center gap-2">
-                                                    <p>Qt.<span> {row?.order_products[0].quantity}</span></p>||
-                                                    <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0].sku}</p></p>
+                                                    <p>Qt.<span> {row?.order_products[0]?.quantity}</span></p>||
+                                                    <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0]?.sku}</p></p>
                                                 </p>
                                                 <p>
                                                 </p>
@@ -225,7 +225,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row?.order_products.map((product, index) => (
+                                                            {row?.order_products?.map((product, index) => (
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
