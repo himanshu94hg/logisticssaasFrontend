@@ -6,11 +6,12 @@ import { toast } from 'react-toastify';
 import { AiOutlineExport } from 'react-icons/ai';
 import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { BASE_URL_CORE, BASE_URL_ORDER } from '../../../../../axios/config';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -89,6 +90,27 @@ const OrderDetail = () => {
         }
     }
 
+    const [ShowQCStatus, setShowQCStatus] = useState(false)
+    const token = Cookies.get("access_token")
+    const [qc, setQc] = useState(null)
+
+    const handleQCCheckStatus = async (id) => {
+
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${orderDetails?.id}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setQc(response?.data)
+            console.log(response, "this is eeeeeeeeeeeeee")
+            setShowQCStatus(true)
+
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    };
+
     return (
         <>
             {orderDetails !== null &&
@@ -98,6 +120,11 @@ const OrderDetail = () => {
                             <h3 className='text-white text-start w-100'>Order ID: {orderDetails?.customer_order_number}</h3>
                             <div className='d-flex gap-2 w-100 justify-content-end'>
                                 <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
+                                {
+                                    orderDetails?.order_type === 'Reverse' &&
+                                    <button className='btn white-btn' onClick={handleQCCheckStatus}>QC Info</button>
+
+                                }
                                 <button className='btn white-btn' onClick={handleExport}><AiOutlineExport className='align-text-bottom' /> Export</button>
                             </div>
                         </div>
@@ -249,7 +276,64 @@ const OrderDetail = () => {
                     </div>
                 </section>
             }
-
+            <Modal
+                show={ShowQCStatus}
+                keyboard={false}
+                onHide={() => setShowQCStatus(false)}
+                className='qc-check-modal'
+                size="lg"
+            >
+                <Modal.Header>
+                    <Modal.Title>Quality Check Information</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <section className='d-flex flex-column gap-3 w-100'>
+                        <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                            <p className='ws-nowrap'>Help Description:</p>
+                            <p style={{ maxWidth: '370px', textAlign: 'end' }}>{qc?.description}</p>
+                        </div>
+                        <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                            <p>label</p>
+                            <p>
+                                {
+                                    qc?.qc_checks != null && Object.keys(qc.qc_checks)?.map((key, index, array) =>
+                                        <span key={key}>
+                                            {key}
+                                            {index < array.length - 1 && ", "}
+                                        </span>
+                                    )
+                                }
+                            </p>
+                        </div>
+                        <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                            <p>Value To check:</p>
+                            <p>
+                                {
+                                    qc?.qc_checks != null && Object.values(qc.qc_checks)?.map((value, index, array) =>
+                                        <span key={index}>
+                                            {value === "" ? "NA" : value}
+                                            {index < array.length - 1 && ", "}
+                                        </span>
+                                    )
+                                }
+                            </p>
+                        </div>
+                        <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
+                            <p>Attachment(s):</p>
+                            {qc?.images?.map(item =>
+                                <p><a href={item} className='btn main-button'>Download</a></p>
+                            )}
+                        </div>
+                    </section>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={() => setShowQCStatus(false)}>
+                            Close
+                        </button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };

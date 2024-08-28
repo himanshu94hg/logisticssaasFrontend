@@ -319,15 +319,15 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
     const [qc, setQc] = useState(null)
 
     const handleQCCheckStatus = async (id) => {
-        setShowQCStatus(!ShowQCStatus)
         try {
-            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${56961}/`, {
+            const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-qc-info/${id}/`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             setQc(response?.data)
             console.log(response, "this is eeeeeeeeeeeeee")
+            setShowQCStatus(true)
 
         } catch (error) {
             customErrorFunction(error);
@@ -576,6 +576,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box shipping-details'>
+                                                    {console.log(row,"row?.courier_partner")}
                                                     {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
@@ -703,7 +704,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                     <Modal
                         show={ShowQCStatus}
                         keyboard={false}
-                        onHide={handleQCCheckStatus}
+                        onHide={() => setShowQCStatus(false)}
                         className='qc-check-modal'
                         size="lg"
                     >
@@ -752,7 +753,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         </Modal.Body>
                         <Modal.Footer>
                             <div className='d-flex gap-2'>
-                                <button className="btn cancel-button" onClick={handleQCCheckStatus}>
+                                <button className="btn cancel-button" onClick={() => setShowQCStatus(false)}>
                                     Close
                                 </button>
                             </div>

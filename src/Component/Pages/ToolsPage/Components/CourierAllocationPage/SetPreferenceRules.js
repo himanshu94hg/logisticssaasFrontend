@@ -45,7 +45,8 @@ const SetPreferenceRules = ({ activeTab }) => {
     const courierPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRulePostData);
     const courierDeleteRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleDeleteData);
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
-    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
+    const[courierPartnerData,setCourierPartnerData]=useState([])
+    // const courierPartnerData1 = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
 
     useEffect(() => {
@@ -75,9 +76,32 @@ const SetPreferenceRules = ({ activeTab }) => {
         }
     }, [courierEditPostRules]);
 
+    // useEffect(() => {
+    //     dispatch({ type: "COURIER_PARTNER_ACTION" });
+    // }, []);
+
+
     useEffect(() => {
-        dispatch({ type: "COURIER_PARTNER_ACTION" });
+        const fetchData = async () => {
+            try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list-seller/`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    // const temp = response?.data?.map((item, index) => ({
+                    //     id: item?.id,
+                    //     label: item?.warehouse_name,
+                    //     value: item?.warehouse_name,
+                    // }));
+                    setCourierPartnerData(response?.data)
+                
+            } catch (error) {
+                customErrorFunction(error)
+        };}
+        fetchData();
     }, []);
+
 
     useEffect(() => {
         if (activeTab === "Set preference Rules" || refresh) {

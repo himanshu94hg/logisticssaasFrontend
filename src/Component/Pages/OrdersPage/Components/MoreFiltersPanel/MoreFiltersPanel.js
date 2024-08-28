@@ -431,6 +431,27 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 </label>
                             </div>
                             <div className='filter-row'>
+                                <label >Store Name
+                                    <Select
+                                        // options={orderSource}
+                                        // onChange={(e) => handleChange("order_source", e)}
+                                        // isMulti
+                                        // isSearchable
+                                        // value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label >Order Store
+                                    <Select
+                                        // options={}
+                                        // onChange={}
+                                        isSearchable
+                                    // value={}
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
                                         options={courierPartners}
@@ -461,6 +482,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
                                         value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Product Name
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter product name'
+                                        // value={filterParams.sku}
+                                        // onChange={(e) => handleChange("sku", e)}
                                     />
                                 </label>
                             </div>

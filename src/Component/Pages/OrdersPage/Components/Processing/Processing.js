@@ -230,7 +230,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.length ? <>
+                            {orders?.length ? <>
                                 {Array.isArray(orders) && orders?.map((row, index) => (
                                     <React.Fragment key={row?.id}>
                                         {index > 0 && <tr className="blank-row"><td></td></tr>}
@@ -324,7 +324,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 <div className="cell-inside-box">
                                                     <p className="d-flex align-items-center gap-2">
-                                                        <p className="width-eclipse">{row?.order_products[0].product_name}</p>
+                                                        <p className="width-eclipse">{row?.order_products[0]?.product_name}</p>
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
@@ -340,8 +340,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                         </span>
                                                     </p>
                                                     <p className="d-flex align-items-center gap-2">
-                                                        <p>Qt.<span> {row?.order_products[0].quantity}</span></p>||
-                                                        <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0].sku}</p></p>
+                                                        <p>Qt.<span> {row?.order_products[0]?.quantity}</span></p>||
+                                                        <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0]?.sku}</p></p>
                                                     </p>
                                                     <p>
                                                     </p>
