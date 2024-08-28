@@ -32,6 +32,8 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
@@ -394,6 +396,32 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
         setOrderId(id)
     }
 
+    const handleDownload = async () => {
+        if (qc?.images?.length === 1) {
+            // Single image: download directly
+            window.location.href = qc.images[0];
+        } else if (qc?.images?.length > 1) {
+            // Multiple images: create a zip file and download
+            const zip = new JSZip();
+            const folder = zip.folder('attachments');
+
+            // Fetch each image and add it to the zip
+            const promises = qc.images.map(async (url, index) => {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const fileName = `image_${index + 1}.${blob.type.split('/')[1]}`; // Use proper file extension
+                folder.file(fileName, blob);
+            });
+
+            await Promise.all(promises);
+
+            // Generate the zip and trigger download
+            zip.generateAsync({ type: 'blob' }).then((content) => {
+                saveAs(content, 'attachments.zip');
+            });
+        }
+    };
+
     return (
         <>
             <section className='position-relative'>
@@ -576,7 +604,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box shipping-details'>
-                                                    {console.log(row,"row?.courier_partner")}
+                                                    {console.log(row, "row?.courier_partner")}
                                                     {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
@@ -745,9 +773,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    {qc?.images?.map(item =>
+                                    {/* {qc?.images?.map(item =>
                                         <p><a href={item} className='btn main-button'>Download</a></p>
-                                    )}
+                                    )} */}
+
+                                    <button onClick={handleDownload} className='btn main-button'>Download</button>
                                 </div>
                             </section>
                         </Modal.Body>

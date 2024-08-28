@@ -12,6 +12,8 @@ import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -108,6 +110,32 @@ const OrderDetail = () => {
 
         } catch (error) {
             customErrorFunction(error);
+        }
+    };
+
+    const handleDownload = async () => {
+        if (qc?.images?.length === 1) {
+            // Single image: download directly
+            window.location.href = qc.images[0];
+        } else if (qc?.images?.length > 1) {
+            // Multiple images: create a zip file and download
+            const zip = new JSZip();
+            const folder = zip.folder('attachments');
+
+            // Fetch each image and add it to the zip
+            const promises = qc.images.map(async (url, index) => {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const fileName = `image_${index + 1}.${blob.type.split('/')[1]}`; // Use proper file extension
+                folder.file(fileName, blob);
+            });
+
+            await Promise.all(promises);
+
+            // Generate the zip and trigger download
+            zip.generateAsync({ type: 'blob' }).then((content) => {
+                saveAs(content, 'attachments.zip');
+            });
         }
     };
 
@@ -320,9 +348,10 @@ const OrderDetail = () => {
                         </div>
                         <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                             <p>Attachment(s):</p>
-                            {qc?.images?.map(item =>
+                            {/* {qc?.images?.map(item =>
                                 <p><a href={item} className='btn main-button'>Download</a></p>
-                            )}
+                            )} */}
+                            <button onClick={handleDownload} className='btn main-button'>Download</button>
                         </div>
                     </section>
                 </Modal.Body>
