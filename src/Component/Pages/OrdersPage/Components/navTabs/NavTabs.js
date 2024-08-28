@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 import { debounce } from "lodash";
 import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
@@ -14,16 +15,16 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+// import "./navTabs.css";
 
 export default function NavTabs(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const sellerData = Cookies.get("user_id");
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
-  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
   const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
-
   const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function NavTabs(props) {
   }, [])
 
   const handleClick = () => {
-    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${userData?.id}`)
+    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
       .then((response) => {
         if (response.status === 200) {
           toast.success('Order fetched successfully');
