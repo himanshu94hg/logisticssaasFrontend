@@ -90,24 +90,24 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
 
     const handleClick = (param) => {
         if (param !== null) {
-            const config = {
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${param}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
-            };
-            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${param}`, config)
+            })
                 .then((response) => {
                     if (response?.status === 200) {
                         setShipingResponse(response.data);
                         setSingleShip(true);
                     }
-
-                }).catch((error) => {
-                    customErrorFunction(error)
-                    // setSingleShip(true);
+                })
+                .catch((error) => {
+                    customErrorFunction(error);
+                    setSingleShip(false);
                 });
         }
     };
+
 
     const debouncedHandleClick = useCallback(
         debounce((orderId) => handleClick(orderId), 500),

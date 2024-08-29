@@ -59,6 +59,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const authToken = Cookies.get("access_token")
     const [saveFav, setSaveFav] = useState(false);
     const [orderSource, setOrderSource] = useState([]);
+    const [storeName, setStoreName] = useState([]);
     const [SaveFilter, setSaveFilter] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const [courierPartners, setCourierPartners] = useState([]);
@@ -73,11 +74,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         courier_partner: "",
         payment_type: "",
         order_id: "",
+        product: "",
         order_tag: "",
         sku: "",
         sku_match_type: "",
         pickup_address: "",
         pickup_address_id: "",
+        channel_name: "",
         order_type: null
     })
 
@@ -114,6 +117,31 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
         }
     }, [MoreFilters])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (filterParams.order_source) {
+                    const response = await axios.get(`${BASE_URL_CORE}/orders-api/orders/get-channel-name/?keyword=${filterParams.order_source}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    const temp = response?.data?.map((item) => ({
+                        label: item,
+                        value: item,
+                    }));
+                    setStoreName(temp)
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [filterParams.order_source]);
+
+
+    console.log(storeName,"this is store name api")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -185,6 +213,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_source: "",
                 courier_partner: "",
                 payment_type: null,
+                product: "",
+                channel_name: "",
                 order_id: "",
                 order_tag: "",
                 sku: "",
@@ -207,6 +237,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 courier_partner: "",
                 payment_type: null,
                 order_id: "",
+                product: "",
+                channel_name: "",
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
@@ -232,13 +264,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type","channel_name"].includes(name)) {
             const temp_data = value.map(item => item?.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
             }));
-        } else if (name === "order_id" || name === "sku") {
+        } else if (name === "order_id" || name === "sku" || name === "product") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
@@ -279,6 +311,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             courier_partner: "",
             payment_type: null,
             order_id: "",
+            product: "",
+            channel_name: "",
             order_tag: "",
             sku: "",
             sku_match_type: "",
@@ -430,27 +464,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            {/* <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label >Store Name
                                     <Select
-                                        options={orderSource}
-                                        onChange={(e) => handleChange("order_source", e)}
+                                        options={storeName}
+                                        onChange={(e) => handleChange("channel_name", e)}
                                         isMulti
                                         isSearchable
-                                        value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
+                                        value={storeName.filter(option => filterParams.channel_name.split(",").includes(option.value))}
                                     />
                                 </label>
-                            </div> */}
-                            {/* <div className='filter-row'>
-                                <label >Order Store
-                                    <Select
-                                        options={}
-                                        onChange={}
-                                        isSearchable
-                                    value={}
-                                    />
-                                </label>
-                            </div> */}
+                            </div>
                             <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
@@ -485,17 +509,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            {/* <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label>Product Name
                                     <input
                                         type="text"
                                         className='input-field'
                                         placeholder='Enter product name'
-                                        value={filterParams.sku}
-                                        onChange={(e) => handleChange("sku", e)}
+                                        value={filterParams.product}
+                                        onChange={(e) => handleChange("product", e)}
                                     />
                                 </label>
-                            </div> */}
+                            </div>
                             <div className='filter-row'>
                                 <label>SKU
                                     <input

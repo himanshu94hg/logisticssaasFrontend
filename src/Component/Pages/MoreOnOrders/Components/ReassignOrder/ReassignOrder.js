@@ -1,4 +1,6 @@
+import axios from 'axios';
 import moment from 'moment';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from "react-icons/fa";
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -6,33 +8,31 @@ import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import magentoImg from "../../../../../assets/image/integration/magento.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 
 const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setLoader, setBulkActionShow, setAwbNo, setOrderTracking }) => {
-    const dispatch = useDispatch()
+    let authToken = Cookies.get("access_token")
     const [SingleShip, setSingleShip] = useState(false)
     const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [reassignResponse, setReassignResponse] = useState(null);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
-    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const { loaderState } = useSelector(state => state?.errorLoaderReducer)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
 
@@ -42,11 +42,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
         }
     }, [moreorderShipCardStatusData, loaderState])
 
-    useEffect(() => {
-        if (reassignCard?.length) {
-            setSingleShip(true)
-        }
-    }, [reassignCard])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -78,10 +73,25 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     };
 
     const handleShipNow = (orderId) => {
-        // setSingleShip(true);
         setBulkActionShow(false)
         setSelectedOrderId(orderId)
-        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        if (orderId !== null) {
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card-reassign/?order_id=${orderId}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then((response) => {
+                    if (response?.status === 200) {
+                        setReassignResponse(response?.data);
+                        setSingleShip(true);
+                    }
+                })
+                .catch((error) => {
+                    customErrorFunction(error);
+                    setSingleShip(false);
+                });
+        }
     };
 
     const handleClickAWB = (orders) => {
@@ -332,7 +342,7 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} setLoader={setLoader} />
+                <SingleShipPop reassignCard={reassignResponse} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} setLoader={setLoader} />
             </div>
         </section>
     );

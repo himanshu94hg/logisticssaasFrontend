@@ -1,8 +1,5 @@
-import moment from "moment";
-import React, { useEffect, } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { percentage } from "../../../../../customFunction/functionLogic";
 
 function CustomTable({ data }) {
   const total = data.reduce((acc, data) => acc + data.total, 0)
