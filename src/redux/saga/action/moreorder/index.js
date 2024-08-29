@@ -6,6 +6,7 @@ import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { REASSIGN_DATA_ACTION, REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
 import { GET_REASSIGN_DATA, GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
 import { ERROR_RESPONSE_DATA } from '../../../constants/error';
+import { ORDERS_DELETE_RES_DATA } from '../../../constants/orders';
 
 
 async function moreorderFileAPI(data) {
@@ -32,6 +33,7 @@ function* moreorderFilesAction(action) {
         let response = yield call(moreorderFileAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_REASSIGN_DATA, payload: response?.data })
+
         }
     } catch (error) {
         customErrorFunction(error)

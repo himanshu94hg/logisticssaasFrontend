@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Table from "react-bootstrap/Table";
+import React, { useState, useEffect } from "react";
 
 const ShipmentOverview = () => {
     const [courierPartner, setCourierPartner] = useState([]);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { overviewCourier } = useSelector(state => state?.dashboardShipmentReducer)
 
-
     useEffect(() => {
         if (overviewCourier) {
             setCourierPartner(overviewCourier);
         }
     }, [overviewCourier]);
-
 
     return (
         <>

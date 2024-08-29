@@ -9,10 +9,18 @@ import { useSelector } from 'react-redux';
 
 const CourierDashboard = ({activeTab}) => {
   const dispatch=useDispatch()
-  const [openIndex, setOpenIndex] = useState(0); // Defaulting the first row to be open
+  const [openIndex, setOpenIndex] = useState(0); 
+  const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+  const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
+
+  useEffect(()=>{
+    if(activeTab==="Courier Delays"){
+      dispatch({type:"DASHBOARD_COURIER_ACTION",payload:dateRangeDashboard})
+    }
+  },[activeTab])
 
   const toggleRow = (index) => {
-    setOpenIndex(index === openIndex ? -1 : index); // Toggle the index
+    setOpenIndex(index === openIndex ? -1 : index); 
   };
 
   const generateStars = (rating) => {
@@ -38,48 +46,7 @@ const CourierDashboard = ({activeTab}) => {
   };
 
 
-  const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
 
-  const data = [
-    {
-      title: 'Bluedart',
-      Mode: 'Surface',
-      Surface: 15,
-      'Shipment Count': 100,
-      'COD Order': 40,
-      'Prepaid Order': 60,
-      Delivered: 80,
-      '1st Attempt Delivered': 60,
-      'NDR Delivered': 5,
-      'NDR Raised': 3,
-      RTO: 10,
-      'Lost / Damaged': 2,
-      'Performance Rating': 4.5 // Example rating out of 5
-    },
-    {
-      title: 'Shadowfax',
-      Mode: 'Surface',
-      Surface: 30,
-      'Shipment Count': 200,
-      'COD Order': 80,
-      'Prepaid Order': 120,
-      Delivered: 160,
-      '1st Attempt Delivered': 120,
-      'NDR Delivered': 10,
-      'NDR Raised': 6,
-      RTO: 20,
-      'Lost / Damaged': 3,
-      'Performance Rating': 3.8 // Example rating out of 5
-    },
-    // Add more rows as needed
-  ];
-
-
-  useEffect(()=>{
-    if(activeTab==="Courier Delays"){
-      dispatch({type:"DASHBOARD_COURIER_ACTION",payload:dateRangeDashboard})
-    }
-  },[activeTab])
   return (
     <>
       <section className='courier-dashboard'>
@@ -87,8 +54,8 @@ const CourierDashboard = ({activeTab}) => {
           {courierData?.map((item, index) => (
             <div key={index} className="accordion-row box-shadow shadow-sm mb-3 p10">
               <div className="accordion-header" onClick={() => toggleRow(index)}>
-                <h4>{item?.courier_name}</h4>
-                {/* <h4>{item?.courier_name && partnerList[item?.courier_name]["title"]}</h4> */}
+                {/* <h4>{item?.courier_name}</h4> */}
+                <h4>{item?.courier_name && partnerList[item?.courier_name]["title"]}</h4>
                 <div>Mode: Surface</div>
                 <div>Shipment Count: {item?.total_shipment}</div>
                 <div>

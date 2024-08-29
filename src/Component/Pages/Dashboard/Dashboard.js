@@ -1,23 +1,18 @@
 import "./Dashboard.css";
 import PnL from "./DashboardTabs/PnL";
-import Row from "react-bootstrap/Row";
-import React, { useEffect, useState } from "react";
 import NavTabs from "./navTabs/NavTabs";
+import { useSelector } from "react-redux";
 import Overview from "./DashboardTabs/Overview";
+import React, { useEffect, useState } from "react";
 import SubAccounts from "./DashboardTabs/SubAccounts";
-import { useDispatch, useSelector } from "react-redux";
 import NDRDashboard from "./DashboardTabs/NDRDashboard";
 import RTODashboard from "./DashboardTabs/RTODashboard";
 import WhatsappComm from "./DashboardTabs/WhatsappComm";
 import EmployeeDash from "./DashboardTabs/EmployeeDash";
-import CourierDelays from "./DashboardTabs/CourierDelays";
-import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
-import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
-import CourierDashboard from "./DashboardTabs/CourierDashboard";
-import { useNavigate } from "react-router-dom";
-import { loginPattern } from "../../../Routes";
 import LoaderScreen from "../../LoaderScreen/LoaderScreen";
-
+import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
+import CourierDashboard from "./DashboardTabs/CourierDashboard";
+import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
 
 export function clearAllCookies() {
   const cookies = document.cookie.split(";");
@@ -28,9 +23,7 @@ export function clearAllCookies() {
   }
 }
 
-
-function Dashboard({ ScreenWidth }) {
-  const navigate = useNavigate()
+function Dashboard() {
   const [loader, setLoader] = useState(false)
   const [activeTab, setActiveTab] = useState("Overview");
   const { checkAuthIsValid } = useSelector(state => state?.authDataReducer)
