@@ -141,8 +141,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [filterParams.order_source]);
 
 
-    console.log(storeName,"this is store name api")
-
     useEffect(() => {
         const fetchData = async () => {
             try {
