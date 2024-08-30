@@ -1,13 +1,15 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import moment from 'moment/moment';
+import { debounce } from "lodash";
 import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
+import globalDebouncedClick from "../../../../../debounce";
+import React, { useState, useEffect, useCallback } from 'react';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -19,10 +21,7 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
@@ -31,17 +30,13 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { debounce } from "lodash";
-import globalDebouncedClick from "../../../../../debounce";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
+    const [show, setShow] = useState(false);
     let authToken = Cookies.get("access_token")
+    const [actionType, setActionType] = useState({});
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
@@ -64,11 +59,9 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
             setSelectAll(!selectAll);
             if (!selectAll) {
                 setSelectedRows(orders.map(row => row?.id));
-                setbulkAwb(orders.map(row => row?.awb_number));
                 setBulkActionShow(true)
             } else {
                 setSelectedRows([]);
-                setbulkAwb([])
                 setBulkActionShow(false)
                 setSelectAll(false)
             }
@@ -77,11 +70,9 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
             setSelectAll(!selectAll);
             if (!selectAll) {
                 setSelectedRows(orders.map(row => row?.id));
-                setbulkAwb(orders.map(row => row?.id));
                 setBulkActionShow(true)
             } else {
                 setSelectedRows([]);
-                setbulkAwb([]);
                 setBulkActionShow(false)
                 setSelectAll(false)
             }
@@ -121,25 +112,20 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
 
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
-        const isSelected1 = bulkAwb.includes(awb);
         let updatedSelectedRows;
-        let updatedBulkAwb;
-        if (isSelected || isSelected1) {
+        if (isSelected) {
             updatedSelectedRows = selectedRows.filter(id => id !== orderId);
-            updatedBulkAwb = bulkAwb.filter(id => id !== awb);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
-            updatedBulkAwb = [...bulkAwb, awb];
         }
         setSelectedRows(updatedSelectedRows);
-        setbulkAwb(updatedBulkAwb);
         if (updatedSelectedRows.length > 0) {
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
         }
 
-        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
+        if (updatedSelectedRows?.length === orders?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -156,16 +142,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         setOrderId(id)
     }
 
-    // const handleMarkClick = (value) => {
-    //     setLoader(true)
-
-    // }
 
 
-    const [show, setShow] = useState(false);
-    const [actionType, setActionType] = useState({
-
-    });
 
     const handleClose = () => setShow(false);
 

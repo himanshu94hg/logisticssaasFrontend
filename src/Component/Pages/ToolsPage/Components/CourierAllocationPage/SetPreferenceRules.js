@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css';
 import { toast } from 'react-toastify';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import AddRuleSidePanel from './AddRuleSidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +14,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 
 
 const SetPreferenceRules = ({ activeTab }) => {
@@ -45,7 +44,7 @@ const SetPreferenceRules = ({ activeTab }) => {
     const courierPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRulePostData);
     const courierDeleteRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleDeleteData);
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
-    const[courierPartnerData,setCourierPartnerData]=useState([])
+    const [courierPartnerData, setCourierPartnerData] = useState([])
     // const courierPartnerData1 = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
 
@@ -84,21 +83,22 @@ const SetPreferenceRules = ({ activeTab }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list-seller/`, {
-                        headers: {
-                            Authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    // const temp = response?.data?.map((item, index) => ({
-                    //     id: item?.id,
-                    //     label: item?.warehouse_name,
-                    //     value: item?.warehouse_name,
-                    // }));
-                    setCourierPartnerData(response?.data)
-                
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list-seller/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                // const temp = response?.data?.map((item, index) => ({
+                //     id: item?.id,
+                //     label: item?.warehouse_name,
+                //     value: item?.warehouse_name,
+                // }));
+                setCourierPartnerData(response?.data)
+
             } catch (error) {
                 customErrorFunction(error)
-        };}
+            };
+        }
         fetchData();
     }, []);
 

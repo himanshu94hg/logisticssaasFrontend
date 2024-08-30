@@ -44,14 +44,29 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
         }
     }, [activeTab])
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
+
+    const handleSelectAll = (data) => {
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
+
         } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
         }
     };
 
@@ -69,7 +84,8 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
         } else {
             setBulkActionShow(false);
         }
-        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
+
+        if (updatedSelectedRows?.length === orders?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -91,11 +107,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
                                     <div className='d-flex gap-1 align-items-center'>
-                                        {/* <input
+                                        <input
                                             type="checkbox"
                                             checked={selectAll}
                                             onChange={handleSelectAll}
-                                        /> */}
+                                        />
                                     </div>
                                 </th>
                                 <th style={{ width: '16.5%' }}>Order Details</th>
@@ -115,11 +131,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
-                                            {/* <input
+                                            <input
                                                 type="checkbox"
                                                 checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
-                                            /> */}
+                                            />
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>

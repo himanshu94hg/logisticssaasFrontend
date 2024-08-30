@@ -328,7 +328,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                 }
             });
             setQc(response?.data)
-            console.log(response, "this is eeeeeeeeeeeeee")
             setShowQCStatus(true)
 
         } catch (error) {
