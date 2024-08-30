@@ -1,18 +1,17 @@
 import axios from "axios";
 import moment from "moment";
 import Cookies from 'js-cookie';
-import Select from 'react-select';
 import { saveAs } from 'file-saver';
 import { toast } from "react-toastify";
-import React, { useEffect, useState } from "react";
+import Form from 'react-bootstrap/Form';
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBullseye, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from "../../../../../customFunction/errorHandling";
-import Form from 'react-bootstrap/Form';
 
 
 export default function NavTabs(props) {
@@ -196,7 +195,6 @@ export default function NavTabs(props) {
               <div className='d-flex gap-4 align-items-center'>
                 <Form.Check
                   type="switch"
-                  // checked={!show&&false}
                   id="custom-switch"
                   style={{
                     transform: "scale(1.5)",

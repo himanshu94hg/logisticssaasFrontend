@@ -94,7 +94,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
             dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
             setSelectAll(false)
         }
-
     }
 
     const generateLabel = () => {
@@ -291,7 +290,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
 
     return (
         <>
-            {selectedRows.length > 0 && (
+            {selectedRows?.length > 0 && (
                 <section style={activeTab === 'Returns' ? returnsBulkActions : {}} className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
