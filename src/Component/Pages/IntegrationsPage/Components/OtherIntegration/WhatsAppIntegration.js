@@ -1,13 +1,52 @@
-import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/whatsappIcon.png';
-import WhatsAppChatScreen from '../../../../../assets/image/WhatsChatBot.png';
-import WhatsAppChatDomestic from '../../../../../assets/image/WhatsAppChatDomestic.png';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import HeartIcon from './HeartIcon';
 import TruckIcon from './TruckIcon';
+import { toast } from 'react-toastify';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import PackageMagnifyingIcon from './PackageMagnifyingIcon';
+import Logo from '../../../../../assets/image/integration/whatsappIcon.png';
+import WhatsAppChatScreen from '../../../../../assets/image/WhatsChatBot.png';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import WhatsAppChatDomestic from '../../../../../assets/image/WhatsAppChatDomestic.png';
+
 
 const WhatsAppIntegration = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
     const [BotTabs, setBotTabs] = useState("book")
+    const authToken = Cookies.get("access_token");
+    // const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+ 
+
+    const handleShow = () => {
+        setShow(!show)
+    }
+
+    const handleWhattsApp = async () => {
+        setShow(false)
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp" }, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                toast.success(response?.data.message)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
+
+    const handleHold=()=>{
+        toast.info("Functionality is not live now!")
+    }
+
     return (
         <>
             <div className='whatsapp'>
@@ -30,7 +69,7 @@ const WhatsAppIntegration = () => {
                     </ul>
                     <div className='mt-5 d-flex flex-column align-items-center gap-3'>
                         <h5>Keep your buyers informed with live updates that have a <span>93%</span> read rate.</h5>
-                        <p className='font30 py-2'><span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span><button className='btn main-button ms-3'>Activate Now</button></p>
+                        <p className='font30 py-2'><span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span><button className='btn main-button ms-3' onClick={handleShow}>Activate Now</button></p>
                         <p className='font12 pt-2'><span className='fw-bold'>Note:</span> Customise real time tracking update to share with your buyers, per status just @ &#8377;0.99. Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.</p>
                     </div>
                     <div className='mt-5 d-flex w-100'>
@@ -40,7 +79,7 @@ const WhatsAppIntegration = () => {
                                 <h5 className='mb-2'>Enter your number to receive live tracking updates via WhatsApp.</h5>
                                 <label className='whatsapp-get-started'>
                                     <input type="text" placeholder='Enter 10 Digit Mobile Number' />
-                                    <button>Get Demo Now</button>
+                                    <button  onClick={handleHold}>Get Demo Now</button>
                                 </label>
                             </div>
                         </div>
@@ -91,7 +130,7 @@ const WhatsAppIntegration = () => {
                                         </>
                                     }
                                     <div>
-                                        <button className='btn main-button float-end'>Activate Now</button>
+                                        <button className='btn main-button float-end' onClick={handleHold}>Activate Now</button>
                                     </div>
                                 </div>
                             </div>
@@ -105,6 +144,31 @@ const WhatsAppIntegration = () => {
                     </div>
                 </section>
             </div>
+
+
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+                keyboard={false}
+                className='confirmation-modal'
+            >
+                <Modal.Header>
+                    <Modal.Title>Confirmation Required</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to activate the whatsapp ?
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={handleWhattsApp}>Continue</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
         </>
     )
 }
