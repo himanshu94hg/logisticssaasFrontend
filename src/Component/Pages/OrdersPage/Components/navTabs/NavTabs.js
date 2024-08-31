@@ -25,6 +25,8 @@ export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
   const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
   const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function NavTabs(props) {
   }, [])
 
   const handleClick = () => {
-    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
+    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${userData?.id}`)
       .then((response) => {
         if (response.status === 200) {
           toast.success('Order fetched successfully');
