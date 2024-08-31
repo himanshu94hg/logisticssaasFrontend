@@ -152,11 +152,13 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
-                                                        <CustomTooltip
-                                                            triggerComponent={<VerifiedOrderIcon />}
-                                                            tooltipComponent='Verified'
-                                                            addClassName='verified-hover'
-                                                        />
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -176,20 +178,23 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
-                                                    <CustomTooltip
-                                                        triggerComponent={<span className='ms-1'>
-                                                            <OrderTagsIcon />
-                                                        </span>}
-                                                        tooltipComponent={
-                                                            <div className='Labels-pool'>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
-                                                            </div>
-                                                        }
-                                                        addClassName=''
-                                                    />
+                                                    {
+                                                        row?.order_tag.length > 0 && <CustomTooltip
+                                                            triggerComponent={<span className='ms-1'>
+                                                                <OrderTagsIcon />
+                                                            </span>}
+                                                            tooltipComponent={
+                                                                <div className='Labels-pool'>
+                                                                    {row?.order_tag?.map((item) => {
+                                                                        return (
+                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}</button></div>
+
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                            }
+                                                        />
+                                                    }
                                                 </p>
                                             </div>
                                         </td>
