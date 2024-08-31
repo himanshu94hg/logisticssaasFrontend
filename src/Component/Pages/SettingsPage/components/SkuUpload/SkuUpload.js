@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, FormFloating } from 'react-bootstrap';
 import './SkuUpload.css'
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { toast } from 'react-toastify';
 
 const SkuUpload = () => {
     const skuData = [
@@ -32,7 +37,8 @@ const SkuUpload = () => {
             status: 'Discontinued',
         }
     ];
-
+    let authToken = Cookies.get("access_token")
+    const [file, setFile] = useState(null);
     const [selectedRows, setSelectedRows] = useState([]);
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -53,11 +59,39 @@ const SkuUpload = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showImportModal, setShowImportModal] = useState(false);
 
-    const handleAddClose = () => setShowAddModal(false);
-    const handleAddShow = () => setShowAddModal(true);
+    const handleAddClose = () => { setFile(null); setShowAddModal(false) };
+    const handleAddShow = () => { setShowAddModal(true); }
 
     const handleImportClose = () => setShowImportModal(false);
     const handleImportShow = () => setShowImportModal(true);
+
+
+    const handleImport = async () => {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/features/service/import-sku/`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response.status === 201) {
+                toast.success("Sku imported successfully!")
+                setShowImportModal(false);
+                setFile(null)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+            setShowImportModal(false);
+        }
+    };
+
+
 
     return (
         <section className='sku-upload-page'>
@@ -182,7 +216,7 @@ const SkuUpload = () => {
                     <form>
                         <div controlId="formFile">
                             <label>Upload File
-                                <input className='form-control input-field' type="file" />
+                                <input className='form-control input-field' type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </label>
                         </div>
                     </form>
@@ -192,7 +226,7 @@ const SkuUpload = () => {
                         <button className="btn cancel-button" onClick={handleImportClose}>
                             Close
                         </button>
-                        <button className="btn main-button" onClick={handleImportClose}>
+                        <button className="btn main-button" onClick={handleImport}>
                             Import SKUs
                         </button>
                     </div>
