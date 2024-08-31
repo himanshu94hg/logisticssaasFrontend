@@ -280,8 +280,12 @@ export const WhatsAppNotificationRoutes = () => {
     return generatePath(WhatsAppNotificationPattern);
 };
 
-
 export const ccavenueRedirectIntegrationPattern = "/ccavenue-response";
 export const ccavenueRedirectIntegrationRoutes = () => {
     return generatePath(ccavenueRedirectIntegrationPattern);
+};
+
+export const SkuUploadPattern = "/sku-upload";
+export const SkuUploadRoutes = () => {
+    return generatePath(SkuUploadPattern);
 };
