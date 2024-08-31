@@ -27,6 +27,7 @@ import {
     ProofOfDeliveryPattern,
     SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
+    SkuUploadPattern,
     ThemeCustomizationPattern,
     WhatsAppNotificationPattern,
     customerPattern,
@@ -161,6 +162,12 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Proof of Delivery (POD)
+                                    </li>
+                                    <li onClick={() => Navigate(SkuUploadPattern)}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        SKU Upload
                                     </li>
                                 </ul>
                             </div>
