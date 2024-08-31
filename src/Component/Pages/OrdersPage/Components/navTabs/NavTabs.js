@@ -25,32 +25,60 @@ export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
   const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+  console.log(userData?.id, "userDatauserDatauserDatauserData")
+
   const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
     dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
   }, [])
+  const [sellerId, setSellerId] = useState(null)
 
-  const handleClick = () => {
-    axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
-      .then((response) => {
+  // useEffect(() => {
+  //   dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
+  // }, [])
+
+  // useEffect(() => {
+  //   if (userData) {
+  //     setSellerId(userData?.id)
+  //   }
+  // }, [userData])
+
+
+  // const handleClick = async () => {
+  //   if (sellerId != null || sellerId != undefined) {
+  //     try {
+  //       const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerId}`);
+
+  //       if (response.status === 200) {
+  //         toast.success('Order fetched successfully');
+  //         props.setRateRef(new Date());
+  //       }
+  //     } catch (error) {
+  //       toast.error('Order fetch failed!');
+  //     }
+  //   }
+  // };
+
+
+  // const debouncedHandleClick = useCallback(
+  //   debounce((param) => handleClick(param), 700),
+  //   []
+  // );
+
+  const handleSubmit = async() => {
+    if (channelGetCard?.results?.length > 0) {
+       try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${userData?.id}`);
+
         if (response.status === 200) {
           toast.success('Order fetched successfully');
-          props.setRateRef(new Date())
+          props.setRateRef(new Date());
         }
-      }).catch((error) => {
-        toast.error('Order fetched Failed!');
-      });
-  };
-
-  const debouncedHandleClick = useCallback(
-    debounce((param) => handleClick(param), 700),
-    []
-  );
-
-  const handleSubmit = () => {
-    if (channelGetCard?.results?.length > 0) {
-      debouncedHandleClick();
+      } catch (error) {
+        toast.error('Order fetch failed!');
+      }
     } else {
       toast.error('No channel integrated right now!');
     }
