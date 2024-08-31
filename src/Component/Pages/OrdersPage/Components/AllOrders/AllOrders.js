@@ -471,7 +471,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                             tooltipComponent={<>{row?.order_type}</>}
                                                             addClassName='verified-hover'
                                                         />
-                                                        <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                         {row?.is_mps === true &&
                                                             <span className="mps-flag">MPS</span>
                                                         }
