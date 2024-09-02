@@ -6,6 +6,8 @@ import axios from 'axios';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
@@ -143,11 +145,11 @@ const SkuUpload = () => {
                                             <td>{row?.product_name}</td>
                                             <td>{row?.brand_name}</td>
                                             <td>{row?.weight}</td>
-                                            <td>{`${Math.floor(row?.length)}cm *${Math.floor(row?.width)}cm *${Math.floor(row?.width)}cm`}</td>
+                                            <td>{`LBH(cm):${Math.floor(row?.length)} *${Math.floor(row?.width)} *${Math.floor(row?.width)}`}</td>
                                             <td>
-                                                <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn btn-sm btn-primary'>Edit</button>
-                                                    <button className='btn btn-sm btn-danger'>Delete</button>
+                                                <div className='d-flex align-items-center gap-3 justify-content-start'>
+                                                    <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                                    <button className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -214,7 +216,13 @@ const SkuUpload = () => {
                 <Modal.Body>
                     <form>
                         <div controlId="formFile">
-                            <label className='w-100'>Upload File
+                            <label className='w-100'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div>
+                                        Upload File
+                                    </div>
+                                    <a className='font12 text-sh-primary' href="/sku.xls" download="sku.xls">Download Sample File</a>
+                                </div>
                                 <input className='form-control input-field' type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </label>
                         </div>
