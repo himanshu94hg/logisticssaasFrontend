@@ -27,7 +27,7 @@ function PopularCustomerDashboard() {
           <li>
             <div className="d-flex align-items-top justify-content-center">
               <div>
-                <p className="mb-0 bold-600 font13 mr-5" style={{ width: '150px' }}>{customer.recipient_name}</p>
+                <p className="mb-0 bold-600 font13 mr-5 text-truncate" style={{ maxWidth: '150px' }}>{customer.recipient_name}</p>
                 <span className="font13 text-gray">
                   {customer.count} Purchases{" "}
                   <BiSolidBadgeCheck className="font15 text-sh-primary" />
