@@ -6,6 +6,8 @@ import axios from 'axios';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const SkuUpload = () => {
     const skuData = [
@@ -144,11 +146,11 @@ const SkuUpload = () => {
                                             <td>{row?.productName}</td>
                                             <td>{row?.brandName}</td>
                                             <td>{row?.productWeight}</td>
-                                            <td>{row?.dimensions}</td>
+                                            <td>LBH(cm): {row?.dimensions}</td>
                                             <td>
-                                                <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn btn-sm btn-primary'>Edit</button>
-                                                    <button className='btn btn-sm btn-danger'>Delete</button>
+                                                <div className='d-flex align-items-center gap-3 justify-content-start'>
+                                                    <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                                    <button className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
                                         </tr>
