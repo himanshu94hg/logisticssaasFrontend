@@ -217,7 +217,13 @@ const SkuUpload = () => {
                 <Modal.Body>
                     <form>
                         <div controlId="formFile">
-                            <label className='w-100'>Upload File
+                            <label className='w-100'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div>
+                                        Upload File
+                                    </div>
+                                    <a className='font12 text-sh-primary' href="/sku.xls" download="sku.xls">Download Sample File</a>
+                                </div>
                                 <input className='form-control input-field' type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </label>
                         </div>
