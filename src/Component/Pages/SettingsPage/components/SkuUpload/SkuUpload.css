@@ -21,7 +21,7 @@
 }
 
 .add-sku-modal .modal-footer,
-.confirmation-modal .modal-footer {
+.confirmation-modal.impurt-sku .modal-footer {
     border-top: none;
     justify-content: end;
 }
