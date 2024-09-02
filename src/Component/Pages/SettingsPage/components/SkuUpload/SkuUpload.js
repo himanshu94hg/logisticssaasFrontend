@@ -8,6 +8,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import sampleFile from "./sku.xlsx"
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
@@ -221,7 +222,7 @@ const SkuUpload = () => {
                                     <div>
                                         Upload File
                                     </div>
-                                    <a className='font12 text-sh-primary' href="/sku.xls" download="sku.xls">Download Sample File</a>
+                                    <a className='font12 text-sh-primary' href={sampleFile} download={sampleFile}>Download Sample File</a>
                                 </div>
                                 <input className='form-control input-field' type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </label>
