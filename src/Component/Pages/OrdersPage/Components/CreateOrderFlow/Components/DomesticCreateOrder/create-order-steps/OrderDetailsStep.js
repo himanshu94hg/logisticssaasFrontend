@@ -253,7 +253,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>
-                            <span>Order Number <span className='mandatory'>*</span></span>
+                            <span>Order ID <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
                                 className={`input-field ${errors.customer_order_number || editErrors?.customer_order_number ? 'input-field-error' : ''}`}
