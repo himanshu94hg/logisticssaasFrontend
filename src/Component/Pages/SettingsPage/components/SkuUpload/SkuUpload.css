@@ -37,3 +37,7 @@
     max-width: 1140px;
     min-width: 320px;
 }
+
+.sku-details-form-input{
+    padding-top: 6.5px;
+}

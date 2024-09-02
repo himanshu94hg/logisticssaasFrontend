@@ -328,7 +328,7 @@ const SkuUpload = () => {
                                     </div>
                                     <a className='font12 text-sh-primary' href={sampleFile} download={sampleFile}>Download Sample File</a>
                                 </div>
-                                <input className='form-control input-field' type="file" onChange={(e) => setFile(e.target.files[0])} />
+                                <input className='form-control input-field sku-details-form-input' type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </label>
                         </div>
                     </form>
