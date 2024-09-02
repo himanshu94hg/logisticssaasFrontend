@@ -16,6 +16,7 @@ import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
 import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 import { useSelector } from 'react-redux';
+import ShipmentGraph from '../Components/Overview/ShipmentGraph.js';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const Overview = ({ activeTab }) => {
         {/* <OverviewDetails /> */}
         <OverviewStatusCard />
         <TopSellingDashboard />
+        <ShipmentGraph />
         <TableDashboard />
       </Col>
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
