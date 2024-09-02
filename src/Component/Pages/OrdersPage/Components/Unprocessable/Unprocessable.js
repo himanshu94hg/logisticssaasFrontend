@@ -243,18 +243,6 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.order_products?.map((product, index) => (
-                                                                <React.Fragment key={index}>
-                                                                    <strong>Product:</strong> {product.product_name}<br />
-                                                                    <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {product.quantity}<br />
-                                                                </React.Fragment>
-                                                            ))}
-                                                        </span>
-                                                    </span>
                                                     <br />
                                                     <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
