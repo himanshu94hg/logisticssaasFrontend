@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, FormFloating } from 'react-bootstrap';
 import './SkuUpload.css'
 import Cookies from 'js-cookie';
@@ -8,38 +8,14 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { toast } from 'react-toastify';
 
 const SkuUpload = () => {
-    const skuData = [
-        {
-            id: 1,
-            sku: 'SKU001',
-            productName: 'Product 1',
-            brandName: 'Brand A',
-            productWeight: '1kg',
-            dimensions: '10x10x10 cm',
-            status: 'Available',
-        },
-        {
-            id: 2,
-            sku: 'SKU002',
-            productName: 'Product 2',
-            brandName: 'Brand B',
-            productWeight: '2kg',
-            dimensions: '20x20x20 cm',
-            status: 'Out of Stock',
-        },
-        {
-            id: 3,
-            sku: 'SKU003',
-            productName: 'Product 3',
-            brandName: 'Brand C',
-            productWeight: '1.5kg',
-            dimensions: '15x15x15 cm',
-            status: 'Discontinued',
-        }
-    ];
-    let authToken = Cookies.get("access_token")
     const [file, setFile] = useState(null);
+    const [skuData, setSkuData] = useState([]);
+    const [refresh, setRefresh] = useState(null);
+    let authToken = Cookies.get("access_token")
     const [selectedRows, setSelectedRows] = useState([]);
+
+
+
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
             setSelectedRows(selectedRows.filter(rowId => rowId !== id));
@@ -83,6 +59,7 @@ const SkuUpload = () => {
             if (response.status === 201) {
                 toast.success("Sku imported successfully!")
                 setShowImportModal(false);
+                setRefresh(new Date())
                 setFile(null)
             }
         } catch (error) {
@@ -91,6 +68,28 @@ const SkuUpload = () => {
         }
     };
 
+
+    useEffect(() => {
+        const fetchSku = async () => {
+            try {
+                const response = await axios.get(
+                    `${BASE_URL_CORE}/core-api/features/service/import-sku/`,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    setSkuData(response?.data?.results)
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+        };
+        fetchSku();
+    }, [refresh]);
 
 
     return (
@@ -112,7 +111,7 @@ const SkuUpload = () => {
                                         <div className='d-flex gap-1 align-items-center'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.length === skuData.length}
+                                                checked={selectedRows?.length === skuData?.length}
                                                 onChange={handleSelectAll}
                                             />
                                         </div>
@@ -135,16 +134,16 @@ const SkuUpload = () => {
                                             <td className='checkbox-cell'>
                                                 <input
                                                     type="checkbox"
-                                                    checked={selectedRows.includes(row.id)}
+                                                    checked={selectedRows?.includes(row.id)}
                                                     onChange={() => handleSelectRow(row.id)}
                                                 />
                                             </td>
                                             <td>{index + 1}</td>
                                             <td>{row?.sku}</td>
-                                            <td>{row?.productName}</td>
-                                            <td>{row?.brandName}</td>
-                                            <td>{row?.productWeight}</td>
-                                            <td>{row?.dimensions}</td>
+                                            <td>{row?.product_name}</td>
+                                            <td>{row?.brand_name}</td>
+                                            <td>{row?.weight}</td>
+                                            <td>{`${Math.floor(row?.length)}cm *${Math.floor(row?.width)}cm *${Math.floor(row?.width)}cm`}</td>
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
                                                     <button className='btn btn-sm btn-primary'>Edit</button>
