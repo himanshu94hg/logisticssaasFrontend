@@ -13,6 +13,7 @@ import LoaderScreen from "../../LoaderScreen/LoaderScreen";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 import CourierDashboard from "./DashboardTabs/CourierDashboard";
 import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
+import { useNavigate } from "react-router-dom";
 
 export function clearAllCookies() {
   const cookies = document.cookie.split(";");
@@ -24,6 +25,7 @@ export function clearAllCookies() {
 }
 
 function Dashboard() {
+  const navigate = useNavigate()
   const [loader, setLoader] = useState(false)
   const [activeTab, setActiveTab] = useState("Overview");
   const { checkAuthIsValid } = useSelector(state => state?.authDataReducer)
@@ -36,6 +38,14 @@ function Dashboard() {
       }, 230);
     }
   }, [activeTab])
+
+
+  useEffect(() => {
+    if (checkAuthIsValid) {
+      clearAllCookies()
+      navigate("/")
+    }
+  }, [checkAuthIsValid])
 
 
   return (
