@@ -221,8 +221,8 @@ const SkuUpload = () => {
                                             <td>{row?.sku}</td>
                                             <td>{row?.product_name}</td>
                                             <td>{row?.brand_name}</td>
-                                            <td>{row?.weight}</td>
-                                            <td>{`LBH(cm):${Math.floor(row?.length)} *${Math.floor(row?.width)} *${Math.floor(row?.width)}`}</td>
+                                            <td>{row?.weight} kg</td>
+                                            <td>LBH(cm): {Math.floor(row?.length)} x {Math.floor(row?.width)} x {Math.floor(row?.width)}</td>
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-start'>
                                                     <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
