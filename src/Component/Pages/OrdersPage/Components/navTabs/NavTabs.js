@@ -26,7 +26,7 @@ export default function NavTabs(props) {
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
   const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-  console.log(userData?.id, "userDatauserDatauserDatauserData")
+
 
   const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
