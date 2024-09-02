@@ -181,7 +181,7 @@ const SkuUpload = () => {
                 <Modal.Body>
                     <form>
                         <div controlId="formFile">
-                            <label>Upload File
+                            <label className='w-100'>Upload File
                                 <input className='form-control input-field' type="file" />
                             </label>
                         </div>
