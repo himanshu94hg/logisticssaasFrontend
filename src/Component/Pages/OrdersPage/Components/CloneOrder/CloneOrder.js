@@ -298,7 +298,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                 product_details:
                     orderDetailsData?.order_products?.map(product => ({
                         sku: product.sku,
-                        product_name: product.product_name,
+                        product_name: product.product_name.slice(0, 154),
                         quantity: product.quantity,
                         product_category: product.product_category,
                         unit_price: product.unit_price,
