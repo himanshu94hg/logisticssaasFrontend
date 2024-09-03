@@ -45,7 +45,7 @@ const LabelCustomization = () => {
         section6: false,
     });
 
-    const [acc,setAcc]=useState(false)
+    const [acc, setAcc] = useState(false)
 
     const handleToggleChange = useCallback((key) => {
         setItems(prevState => ({
@@ -58,7 +58,7 @@ const LabelCustomization = () => {
         // }
 
     }, []);
-    console.log(acc ,"gggggggggggggggggggggggg")
+    console.log(acc, "gggggggggggggggggggggggg")
 
 
     const handleParentSection = useCallback((e) => {
@@ -90,7 +90,7 @@ const LabelCustomization = () => {
                 s_gst_mask: checked,
                 order_barcode_visibility: checked,
                 ordernumber_visibility: checked,
-                manifest_date_visibility:checked,
+                manifest_date_visibility: checked,
                 order_detail_visibility: checked
             }));
         }
@@ -120,7 +120,7 @@ const LabelCustomization = () => {
                 disclaimer_text: checked,
                 footer_visibility: checked,
                 tabular_form_enabled: checked,
-                custom_footer_enable:checked,
+                custom_footer_enable: checked,
                 footer_customize_value: "THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE"
             }));
         }
@@ -214,7 +214,7 @@ const LabelCustomization = () => {
                             <div className='lc-section-body'>
                                 <ul>
                                     <li>
-                                        <p>Contact Mask</p>
+                                        <p>Customer Contact Number</p>
                                         <Toggle
                                             disabled={items.section1 ? false : true}
                                             checked={items.contact_mask}

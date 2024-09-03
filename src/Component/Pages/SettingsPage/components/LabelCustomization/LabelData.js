@@ -21,7 +21,7 @@ const LabelData = ({ items, setItems }) => {
                                                         Gurugram, Haryana<br />
                                                         122002
                                                         <br />
-                                                        Contact : {items?.contact_mask ? "**********" : "9876543210"}
+                                                        {items?.contact_mask && "Contact : 9876543210"}
                                                     </p>
                                                 </div>
                                             )}
@@ -58,21 +58,21 @@ const LabelData = ({ items, setItems }) => {
                                                 Payment : <b>Prepaid</b>
                                                 <br />
                                                 Weight (kg) : 1<br />
-                                                AWB No. : 123456789
-                                                <br />
                                                 Route Code : DEL/ALT
                                             </td>
                                         )}
-                                        {items.awb_barcode_visibility && (
-                                            <td style={{ width: "50%", textAlign: "center", border: 0 }} id="label-awb-barcode">
+                                        <td style={{ width: "50%", textAlign: "center", border: 0 }} id="label-awb-barcode">
+                                            <div className='d-flex flex-column align-items-center'>
                                                 <b>Delhivery</b>
-                                                <br />
-                                                <img
-                                                    src="https://www.shipease.in/barcode/test.php?code=12345678923430"
-                                                    style={{ height: 60, margin: 10, maxWidth: 160 }}
-                                                />
-                                            </td>
-                                        )}
+                                                {items.awb_barcode_visibility && (
+                                                    <img
+                                                        src="https://www.shipease.in/barcode/test.php?code=12345678923430"
+                                                        style={{ height: 60, margin: 10, maxWidth: 160 }}
+                                                    />
+                                                )}
+                                                <p>AWB No. : 123456789</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -86,18 +86,18 @@ const LabelData = ({ items, setItems }) => {
                                 <tbody>
                                     <tr>
                                         <td style={{ width: "50%", border: 0 }}>
-                                                <div id="label-order-detail">
-                                                    <b>Shipped By</b> (if undelivered,return to)
-                                                    <br />
-                                                    <p style={{ padding: 0, margin: 0 }}>
-                                                        Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
-                                                        Contact: {items.s_contact_mask ? "**********" : "9876543210"}
-                                                    </p>
-                                                    GSTIN: {items.s_gst_mask ? "***************" : "22AAAAA0000A1Z5"}
-                                                    <br />
-                                                    Invoice No. : SE-1000123
-                                                    <br />
-                                                </div>
+                                            <div id="label-order-detail">
+                                                <b>Shipped By</b> (if undelivered,return to)
+                                                <br />
+                                                <p style={{ padding: 0, margin: 0 }}>
+                                                    Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
+                                                    Contact: {items.s_contact_mask ? "**********" : "9876543210"}
+                                                </p>
+                                                GSTIN: {items.s_gst_mask ? "***************" : "22AAAAA0000A1Z5"}
+                                                <br />
+                                                Invoice No. : SE-1000123
+                                                <br />
+                                            </div>
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
                                                     Manifest Date. : 2024-01-05
