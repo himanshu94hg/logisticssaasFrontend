@@ -178,6 +178,37 @@ const SkuUpload = () => {
 
     // https://app.shipease.in/core-api/features/service/create-sku/
 
+    const handleDelete = async (id) => {
+        try {
+            const payload = {
+                id: [id],
+                seller: userData?.id
+            };
+
+            const response = await axios.delete(
+                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                {
+                    data: payload,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response?.status === 200) {
+                toast.success(response?.data?.message)
+                setRefresh(new Date())
+            }
+
+            console.log('Delete successful:', response.data);
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    };
+
+
+
+
     return (
         <section className='sku-upload-page'>
             <header className='d-flex justify-content-between w-100 align-items-center'>
@@ -229,12 +260,12 @@ const SkuUpload = () => {
                                             <td>{row?.sku}</td>
                                             <td>{row?.product_name}</td>
                                             <td>{row?.brand_name}</td>
-                                            <td>{row?.weight}</td>
-                                            <td>{`LBH(cm):${Math.floor(row?.length)} *${Math.floor(row?.width)} *${Math.floor(row?.width)}`}</td>
+                                            <td>{row?.weight} kg</td>
+                                            <td>LBH(cm): {Math.floor(row?.length)} x {Math.floor(row?.width)} x {Math.floor(row?.width)}</td>
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-start'>
                                                     <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                                                    <button className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                                    <button onClick={() => handleDelete(row?.id)} className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
                                         </tr>
