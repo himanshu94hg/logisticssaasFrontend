@@ -26,6 +26,11 @@
     justify-content: end;
 }
 
+.add-sku-modal .modal-footer {
+    justify-content: space-between;
+}
+
+
 .add-sku-modal .modal-body,
 .confirmation-modal.impurt-sku .modal-body {
     margin-block: 15px 3px;
@@ -38,6 +43,6 @@
     min-width: 320px;
 }
 
-.sku-details-form-input{
+.sku-details-form-input {
     padding-top: 6.5px;
 }

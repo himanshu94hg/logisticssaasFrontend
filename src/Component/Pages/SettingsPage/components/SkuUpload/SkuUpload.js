@@ -229,7 +229,7 @@ const SkuUpload = () => {
                 }
             }
         } else {
-            setErrors("All Field is required!")
+            setErrors("**All Fields are required!")
         }
 
     }
@@ -523,7 +523,7 @@ const SkuUpload = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <p className='text-danger'>{errors}</p>
+                    <p className='fw-bold text-sh-red font12'>{errors}</p>
                     <div className='d-flex gap-2'>
                         <button className="btn cancel-button" onClick={handleAddClose}>
                             Close
@@ -555,6 +555,7 @@ const SkuUpload = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
+                    <p className='fw-bold text-sh-red font12'>{errors}</p>
                     <div className='d-flex gap-2'>
                         <button className="btn cancel-button" onClick={handleImportClose}>
                             Close
