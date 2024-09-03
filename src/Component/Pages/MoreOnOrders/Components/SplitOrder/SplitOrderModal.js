@@ -55,7 +55,7 @@ function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
             setSplitStatus(new Date())
             handleClose();
         }).catch(error => {
-            customErrorFunction(error);
+            // customErrorFunction(error);
         });
     };
 

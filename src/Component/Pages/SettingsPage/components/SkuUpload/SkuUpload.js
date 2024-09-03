@@ -13,9 +13,11 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
+    const [errors, setErrors] = useState("")
     const [skuData, setSkuData] = useState([]);
     let authToken = Cookies.get("access_token")
     const [refresh, setRefresh] = useState(null);
+    const [errorsAll, setErrorsAll] = useState({})
     const [actiontype, setActiontype] = useState("")
     const [selectedRows, setSelectedRows] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -45,6 +47,8 @@ const SkuUpload = () => {
             height: null,
             brand_name: ""
         })
+        setErrorsAll({})
+        setErrors('')
     };
 
     const handleImportClose = () => setShowImportModal(false);
@@ -150,51 +154,79 @@ const SkuUpload = () => {
             customErrorFunction(error);
         }
     }
-
+ 
     const handleAddSku = async (type) => {
-        if (type === "Add") {
-            try {
-                const response = await axios.post(
-                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                    skuFormData,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authToken}`,
-                        },
-                    }
-                );
-                if (response.status === 201) {
-                    toast.success(response?.data?.message)
-                    setShowAddModal(false);
-                    setRefresh(new Date())
-                }
-            } catch (error) {
-                customErrorFunction(error)
-                setShowAddModal(false);
-            }
+        const newErrors = {}
+        if (!skuFormData.product_name) {
+            newErrors.product_name = "Product Name is required!"
         }
-        else {
-            try {
-                const response = await axios.put(
-                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                    skuFormData,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authToken}`,
-                        },
+        if (!skuFormData.sku) {
+            newErrors.sku = "Product SKU is required!"
+        }
+        if (!skuFormData.brand_name) {
+            newErrors.brand_name = "Brand Name is required!"
+        }
+        if (!skuFormData.width) {
+            newErrors.width = "Width Name is required!"
+        }
+        if (!skuFormData.weight) {
+            newErrors.weight = "Weight Name is required!"
+        }
+        if (!skuFormData.length) {
+            newErrors.length = "Length is required!"
+        }
+        if (!skuFormData.height) {
+            newErrors.height = "Height Name is required!"
+        }
+        setErrorsAll(newErrors)
+
+        if (Object.keys(newErrors).length == 0) {
+            if (type === "Add") {
+                try {
+                    const response = await axios.post(
+                        `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                        skuFormData,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${authToken}`,
+                            },
+                        }
+                    );
+                    if (response.status === 201) {
+                        toast.success(response?.data?.message)
+                        setShowAddModal(false);
+                        setRefresh(new Date())
                     }
-                );
-                if (response.status === 200) {
-                    toast.success(response?.data?.message)
+                } catch (error) {
+                    customErrorFunction(error)
                     setShowAddModal(false);
-                    setRefresh(new Date())
                 }
-            } catch (error) {
-                customErrorFunction(error)
-                setShowAddModal(false);
             }
+            else {
+                try {
+                    const response = await axios.put(
+                        `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                        skuFormData,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${authToken}`,
+                            },
+                        }
+                    );
+                    if (response.status === 200) {
+                        toast.success(response?.data?.message)
+                        setShowAddModal(false);
+                        setRefresh(new Date())
+                    }
+                } catch (error) {
+                    customErrorFunction(error)
+                    setShowAddModal(false);
+                }
+            }
+        } else {
+            setErrors("All Field is required!")
         }
 
     }
@@ -370,11 +402,11 @@ const SkuUpload = () => {
                     <form className='d-flex flex-wrap gap-3 w-100'>
                         <div className='d-flex gap-3'>
                             <label>Product SKU
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     name='sku'
                                     maxLength={50}
-                                    className='input-field'
                                     value={skuFormData.sku}
                                     placeholder="Product SKU"
                                     onChange={(e) => handleChange(e)}
@@ -383,14 +415,15 @@ const SkuUpload = () => {
                                             e.preventDefault()
                                         }
                                     }}
+                                    className={`input-field ${errorsAll.sku ? 'input-field-error' : ''}`}
                                 />
                             </label>
                             <label>Product Name
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     maxLength={50}
                                     name='product_name'
-                                    className='input-field'
                                     placeholder="Product Name"
                                     onChange={(e) => handleChange(e)}
                                     value={skuFormData.product_name}
@@ -399,14 +432,15 @@ const SkuUpload = () => {
                                             e.preventDefault()
                                         }
                                     }}
+                                    className={`input-field ${errorsAll.product_name ? 'input-field-error' : ''}`}
                                 />
                             </label>
                             <label>Brand Name
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     maxLength={50}
                                     name='brand_name'
-                                    className='input-field'
                                     placeholder="Brand Name"
                                     value={skuFormData.brand_name}
                                     onChange={(e) => handleChange(e)}
@@ -415,63 +449,69 @@ const SkuUpload = () => {
                                             e.preventDefault()
                                         }
                                     }}
+                                    className={`input-field ${errorsAll.brand_name ? 'input-field-error' : ''}`}
                                 />
 
                             </label>
                         </div>
                         <div className='d-flex gap-3'>
                             <label>Product Weight (In K.g) 0.5 for 500 gm
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     name='weight'
                                     maxLength={50}
-                                    className='input-field'
                                     value={skuFormData.weight}
                                     placeholder="Product Weight"
                                     onChange={(e) => handleChange(e)}
                                     onKeyPress={(e) => handleKeyPress(e)}
+                                    className={`input-field ${errorsAll.weight ? 'input-field-error' : ''}`}
                                 />
                             </label>
                             <label>Product Length (In cm)
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     name='length'
                                     maxLength={50}
-                                    className='input-field'
                                     value={skuFormData.length}
                                     placeholder="Product Length"
                                     onChange={(e) => handleChange(e)}
                                     onKeyPress={(e) => handleKeyPress(e)}
+                                    className={`input-field ${errorsAll.length ? 'input-field-error' : ''}`}
                                 />
                             </label>
                             <label>Product Breadth (In cm)
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     name='width'
                                     maxLength={50}
-                                    className='input-field'
                                     value={skuFormData.width}
                                     placeholder="Product Breadth"
                                     onChange={(e) => handleChange(e)}
                                     onKeyPress={(e) => handleKeyPress(e)}
+                                    className={`input-field ${errorsAll.width ? 'input-field-error' : ''}`}
                                 />
                             </label>
                             <label>Product Height (In cm)
+                                <span className='mandatory'> *</span>
                                 <input
                                     type="text"
                                     name='height'
                                     maxLength={50}
-                                    className='input-field'
                                     value={skuFormData.height}
                                     placeholder="Product Height"
                                     onChange={(e) => handleChange(e)}
                                     onKeyPress={(e) => handleKeyPress(e)}
+                                    className={`input-field ${errorsAll.height ? 'input-field-error' : ''}`}
                                 />
                             </label>
                         </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
+                    <p className='text-danger'>{errors}</p>
                     <div className='d-flex gap-2'>
                         <button className="btn cancel-button" onClick={handleAddClose}>
                             Close
