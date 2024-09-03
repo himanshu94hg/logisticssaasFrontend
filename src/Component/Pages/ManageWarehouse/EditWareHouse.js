@@ -382,7 +382,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Warehouse Name'
                                         onKeyPress={(e) => handleKeyPress(e)}
                                     />
-                                    <br />
                                     <span className="custom-error">{formErrors.warehouse_name}</span>
                                 </label>
                                 <label>

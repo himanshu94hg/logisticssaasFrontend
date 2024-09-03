@@ -227,6 +227,10 @@
     min-height: 290px;
 }
 
+.warehouse-edit.open .custom-error {
+    left: 0;
+}
+
 @media (max-width: 768px) {
     .box-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
