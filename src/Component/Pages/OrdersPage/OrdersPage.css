@@ -343,7 +343,7 @@
   font-size: 14px;
   position: absolute;
   background-color: #fff;
-  top: -38px;
+  bottom: 0px;
   left: 14px;
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;

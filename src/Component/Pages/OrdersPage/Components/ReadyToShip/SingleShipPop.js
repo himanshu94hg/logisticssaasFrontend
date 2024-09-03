@@ -4,9 +4,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import PieChart from './PieChart';
-import StarRating from './StarRating';
 import './SingleShipPop';
 import 'react-toastify/dist/ReactToastify.css';
+import RatingStars from '../../../../common/RatingStars/RatingStars';
 
 
 
@@ -73,19 +73,19 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                                 <tbody>
                                     <tr>
                                         <td>Pickup Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4} /></td>
                                     </tr>
                                     <tr>
                                         <td>Delivery Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={3.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>NDR Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>RTO Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={5} /></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { debounce } from 'lodash';
 import PieChart from './PieChart';
-import StarRating from './StarRating';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -16,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import RatingStars from "../../../../../common/RatingStars/RatingStars";
 
 
 const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
@@ -121,24 +121,25 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                                     <tbody>
                                         <tr>
                                             <td>Pickup Performance</td>
-                                            <td><StarRating rating={4.5} /></td>
+                                            <td><RatingStars rating={4.5} />
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Delivery Performance</td>
-                                            <td><StarRating rating={4.5} /></td>
+                                            <td><RatingStars rating={3} /></td>
                                         </tr>
                                         <tr>
                                             <td>NDR Performance</td>
-                                            <td><StarRating rating={4.5} /></td>
+                                            <td><RatingStars rating={3.5} /></td>
                                         </tr>
                                         <tr>
                                             <td>RTO Performance</td>
-                                            <td><StarRating rating={4.5} /></td>
+                                            <td><RatingStars rating={4} /></td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div className="chart-container">
-                                    <PieChart rating={4.5} />
+                                    <PieChart rating={4} />
                                     <p>Overall Rating</p>
                                 </div>
                             </div>
