@@ -14,11 +14,13 @@ import { useSelector } from 'react-redux';
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
     const [skuData, setSkuData] = useState([]);
-    const [refresh, setRefresh] = useState(null);
     let authToken = Cookies.get("access_token")
+    const [refresh, setRefresh] = useState(null);
+    const [actiontype, setActiontype] = useState("")
     const [selectedRows, setSelectedRows] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showImportModal, setShowImportModal] = useState(false);
+
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [skuFormData, setSkuFormData] = useState({
         sku: "",
@@ -34,12 +36,69 @@ const SkuUpload = () => {
     const handleAddClose = () => {
         setFile(null);
         setShowAddModal(false)
-        setSkuFormData({})
+        setSkuFormData({
+            sku: "",
+            seller: userData?.id,
+            product_name: "",
+            weight: null,
+            length: null,
+            width: null,
+            height: null,
+            brand_name: ""
+        })
     };
 
-    console.log(skuFormData, "this is a sku form data",file)
+    useEffect(() => {
+        if (showAddModal) {
+            setSkuFormData({
+                sku: "",
+                seller: userData?.id,
+                product_name: "",
+                weight: null,
+                length: null,
+                width: null,
+                height: null,
+                brand_name: ""
+            })
+        }
+    }, [showAddModal])
 
-    const handleAddShow = () => { setShowAddModal(true); }
+
+    const handleAddShow = async (type, id) => {
+        setActiontype(type)
+        setShowAddModal(true);
+        if (type === "Edit") {
+            try {
+                const response = await axios.get(
+                    `${BASE_URL_CORE}/core-api/features/service/get-sku-detail/${id}/`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    console.log(response.data, "uuuuuuuuuuuuu")
+
+                    setSkuFormData({
+                        sku: response?.data?.sku,
+                        id: response?.data?.id,
+                        product_name: response?.data?.product_name,
+                        weight: response?.data?.weight,
+                        length: response?.data?.length,
+                        width: response?.data?.width,
+                        height: response?.data?.height,
+                        brand_name: response?.data?.brand_name
+                    })
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+
+        }
+    }
+
     const handleImportClose = () => setShowImportModal(false);
     const handleImportShow = () => setShowImportModal(true);
 
@@ -112,27 +171,52 @@ const SkuUpload = () => {
         }
     }
 
-    const handleAddSku = async () => {
-        try {
-            const response = await axios.post(
-                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                skuFormData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${authToken}`,
-                    },
+    const handleAddSku = async (type) => {
+        if (type === "Add") {
+            try {
+                const response = await axios.post(
+                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                    skuFormData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 201) {
+                    toast.success(response?.data?.message)
+                    setShowAddModal(false);
+                    setRefresh(new Date())
                 }
-            );
-            if (response.status === 201) {
-                toast.success("Sku Added successfully!")
+            } catch (error) {
+                customErrorFunction(error)
                 setShowAddModal(false);
-                setRefresh(new Date())
             }
-        } catch (error) {
-            customErrorFunction(error)
-            setShowAddModal(false);
         }
+        else {
+            try {
+                const response = await axios.put(
+                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                    skuFormData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    toast.success(response?.data?.message)
+                    setShowAddModal(false);
+                    setRefresh(new Date())
+                }
+            } catch (error) {
+                customErrorFunction(error)
+                setShowAddModal(false);
+            }
+        }
+
     }
 
     const handleChange = (e) => {
@@ -207,6 +291,21 @@ const SkuUpload = () => {
     };
 
 
+    const handleKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b.]+$/;
+        const { value } = e.target;
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault()
+        }
+        if (value.includes('.')) {
+            const decimalPart = value.split('.')[1];
+            if (decimalPart && decimalPart.length >= 2 && e.key !== 'Backspace' && e.key !== 'Delete') {
+                e.preventDefault();
+            }
+
+        }
+    }
+
 
 
     return (
@@ -215,7 +314,7 @@ const SkuUpload = () => {
                 <h4 className='mb-0'>SKU Upload</h4>
                 <div className='d-flex gap-2 align-items-center'>
                     <Button className='btn main-button' onClick={handleExport}>Export</Button>
-                    <Button className='btn main-button' onClick={handleAddShow}>Add SKU</Button>
+                    <Button className='btn main-button' onClick={() => handleAddShow("Add")}>Add SKU</Button>
                     <Button className='btn main-button' onClick={handleImportShow}>Import</Button>
                 </div>
             </header>
@@ -229,7 +328,7 @@ const SkuUpload = () => {
                                         <div className='d-flex gap-1 align-items-center'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.length === skuData?.length}
+                                                checked={selectedRows?.length}
                                                 onChange={handleSelectAll}
                                             />
                                         </div>
@@ -264,7 +363,7 @@ const SkuUpload = () => {
                                             <td>LBH(cm): {Math.floor(row?.length)} x {Math.floor(row?.width)} x {Math.floor(row?.width)}</td>
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-start'>
-                                                    <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                                    <button className='btn p-0 text-sh-primary' onClick={() => handleAddShow("Edit", row?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
                                                     <button onClick={() => handleDelete(row?.id)} className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
@@ -285,27 +384,103 @@ const SkuUpload = () => {
                     <form className='d-flex flex-wrap gap-3 w-100'>
                         <div className='d-flex gap-3'>
                             <label>Product SKU
-                                <input className='input-field' value={skuFormData.sku} type="text" name='sku' onChange={(e) => handleChange(e)} placeholder="Product SKU" />
+                                <input
+                                    type="text"
+                                    name='sku'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.sku}
+                                    placeholder="Product SKU"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
                             </label>
                             <label>Product Name
-                                <input className='input-field' value={skuFormData.product_name} type="text" name='product_name' onChange={(e) => handleChange(e)} placeholder="Product Name" />
+                                <input
+                                    type="text"
+                                    maxLength={50}
+                                    name='product_name'
+                                    className='input-field'
+                                    placeholder="Product Name"
+                                    onChange={(e) => handleChange(e)}
+                                    value={skuFormData.product_name}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
                             </label>
                             <label>Brand Name
-                                <input className='input-field' value={skuFormData.brand_name} type="text" name='brand_name' onChange={(e) => handleChange(e)} placeholder="Brand Name" />
+                                <input
+                                    type="text"
+                                    maxLength={50}
+                                    name='brand_name'
+                                    className='input-field'
+                                    placeholder="Brand Name"
+                                    value={skuFormData.brand_name}
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
+
                             </label>
                         </div>
                         <div className='d-flex gap-3'>
                             <label>Product Weight (In K.g) 0.5 for 500 gm
-                                <input className='input-field' value={skuFormData.weight} type="text" name='weight' onChange={(e) => handleChange(e)} placeholder="Product Weight" />
+                                <input
+                                    type="text"
+                                    name='weight'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.weight}
+                                    placeholder="Product Weight"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Length (In cm)
-                                <input className='input-field' value={skuFormData.length} type="text" name='length' onChange={(e) => handleChange(e)} placeholder="Product Length" />
+                                <input
+                                    type="text"
+                                    name='length'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.length}
+                                    placeholder="Product Length"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Breadth (In cm)
-                                <input className='input-field' value={skuFormData.width} type="text" name='width' onChange={(e) => handleChange(e)} placeholder="Product Breadth" />
+                                <input
+                                    type="text"
+                                    name='width'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.width}
+                                    placeholder="Product Breadth"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Height (In cm)
-                                <input className='input-field' value={skuFormData.height} type="text" name='height' onChange={(e) => handleChange(e)} placeholder="Product Height" />
+                                <input
+                                    type="text"
+                                    name='height'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.height}
+                                    placeholder="Product Height"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                         </div>
                     </form>
@@ -315,8 +490,8 @@ const SkuUpload = () => {
                         <button className="btn cancel-button" onClick={handleAddClose}>
                             Close
                         </button>
-                        <button className="btn main-button" onClick={handleAddSku}>
-                            Add SKU
+                        <button className="btn main-button" onClick={() => handleAddSku(actiontype)}>
+                            {actiontype} SKU
                         </button>
                     </div>
                 </Modal.Footer>
