@@ -31,12 +31,17 @@ const SkuUpload = () => {
         brand_name: ""
     })
 
+    const handleAddClose = () => {
+        setFile(null);
+        setShowAddModal(false)
+        setSkuFormData({})
+    };
 
-    const handleAddClose = () => { setFile(null); setShowAddModal(false) };
+    console.log(skuFormData, "this is a sku form data",file)
+
     const handleAddShow = () => { setShowAddModal(true); }
     const handleImportClose = () => setShowImportModal(false);
     const handleImportShow = () => setShowImportModal(true);
-
 
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -79,37 +84,6 @@ const SkuUpload = () => {
             setShowImportModal(false);
         }
     };
-
-    useEffect(() => {
-        const fetchSku = async () => {
-            try {
-                const response = await axios.get(
-                    `${BASE_URL_CORE}/core-api/features/service/import-sku/`,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            Authorization: `Bearer ${authToken}`,
-                        },
-                    }
-                );
-                if (response.status === 200) {
-                    setSkuData(response?.data?.results)
-                }
-            } catch (error) {
-                customErrorFunction(error);
-            }
-        };
-        fetchSku();
-    }, [refresh]);
-
-    useEffect(() => {
-        if (userData) {
-            setSkuFormData(prev => ({
-                ...prev,
-                seller: userData?.id
-            }))
-        }
-    }, [userData])
 
     const handleExport = async () => {
         try {
@@ -169,6 +143,40 @@ const SkuUpload = () => {
         }))
     }
 
+    useEffect(() => {
+        const fetchSku = async () => {
+            try {
+                const response = await axios.get(
+                    `${BASE_URL_CORE}/core-api/features/service/import-sku/`,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    setSkuData(response?.data?.results)
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+        };
+        fetchSku();
+    }, [refresh]);
+
+    useEffect(() => {
+        if (userData) {
+            setSkuFormData(prev => ({
+                ...prev,
+                seller: userData?.id
+            }))
+        }
+    }, [userData])
+
+
+
+    // https://app.shipease.in/core-api/features/service/create-sku/
 
     return (
         <section className='sku-upload-page'>
@@ -246,27 +254,27 @@ const SkuUpload = () => {
                     <form className='d-flex flex-wrap gap-3 w-100'>
                         <div className='d-flex gap-3'>
                             <label>Product SKU
-                                <input type="text" className='input-field' name='sku' onChange={(e) => handleChange(e)} placeholder="Product SKU" />
+                                <input className='input-field' value={skuFormData.sku} type="text" name='sku' onChange={(e) => handleChange(e)} placeholder="Product SKU" />
                             </label>
                             <label>Product Name
-                                <input type="text" className='input-field' name='product_name' onChange={(e) => handleChange(e)} placeholder="Product Name" />
+                                <input className='input-field' value={skuFormData.product_name} type="text" name='product_name' onChange={(e) => handleChange(e)} placeholder="Product Name" />
                             </label>
                             <label>Brand Name
-                                <input type="text" className='input-field' name='brand_name' onChange={(e) => handleChange(e)} placeholder="Brand Name" />
+                                <input className='input-field' value={skuFormData.brand_name} type="text" name='brand_name' onChange={(e) => handleChange(e)} placeholder="Brand Name" />
                             </label>
                         </div>
                         <div className='d-flex gap-3'>
                             <label>Product Weight (In K.g) 0.5 for 500 gm
-                                <input type="text" className='input-field' name='weight' onChange={(e) => handleChange(e)} placeholder="Product Weight" />
+                                <input className='input-field' value={skuFormData.weight} type="text" name='weight' onChange={(e) => handleChange(e)} placeholder="Product Weight" />
                             </label>
                             <label>Product Length (In cm)
-                                <input type="text" className='input-field' name='length' onChange={(e) => handleChange(e)} placeholder="Product Length" />
+                                <input className='input-field' value={skuFormData.length} type="text" name='length' onChange={(e) => handleChange(e)} placeholder="Product Length" />
                             </label>
                             <label>Product Breadth (In cm)
-                                <input type="text" className='input-field' name='width' onChange={(e) => handleChange(e)} placeholder="Product Breadth" />
+                                <input className='input-field' value={skuFormData.width} type="text" name='width' onChange={(e) => handleChange(e)} placeholder="Product Breadth" />
                             </label>
                             <label>Product Height (In cm)
-                                <input type="text" className='input-field' name='height' onChange={(e) => handleChange(e)} placeholder="Product Height" />
+                                <input className='input-field' value={skuFormData.height} type="text" name='height' onChange={(e) => handleChange(e)} placeholder="Product Height" />
                             </label>
                         </div>
                     </form>
