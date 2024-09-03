@@ -13,6 +13,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
+    const [selectAll, setSelectAll] = useState(false)
     const [errors, setErrors] = useState("")
     const [skuData, setSkuData] = useState([]);
     let authToken = Cookies.get("access_token")
@@ -95,10 +96,12 @@ const SkuUpload = () => {
     };
 
     const handleSelectAll = () => {
-        if (selectedRows.length === skuData.length) {
+        if (selectedRows?.length === skuData?.length) {
+            setSelectAll(false)
             setSelectedRows([]);
         } else {
-            setSelectedRows(skuData.map(row => row.id));
+            setSelectedRows(skuData?.map(row => row.id));
+            setSelectAll(true)
         }
     };
 
@@ -154,7 +157,7 @@ const SkuUpload = () => {
             customErrorFunction(error);
         }
     }
- 
+
     const handleAddSku = async (type) => {
         const newErrors = {}
         if (!skuFormData.product_name) {
@@ -259,6 +262,8 @@ const SkuUpload = () => {
             if (response?.status === 200) {
                 toast.success(response?.data?.message)
                 setRefresh(new Date())
+                setSelectAll(false)
+                setSelectedRows([])
             }
         } catch (error) {
             customErrorFunction(error)
@@ -326,6 +331,13 @@ const SkuUpload = () => {
         }
     }, [userData])
 
+    // useEffect(() => {
+    //     if (selectedRows.length > 0 && selectedRows.length === skuData?.length) {
+    //         setSelectAll(true)
+    //     }
+    // }, [selectedRows])
+
+
     return (
         <section className='sku-upload-page'>
             <header className='d-flex justify-content-between w-100 align-items-center'>
@@ -346,7 +358,7 @@ const SkuUpload = () => {
                                         <div className='d-flex gap-1 align-items-center'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.length}
+                                                checked={selectAll}
                                                 onChange={handleSelectAll}
                                             />
                                         </div>
