@@ -1,0 +1,10 @@
+.rating-stars {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem;
+}
+
+.rating-stars svg {
+    margin-right: 2px;
+    font-size: 1rem;
+}
