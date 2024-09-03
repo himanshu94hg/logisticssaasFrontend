@@ -199,11 +199,6 @@ const MoreOnOrders = () => {
             .catch(error => {
                 customErrorFunction(error)
             });
-        // setQueryParamTemp({
-        //     search_by: searchType,
-        //     q: searchValue
-        // })
-        // setCurrentPage(1)
     }
 
     const handleChange = (option) => {
@@ -217,20 +212,6 @@ const MoreOnOrders = () => {
         setQueryParamTemp({})
         setReset(new Date())
         setCurrentPage(1)
-        // axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
-        //     headers: {
-        //         Authorization: `Bearer ${authToken}`
-        //     }
-        // })
-        //     .then(response => {
-        //         setTotalItems(response?.data?.count)
-        //         setMergeOrders(response.data.results);
-        //         setReassOrders(response.data.results)
-        //         setSplitOrders(response.data.results)
-        //     })
-        //     .catch(error => {
-        //         customErrorFunction(error)
-        //     });
         setSearchOption(SearchOptions[0])
 
     }

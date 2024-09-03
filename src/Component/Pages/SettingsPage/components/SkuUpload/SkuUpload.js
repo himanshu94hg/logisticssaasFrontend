@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form, FormFloating } from 'react-bootstrap';
 import './SkuUpload.css'
-import Cookies from 'js-cookie';
 import axios from 'axios';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { BASE_URL_CORE } from '../../../../../axios/config';
+import Cookies from 'js-cookie';
+import sampleFile from "./sku.xlsx"
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { Modal, Button, } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import sampleFile from "./sku.xlsx"
-import { useSelector } from 'react-redux';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
     const [skuData, setSkuData] = useState([]);
-    const [refresh, setRefresh] = useState(null);
     let authToken = Cookies.get("access_token")
+    const [refresh, setRefresh] = useState(null);
+    const [actiontype, setActiontype] = useState("")
     const [selectedRows, setSelectedRows] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showImportModal, setShowImportModal] = useState(false);
@@ -31,12 +32,55 @@ const SkuUpload = () => {
         brand_name: ""
     })
 
+    const handleAddClose = () => {
+        setFile(null);
+        setShowAddModal(false)
+        setSkuFormData({
+            sku: "",
+            seller: userData?.id,
+            product_name: "",
+            weight: null,
+            length: null,
+            width: null,
+            height: null,
+            brand_name: ""
+        })
+    };
 
-    const handleAddClose = () => { setFile(null); setShowAddModal(false) };
-    const handleAddShow = () => { setShowAddModal(true); }
     const handleImportClose = () => setShowImportModal(false);
     const handleImportShow = () => setShowImportModal(true);
+    const handleAddShow = async (type, id) => {
+        setActiontype(type)
+        setShowAddModal(true);
+        if (type === "Edit") {
+            try {
+                const response = await axios.get(
+                    `${BASE_URL_CORE}/core-api/features/service/get-sku-detail/${id}/`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    setSkuFormData({
+                        sku: response?.data?.sku,
+                        id: response?.data?.id,
+                        product_name: response?.data?.product_name,
+                        weight: response?.data?.weight,
+                        length: response?.data?.length,
+                        width: response?.data?.width,
+                        height: response?.data?.height,
+                        brand_name: response?.data?.brand_name
+                    })
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
 
+        }
+    }
 
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -80,6 +124,145 @@ const SkuUpload = () => {
         }
     };
 
+    const handleExport = async () => {
+        try {
+            const response = await axios.get(
+                `${BASE_URL_CORE}/core-api/features/service/export-sku/`,
+                {
+                    responseType: 'blob',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                const blob = new Blob([response?.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'sku.xlsx';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                toast.success("File exported successfully")
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    }
+
+    const handleAddSku = async (type) => {
+        if (type === "Add") {
+            try {
+                const response = await axios.post(
+                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                    skuFormData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 201) {
+                    toast.success(response?.data?.message)
+                    setShowAddModal(false);
+                    setRefresh(new Date())
+                }
+            } catch (error) {
+                customErrorFunction(error)
+                setShowAddModal(false);
+            }
+        }
+        else {
+            try {
+                const response = await axios.put(
+                    `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                    skuFormData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+                if (response.status === 200) {
+                    toast.success(response?.data?.message)
+                    setShowAddModal(false);
+                    setRefresh(new Date())
+                }
+            } catch (error) {
+                customErrorFunction(error)
+                setShowAddModal(false);
+            }
+        }
+
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setSkuFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const payload = {
+                id: [id],
+                seller: userData?.id
+            };
+
+            const response = await axios.delete(
+                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                {
+                    data: payload,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response?.status === 200) {
+                toast.success(response?.data?.message)
+                setRefresh(new Date())
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b.]+$/;
+        const { value } = e.target;
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault()
+        }
+        if (value.includes('.')) {
+            const decimalPart = value.split('.')[1];
+            if (decimalPart && decimalPart.length >= 2 && e.key !== 'Backspace' && e.key !== 'Delete') {
+                e.preventDefault();
+            }
+
+        }
+    }
+
+    useEffect(() => {
+        if (showAddModal) {
+            setSkuFormData({
+                sku: "",
+                seller: userData?.id,
+                product_name: "",
+                weight: null,
+                length: null,
+                width: null,
+                height: null,
+                brand_name: ""
+            })
+        }
+    }, [showAddModal])
+
     useEffect(() => {
         const fetchSku = async () => {
             try {
@@ -111,103 +294,13 @@ const SkuUpload = () => {
         }
     }, [userData])
 
-    const handleExport = async () => {
-        try {
-            const response = await axios.get(
-                `${BASE_URL_CORE}/core-api/features/service/export-sku/`,
-                {
-                    responseType: 'blob',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-            if (response.status === 200) {
-                const blob = new Blob([response?.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'sku.xlsx';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                toast.success("File exported successfully")
-            }
-        } catch (error) {
-            customErrorFunction(error);
-        }
-    }
-
-    const handleAddSku = async () => {
-        try {
-            const response = await axios.post(
-                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                skuFormData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-            if (response.status === 201) {
-                toast.success("Sku Added successfully!")
-                setShowAddModal(false);
-                setRefresh(new Date())
-            }
-        } catch (error) {
-            customErrorFunction(error)
-            setShowAddModal(false);
-        }
-    }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setSkuFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
-
-
-    const handleDelete = async (id) => {
-        try {
-            const payload = {
-                id: [id],
-                seller: userData?.id
-            };
-
-            const response = await axios.delete(
-                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                {
-                    data: payload,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-            if (response?.status === 200) {
-                toast.success(response?.data?.message)
-                setRefresh(new Date())
-            }
-
-            console.log('Delete successful:', response.data);
-        } catch (error) {
-            customErrorFunction(error)
-        }
-    };
-
-
-
-
     return (
         <section className='sku-upload-page'>
             <header className='d-flex justify-content-between w-100 align-items-center'>
                 <h4 className='mb-0'>SKU Upload</h4>
                 <div className='d-flex gap-2 align-items-center'>
                     <Button className='btn main-button' onClick={handleExport}>Export</Button>
-                    <Button className='btn main-button' onClick={handleAddShow}>Add SKU</Button>
+                    <Button className='btn main-button' onClick={() => handleAddShow("Add")}>Add SKU</Button>
                     <Button className='btn main-button' onClick={handleImportShow}>Import</Button>
                 </div>
             </header>
@@ -221,7 +314,7 @@ const SkuUpload = () => {
                                         <div className='d-flex gap-1 align-items-center'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.length === skuData?.length}
+                                                checked={selectedRows?.length}
                                                 onChange={handleSelectAll}
                                             />
                                         </div>
@@ -256,7 +349,7 @@ const SkuUpload = () => {
                                             <td>LBH(cm): {Math.floor(row?.length)} x {Math.floor(row?.width)} x {Math.floor(row?.width)}</td>
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-start'>
-                                                    <button className='btn p-0 text-sh-primary'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                                    <button className='btn p-0 text-sh-primary' onClick={() => handleAddShow("Edit", row?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
                                                     <button onClick={() => handleDelete(row?.id)} className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
@@ -271,33 +364,109 @@ const SkuUpload = () => {
 
             <Modal className='add-sku-modal' show={showAddModal} onHide={handleAddClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add SKU</Modal.Title>
+                    <Modal.Title> {actiontype} SKU</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className='d-flex flex-wrap gap-3 w-100'>
                         <div className='d-flex gap-3'>
                             <label>Product SKU
-                                <input type="text" className='input-field' name='sku' onChange={(e) => handleChange(e)} placeholder="Product SKU" />
+                                <input
+                                    type="text"
+                                    name='sku'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.sku}
+                                    placeholder="Product SKU"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
                             </label>
                             <label>Product Name
-                                <input type="text" className='input-field' name='product_name' onChange={(e) => handleChange(e)} placeholder="Product Name" />
+                                <input
+                                    type="text"
+                                    maxLength={50}
+                                    name='product_name'
+                                    className='input-field'
+                                    placeholder="Product Name"
+                                    onChange={(e) => handleChange(e)}
+                                    value={skuFormData.product_name}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
                             </label>
                             <label>Brand Name
-                                <input type="text" className='input-field' name='brand_name' onChange={(e) => handleChange(e)} placeholder="Brand Name" />
+                                <input
+                                    type="text"
+                                    maxLength={50}
+                                    name='brand_name'
+                                    className='input-field'
+                                    placeholder="Brand Name"
+                                    value={skuFormData.brand_name}
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === " " && e.target.value.endsWith(' ')) {
+                                            e.preventDefault()
+                                        }
+                                    }}
+                                />
+
                             </label>
                         </div>
                         <div className='d-flex gap-3'>
                             <label>Product Weight (In K.g) 0.5 for 500 gm
-                                <input type="text" className='input-field' name='weight' onChange={(e) => handleChange(e)} placeholder="Product Weight" />
+                                <input
+                                    type="text"
+                                    name='weight'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.weight}
+                                    placeholder="Product Weight"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Length (In cm)
-                                <input type="text" className='input-field' name='length' onChange={(e) => handleChange(e)} placeholder="Product Length" />
+                                <input
+                                    type="text"
+                                    name='length'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.length}
+                                    placeholder="Product Length"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Breadth (In cm)
-                                <input type="text" className='input-field' name='width' onChange={(e) => handleChange(e)} placeholder="Product Breadth" />
+                                <input
+                                    type="text"
+                                    name='width'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.width}
+                                    placeholder="Product Breadth"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                             <label>Product Height (In cm)
-                                <input type="text" className='input-field' name='height' onChange={(e) => handleChange(e)} placeholder="Product Height" />
+                                <input
+                                    type="text"
+                                    name='height'
+                                    maxLength={50}
+                                    className='input-field'
+                                    value={skuFormData.height}
+                                    placeholder="Product Height"
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyPress={(e) => handleKeyPress(e)}
+                                />
                             </label>
                         </div>
                     </form>
@@ -307,8 +476,8 @@ const SkuUpload = () => {
                         <button className="btn cancel-button" onClick={handleAddClose}>
                             Close
                         </button>
-                        <button className="btn main-button" onClick={handleAddSku}>
-                            Add SKU
+                        <button className="btn main-button" onClick={() => handleAddSku(actiontype)}>
+                            {actiontype} SKU
                         </button>
                     </div>
                 </Modal.Footer>

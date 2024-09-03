@@ -55,7 +55,6 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                     </>}
             </div>
             <div className='ss-container-main'>
-                {/* Iterate over ship options and render details */}
                 {reassignCard && reassignCard?.map((option, index) => (
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>

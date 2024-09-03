@@ -105,7 +105,6 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
                             <div className='row row-gap-3'>
-                                {/* Name */}
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
@@ -117,7 +116,6 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     />
                                     {errors[`product_name_${index}`] && <span className="custom-error">{errors[`product_name_${index}`]}</span>}
                                 </label>
-                                {/* Quantity */}
                                 <label className='col'>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
@@ -134,7 +132,6 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     />
                                     {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
-                                {/* SKU */}
                                 <label className='col'>
                                     <span>SKU <span className='mandatory'>*</span></span>
                                     <input
@@ -156,10 +153,8 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 </label>
                             </div>
                             <div key={index}>
-                                {/* Render delete button only if there are more than one product details */}
                                 {formData.product_details.length > 1 && (
                                     <>
-                                        {/* Conditionally render delete button based on index */}
                                         {index > 0 && (
                                             <div className='d-flex justify-content-end mt-3'>
                                                 <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
