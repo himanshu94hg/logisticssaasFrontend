@@ -49,6 +49,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const [generateinvoice, setGenerateinvoice] = useState(false);
+    const [reassignResponse, setReassignResponse] = useState(null);
     const [cancelOrderStatus, setCancelOrderStatus] = useState("");
     const [SingleShipReassign, setSingleShipReassign] = useState(false)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -187,9 +188,25 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
             toast.error("Cancelled order can't be reassign!")
         }
         else {
-            dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+            if (orderId !== null) {
+                axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card-reassign/?order_id=${orderId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                    .then((response) => {
+                        if (response?.status === 200) {
+                            setReassignResponse(response?.data);
+                            setSingleShipReassign(true);
+
+                        }
+                    })
+                    .catch((error) => {
+                        customErrorFunction(error);
+                        setSingleShipReassign(false);
+                    });
+            }
             setSelectedOrderId(orderId);
-            setSingleShipReassign(true);
         }
     };
 
@@ -397,24 +414,17 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
 
     const handleDownload = async () => {
         if (qc?.images?.length === 1) {
-            // Single image: download directly
             window.location.href = qc.images[0];
         } else if (qc?.images?.length > 1) {
-            // Multiple images: create a zip file and download
             const zip = new JSZip();
             const folder = zip.folder('attachments');
-
-            // Fetch each image and add it to the zip
             const promises = qc.images.map(async (url, index) => {
                 const response = await fetch(url);
                 const blob = await response.blob();
-                const fileName = `image_${index + 1}.${blob.type.split('/')[1]}`; // Use proper file extension
+                const fileName = `image_${index + 1}.${blob.type.split('/')[1]}`;
                 folder.file(fileName, blob);
             });
-
             await Promise.all(promises);
-
-            // Generate the zip and trigger download
             zip.generateAsync({ type: 'blob' }).then((content) => {
                 saveAs(content, 'attachments.zip');
             });
@@ -603,7 +613,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box shipping-details'>
-                                                    {console.log(row, "row?.courier_partner")}
                                                     {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
@@ -680,7 +689,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                         {orders?.length === 0 && <NoData />}
                     </div>
                     <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
-                    <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
+                    <SingleShipPopReassign reassignCard={reassignResponse} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                     <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
                     <div onClick={() => setSingleShipReassign(false)} className={`backdrop ${!SingleShipReassign && 'd-none'}`}></div>
 
@@ -772,10 +781,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                 </div>
                                 <div className='d-flex w-100 justify-content-between align-items-start gap-5'>
                                     <p>Attachment(s):</p>
-                                    {/* {qc?.images?.map(item =>
-                                        <p><a href={item} className='btn main-button'>Download</a></p>
-                                    )} */}
-
                                     <button onClick={handleDownload} className='btn main-button'>Download</button>
                                 </div>
                             </section>

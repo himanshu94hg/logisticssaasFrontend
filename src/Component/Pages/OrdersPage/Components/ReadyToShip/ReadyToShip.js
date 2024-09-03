@@ -29,6 +29,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
+import axios from 'axios';
 
 const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     const [SingleShip, setSingleShip] = useState(false)
     const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [reassignResponse, setReassignResponse] = useState(null);
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
@@ -118,7 +120,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
         } else {
             setBulkActionShow(false);
         }
-
         if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -195,11 +196,27 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
         }
     };
 
+
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
-        setSingleShip(true);
+        if (orderId !== null) {
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card-reassign/?order_id=${orderId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    if (response?.status === 200) {
+                        setReassignResponse(response?.data);
+                        setSingleShip(true);
 
+                    }
+                })
+                .catch((error) => {
+                    customErrorFunction(error);
+                    setSingleShip(false);
+                });
+        }
     };
 
     const handleClickAWB = (e, awb) => {
@@ -520,7 +537,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                             <ul>
                                                                 <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
-                                                                <li onClick={() => handleShipNow(row?.id)}>Reassign</li>
+                                                                <li onClick={() => handleShipNow(row?.id)}>Reassign Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                             </ul>
@@ -537,7 +554,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
+                <SingleShipPop reassignCard={reassignResponse} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <Modal
                     show={show}
                     keyboard={false}

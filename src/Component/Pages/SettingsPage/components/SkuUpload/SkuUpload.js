@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form, FormFloating } from 'react-bootstrap';
 import './SkuUpload.css'
-import Cookies from 'js-cookie';
 import axios from 'axios';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { BASE_URL_CORE } from '../../../../../axios/config';
+import Cookies from 'js-cookie';
+import sampleFile from "./sku.xlsx"
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { Modal, Button, } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import sampleFile from "./sku.xlsx"
-import { useSelector } from 'react-redux';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
@@ -20,7 +20,6 @@ const SkuUpload = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showImportModal, setShowImportModal] = useState(false);
-
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [skuFormData, setSkuFormData] = useState({
         sku: "",
@@ -48,22 +47,8 @@ const SkuUpload = () => {
         })
     };
 
-    useEffect(() => {
-        if (showAddModal) {
-            setSkuFormData({
-                sku: "",
-                seller: userData?.id,
-                product_name: "",
-                weight: null,
-                length: null,
-                width: null,
-                height: null,
-                brand_name: ""
-            })
-        }
-    }, [showAddModal])
-
-
+    const handleImportClose = () => setShowImportModal(false);
+    const handleImportShow = () => setShowImportModal(true);
     const handleAddShow = async (type, id) => {
         setActiontype(type)
         setShowAddModal(true);
@@ -79,8 +64,6 @@ const SkuUpload = () => {
                     }
                 );
                 if (response.status === 200) {
-                    console.log(response.data, "uuuuuuuuuuuuu")
-
                     setSkuFormData({
                         sku: response?.data?.sku,
                         id: response?.data?.id,
@@ -98,9 +81,6 @@ const SkuUpload = () => {
 
         }
     }
-
-    const handleImportClose = () => setShowImportModal(false);
-    const handleImportShow = () => setShowImportModal(true);
 
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -227,6 +207,62 @@ const SkuUpload = () => {
         }))
     }
 
+    const handleDelete = async (id) => {
+        try {
+            const payload = {
+                id: [id],
+                seller: userData?.id
+            };
+
+            const response = await axios.delete(
+                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
+                {
+                    data: payload,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response?.status === 200) {
+                toast.success(response?.data?.message)
+                setRefresh(new Date())
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b.]+$/;
+        const { value } = e.target;
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault()
+        }
+        if (value.includes('.')) {
+            const decimalPart = value.split('.')[1];
+            if (decimalPart && decimalPart.length >= 2 && e.key !== 'Backspace' && e.key !== 'Delete') {
+                e.preventDefault();
+            }
+
+        }
+    }
+
+    useEffect(() => {
+        if (showAddModal) {
+            setSkuFormData({
+                sku: "",
+                seller: userData?.id,
+                product_name: "",
+                weight: null,
+                length: null,
+                width: null,
+                height: null,
+                brand_name: ""
+            })
+        }
+    }, [showAddModal])
+
     useEffect(() => {
         const fetchSku = async () => {
             try {
@@ -257,56 +293,6 @@ const SkuUpload = () => {
             }))
         }
     }, [userData])
-
-
-
-    // https://app.shipease.in/core-api/features/service/create-sku/
-
-    const handleDelete = async (id) => {
-        try {
-            const payload = {
-                id: [id],
-                seller: userData?.id
-            };
-
-            const response = await axios.delete(
-                `${BASE_URL_CORE}/core-api/features/service/create-sku/`,
-                {
-                    data: payload,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-            if (response?.status === 200) {
-                toast.success(response?.data?.message)
-                setRefresh(new Date())
-            }
-
-            console.log('Delete successful:', response.data);
-        } catch (error) {
-            customErrorFunction(error)
-        }
-    };
-
-
-    const handleKeyPress = (e) => {
-        const allowedCharacters = /^[0-9\b.]+$/;
-        const { value } = e.target;
-        if (!allowedCharacters.test(e.key)) {
-            e.preventDefault()
-        }
-        if (value.includes('.')) {
-            const decimalPart = value.split('.')[1];
-            if (decimalPart && decimalPart.length >= 2 && e.key !== 'Backspace' && e.key !== 'Delete') {
-                e.preventDefault();
-            }
-
-        }
-    }
-
-
 
     return (
         <section className='sku-upload-page'>
@@ -378,7 +364,7 @@ const SkuUpload = () => {
 
             <Modal className='add-sku-modal' show={showAddModal} onHide={handleAddClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add SKU</Modal.Title>
+                    <Modal.Title> {actiontype} SKU</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className='d-flex flex-wrap gap-3 w-100'>
