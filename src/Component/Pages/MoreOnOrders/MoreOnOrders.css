@@ -369,6 +369,28 @@
   color: #F31429;
 }
 
+.confirmation-modal.split-order-popup .modal-dialog {
+  margin-top: 5%;
+  max-width: 460px;
+}
+
+
+.confirmation-modal.split-order-popup table th,
+.confirmation-modal.split-order-popup table td {
+  text-align: start;
+}
+
+.confirmation-modal.split-order-popup table td {
+  padding-block: 7px;
+}
+
+.confirmation-modal.split-order-popup .modal-footer {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
