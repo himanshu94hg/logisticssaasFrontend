@@ -138,7 +138,9 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                                 maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                    if (e.key === ' ' && e.target.value.endsWith(' ')) {
+                                    if (                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
                                         e.preventDefault();
                                     } else if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
