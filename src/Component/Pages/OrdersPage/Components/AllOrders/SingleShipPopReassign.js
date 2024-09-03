@@ -4,10 +4,10 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import PieChart from './PieChart';
-import StarRating from './StarRating';
 //import './SingleShipPop';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import RatingStars from '../../../../common/RatingStars/RatingStars';
 
 
 
@@ -28,7 +28,7 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
         return result;
     };
 
-    const handleSubmit = (option,shipCharge) => {
+    const handleSubmit = (option, shipCharge) => {
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
@@ -76,7 +76,7 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                            {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner'/>}
+                                {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner' />}
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
@@ -89,19 +89,19 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
                                 <tbody>
                                     <tr>
                                         <td>Pickup Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>Delivery Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4} /></td>
                                     </tr>
                                     <tr>
                                         <td>NDR Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={3.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>RTO Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={5} /></td>
                                     </tr>
                                 </tbody>
                             </table>
