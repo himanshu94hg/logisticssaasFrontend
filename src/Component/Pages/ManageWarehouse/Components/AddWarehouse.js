@@ -65,13 +65,16 @@ const AddWarehouse = () => {
             }
             if (!warehouseData.contact_number) {
                 newErrors.contact_number = "Contact Number is required!"
+            } else if (warehouseData.contact_number.length !== 10) {
+                newErrors.contact_number = "Contact Number must be 10 digits!";
             }
             if (!warehouseData.gst_number) {
                 newErrors.gst_number = "GST Number is required!"
+            }else if (warehouseData.gst_number.length !== 15) {
+                newErrors.gst_number = "GST Number must be 15 digits!";
             }
             if (!warehouseData.address_line1) {
                 newErrors.address_line1 = "Address Line 1 is required!"
-
             }
             if (!warehouseData.address_line2) {
                 newErrors.address_line2 = "Address Line 2 is required!"
@@ -148,8 +151,6 @@ const AddWarehouse = () => {
     const handleChangeWarehouse = (event) => {
         const { name, value } = event.target;
 
-        console.log(value, "valuevalue")
-
         if (name === "contact_number") {
             if (value.length === 10) {
                 setErrors((prev) => {
@@ -159,7 +160,7 @@ const AddWarehouse = () => {
             } else {
                 setErrors((prev) => ({
                     ...prev,
-                    contact_number: 'Mobile Number should be 10 digits!'
+                    contact_number: 'Contact Number must be 10 digits!'
                 }))
             }
         }

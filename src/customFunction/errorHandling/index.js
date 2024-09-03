@@ -38,7 +38,6 @@ export const customErrorFunction = (error) => {
     }
     else if (error?.response?.status <= 400 && error?.response?.status <= 499) {
         errorHandleSecond(error?.response?.data)
-        console.log(error?.response?.data,"this is a hyper link data")
     }
     else {
         toast.error("Something went wrong!")
