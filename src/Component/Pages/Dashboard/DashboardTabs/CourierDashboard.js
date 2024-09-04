@@ -1,51 +1,30 @@
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
-import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
-import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import { useSelector } from 'react-redux';
+import RatingStars from '../../../common/RatingStars/RatingStars';
 
-const CourierDashboard = ({activeTab}) => {
-  const dispatch=useDispatch()
-  const [openIndex, setOpenIndex] = useState(0); 
+const CourierDashboard = ({ activeTab }) => {
+  const dispatch = useDispatch()
+  const [openIndex, setOpenIndex] = useState(0);
   const partnerList = JSON.parse(localStorage.getItem('partnerList'));
-  const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
+  const { courierData } = useSelector(state => state?.dashboardCourierReducer);
 
-  useEffect(()=>{
-    if(activeTab==="Courier Delays"){
-      dispatch({type:"DASHBOARD_COURIER_ACTION",payload:dateRangeDashboard})
+  useEffect(() => {
+    if (activeTab === "Courier Delays") {
+      dispatch({ type: "DASHBOARD_COURIER_ACTION", payload: dateRangeDashboard })
     }
-  },[activeTab])
+  }, [activeTab])
 
   const toggleRow = (index) => {
-    setOpenIndex(index === openIndex ? -1 : index); 
+    setOpenIndex(index === openIndex ? -1 : index);
   };
 
-  const generateStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const halfStars = rating - fullStars >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStars;
-
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<FontAwesomeIcon className='text-golden' key={i} icon={faStar} />);
-    }
-
-    if (halfStars) {
-      stars.push(<FontAwesomeIcon className='text-golden' key={'half'} icon={faStarHalfAlt} />);
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(<FontAwesomeIcon className='text-golden' key={`empty-${i}`} icon={farStar} />);
-    }
-
-    return stars;
+  const generateRandomRating = () => {
+    return (Math.random() + 3.9).toFixed(1);
   };
-
-
 
   return (
     <>
@@ -58,8 +37,8 @@ const CourierDashboard = ({activeTab}) => {
                 <h4>{item?.courier_name && partnerList[item?.courier_name]["title"]}</h4>
                 <div>Mode: Surface</div>
                 <div>Shipment Count: {item?.total_shipment}</div>
-                <div>
-                  Performance Rating: {generateStars(item?.rating)}
+                <div className='d-flex align-items-center'>
+                  Performance Rating: <RatingStars rating={generateRandomRating()} />
                 </div>
                 <span>{openIndex === index ? <FontAwesomeIcon icon={faChevronDown} /> : <FontAwesomeIcon icon={faChevronUp} />}</span>
               </div>
