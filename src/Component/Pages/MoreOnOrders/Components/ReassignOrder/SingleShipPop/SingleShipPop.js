@@ -1,12 +1,12 @@
 import './SingleShipPop';
 import Swal from 'sweetalert2';
 import PieChart from './PieChart';
-import StarRating from './StarRating';
 import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import RatingStars from '../../../../../common/RatingStars/RatingStars';
 
 const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partnerList, setLoader }) => {
     const dispatch = useDispatch()
@@ -80,19 +80,19 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partn
                                 <tbody>
                                     <tr>
                                         <td>Pickup Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>Delivery Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>NDR Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                     <tr>
                                         <td>RTO Performance</td>
-                                        <td><StarRating rating={4.5} /></td>
+                                        <td><RatingStars rating={4.5} /></td>
                                     </tr>
                                 </tbody>
                             </table>
