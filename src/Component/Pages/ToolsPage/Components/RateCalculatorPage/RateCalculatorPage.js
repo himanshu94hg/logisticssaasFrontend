@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
-import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
+import RatingStars from '../../../../common/RatingStars/RatingStars';
 
 
 const RateCalculatorPage = () => {
@@ -575,19 +575,19 @@ const RateCalculatorPage = () => {
                         <tbody>
                           <tr>
                             <td>Pickup Performance</td>
-                            <td><StarRating rating={4.5} /></td>
+                            <td><RatingStars rating={4.5} /></td>
                           </tr>
                           <tr>
                             <td>Delivery Performance</td>
-                            <td><StarRating rating={4.5} /></td>
+                            <td><RatingStars rating={4.5} /></td>
                           </tr>
                           <tr>
                             <td>NDR Performance</td>
-                            <td><StarRating rating={4.5} /></td>
+                            <td><RatingStars rating={4.5} /></td>
                           </tr>
                           <tr>
                             <td>RTO Performance</td>
-                            <td><StarRating rating={4.5} /></td>
+                            <td><RatingStars rating={4.5} /></td>
                           </tr>
                         </tbody>
                       </table>
