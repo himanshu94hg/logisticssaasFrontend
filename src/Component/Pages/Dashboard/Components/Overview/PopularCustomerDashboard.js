@@ -1,21 +1,10 @@
-import React, { useEffect } from "react";
-import { FaStar } from "react-icons/fa6";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { BiSolidBadgeCheck } from "react-icons/bi";
 import { percentage } from "../../../../../customFunction/functionLogic";
+import RatingStars from "../../../../common/RatingStars/RatingStars";
 
 function PopularCustomerDashboard() {
-  const renderStars = (percentage) => {
-    const totalStars = 5;
-    const filledStars = Math.ceil((percentage / 100) * totalStars);
-    const stars = [];
-    for (let i = 0; i < filledStars; i++) {
-      stars.push(<FaStar className="font15 text-golden" key={i} />);
-    }
-    return stars;
-  };
-
   const { mostPopularCusData } = useSelector(state => state?.dashboardOverviewReducer)
   const total = mostPopularCusData.reduce((acc, data) => acc + data.count, 0)
 
@@ -37,7 +26,7 @@ function PopularCustomerDashboard() {
           </li>
           <li className="w50">
             <div className="d-flex justify-content-between">
-              <p className="font12 bold-600 mb-10">{renderStars(90)}</p>
+              <p className="font12 bold-600 mb-10"><RatingStars rating={4.5} /></p>
               <p className="font12 bold-600 mb-10">
                 <span className="text-gray-light ">{percentage(customer.count, total)}</span>
               </p>
