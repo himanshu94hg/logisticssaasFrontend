@@ -34,6 +34,8 @@ const SkuUpload = () => {
         height: null,
         brand_name: ""
     })
+    const handleImportClose = () => setShowImportModal(false);
+    const handleImportShow = () => setShowImportModal(true);
 
     const handleAddClose = () => {
         setFile(null);
@@ -52,8 +54,6 @@ const SkuUpload = () => {
         setErrors('')
     };
 
-    const handleImportClose = () => setShowImportModal(false);
-    const handleImportShow = () => setShowImportModal(true);
     const handleAddShow = async (type, id) => {
         setActiontype(type)
         setShowAddModal(true);
