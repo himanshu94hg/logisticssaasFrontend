@@ -9,6 +9,11 @@ import AccountInfo from './Components/AccountInfo';
 import AgreementInfo from './Components/AgreementInfo';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import VerifiedCustomer from './VerifiedCustomer/VerifiedCustomer';
+import { BASE_URL_CORE } from '../../../axios/config';
+import axios from 'axios';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
+import Cookies from 'js-cookie';
+
 
 const CustomerPage = () => {
   const location = useLocation();
@@ -40,29 +45,72 @@ const CustomerPage = () => {
     }
   }, [activeTab])
 
+  const [subAccount, setSubAccount] = useState(null)
+  const [accountType,setAccountType]=useState("")
+  const [subAccountCount, setSubAccountCount] = useState(null)
+  let authToken = Cookies.get("access_token")
+
+
+  useEffect(() => {
+    const fetchSku = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL_CORE}/core-api/seller/sub-account/`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          const subAccounts = response?.data?.results?.map((item) => ({
+            label: "Sub Account - " + item?.seller?.id,
+            value: item.seller?.id
+          }));
+          setSubAccount(subAccounts);
+          setSubAccountCount(response?.data?.results?.length)
+        }
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    };
+    fetchSku();
+  }, []);
+
+  console.log(accountType,"this is a account type data")
+
 
   return (
     <>
-      <NavTabs DetailsView={DetailsView} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <NavTabs
+        activeTab={activeTab}
+        subAccount={subAccount}
+        DetailsView={DetailsView}
+        setActiveTab={setActiveTab}
+        setSubAccount={setSubAccount}
+        setAccountType={setAccountType}
+        subAccountCount={subAccountCount}
+      />
 
       {
         DetailsView ?
-          <VerifiedCustomer /> :
+          <VerifiedCustomer  accountType={accountType}/> :
           <>
             <div className={`${activeTab === "Basic Information" ? "d-block" : "d-none"}`}>
-              <BasicInfo activeTab={activeTab} />
+              <BasicInfo activeTab={activeTab} accountType={accountType}/>
             </div>
 
             <div className={`${activeTab === "Account Information" ? "d-block" : "d-none"}`}>
-              <AccountInfo activeTab={activeTab} />
+              <AccountInfo activeTab={activeTab} accountType={accountType} />
             </div>
 
             <div className={`${activeTab === "KYC Information" ? "d-block" : "d-none"}`}>
-              <KYCInfo activeTab={activeTab} />
+              <KYCInfo activeTab={activeTab} accountType={accountType} />
             </div>
 
             <div className={`${activeTab === "Agreement" ? "d-block" : "d-none"}`}>
-              <AgreementInfo activeTab={activeTab}  setDetailsView={setDetailsView} />
+              <AgreementInfo activeTab={activeTab} accountType={accountType} setDetailsView={setDetailsView} />
             </div>
           </>
       }

@@ -6,6 +6,8 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 const WhatsAppNotification = () => {
@@ -17,6 +19,7 @@ const WhatsAppNotification = () => {
     const [shipmentStatuses, setShipmentStatuses] = useState([]);
     const [showPreviewModal, setShowPreviewModal] = useState(false);
     const handleClosePreviewModal = () => setShowPreviewModal(false);
+    const [refresh, setRefresh] = useState(null)
 
     const handlePreviewClick = (status, preview) => {
         setCurrentPreview({
@@ -69,9 +72,36 @@ const WhatsAppNotification = () => {
             }
         }
         fetchData()
-    }, [])
+    }, [refresh])
 
-    console.log(shipmentStatuses, "shipmentStatusesshipmentStatuses")
+
+    const handleChangeStatus = async (e, id) => {
+        const data = {
+            id: id,
+            is_enabled: e.target.checked
+        };
+
+        try {
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/shipease-admin/seller-whatsapp-message/`,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                toast.success("Status updated successfully!");
+                setRefresh(new Date())
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    };
+
+
 
     return (
         <>
@@ -81,42 +111,24 @@ const WhatsAppNotification = () => {
                     <table className="w-100">
                         <thead>
                             <tr className='table-row box-shadow'>
-                                <th>Shipment Status</th>
-                                <th>Preview</th>
-                                <th>Edit</th>
-                                <th>Select</th>
+                                <th>Title</th>
+                                <th>Status</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {shipmentStatuses?.map((status, index) => (
+                            {shipmentStatuses?.map((item, index) => (
                                 <React.Fragment key={index}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td>{status?.status} Status</td>
-                                        <td>
-                                            <button
-                                                className='btn action-btn'
-                                                title={`Preview ${status.status} Status`}
-                                                onClick={() => handlePreviewClick(status.status, status.preview)}
-                                            >
-                                                <FontAwesomeIcon icon={faEye} />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button
-                                                className='btn action-btn'
-                                                title={`Edit ${status.status} Status`}
-                                                onClick={() => handleEditClick(status?.status, status.edit, index)}
-                                            >
-                                                <FontAwesomeIcon icon={faPenToSquare} />
-                                            </button>
-                                        </td>
+                                        <td>{item?.title} Status</td>
+
                                         <td>
                                             <Form.Check
                                                 type="switch"
-                                                id={`custom-switch-${index}`}
-                                                title={`Enable ${status.status} status`}
+                                                title={item?.status}
+                                                checked={item?.status}
+                                                onChange={(e) => handleChangeStatus(e, item?.id)}
                                             />
                                         </td>
                                     </tr>

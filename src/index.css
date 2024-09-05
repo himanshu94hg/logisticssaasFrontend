@@ -674,6 +674,15 @@ p {
   background: #fff;
 }
 
+.select-field-account {
+  height: 33px;
+  border: 1px solid var(--sh-primary-middle);
+  width: 100%;
+  padding-left: 10px;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
 .inputs-container .input-field,
 .inputs-container .select-field {
   min-width: 100%;

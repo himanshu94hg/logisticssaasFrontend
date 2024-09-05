@@ -15,7 +15,7 @@ import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import globalDebouncedClick from "../../../../debounce";
 import { useSelector } from "react-redux";
 
-const AccountInfo = ({ activeTab }) => {
+const AccountInfo = ({ activeTab, accountType }) => {
   const [errors, setErrors] = useState([]);
   const [show, setShow] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -30,7 +30,7 @@ const AccountInfo = ({ activeTab }) => {
     if (activeTab === "Account Information") {
       fetchAccountData();
     }
-  }, [activeTab]);
+  }, [activeTab, accountType]);
 
   useEffect(() => {
     if (accounts.length === 0) {
@@ -39,8 +39,12 @@ const AccountInfo = ({ activeTab }) => {
   }, [accounts]);
 
   const fetchAccountData = async () => {
+    let url = `${BASE_URL_CORE}/core-api/seller/bank-info/`;
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
     try {
-      const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/bank-info/`, {
+      const response = await axios.get(url, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
