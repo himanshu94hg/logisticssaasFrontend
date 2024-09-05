@@ -77,27 +77,21 @@ export default function NavTabs(props) {
           }
         </Nav>
       </Navbar.Collapse>
-      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
-        <div className="selected-option">
-          {selectedOption || "Select an option"}
-          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
-
-        </div>
-
-        <div className={`options-container ${isOpen ? "open" : ""}`}>
-          <div
-            className={`option ${selectedOption === "Parent Account" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Parent Account")}
-          >
-            Parent Account
-          </div>
-        </div>
-
+      <div>
+        <select
+          className="select-field-account"
+          onChange={(e) => props?.setAccountType(e.target.value)}
+        >
+          <option value="">Select Sub Account</option>
+          {props?.subAccount?.map((item) =>
+            <option value={item?.value}>{item.label}</option>
+          )}
+        </select>
       </div>
       {
         screenWidthData > 453 &&
         <div className="d-flex gap-10 align-items-center">
-          <button className="btn main-button-outline">Sub Acount: <strong>0</strong></button>
+          <button className="btn main-button-outline">Sub Acount: <strong>{props.subAccountCount}</strong></button>
         </div>
       }
     </Navbar>

@@ -1,13 +1,8 @@
-import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl, billingDummyBaseUrl } from "../config";
-
+import { coreBaseUrl, courierBaseUrl, orderBaseUrl, } from "../config";
 
 export const BASE_URL_CORE = coreBaseUrl;
 export const BASE_URL_ORDER = orderBaseUrl;
-export const BASE_URL_DUMMY = dummyBaseUrl;
-export const BASE_URL_MOREON = moreonBaseUrl;
 export const BASE_URL_COURIER = courierBaseUrl;
-export const BASE_URL_BILLING = billingDummyBaseUrl;
-
 
 export const API_URL = {
   index: "/",
@@ -40,32 +35,32 @@ export const API_URL = {
   GET_BILLING_SHIPING_INVOICE_URL: "/core-api/features/billing/invoice/",
   GET_BILLING_SHIPING_REMITANCE_URL: "/core-api/features/billing/remittance-log/",
   GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL: "/core-api/features/billing/remittance-log-download/",
-  SAVE_FAVOURITE_ORDERS_API:"/orders-api/orders/seller-filter/",
+  SAVE_FAVOURITE_ORDERS_API: "/orders-api/orders/seller-filter/",
   GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
   GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
-  BULK_SHIP_ORDERS_API:"/core-api/shipping/bulk-ship-order/",
-  MANIFEST_LIST_API:"/orders-api/orders/manifest/",
-  ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
-  ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/",
+  BULK_SHIP_ORDERS_API: "/core-api/shipping/bulk-ship-order/",
+  MANIFEST_LIST_API: "/orders-api/orders/manifest/",
+  ORDER_TAGS_LIST_API: "/orders-api/orders/order-tags/",
+  ORDER_DOWNLOAD_MANIFEST_API: "/core-api/shipping/download-manifest/",
   ORDER_CLONE_API: "/orders-api/orders/",
 
   GET_BILLING_INVOICE_DOWNLOAD_URL: "/core-api/features/billing/download-invoice-detail/",
-  GET_SELLER_URL:"/core-api/seller/basic-info/",
-  
+  GET_SELLER_URL: "/core-api/seller/basic-info/",
+
   //BULK ACTION ACTION SECTION
-  BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
-  BULK_MARK_ORDER_VERIFY:"/orders-api/orders/bulk-action/mark-order-verify/",
-  BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
-  BULK_CANCEL_ORDER:"/core-api/shipping/cancel-order/",
-  BULK_CANCEL_ORDER_PROCESSING:"/orders-api/orders/bulk-action/cancel-order/",
-  BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
-  BULK_DIMENSION_DETAILS_UPDATE:"/orders-api/orders/bulk-action/dimension-detail-update/",
-  BULK_ORDER_GENERATE_MENIFEST_API:"/orders-api/orders/generate-manifest/",
-  BULK_ORDER_GENERATE_PICKUP_API:"/core-api/shipping/generate-pickup/", 
-  BULK_ORDER_GENERATE_LABEL_API:"/courier-api/courier/generate-label/", 
-  BULK_ORDER_GENERATE_INVOICE_API:"/core-api/shipping/generate-invoice/", 
-  BULK_ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/", 
-  BULK_DIMENSION_GET_API:"/orders-api/orders/bulk-action/dimension-details/", 
+  BULK_ADD_ORDER_TAG: "/orders-api/orders/bulk-action/add-order-tag/",
+  BULK_MARK_ORDER_VERIFY: "/orders-api/orders/bulk-action/mark-order-verify/",
+  BULK_DELETE_ORDER: "/orders-api/orders/bulk-action/delete-order/",
+  BULK_CANCEL_ORDER: "/core-api/shipping/cancel-order/",
+  BULK_CANCEL_ORDER_PROCESSING: "/orders-api/orders/bulk-action/cancel-order/",
+  BULK_PICKUP_ADDRESS_UPDATE: "/orders-api/orders/bulk-action/pickup-address-update/",
+  BULK_DIMENSION_DETAILS_UPDATE: "/orders-api/orders/bulk-action/dimension-detail-update/",
+  BULK_ORDER_GENERATE_MENIFEST_API: "/orders-api/orders/generate-manifest/",
+  BULK_ORDER_GENERATE_PICKUP_API: "/core-api/shipping/generate-pickup/",
+  BULK_ORDER_GENERATE_LABEL_API: "/courier-api/courier/generate-label/",
+  BULK_ORDER_GENERATE_INVOICE_API: "/core-api/shipping/generate-invoice/",
+  BULK_ORDER_DOWNLOAD_MANIFEST_API: "/core-api/shipping/download-manifest/",
+  BULK_DIMENSION_GET_API: "/orders-api/orders/bulk-action/dimension-details/",
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
@@ -83,7 +78,7 @@ export const API_URL = {
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
   GET_CONFIGURATION_URL: "/core-api/seller/general-configuration/",
-  GET_PROFILE_URL:"/core-api/seller/get-seller-profile/",
+  GET_PROFILE_URL: "/core-api/seller/get-seller-profile/",
 
   //MOREONORDER REASSIGN
   GET_REASSIGN_URL: "/core-api/shipping/ship-rate-card-reassign/",
@@ -92,13 +87,13 @@ export const API_URL = {
   //EXPORTS
   GET_EXPORT_URL: "/orders-api/orders/export-order/",
   GET_EXPORT_ALL_URL: "/orders-api/orders/export-all-order/",
-  GET_EXPORT_PASSBOOK_URL :"/core-api/features/billing/passbook-download/",
-  GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
-  GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
-  GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
+  GET_EXPORT_PASSBOOK_URL: "/core-api/features/billing/passbook-download/",
+  GET_EXPORT_SHIPPING_URL: "/core-api/features/billing/shipping-charge-download/",
+  GET_EXPORT_RECHARGE_URL: "/core-api/features/billing/recharge-log-download/",
+  GET_EXPORT_INVOICE_URL: "/core-api/features/billing/export-invoice/",
   GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
-  GET_EXPORT_REMITANCE_URL:"/core-api/features/billing/remittance-log-download/",
-  GET_EXPORT_RECEIPT_URL:"/core-api/features/billing/credit-receipt-download/",
+  GET_EXPORT_REMITANCE_URL: "/core-api/features/billing/remittance-log-download/",
+  GET_EXPORT_RECEIPT_URL: "/core-api/features/billing/credit-receipt-download/",
 
   GET_EXPORT_SHIPMENT_URL: "/orders-api/orders/export-order-shipment/",
   GET_EXPORT_SHIPMENT_ALL_URL: "/orders-api/orders/export-all-order-shipment/",
@@ -162,7 +157,7 @@ export const API_URL = {
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
 
   //INTEGRATION API'S
-  POST_GENERATE_API_KEY:"/core-api/seller/api-key/",
+  POST_GENERATE_API_KEY: "/core-api/seller/api-key/",
 
   //WEIGHT RECO
   GET_WEIGHT: "/orders-api/orders/weight-reconciliation/",
@@ -170,33 +165,33 @@ export const API_URL = {
   GET_SETTELED: "/orders-api/orders/setteled-weight-reconciliation/",
   GET_HISTORY: "/orders-api/orders/weight-reconciliation-history/",
   GET_ACCEPT: "/orders-api/orders/weight-reconciliation-accept/",
-  GET_COMMENT : "/orders-api/orders/weight-reconciliation-create-history/",
-  GET_DISPUTE : "/orders-api/orders/weight-reconciliation-dispute/",
+  GET_COMMENT: "/orders-api/orders/weight-reconciliation-create-history/",
+  GET_DISPUTE: "/orders-api/orders/weight-reconciliation-dispute/",
 
   //MIS API
-  MIS_DOWNLOAD:"/orders-api/mis/downloads/",
-  MIS_REPORT_BILLING:"/orders-api/mis/report/billing/",
-  MIS_REPORT_ORDERS:"/orders-api/mis/report/orders/",
-  MIS_REPORT_RETURNS:"/orders-api/mis/report/returns/",
-  MIS_REPORT_SHIPMENTS:"/orders-api/mis/report/shipments/",
-  MIS_SCHEDULED_REPEORTS:"/orders-api/mis/scheduled-reports/",
-  MIS_ACTIVITIES_LOG:"/core-api/seller/mis/activity-log/",
+  MIS_DOWNLOAD: "/orders-api/mis/downloads/",
+  MIS_REPORT_BILLING: "/orders-api/mis/report/billing/",
+  MIS_REPORT_ORDERS: "/orders-api/mis/report/orders/",
+  MIS_REPORT_RETURNS: "/orders-api/mis/report/returns/",
+  MIS_REPORT_SHIPMENTS: "/orders-api/mis/report/shipments/",
+  MIS_SCHEDULED_REPEORTS: "/orders-api/mis/scheduled-reports/",
+  MIS_ACTIVITIES_LOG: "/core-api/seller/mis/activity-log/",
 
   //SETTINGS API
-   SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/",
-   SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
-   SETTINGS_GET_WAREHOUSE_DETAILS_API:"/core-api/features/warehouse-detail/",
-   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
+  SETTINGS_MAKE_WAREHOUSE_DEFAULT_API: "/core-api/features/make-warehouse-default/",
+  SETTINGS_DELETE_WAREHOUSE_API: "/core-api/features/warehouse-detail/",
+  SETTINGS_GET_WAREHOUSE_DETAILS_API: "/core-api/features/warehouse-detail/",
+  SETTINGS_EDIT_WAREHOUSE_API: "/core-api/features/warehouse-detail/",
 
 
-   //CHANNEL
-   GET_CHANNEL_URL: "/core-api/channel/channel/",
-   GET_CHANNEL_API_URL:"/core-api/channel/get-channel/",
+  //CHANNEL
+  GET_CHANNEL_URL: "/core-api/channel/channel/",
+  GET_CHANNEL_API_URL: "/core-api/channel/get-channel/",
 
-   GET_COURIER_PARTNER:"/core-api/features/partner-list/",
+  GET_COURIER_PARTNER: "/core-api/features/partner-list/",
 
-   GET_BILLING_PASSBOOK_COUNTER_URL:"/core-api/features/billing/passbook-counter/",
-   GET_BILLING_RECHARGE_COUNTER_URL:"/core-api/features/billing/recharge-log-counter/",
-   GET_SHIPPING_COUNTER_URL:"/core-api/features/billing/shipping-charge-counter/",
-   GET_REMITANCE_EXPORT_URL:"/core-api/features/billing/remittance-log-export-by-filter/",
+  GET_BILLING_PASSBOOK_COUNTER_URL: "/core-api/features/billing/passbook-counter/",
+  GET_BILLING_RECHARGE_COUNTER_URL: "/core-api/features/billing/recharge-log-counter/",
+  GET_SHIPPING_COUNTER_URL: "/core-api/features/billing/shipping-charge-counter/",
+  GET_REMITANCE_EXPORT_URL: "/core-api/features/billing/remittance-log-export-by-filter/",
 };

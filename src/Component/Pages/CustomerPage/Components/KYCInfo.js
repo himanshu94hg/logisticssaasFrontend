@@ -12,7 +12,7 @@ import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
 import { Document, Page } from 'react-pdf';
 
-const KYCInfo = ({ activeTab }) => {
+const KYCInfo = ({ activeTab, accountType }) => {
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState([]);
   const [resData, setResData] = useState("");
@@ -62,8 +62,12 @@ const KYCInfo = ({ activeTab }) => {
   const handleClose = () => setShow(false);
 
   const fetchKYCData = async () => {
+    let url = `${BASE_URL_CORE}/core-api/seller/bank-info/`;
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
     try {
-      const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/kyc-info/`, {
+      const response = await axios.get(url, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
@@ -377,7 +381,7 @@ function Preview({ show, handleClose, previewImage }) {
           <Modal.Title>Image Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body className='p-1'>
-            <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
         </Modal.Body>
       </Modal>
     </>
