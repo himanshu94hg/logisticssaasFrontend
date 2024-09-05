@@ -157,7 +157,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
             order_ids: `${orderId}`
         };
         try {
-            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
+            const response = await fetch(`${BASE_URL_CORE}/courier-api/courier/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

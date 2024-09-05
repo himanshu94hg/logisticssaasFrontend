@@ -9,7 +9,7 @@ import NoData from '../../../../common/noData';
 import React, { useState, useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { BASE_URL_CORE } from '../../../../../axios/config';
+import { BASE_URL_CORE, BASE_URL_COURIER } from '../../../../../axios/config';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { faCircle, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -134,7 +134,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 order_ids: `${orderId}`
             };
 
-            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
+            const response = await fetch(`${BASE_URL_COURIER}/courier-api/courier/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -62,7 +62,7 @@ export const API_URL = {
   BULK_DIMENSION_DETAILS_UPDATE:"/orders-api/orders/bulk-action/dimension-detail-update/",
   BULK_ORDER_GENERATE_MENIFEST_API:"/orders-api/orders/generate-manifest/",
   BULK_ORDER_GENERATE_PICKUP_API:"/core-api/shipping/generate-pickup/", 
-  BULK_ORDER_GENERATE_LABEL_API:"/core-api/shipping/generate-label/", 
+  BULK_ORDER_GENERATE_LABEL_API:"/courier-api/courier/generate-label/", 
   BULK_ORDER_GENERATE_INVOICE_API:"/core-api/shipping/generate-invoice/", 
   BULK_ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/", 
   BULK_DIMENSION_GET_API:"/orders-api/orders/bulk-action/dimension-details/", 
