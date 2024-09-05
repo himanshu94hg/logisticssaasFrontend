@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
 
-const VerifiedCustomer = () => {
+const VerifiedCustomer = ({accountType}) => {
     const hardcodedToken = Cookies.get("access_token");
     const [formData, setFormData] = useState([]);
     const logoImg = "https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"

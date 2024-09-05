@@ -17,7 +17,7 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
 import { useSelector } from "react-redux";
 
-const BasicInfo = ({ activeTab }) => {
+const BasicInfo = ({ activeTab, accountType }) => {
   const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
   const [logoError, setLogoError] = useState("");
@@ -110,10 +110,15 @@ const BasicInfo = ({ activeTab }) => {
   };
 
 
+
   useEffect(() => {
     if (activeTab === "Basic Information") {
+      let url = `${BASE_URL_CORE}/core-api/seller/basic-info/`;
+      if (accountType) {
+        url += `?subaccount=${accountType}`;
+      }
       axios
-        .get(`${BASE_URL_CORE}/core-api/seller/basic-info/`, {
+        .get(url, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
@@ -146,7 +151,7 @@ const BasicInfo = ({ activeTab }) => {
           customErrorFunction(error)
         });
     }
-  }, [activeTab]);
+  }, [activeTab, accountType]);
 
   const handleClickSubmit = async (formData) => {
     setLoaderRing(true)

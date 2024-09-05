@@ -1,6 +1,6 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
+import { API_URL, BASE_URL_CORE,  BASE_URL_ORDER } from "../../../../axios/config";
 import { SHIPMENT_DATA_ACTION,SHIPMENT_REATTEMPT_DATA_ACTION,SHIPMENT_RTO_DATA_ACTION } from "../../constant/shipment";
 import { GET_SHIPMENT_DATA,GET_SHIPMENT_REATTEMPT_DATA,GET_SHIPMENT_RTO_DATA } from "../../../constants/shipment";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import { customErrorFunction } from '../../../../customFunction/errorHandling';
 async function shipmentFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URL}?action=${data}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_BILLING_URL}?action=${data}`,
         data: data
     });
     return listData;
@@ -33,7 +33,7 @@ function* shipmentFilesAction(action) {
 async function shipmentReattemptFileAPI(data) {
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_SHIPMENT_REATTEMPT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_SHIPMENT_REATTEMPT_URL}`,
         data: data
     });
     return listData;
@@ -55,7 +55,7 @@ function* shipmentReattemptFilesAction(action) {
 async function shipmentRtoFileAPI(data) {
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_SHIPMENT_RTO_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_SHIPMENT_RTO_URL}`,
         data: data
     });
     return listData;

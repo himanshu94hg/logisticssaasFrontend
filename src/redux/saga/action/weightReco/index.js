@@ -1,7 +1,7 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-import { API_URL, BASE_URL_DUMMY, BASE_URL_ORDER } from "../../../../axios/config";
+import { API_URL, BASE_URL_ORDER } from "../../../../axios/config";
 import { COURIER_WEIGHT_RECO_ACTION, WEIGHT_ACTION, HOLD_ACTION, SETTELED_ACTION, HISTORY_ACTION, ACCEPT_ACTION, COMMENT_ACTION, DISPUTE_ACTION } from "../../constant/weightReco";
 import { GET_WEIGHT_RECO_DATA, GET_WEIGHT_DATA, GET_HOLD_DATA, GET_SETTELED_DATA, GET_HISTORY_DATA, GET_ACCEPT_DATA, GET_COMMENT_DATA, GET_DISPUTE_DATA } from "../../../constants/weightReco";
 
@@ -153,7 +153,7 @@ function* commentAction(action) {
 async function disputeApi(data) {
     let getData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_DISPUTE}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DISPUTE}`,
         data
     });
     return getData

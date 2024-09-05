@@ -12,7 +12,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
-const AgreementInfo = ({ activeTab, setDetailsView }) => {
+const AgreementInfo = ({ activeTab, accountType }) => {
   const dispatch = useDispatch()
   const componentRef = useRef();
   const [data, setData] = useState(null);
@@ -46,8 +46,12 @@ const AgreementInfo = ({ activeTab, setDetailsView }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let url = `${BASE_URL_CORE}/core-api/seller/agreement-info/`;
+      if (accountType) {
+        url += `?subaccount=${accountType}`;
+      }
       try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, {
+        const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
