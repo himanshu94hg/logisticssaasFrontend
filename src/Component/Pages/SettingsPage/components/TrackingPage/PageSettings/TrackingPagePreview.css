@@ -1,0 +1,36 @@
+.tracking-page-preview {
+    border: 2px solid #ccc;
+    /* padding: 20px; */
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.brand-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.banner-preview img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.banner-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .banner-desktop {
+        display: none;
+    }
+
+    .banner-mobile {
+        display: block;
+    }
+}
+
+.tracking-info-preview p {
+    font-size: 16px;
+    margin: 10px 0;
+}
