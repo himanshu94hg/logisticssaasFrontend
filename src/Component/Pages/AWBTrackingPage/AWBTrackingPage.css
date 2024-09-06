@@ -81,3 +81,7 @@
 .tracking-body ul li.active .track-icon svg path {
     fill: green;
 }
+
+.tracking-body .ant-skeleton-paragraph {
+    height: auto;
+}

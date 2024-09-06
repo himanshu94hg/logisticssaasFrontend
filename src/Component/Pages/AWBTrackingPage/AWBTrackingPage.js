@@ -10,8 +10,7 @@ import { BASE_URL_CORE } from '../../../axios/config'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../customFunction/errorHandling'
-
-
+import { Skeleton } from 'antd';  // Importing Skeleto
 
 const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) => {
     let authToken = Cookies.get("access_token")
@@ -67,23 +66,42 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
                 </div>
             </section>
             <section className='tracking-body'>
-                <ul>
-                    {orderStatus?.order_tracking?.map((item) => {
-                        return (
-                            <li className={`${item?.status === "delivered" && 'active'}`}>
-                                <div className={`track-icon ${item?.status === "delivered" && 'active'}`}>
-                                    {item?.status === "delivered" ? <TrackingDone /> : <TrackingIcon />}
+                {
+                    orderStatus?.order_tracking > 0 ? (
+                        <ul>
+                            {orderStatus?.order_tracking?.map((item) => {
+                                return (
+                                    <li className={`${item?.status === "delivered" && 'active'}`}>
+                                        <div className={`track-icon ${item?.status === "delivered" && 'active'}`}>
+                                            {item?.status === "delivered" ? <TrackingDone /> : <TrackingIcon />}
+                                        </div>
+                                        <div className='tracking-status'>
+                                            <h4>{item?.status_description}</h4>
+                                            <p className='text-capitalize'>Status: {item?.status}</p>
+                                            <p>{item?.location}</p>
+                                            <p>{moment(item?.courier_action_date).format("DD MMM YYYY")} || {moment(item?.courier_action_date).format('hh:mm A')}</p>
+                                        </div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    ) : (
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <Skeleton active>
+                                <div className={`track-icon`}>
                                 </div>
                                 <div className='tracking-status'>
-                                    <h4>{item?.status_description}</h4>
-                                    <p className='text-capitalize'>Status: {item?.status}</p>
-                                    <p>{item?.location}</p>
-                                    <p>{moment(item?.courier_action_date).format("DD MMM YYYY")} || {moment(item?.courier_action_date).format('hh:mm A')}</p>
+                                    <h4></h4>
+                                    <p className='text-capitalize'></p>
+                                    <p></p>
+                                    <p></p>
                                 </div>
-                            </li>
-                        )
-                    })}
-                </ul>
+                            </Skeleton>
+                        ))
+                    )
+                }
+
+
             </section>
         </>
     )
