@@ -289,3 +289,8 @@ export const SkuUploadPattern = "/sku-upload";
 export const SkuUploadRoutes = () => {
     return generatePath(SkuUploadPattern);
 };
+
+export const BrandedTrackingPattern = "/branded-tracking";
+export const BrandedTrackingRoutes = () => {
+    return generatePath(BrandedTrackingPattern);
+};
