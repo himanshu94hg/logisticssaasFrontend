@@ -18,7 +18,7 @@ const generateDateLabels = () => {
 const ShipmentGraph = () => {
     const series = [
         {
-            name: 'Total Shipment',
+            name: 'Shipments',
             data: [50, 40, 60, 30, 20],
         },
         {
@@ -34,15 +34,15 @@ const ShipmentGraph = () => {
             data: [15, 10, 20, 15, 18],
         },
         {
-            name: 'Delivered',
+            name: 'NDR',
             data: [20, 18, 35, 12, 30],
         },
         {
-            name: 'NDR Pending',
+            name: 'Delivered',
             data: [5, 3, 7, 4, 6],
         },
         {
-            name: 'NDR Delivered',
+            name: 'RTO',
             data: [3, 5, 2, 6, 4],
         },
     ];
