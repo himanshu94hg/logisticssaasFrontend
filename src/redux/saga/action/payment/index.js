@@ -3,8 +3,8 @@ import { CHECK_AUTH_DATA } from "../../../constants/auth";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import { customErrorFunction } from "../../../../customFunction/errorHandling";
-import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA,GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
-import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION,SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
+import { GET_PAYMENT_DATA, SET_PAYMENT_DATA, GET_CONFIGURATION_DATA, GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
+import { PAYMENT_DATA_ACTION, PAYMENT_SET_DATA_ACTION, CONFIGURATION_DATA_ACTION, SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
 
 
 
@@ -12,7 +12,7 @@ async function paymentFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_PAYMENT_URL}`,
-       
+
     });
     return listData;
 }
@@ -30,15 +30,20 @@ async function configurationFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_CONFIGURATION_URL}`,
-       
+
     });
     return listData;
 }
 
 async function profileFileAPI(data) {
+    // console.log(data, "this is data action")
+    const temp = `${BASE_URL_CORE}${API_URL.GET_PROFILE_URL}`
+    // if (data) {
+    //     temp += `?subaccount=${data}`
+    // }
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_PROFILE_URL}`,
+        url: temp,
     });
     return listData;
 }
@@ -53,12 +58,12 @@ function* paymentFilesAction(action) {
         else {
         }
     } catch (error) {
-       customErrorFunction(error);
+        customErrorFunction(error);
     }
 }
 
 function* paymentSetFilesAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(paymentSetFileAPI, payload);
         if (response.status === 200) {
@@ -72,7 +77,7 @@ function* paymentSetFilesAction(action) {
 }
 
 function* configurationFilesAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(configurationFileAPI, payload);
         if (response.status === 200) {
@@ -81,7 +86,7 @@ function* configurationFilesAction(action) {
         else {
         }
     } catch (error) {
-       customErrorFunction(error);
+        customErrorFunction(error);
     }
 }
 
@@ -95,16 +100,16 @@ function* profileFilesAction(action) {
         else {
         }
     } catch (error) {
-       customErrorFunction(error);
-        if(error.response.data.code==="token_not_valid"){
-            yield put({type:CHECK_AUTH_DATA,payload:error.response.data.code})
+        customErrorFunction(error);
+        if (error.response.data.code === "token_not_valid") {
+            yield put({ type: CHECK_AUTH_DATA, payload: error.response.data.code })
         }
     }
 }
 
 export function* getpaymentWatcher() {
-    yield takeLatest(PAYMENT_DATA_ACTION,paymentFilesAction);
-    yield takeLatest(PAYMENT_SET_DATA_ACTION,paymentSetFilesAction);
-    yield takeLatest(CONFIGURATION_DATA_ACTION,configurationFilesAction);
-    yield takeLatest(SELLER_PROFILE_DATA_ACTION,profileFilesAction);
+    yield takeLatest(PAYMENT_DATA_ACTION, paymentFilesAction);
+    yield takeLatest(PAYMENT_SET_DATA_ACTION, paymentSetFilesAction);
+    yield takeLatest(CONFIGURATION_DATA_ACTION, configurationFilesAction);
+    yield takeLatest(SELLER_PROFILE_DATA_ACTION, profileFilesAction);
 }
