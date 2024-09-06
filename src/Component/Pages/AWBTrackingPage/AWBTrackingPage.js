@@ -67,7 +67,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
             </section>
             <section className='tracking-body'>
                 {
-                    orderStatus?.order_tracking > 0 ? (
+                    orderStatus?.order_tracking ? (
                         <ul>
                             {orderStatus?.order_tracking?.map((item) => {
                                 return (
