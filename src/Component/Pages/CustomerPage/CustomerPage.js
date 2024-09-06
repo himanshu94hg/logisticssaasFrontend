@@ -13,6 +13,7 @@ import { BASE_URL_CORE } from '../../../axios/config';
 import axios from 'axios';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
 
 
 const CustomerPage = () => {
@@ -46,7 +47,7 @@ const CustomerPage = () => {
   }, [activeTab])
 
   const [subAccount, setSubAccount] = useState(null)
-  const [accountType,setAccountType]=useState("")
+  const [accountType, setAccountType] = useState("")
   const [subAccountCount, setSubAccountCount] = useState(null)
   let authToken = Cookies.get("access_token")
 
@@ -78,7 +79,13 @@ const CustomerPage = () => {
     fetchSku();
   }, []);
 
-  console.log(accountType,"this is a account type data")
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch({ type: "SELLER_PROFILE_DATA_ACTION", payload: accountType });
+  }, [accountType])
+
+  console.log(accountType, "this is a account type data")
 
 
   return (
@@ -95,10 +102,10 @@ const CustomerPage = () => {
 
       {
         DetailsView ?
-          <VerifiedCustomer  accountType={accountType}/> :
+          <VerifiedCustomer accountType={accountType} /> :
           <>
             <div className={`${activeTab === "Basic Information" ? "d-block" : "d-none"}`}>
-              <BasicInfo activeTab={activeTab} accountType={accountType}/>
+              <BasicInfo activeTab={activeTab} accountType={accountType} />
             </div>
 
             <div className={`${activeTab === "Account Information" ? "d-block" : "d-none"}`}>
