@@ -43,6 +43,8 @@ const Overview = ({ activeTab }) => {
   }, [activeTab, dispatch])
 
 
+
+
   return (
     <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
@@ -56,7 +58,7 @@ const Overview = ({ activeTab }) => {
         {/* <OverviewDetails /> */}
         <OverviewStatusCard />
         <TopSellingDashboard />
-        {/* <ShipmentGraph /> */}
+        <ShipmentGraph activeTab={activeTab}/>
         <TableDashboard />
       </Col>
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
