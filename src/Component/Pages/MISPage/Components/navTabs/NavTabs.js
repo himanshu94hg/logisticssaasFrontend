@@ -19,10 +19,11 @@ export default function NavTabs(props) {
   const authToken = Cookies.get("access_token")
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [reportType, setReportType] = useState("normal")
+  const [reportType, setReportType] = useState("all_order")
 
   const handleClose = () => {
     setShow(false)
+    setReportType("all_order")
   };
 
   useEffect(() => {
@@ -56,11 +57,12 @@ export default function NavTabs(props) {
     setEndDate(date);
   };
 
+  // https://shipease.in/api/generate-report?type=all_order&from_date=2024-07-28&to_date=2024-07-28&seller_code=SE-127435
 
   const handleClick = async () => {
     try {
       const response = await axios.get(
-        `https://shipease.in/api/generate-report?type=all_order&from_date=${moment(startDate).format("YYYY-MM-DD")}&to_date=${moment(startDate).format("YYYY-MM-DD")}&seller_code=${userData?.code}`,
+        `https://shipease.in/api/generate-report?type=${reportType}&from_date=${moment(startDate).format("YYYY-MM-DD")}&to_date=${moment(startDate).format("YYYY-MM-DD")}&seller_code=${userData?.code}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`
@@ -95,6 +97,16 @@ export default function NavTabs(props) {
       e.preventDefault();
     }
   }
+
+  const handleChecked = (e) => {
+    if (e.target.checked) {
+      setReportType("archive")
+    } else {
+      setReportType("all_order")
+    }
+    console.log(e.target.checked, "this is a report data")
+  }
+
 
   return (
     <>
@@ -196,20 +208,15 @@ export default function NavTabs(props) {
                 <Form.Check
                   type="switch"
                   id="custom-switch"
+                  checked={reportType !== "all_order" ? true : false}
                   style={{
                     transform: "scale(1.5)",
                     marginLeft: "10px",
                     marginTop: "9px"
                   }}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setReportType("archive")
-                    } else {
-                      setReportType("normal")
-                    }
-                  }}
+                  onChange={(e) => handleChecked(e)}
                 />
-                <span className="text-capitalize fw-bold" style={{ width: 50 }}>{reportType}</span>
+                <span className="text-capitalize fw-bold" style={{ width: 50 }}>{reportType.split("_").join("")}</span>
               </div>
             </div>
           </div>

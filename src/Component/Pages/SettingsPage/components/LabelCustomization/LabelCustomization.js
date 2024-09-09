@@ -43,6 +43,8 @@ const LabelCustomization = () => {
         section4: false,
         section5: false,
         section6: false,
+        dimension_visibility:false,
+        s_warehouse_visibility:false
     });
 
     const [acc, setAcc] = useState(false)
@@ -78,7 +80,8 @@ const LabelCustomization = () => {
                 ...prevState,
                 [name]: checked,
                 shipment_detail_visibility: checked,
-                awb_barcode_visibility: checked
+                awb_barcode_visibility: checked,
+                dimension_visibility:checked
 
             }));
         }
@@ -91,7 +94,8 @@ const LabelCustomization = () => {
                 order_barcode_visibility: checked,
                 ordernumber_visibility: checked,
                 manifest_date_visibility: checked,
-                order_detail_visibility: checked
+                order_detail_visibility: checked,
+                s_warehouse_visibility:checked
             }));
         }
         if (name === "section4") {
@@ -192,6 +196,8 @@ const LabelCustomization = () => {
                 section4: customizationData?.section4,
                 section5: customizationData?.section5,
                 section6: customizationData?.section6,
+                dimension_visibility:customizationData?.dimension_visibility,
+                s_warehouse_visibility:customizationData?.s_warehouse_visibility
             })
         }
     }, [customizationData])
@@ -274,6 +280,15 @@ const LabelCustomization = () => {
                                             aria-label="Toggle AWB barcode"
                                         />
                                     </li>
+                                    <li>
+                                        <p>Weight/Dimension</p>
+                                        <Toggle
+                                            checked={items.dimension_visibility}
+                                            disabled={items.section2 ? false : true}
+                                            onChange={() => handleToggleChange('dimension_visibility')}
+                                            aria-label="Toggle AWB barcode"
+                                        />
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -299,7 +314,7 @@ const LabelCustomization = () => {
                                         />
                                     </li>
                                     <li>
-                                        <p>Seller GSTIN Mask</p>
+                                        <p>Seller GST/Invoice</p>
                                         <Toggle
                                             checked={items.s_gst_mask}
                                             aria-label="Toggle seller GSTIN"
@@ -317,7 +332,7 @@ const LabelCustomization = () => {
                                         />
                                     </li> */}
                                     <li>
-                                        <p>Manifest Date</p>
+                                        <p>Order Date/Order No</p>
                                         <Toggle
                                             checked={items.manifest_date_visibility}
                                             aria-label="Toggle manifest date"
@@ -335,6 +350,15 @@ const LabelCustomization = () => {
                                         />
                                     </li>
                                     <li>
+                                        <p>Warehouse Details</p>
+                                        <Toggle
+                                            aria-label="Toggle order barcode"
+                                            checked={items.s_warehouse_visibility}
+                                            disabled={items.section3 ? false : true}
+                                            onChange={() => handleToggleChange('s_warehouse_visibility')}
+                                        />
+                                    </li>
+                                    {/* <li>
                                         <p>Order Number Visibility</p>
                                         <Toggle
                                             checked={items.ordernumber_visibility}
@@ -342,7 +366,7 @@ const LabelCustomization = () => {
                                             aria-label="Toggle order number visibility"
                                             onChange={() => handleToggleChange('ordernumber_visibility')}
                                         />
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -472,7 +496,7 @@ const LabelCustomization = () => {
                                             onChange={() => handleToggleChange('footer_visibility')}
                                         />
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <p>Tabular</p>
                                         <Toggle
                                             checked={items.tabular_form_enabled}
@@ -480,7 +504,7 @@ const LabelCustomization = () => {
                                             disabled={items.section6 ? false : true}
                                             onChange={() => handleToggleChange('tabular_form_enabled')}
                                         />
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <p>Footer Customize Text</p>
                                         <Toggle

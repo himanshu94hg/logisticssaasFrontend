@@ -36,16 +36,17 @@ async function configurationFileAPI(data) {
 }
 
 async function profileFileAPI(data) {
-    // console.log(data, "this is data action")
-    const temp = `${BASE_URL_CORE}${API_URL.GET_PROFILE_URL}`
-    // if (data) {
-    //     temp += `?subaccount=${data}`
-    // }
-    let listData = axios.request({
+    let url = `${BASE_URL_CORE}${API_URL.GET_PROFILE_URL}`;
+    if (data) {
+        url += `?subaccount=${data}`;
+    }
+    const response = await axios.request({
         method: "GET",
-        url: temp,
+        url: url,
     });
-    return listData;
+
+    return response;
+
 }
 
 function* paymentFilesAction(action) {
@@ -95,6 +96,7 @@ function* profileFilesAction(action) {
     try {
         let response = yield call(profileFileAPI, payload);
         if (response.status === 200) {
+            console.log("Error fetching profile data:", response);
             yield put({ type: GET_SELLER_PROFILE_DATA, payload: response?.data })
         }
         else {

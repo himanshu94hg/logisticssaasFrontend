@@ -155,8 +155,12 @@ const BasicInfo = ({ activeTab, accountType }) => {
 
   const handleClickSubmit = async (formData) => {
     setLoaderRing(true)
+    let url = `${BASE_URL_CORE}/core-api/seller/basic-info/`;
+      if (accountType) {
+        url += `?subaccount=${accountType}`;
+      }
     try {
-      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
+      const response = await axios.post(url, formData, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },

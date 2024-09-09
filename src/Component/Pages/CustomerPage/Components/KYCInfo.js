@@ -10,7 +10,6 @@ import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import { useSelector } from 'react-redux';
-import { Document, Page } from 'react-pdf';
 
 const KYCInfo = ({ activeTab, accountType }) => {
   const [show, setShow] = useState(false);
@@ -34,7 +33,7 @@ const KYCInfo = ({ activeTab, accountType }) => {
       fetchKYCData();
       setErrors({})
     }
-  }, [activeTab])
+  }, [activeTab, accountType])
 
   useEffect(() => {
     if (formList?.length < 1) {
@@ -62,7 +61,7 @@ const KYCInfo = ({ activeTab, accountType }) => {
   const handleClose = () => setShow(false);
 
   const fetchKYCData = async () => {
-    let url = `${BASE_URL_CORE}/core-api/seller/bank-info/`;
+    let url = `${BASE_URL_CORE}/core-api/seller/kyc-info/`;
     if (accountType) {
       url += `?subaccount=${accountType}`;
     }
@@ -77,7 +76,7 @@ const KYCInfo = ({ activeTab, accountType }) => {
         ...prev,
         company_type: response?.data[0]?.company_type
       }))
-      if (response?.data?.length > 0) {
+      if (response?.data) {
         setFormList(response.data.map(item => ({
           id: item?.id,
           documentType: item?.document_type,
@@ -87,6 +86,7 @@ const KYCInfo = ({ activeTab, accountType }) => {
           previewImg: item?.document_upload
         })));
       } else {
+        setFormList([])
         setFormData({
           company_type: "",
           document_type: "",
@@ -144,9 +144,13 @@ const KYCInfo = ({ activeTab, accountType }) => {
     if (Object.keys(newErrors).length !== 0) {
       return;
     }
+    let url = `${BASE_URL_CORE}/core-api/seller/kyc-info/`;
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
     try {
       const response = await axios.post(
-        `${BASE_URL_CORE}/core-api/seller/kyc-info/`,
+        url,
         formData,
         {
           headers: {
@@ -314,10 +318,6 @@ const KYCInfo = ({ activeTab, accountType }) => {
                         <span className="">Document Number: <strong>{item?.documentNumber}</strong></span>
                       </p>
                       <div className="col-2 d-flex gap-2 align-items-center">
-                        {/* <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
-                          <FontAwesomeIcon icon={faEye} />
-                        </button> */}
-
                         {(item?.previewImg && item?.previewImg?.endsWith('.pdf')) ? <>
                           <a
                             href={item?.previewImg}
@@ -337,8 +337,6 @@ const KYCInfo = ({ activeTab, accountType }) => {
                             </button>
                           </>
                         }
-
-
 
                         <button
                           type="button"

@@ -27,8 +27,12 @@ const CustomerPage = () => {
   useEffect(() => {
     if (userData?.is_basic_info_verified && userData?.is_acc_info_verified && userData?.is_kyc_info_verified && userData?.is_agreement_info_verified) {
       setDetailsView(true)
+    }else{
+      setDetailsView(false)
     }
   }, [userData])
+
+  console.log(userData,"DetailsView")
 
 
   useEffect(() => {

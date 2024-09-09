@@ -68,8 +68,12 @@ const AccountInfo = ({ activeTab, accountType }) => {
   };
 
   const handleClickSubmit = async (formData) => {
+    let url = `${BASE_URL_CORE}/core-api/seller/bank-info/`;
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
     try {
-      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
+      const response = await axios.post(url, formData, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
           'Content-Type': 'multipart/form-data'

@@ -29,9 +29,9 @@ const AgreementInfo = ({ activeTab, accountType }) => {
     document_upload: null
   });
 
-  useEffect(() => {
-    dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
-  }, [refresh])
+  // useEffect(() => {
+  //   dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
+  // }, [refresh])
 
   useEffect(() => {
     if (userData) {
@@ -56,7 +56,7 @@ const AgreementInfo = ({ activeTab, accountType }) => {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
         });
-        setData(response.data);
+        setData(response?.data);
       } catch (error) {
         customErrorFunction(error);
       }
@@ -68,8 +68,13 @@ const AgreementInfo = ({ activeTab, accountType }) => {
   }, [refresh, activeTab]);
 
   const handleClickSubmit = async () => {
+    let url = `${BASE_URL_CORE}/core-api/seller/agreement-info/`;
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
+
     try {
-      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/agreement-info/`, dynamicContent, {
+      const response = await axios.post(url, dynamicContent, {
         headers: {
           'Authorization': `Bearer  ${hardcodedToken}`,
           'Content-Type': 'application/json'
@@ -84,7 +89,6 @@ const AgreementInfo = ({ activeTab, accountType }) => {
     }
     setShow(false)
   };
-
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
