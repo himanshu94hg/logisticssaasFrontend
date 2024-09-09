@@ -1,9 +1,9 @@
 .tracking-page-preview {
     border: 2px solid #ccc;
-    /* padding: 20px; */
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
+    min-height: 100%;
 }
 
 .brand-logo {
@@ -14,6 +14,7 @@
 .banner-preview img {
     width: 100%;
     margin-bottom: 10px;
+    max-height: 110px;
 }
 
 .banner-mobile {

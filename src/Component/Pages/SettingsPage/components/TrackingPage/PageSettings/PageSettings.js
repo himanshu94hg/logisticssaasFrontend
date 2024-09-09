@@ -78,46 +78,48 @@ const PageSettings = () => {
                                 onChange={handleChange}
                             />
                         </label>
-                        <label>
-                            Website URL:
-                            <input
-                                className='input-field'
-                                type="text"
-                                name="websiteUrl"
-                                value={settings.websiteUrl}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <label>
-                            Support Phone No:
-                            <input
-                                className='input-field'
-                                type="text"
-                                name="supportPhone"
-                                value={settings.supportPhone}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <label>
-                            Support Email:
-                            <input
-                                className='input-field'
-                                type="email"
-                                name="supportEmail"
-                                value={settings.supportEmail}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <label>
-                            Privacy Policy Link:
-                            <input
-                                className='input-field'
-                                type="text"
-                                name="privacyPolicy"
-                                value={settings.privacyPolicy}
-                                onChange={handleChange}
-                            />
-                        </label>
+                        <div className='two-column-inputs'>
+                            <label>
+                                Website URL:
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    name="websiteUrl"
+                                    value={settings.websiteUrl}
+                                    onChange={handleChange}
+                                />
+                            </label>
+                            <label>
+                                Support Phone No:
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    name="supportPhone"
+                                    value={settings.supportPhone}
+                                    onChange={handleChange}
+                                />
+                            </label>
+                            <label>
+                                Support Email:
+                                <input
+                                    className='input-field'
+                                    type="email"
+                                    name="supportEmail"
+                                    value={settings.supportEmail}
+                                    onChange={handleChange}
+                                />
+                            </label>
+                            <label>
+                                Privacy Policy Link:
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    name="privacyPolicy"
+                                    value={settings.privacyPolicy}
+                                    onChange={handleChange}
+                                />
+                            </label>
+                        </div>
                     </div>
 
                     {/* Logo Section */}
