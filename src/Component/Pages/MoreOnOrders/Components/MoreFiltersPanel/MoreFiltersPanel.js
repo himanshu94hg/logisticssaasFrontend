@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
@@ -76,7 +75,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         payment_type: "",
         channel_name: "",
         order_id: "",
-        product:"",
+        product: "",
         order_tag: "",
         sku: "",
         sku_match_type: "",
@@ -165,7 +164,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 }
             })
             .join('&');
-
         if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
@@ -174,7 +172,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setErrors(validationErrors);
             return;
         }
-
         handleMoreFilter(filterParams)
         CloseSidePanel()
         if (saveFav) {
@@ -199,7 +196,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_source: "",
                 courier_partner: "",
                 payment_type: null,
-                product:"",
+                product: "",
                 channel_name: "",
                 order_id: "",
                 order_tag: "",
@@ -224,7 +221,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_id: "",
                 channel_name: "",
                 order_tag: "",
-                product:"",
+                product: "",
                 sku: "",
                 sku_match_type: "",
                 order_type: null,
@@ -232,10 +229,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
-            setSaveFav(true)
+            setSaveFav(false)
             setErrors({})
         }
     }, [handleResetFrom])
+
+    console.log(SaveFilter, "SaveFilter")
 
     const handleChange = (name, value) => {
         if (["start_date", "end_date"].includes(name)) {
@@ -308,7 +307,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_type: null
         })
         setSaveFilter(false)
-        setSaveFav(true)
+        setSaveFav(false)
         setErrors({})
     };
 
