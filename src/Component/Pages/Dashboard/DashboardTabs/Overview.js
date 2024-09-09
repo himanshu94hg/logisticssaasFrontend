@@ -58,8 +58,8 @@ const Overview = ({ activeTab }) => {
         {/* <OverviewDetails /> */}
         <OverviewStatusCard />
         <TopSellingDashboard />
-        <ShipmentGraph activeTab={activeTab}/>
-        <TableDashboard />
+        <ShipmentGraph activeTab={activeTab} />
+        {/* <TableDashboard /> */}
       </Col>
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <RevenueDashboard />
