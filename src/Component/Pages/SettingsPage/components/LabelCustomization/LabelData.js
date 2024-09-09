@@ -54,10 +54,14 @@ const LabelData = ({ items, setItems }) => {
                                     <tr>
                                         {items.shipment_detail_visibility && (
                                             <td style={{ width: "50%", border: 0 }} id="label-shipment-detail">
-                                                Dimension (cm) : 1 x 1 x 1<br />
-                                                Payment : <b>Prepaid</b>
+                                                {items.package_details_visibility &&
+                                                    <>
+                                                        Dimension(cm) : 1 x 1 x 1<br />
+                                                        Weight (kg) : 1<br />
+                                                    </>
+                                                }
+                                                Payment : <span className='font20 fw-bold'>Prepaid</span>
                                                 <br />
-                                                Weight (kg) : 1<br />
                                                 Route Code : DEL/ALT
                                             </td>
                                         )}
@@ -87,20 +91,28 @@ const LabelData = ({ items, setItems }) => {
                                     <tr>
                                         <td style={{ width: "50%", border: 0 }}>
                                             <div id="label-order-detail">
-                                                <b>Shipped By</b> (if undelivered,return to)
-                                                <br />
-                                                <p style={{ padding: 0, margin: 0 }}>
-                                                    Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
-                                                    Contact: {items.s_contact_mask ? "**********" : "9876543210"}
-                                                </p>
-                                                GSTIN: {items.s_gst_mask ? "***************" : "22AAAAA0000A1Z5"}
-                                                <br />
-                                                Invoice No. : SE-1000123
-                                                <br />
+                                                {items.warehouse_details &&
+                                                    <>
+                                                        <b>Shipped By</b> (if undelivered,return to)
+                                                        <br />
+                                                        <p style={{ padding: 0, margin: 0 }}>
+                                                            Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
+                                                            {items.s_contact_mask && "Contact: 9876543210"}
+                                                        </p>
+                                                    </>
+                                                }
+                                                {items.s_gst_mask &&
+                                                    <>
+                                                        GSTIN: 22AAAAA0000A1Z5
+                                                        <br />
+                                                        Invoice No. : SE-1000123
+                                                        <br />
+                                                    </>
+                                                }
                                             </div>
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
-                                                    Manifest Date. : 2024-01-05
+                                                    Manifest Date: 1 Sept 2024
                                                 </div>
                                             )}
                                         </td>
@@ -119,7 +131,9 @@ const LabelData = ({ items, setItems }) => {
                                                 </>
                                             )}
                                             {items.ordernumber_visibility && (
-                                                <span id="ordernumberVisibility">Order #: 1000***</span>
+                                                <span id="ordernumberVisibility">
+                                                    Order #: 1000*** <br /> Order Date: 1 Sept 2024
+                                                </span>
                                             )}
                                         </td>
                                     </tr>
@@ -129,17 +143,19 @@ const LabelData = ({ items, setItems }) => {
                     </tr>
                 )}
                 {items.section4 && (
-                    <tr id="label-product-detail" style={{}}>
+                    <tr id="label-product-detail" className={`${!items.tabular_form_enabled && 'active'}`} style={{}}>
                         <td className="noPadding">
-                            {items.product_detail_visibility && (
-                                <table className="tableInner" id="productTable" style={{ width: "100%", borderCollapse: "collapse", border: 0 }}>
+                            <table className="tableInner" id="productTable" style={{ width: "100%", borderCollapse: "collapse", border: 0 }}>
+                                {items.product_detail_visibility && (
                                     <thead>
-                                        <tr style={{ border: "1px solid black" }}>
+                                        <tr>
                                             <th style={{ width: "90%" }}>Name &amp; SKU</th>
                                             <th style={{ width: "10%" }}>QTY</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                )}
+                                <tbody>
+                                    {items.product_detail_visibility && (
                                         <tr>
                                             <td>
                                                 Item : Apple iPhone{" "}
@@ -149,16 +165,16 @@ const LabelData = ({ items, setItems }) => {
                                             </td>
                                             <td>1</td>
                                         </tr>
-                                        {items.invoice_value_visibility && (
-                                            <tr id="label-invoice-value" style={{}}>
-                                                <td colSpan={3} style={{ textAlign: "right" }}>
-                                                    TOTAL Amount : {items.gift_visibility ? " AS A GIFT" : " Rs. 100"}
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            )}
+                                    )}
+                                    {items.invoice_value_visibility && (
+                                        <tr id="label-invoice-value" style={{}}>
+                                            <td colSpan={3} style={{ textAlign: "right" }}>
+                                                TOTAL Amount : {items.gift_visibility ? " AS A GIFT" : " Rs. 100"}
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 )}
