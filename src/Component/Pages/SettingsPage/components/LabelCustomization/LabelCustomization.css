@@ -107,3 +107,12 @@
 .lc-section-item .react-toggle--checked .react-toggle-thumb {
     left: 19px;
 }
+
+#label-product-detail.active tr {
+    border-bottom: none;
+}
+
+#label-product-detail.active th,
+#label-product-detail.active td {
+    border: none;
+}
