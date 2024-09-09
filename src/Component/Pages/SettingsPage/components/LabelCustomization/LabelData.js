@@ -54,7 +54,7 @@ const LabelData = ({ items, setItems }) => {
                                     <tr>
                                         {items.shipment_detail_visibility && (
                                             <td style={{ width: "50%", border: 0 }} id="label-shipment-detail">
-                                                {items.package_details_visibility &&
+                                                {items.dimension_visibility &&
                                                     <>
                                                         Dimension(cm) : 1 x 1 x 1<br />
                                                         Weight (kg) : 1<br />
@@ -91,7 +91,7 @@ const LabelData = ({ items, setItems }) => {
                                     <tr>
                                         <td style={{ width: "50%", border: 0 }}>
                                             <div id="label-order-detail">
-                                                {items.warehouse_details &&
+                                                {items.s_warehouse_visibility &&
                                                     <>
                                                         <b>Shipped By</b> (if undelivered,return to)
                                                         <br />
@@ -130,9 +130,9 @@ const LabelData = ({ items, setItems }) => {
                                                     </span>
                                                 </>
                                             )}
-                                            {items.ordernumber_visibility && (
+                                            {items.manifest_date_visibility && (
                                                 <span id="ordernumberVisibility">
-                                                    Order #: 1000*** <br /> Order Date: 1 Sept 2024
+                                                    Order Number: 1000***
                                                 </span>
                                             )}
                                         </td>
@@ -169,7 +169,7 @@ const LabelData = ({ items, setItems }) => {
                                     {items.invoice_value_visibility && (
                                         <tr id="label-invoice-value" style={{}}>
                                             <td colSpan={3} style={{ textAlign: "right" }}>
-                                                TOTAL Amount : {items.gift_visibility ? " AS A GIFT" : " Rs. 100"}
+                                                TOTAL Amount : {items.gift_visibility ? " AS A GIFT" : "Rs. 100"}
                                             </td>
                                         </tr>
                                     )}
