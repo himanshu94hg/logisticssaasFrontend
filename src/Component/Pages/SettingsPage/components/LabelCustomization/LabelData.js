@@ -97,10 +97,10 @@ const LabelData = ({ items, setItems }) => {
                                                         <br />
                                                         <p style={{ padding: 0, margin: 0 }}>
                                                             Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
+                                                            {items.s_contact_mask && "Contact: 9876543210"}
                                                         </p>
                                                     </>
                                                 }
-                                                {items.s_contact_mask && <>Contact: 9876543210  <br /></>}
                                                 {items.s_gst_mask &&
                                                     <>
                                                         GSTIN: 22AAAAA0000A1Z5
@@ -112,7 +112,7 @@ const LabelData = ({ items, setItems }) => {
                                             </div>
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
-                                                    Order Date: 1 Sept 2024
+                                                    Manifest Date: 1 Sept 2024
                                                 </div>
                                             )}
                                         </td>
@@ -151,6 +151,7 @@ const LabelData = ({ items, setItems }) => {
                                         <tr>
                                             <th style={{ width: "90%" }}>Name &amp; SKU</th>
                                             <th style={{ width: "10%" }}>QTY</th>
+                                            <th style={{ width: "10%" }}>QTY</th>
                                         </tr>
                                     </thead>
                                 )}
@@ -158,9 +159,9 @@ const LabelData = ({ items, setItems }) => {
                                     {items.product_detail_visibility && (
                                         <tr>
                                             <td>
-                                                Item : Apple iPhone{" "}
-                                                <span className="bullet" style={{ display: "none" }}>...</span>{" "}
-                                                <span className="full-name" style={{}}>13 12GB</span>{" "}
+                                                Item : Apple iPhone
+                                                <span className="bullet" style={{ display: "none" }}>...</span>
+                                                <span className="full-name" style={{}}>13 12GB</span>
                                                 &nbsp; &nbsp; SKU : SKU-Name
                                             </td>
                                             <td>1</td>

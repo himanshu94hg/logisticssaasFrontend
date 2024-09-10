@@ -82,7 +82,7 @@ export default function NavTabs(props) {
           className="select-field-account"
           onChange={(e) => props?.setAccountType(e.target.value)}
         >
-          <option value="">Select Sub Account</option>
+          <option value="">Parent Account</option>
           {props?.subAccount?.map((item) =>
             <option value={item?.value}>{item.label}</option>
           )}
