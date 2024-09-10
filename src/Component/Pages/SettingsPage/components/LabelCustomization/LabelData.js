@@ -97,10 +97,10 @@ const LabelData = ({ items, setItems }) => {
                                                         <br />
                                                         <p style={{ padding: 0, margin: 0 }}>
                                                             Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
-                                                            {items.s_contact_mask && "Contact: 9876543210"}
                                                         </p>
                                                     </>
                                                 }
+                                                {items.s_contact_mask && <>Contact: 9876543210  <br /></>}
                                                 {items.s_gst_mask &&
                                                     <>
                                                         GSTIN: 22AAAAA0000A1Z5
@@ -112,7 +112,7 @@ const LabelData = ({ items, setItems }) => {
                                             </div>
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
-                                                    Manifest Date: 1 Sept 2024
+                                                    Order Date: 1 Sept 2024
                                                 </div>
                                             )}
                                         </td>

@@ -284,7 +284,7 @@ const LabelCustomization = () => {
                                             aria-label="Toggle AWB barcode"
                                         />
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <p>Weight/Dimension</p>
                                         <Toggle
                                             checked={items.dimension_visibility}
@@ -292,7 +292,7 @@ const LabelCustomization = () => {
                                             onChange={() => handleToggleChange('dimension_visibility')}
                                             aria-label="Toggle AWB barcode"
                                         />
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -421,7 +421,7 @@ const LabelCustomization = () => {
                                         <Toggle
                                             checked={items.tabular_form_enabled}
                                             aria-label="Toggle tabular"
-                                            disabled={items.section6 ? false : true}
+                                            disabled={items.section4 ? false : true}
                                             onChange={() => handleToggleChange('tabular_form_enabled')}
                                         />
                                     </li>
