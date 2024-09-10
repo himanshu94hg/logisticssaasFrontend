@@ -12,16 +12,16 @@ const PageSettings = () => {
         supportEmail: '',
         privacyPolicy: '',
         logoFile: '',
-        showLogo: true,
-        showSupportInfo: true,
-        showPrivacyPolicy: true,
+        showLogo: false,
         bannerDesktop: '',
         bannerMobile: '',
         bannerAltText: '',
         bannerLink: '',
         showBanner: false,
         showMenu: false,
+        showFooter: false,
         menus: [{ name: '', link: '' }],
+        footerLinks: [{ name: '', link: '' }],
     });
 
     const handleChange = (e) => {
@@ -60,6 +60,23 @@ const PageSettings = () => {
         // Logic to save the settings (e.g., API call)
         console.log('Settings saved:', settings);
     };
+
+    const handleFooterLinkChange = (index, e) => {
+        const { name, value } = e.target;
+        const updatedFooterLinks = [...settings.footerLinks];
+        updatedFooterLinks[index][name] = value;
+        setSettings({ ...settings, footerLinks: updatedFooterLinks });
+    };
+
+    const addFooterLink = () => {
+        setSettings({ ...settings, footerLinks: [...settings.footerLinks, { name: '', link: '' }] });
+    };
+
+    const deleteFooterLink = (index) => {
+        const updatedFooterLinks = settings.footerLinks.filter((_, i) => i !== index);
+        setSettings({ ...settings, footerLinks: updatedFooterLinks });
+    };
+
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
@@ -148,7 +165,7 @@ const PageSettings = () => {
                     </div>
 
                     {/* Banner Section */}
-                    <div className="customization-form">
+                    <div className="customization-form add-banner-section">
                         <label>
                             <input
                                 type="checkbox"
@@ -192,6 +209,31 @@ const PageSettings = () => {
                             />
                         )}
                     </div>
+
+                    {/* Footer Section */}
+                    <div className="customization-form">
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="showFooter"
+                                checked={settings.showFooter}
+                                onChange={handleChange}
+                            />
+                            Add Footer
+                        </label>
+
+                        {settings.showFooter && (
+                            <AddHeaderMenu
+                                menus={settings.footerLinks}
+                                handleMenuChange={handleFooterLinkChange}
+                                addMenu={addFooterLink}
+                                deleteMenu={deleteFooterLink}
+                            />
+                        )}
+                    </div>
+
+
+
                     {/* Save Button */}
                     <div className="save-button-container">
                         <button className='btn main-button' onClick={handleSave}>Save Settings</button>

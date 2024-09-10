@@ -1,0 +1,86 @@
+/* Container for progress bar */
+.progress-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    margin: 25px auto;
+    position: relative;
+}
+
+/* Each step container */
+.progress-bar-container .step-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+/* Circles for each step */
+.progress-bar-container .circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Completed steps with tick mark */
+.progress-bar-container .completed {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Active step with blinking effect */
+.progress-bar-container .active {
+    /* border: 3px solid var(--sh-primary); */
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        background-color: #4caf50;
+    }
+}
+
+/* Icon inside each step */
+.progress-bar-container .step-icon {
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* Line between steps */
+.progress-bar-container .line {
+    height: 4px;
+    width: 100%;
+    background-color: #e0e0e0;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    z-index: 0;
+}
+
+/* Line for completed steps */
+.progress-bar-container .completed-line {
+    background-color: #4caf50;
+}
+
+/* Label for each step */
+.progress-bar-container .step-label {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Styling for completed step icons */
+.progress-bar-container .completed .step-icon {
+    color: white;
+}
