@@ -1,0 +1,69 @@
+.shipment-progress {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    max-height: 290px;
+    overflow-y: auto;
+}
+
+.progress-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.progress-circle {
+    width: 14px;
+    height: 14px;
+    background-color: green;
+    border-radius: 50%;
+    position: relative;
+    top: 5px;
+}
+
+.progress-line {
+    width: 2px;
+    height: 100%;
+    background-color: green;
+    position: absolute;
+    left: 6px;
+    top: 21px;
+}
+
+.progress-content {
+    padding-left: 20px;
+    text-align: start;
+}
+
+.date-time {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.status {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.details {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.progress-item:last-child .progress-line {
+    display: none;
+}

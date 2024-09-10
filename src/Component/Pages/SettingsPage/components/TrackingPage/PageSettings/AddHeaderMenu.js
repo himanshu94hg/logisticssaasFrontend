@@ -1,3 +1,6 @@
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
@@ -27,15 +30,19 @@ const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
                     </label>
                     {
                         menus.length > 1 &&
-                        <button className='btn main-button' type="button" onClick={() => deleteMenu(index)}>
-                            Delete
-                        </button>
+                        <div style={{ maxWidth: '36px' }}>
+                            <button className='btn' type="button" onClick={() => deleteMenu(index)}>
+                                <FontAwesomeIcon icon={faTrashCan} />
+                            </button>
+                        </div>
                     }
                 </div>
             ))}
-            <button type="button" onClick={addMenu} className="btn main-button">
-                Add More
-            </button>
+            <div>
+                <button type="button" onClick={addMenu} className="btn main-button float-end">
+                    <FontAwesomeIcon icon={faPlus} />
+                </button>
+            </div>
         </div>
     );
 };
