@@ -110,7 +110,7 @@ const ManageSubAccount = () => {
                   <td>{account?.seller?.email}</td>
                   <td>
                     <div className='d-flex gap-2 align-items-center'>
-                      <span style={{ height: '14px' }}>{account?.password?.slice(0, 10) + "...."}</span>
+                      <span style={{ height: '14px' }}>*********</span>
                       <CopyToClipboard text={account.password} onCopy={() => handleCopy(account?.password, index)}>
                         <button title='Click to Copy Password' className='btn p-0 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
                           {(index === ds && copiedText === account?.password) &&
