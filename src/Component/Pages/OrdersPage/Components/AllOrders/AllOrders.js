@@ -19,6 +19,7 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
@@ -484,6 +485,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                                 : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                     : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                         : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                        : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
                                                                                             : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
