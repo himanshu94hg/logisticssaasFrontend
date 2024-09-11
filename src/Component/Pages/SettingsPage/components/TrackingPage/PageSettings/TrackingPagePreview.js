@@ -9,12 +9,12 @@ const TrackingPagePreview = ({ settings }) => {
             <header>
 
                 {/* Menu Preview */}
-                {settings.showMenu && (
+                {settings.show_menu && (
                     <nav className='menu-nav'>
                         <ul>
                             {settings.menus.map((menu, index) => (
                                 <li key={index}>
-                                    <a href={menu.link || '#'}>{menu.name || 'Menu'}</a>
+                                    <a href={menu.link || '#'}>{menu.title || 'Menu'}</a>
                                 </li>
                             ))}
                         </ul>
@@ -22,19 +22,19 @@ const TrackingPagePreview = ({ settings }) => {
                 )}
                 {settings.showBanner && (
                     <div className="banner-preview">
-                        <a href={settings.bannerLink || '#'}>
+                        <a href={settings.banner_link || '#'}>
                             {settings.bannerDesktop && (
-                                <img src={settings.bannerDesktop} alt={settings.bannerAltText} className="banner-desktop" />
+                                <img src={settings.banner_desktop} alt={settings.bannerAltText} className="banner-desktop" />
                             )}
                             {settings.bannerMobile && (
-                                <img src={settings.bannerMobile} alt={settings.bannerAltText} className="banner-mobile" />
+                                <img src={settings.banner_mobile} alt={settings.bannerAltText} className="banner-mobile" />
                             )}
                         </a>
                     </div>
                 )}
                 <div className='d-flex flex-column align-items-center'>
-                    {settings.showLogo && settings.logoFile && (
-                        <img src={settings.logoFile} alt="Logo" className="brand-logo mt-3" />
+                    {settings.show_logo && settings.logo_file && (
+                        <img src={settings.logo_file} alt="Logo" className="brand-logo mt-3" />
                     )}
                     <h1 className='mb-0 font20 mt-3'>Track Your Order</h1>
                 </div>
@@ -57,21 +57,21 @@ const TrackingPagePreview = ({ settings }) => {
             </div>
 
             <div className='d-flex gap-3 mx-2 justify-content-between'>
-                {settings.supportPhone &&
-                    <p><strong>Support Phone:</strong> {settings.supportPhone}</p>
+                {settings.support_phone &&
+                    <p><strong>Support Phone:</strong> {settings.support_phone}</p>
                 }
                 {
                     settings.supportEmail &&
-                    <p><strong>Support Email:</strong> <a href={`mailto:${settings.supportEmail}`}>{settings.supportEmail}</a></p>
+                    <p><strong>Support Email:</strong> <a href={`mailto:${settings.support_email}`}>{settings.support_email}</a></p>
                 }
-                {settings.privacyPolicy &&
-                    <p><strong>Privacy Policy:</strong> <a href={settings.privacyPolicy} target='_blank'>View</a></p>
+                {settings.privacy_policy &&
+                    <p><strong>Privacy Policy:</strong> <a href={settings.privacy_policy} target='_blank'>View</a></p>
                 }
             </div>
 
 
             {/* Footer Preview */}
-            {settings.showFooter && (
+            {/* {settings.show_footer && (
                 <nav className='footer-nav'>
                     <ul>
                         {settings.footerLinks.map((menu, index) => (
@@ -81,7 +81,7 @@ const TrackingPagePreview = ({ settings }) => {
                         ))}
                     </ul>
                 </nav>
-            )}
+            )} */}
         </div>
 
 

@@ -3,7 +3,7 @@ import './PageSettings.css';
 import Cookies from 'js-cookie';
 import AddBanner from './AddBanner';
 import { toast } from 'react-toastify';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddHeaderMenu from './AddHeaderMenu';
 import { awsAccessKey } from '../../../../../../config';
 import TrackingPagePreview from './TrackingPagePreview';
@@ -45,7 +45,7 @@ const PageSettings = () => {
         });
     };
 
-    
+
 
     const handleFileUpload = async (e) => {
         const { name, files } = e.target;
@@ -113,6 +113,9 @@ const PageSettings = () => {
         setSettings({ ...settings, footerLinks: updatedFooterLinks });
     };
 
+
+    const [refresh, setRefresh] = useState(null)
+
     const handleSave = async () => {
         const newErrors = {}
         if (!settings.subdomain) {
@@ -141,23 +144,7 @@ const PageSettings = () => {
                 });
                 if (response?.status === 201) {
                     toast.success(response?.data?.message);
-                    setSettings({
-                        subdomain: '',
-                        website_url: '',
-                        support_phone: '',
-                        support_email: '',
-                        privacy_policy: '',
-                        logo_file: '',
-                        show_logo: false,
-                        banner_desktop: '',
-                        banner_mobile: '',
-                        banner_alt_text: '',
-                        banner_link: '',
-                        show_banner: false,
-                        show_menu: false,
-                        show_footer: false,
-                        menus: [{ title: '', link: '' }],
-                    })
+                    setRefresh(new Date())
                 }
             } catch (error) {
                 customErrorFunction(error);
@@ -174,6 +161,25 @@ const PageSettings = () => {
         }
     }
     console.log(settings, "jjjjjjjjjjjjjjjjjjjjj")
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/crm-app/page-settings/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                setSettings(response?.data)
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [refresh]);
+
+
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
