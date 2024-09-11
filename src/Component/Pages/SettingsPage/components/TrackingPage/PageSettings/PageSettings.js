@@ -36,7 +36,6 @@ const PageSettings = () => {
     });
 
 
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setSettings({
@@ -45,15 +44,10 @@ const PageSettings = () => {
         });
     };
 
-
-
     const handleFileUpload = async (e) => {
-        const { name, files } = e.target;
-        console.log(e.target.name, e.target.files[0], 'this is a uploaded data')
+        const { name } = e.target;
         const file = e.target.files[0];
         const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-
-        console.log(logoFileSize, "logoFileSizelogoFileSize")
 
         if (name === "logo_file" || name === "banner_desktop" || name === "banner_mobile") {
             try {
@@ -160,8 +154,6 @@ const PageSettings = () => {
             e.preventDefault();
         }
     }
-    console.log(settings, "jjjjjjjjjjjjjjjjjjjjj")
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -178,7 +170,6 @@ const PageSettings = () => {
         };
         fetchData();
     }, [refresh]);
-
 
 
     return (
@@ -285,6 +276,7 @@ const PageSettings = () => {
                                         accept="image/*"
                                         onChange={handleFileUpload}
                                     />
+                                    {settings?.logo_file && <p style={{fontSize:12}}>Selected File: <span className='text-success'> {settings?.logo_file.slice(54)}</span></p>}
                                     {/* {logoError && <div className="custom-error">{logoError}</div>} */}
                                 </label>
                             </>

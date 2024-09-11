@@ -1,8 +1,6 @@
 import React from 'react';
 
-const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, handleChange, handleFileUpload }) => {
-
-
+const AddBanner = ({ banner_alt_text, banner_mobile, banner_desktop, banner_link, handleChange, handleFileUpload }) => {
 
     return (
         <>
@@ -15,6 +13,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                     accept="image/*"
                     onChange={handleFileUpload}
                 />
+                {banner_desktop && <p style={{fontSize:12}}>Selected File: <span className='text-success'> {banner_desktop.slice(54)}</span></p>}
             </label>
             <label>
                 Banner Image (Mobile):
@@ -25,6 +24,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                     accept="image/*"
                     onChange={handleFileUpload}
                 />
+                {banner_mobile && <p style={{fontSize:12}}>Selected File: <span className='text-success'> {banner_mobile?.slice(54)}</span></p>}
             </label>
             <label>
                 Banner Alt Text:
@@ -32,7 +32,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                     className='input-field'
                     type="text"
                     name="banner_alt_text"
-                    value={bannerAltText}
+                    value={banner_alt_text}
                     onChange={handleChange}
                 />
             </label>
@@ -42,7 +42,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                     className='input-field'
                     type="text"
                     name="banner_link"
-                    value={bannerLink}
+                    value={banner_link}
                     onChange={handleChange}
                 />
             </label>
