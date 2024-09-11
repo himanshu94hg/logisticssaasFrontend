@@ -21,6 +21,8 @@ import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
+
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -177,6 +179,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                                         : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
                                                                                     : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
