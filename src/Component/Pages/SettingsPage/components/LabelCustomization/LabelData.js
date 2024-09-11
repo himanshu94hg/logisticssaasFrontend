@@ -112,7 +112,7 @@ const LabelData = ({ items, setItems }) => {
                                             </div>
                                             {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
-                                                    Manifest Date: 1 Sept 2024
+                                                    Booked Date: 10 Sep 2024 3:27 PM
                                                 </div>
                                             )}
                                         </td>
@@ -131,9 +131,15 @@ const LabelData = ({ items, setItems }) => {
                                                 </>
                                             )}
                                             {items.manifest_date_visibility && (
+                                               <>
                                                 <span id="ordernumberVisibility">
-                                                    Order Number: 1000***
+                                                    Order No: 1000***
                                                 </span>
+                                                <br />
+                                                <span id="ordernumberVisibility">
+                                                    Order Date: 10 Sep 2024 3:27 PM
+                                                </span>
+                                               </>
                                             )}
                                         </td>
                                     </tr>
@@ -149,9 +155,11 @@ const LabelData = ({ items, setItems }) => {
                                 {items.product_detail_visibility && (
                                     <thead>
                                         <tr>
-                                            <th style={{ width: "90%" }}>Name &amp; SKU</th>
+                                            <th style={{ width: "85%" }}>Name &amp; SKU</th>
                                             <th style={{ width: "10%" }}>QTY</th>
-                                            <th style={{ width: "10%" }}>QTY</th>
+                                            {items?.product_price_visibility&&
+                                            <th style={{ width: "15%" }}>Price(Rs)</th>
+                                            }
                                         </tr>
                                     </thead>
                                 )}
@@ -165,6 +173,9 @@ const LabelData = ({ items, setItems }) => {
                                                 &nbsp; &nbsp; SKU : SKU-Name
                                             </td>
                                             <td>1</td>
+                                            {items.product_price_visibility&&
+                                            <td>100</td>
+                                            }
                                         </tr>
                                     )}
                                     {items.invoice_value_visibility && (

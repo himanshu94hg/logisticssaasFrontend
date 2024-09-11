@@ -400,7 +400,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         tooltipComponent={<>{row?.order_type}</>}
                                                         addClassName='verified-hover'
                                                     />
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    <span className='ms-2'>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('h:mm A')}`}</span>
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }

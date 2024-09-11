@@ -227,7 +227,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                     >
                       <NavDropdown.Item eventKey="4.1" className="d-flex flex-column align-items-start">
                         <div style={{ maxWidth: '150px', whiteSpace: 'break-spaces' }}>Hello, {userData?.first_name || "Seller"}</div>
-                        <div>({userData?.code && userData?.code})</div>
+                        <div>{userData?.code && `(${userData?.code})`}</div>
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
                       <NavDropdown.Item

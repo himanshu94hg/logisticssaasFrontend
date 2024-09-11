@@ -13,7 +13,7 @@ const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
                         <input
                             className='input-field'
                             type="text"
-                            name="name"
+                            name="title"
                             value={menu.name}
                             onChange={(e) => handleMenuChange(index, e)}
                         />

@@ -43,7 +43,8 @@ const LabelCustomization = () => {
         section4: false,
         section5: false,
         section6: false,
-        dimension_visibility:false
+        dimension_visibility:false,
+        product_price_visibility:false
     });
 
     const [acc, setAcc] = useState(false)
@@ -101,6 +102,7 @@ const LabelCustomization = () => {
                 all_product_display: checked,
                 display_full_product_name: checked,
                 tabular_form_enabled: checked,
+                product_price_visibility:checked
 
             }));
         }
@@ -192,7 +194,8 @@ const LabelCustomization = () => {
                 section5: customizationData?.section5,
                 section6: customizationData?.section6,
                 dimension_visibility:customizationData?.dimension_visibility,
-                s_warehouse_visibility:customizationData?.s_warehouse_visibility
+                s_warehouse_visibility:customizationData?.s_warehouse_visibility,
+                product_price_visibility:customizationData?.product_price_visibility
             })
         }
     }, [customizationData])
@@ -441,6 +444,15 @@ const LabelCustomization = () => {
                                             checked={items.gift_visibility}
                                             disabled={items.section4 ? false : true}
                                             onChange={() => handleToggleChange('gift_visibility')}
+                                        />
+                                    </li>
+                                    <li>
+                                        <p>Price</p>
+                                        <Toggle
+                                            aria-label="Toggle gift"
+                                            checked={items.product_price_visibility}
+                                            disabled={items.section4 ? false : true}
+                                            onChange={() => handleToggleChange('product_price_visibility')}
                                         />
                                     </li>
                                 </ul>

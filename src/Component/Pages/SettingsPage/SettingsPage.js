@@ -395,8 +395,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate("/branded-tracking")}> */}
-                                    <li onClick={() => Navigate()}>
+                                    <li onClick={() => Navigate("/branded-tracking")}>
+                                    {/* <li onClick={() => Navigate()}> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

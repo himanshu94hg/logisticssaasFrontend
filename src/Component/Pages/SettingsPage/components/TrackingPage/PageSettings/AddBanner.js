@@ -1,6 +1,9 @@
 import React from 'react';
 
 const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, handleChange, handleFileUpload }) => {
+
+
+
     return (
         <>
             <label>
@@ -8,7 +11,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                 <input
                     className='form-control input-field'
                     type="file"
-                    name="bannerDesktop"
+                    name="banner_desktop"
                     accept="image/*"
                     onChange={handleFileUpload}
                 />
@@ -18,7 +21,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                 <input
                     className='form-control input-field'
                     type="file"
-                    name="bannerMobile"
+                    name="banner_mobile"
                     accept="image/*"
                     onChange={handleFileUpload}
                 />
@@ -28,7 +31,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                 <input
                     className='input-field'
                     type="text"
-                    name="bannerAltText"
+                    name="banner_alt_text"
                     value={bannerAltText}
                     onChange={handleChange}
                 />
@@ -38,7 +41,7 @@ const AddBanner = ({ bannerDesktop, bannerMobile, bannerAltText, bannerLink, han
                 <input
                     className='input-field'
                     type="text"
-                    name="bannerLink"
+                    name="banner_link"
                     value={bannerLink}
                     onChange={handleChange}
                 />

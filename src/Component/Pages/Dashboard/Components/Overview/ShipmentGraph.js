@@ -6,102 +6,84 @@ import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const generateDateLabels = () => {
-    const dates = [];
-    const today = new Date();
-    const formatter = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    for (let i = 4; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(today.getDate() - i);
-        dates.push(formatter.format(date));
-    }
-    return dates;
-};
-
-
 const ShipmentGraph = ({ activeTab }) => {
-    const [series, setSeries] = useState([
-    ])
-    const [options, setOptions] = useState({
-      
-    })
-
-    // const options = {
-
-    // };
-
+    const [series, setSeries] = useState([])
+    const [options, setOptions] = useState({})
     const authToken = Cookies.get("access_token")
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/dashboard/overview/shipment-five-days-counter/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-                if (response.status == 200) {
-                    setSeries(response?.data?.data)
-                    setOptions(prev=>({
-                        ...prev,
-                        chart: {
-                            type: 'bar',
-                            height: 350,
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                columnWidth: '55%',
-                                endingShape: 'rounded',
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false,
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent'],
-                        },
-                        xaxis: {
-                            categories: response?.data?.date,
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'Count',
-                            },
-                        },
-                        fill: {
-                            opacity: 1,
-                        },
-                        tooltip: {
-                            shared: true,
-                            intersect: false,
-                            y: {
-                                formatter: function (val) {
-                                    return val;
-                                },
-                            },
-                        },
-                        colors: [
-                            '#0A3C66',
-                            '#4A9BE3',
-                            '#145F9F',
-                            '#1975C9',
-                            '#9FC4F6',
-                            '#7AAEF1',
-                            '#0F4A7D',
-                        ],
-                    }))
-                    console.log(response?.data, "yyyyyyyyyyyyyyyyyyyy")
-
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL_ORDER}/orders-api/dashboard/overview/shipment-five-days-counter/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
+            });
+            if (response.status == 200) {
+                setSeries(response?.data?.data)
+                setOptions(prev => ({
+                    ...prev,
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '55%',
+                            endingShape: 'rounded',
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent'],
+                    },
+                    xaxis: {
+                        categories: response?.data?.date,
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Count',
+                        },
+                    },
+                    fill: {
+                        opacity: 1,
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        y: {
+                            formatter: function (val) {
+                                return val;
+                            },
+                        },
+                    },
+                    colors: [
+                        '#0A3C66',
+                        '#4A9BE3',
+                        '#145F9F',
+                        '#1975C9',
+                        '#9FC4F6',
+                        '#7AAEF1',
+                        '#0F4A7D',
+                    ],
+                }))
+                console.log(response?.data, "yyyyyyyyyyyyyyyyyyyy")
 
-            } catch (error) {
-                customErrorFunction(error)
             }
-        };
-        fetchData();
+
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    };
+    
+    useEffect(() => {
+        if(authToken){
+            fetchData();
+        }
     }, [activeTab]);
 
     return (
