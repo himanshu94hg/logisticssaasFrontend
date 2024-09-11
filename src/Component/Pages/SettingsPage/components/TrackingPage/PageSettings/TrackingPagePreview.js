@@ -20,14 +20,14 @@ const TrackingPagePreview = ({ settings }) => {
                         </ul>
                     </nav>
                 )}
-                {settings.showBanner && (
+                {settings.show_banner && (
                     <div className="banner-preview">
                         <a href={settings.banner_link || '#'}>
-                            {settings.bannerDesktop && (
-                                <img src={settings.banner_desktop} alt={settings.bannerAltText} className="banner-desktop" />
+                            {settings.banner_desktop && (
+                                <img src={settings.banner_desktop} alt={settings.banner_alt_text} className="banner-desktop" />
                             )}
-                            {settings.bannerMobile && (
-                                <img src={settings.banner_mobile} alt={settings.bannerAltText} className="banner-mobile" />
+                            {settings.banner_mobile && (
+                                <img src={settings.banner_mobile} alt={settings.banner_alt_text} className="banner-mobile" />
                             )}
                         </a>
                     </div>
