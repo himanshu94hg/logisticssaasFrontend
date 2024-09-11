@@ -14,7 +14,7 @@ const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
                             className='input-field'
                             type="text"
                             name="title"
-                            value={menu.name}
+                            value={menu?.title}
                             onChange={(e) => handleMenuChange(index, e)}
                         />
                     </label>
@@ -24,7 +24,7 @@ const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
                             className='input-field'
                             type="text"
                             name="link"
-                            value={menu.link}
+                            value={menu?.link}
                             onChange={(e) => handleMenuChange(index, e)}
                         />
                     </label>

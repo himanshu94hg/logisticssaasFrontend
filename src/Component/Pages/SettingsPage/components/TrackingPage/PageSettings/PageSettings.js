@@ -332,6 +332,7 @@ const PageSettings = () => {
                                 handleMenuChange={handleMenuChange}
                                 addMenu={addMenu}
                                 deleteMenu={deleteMenu}
+                                settings={settings}
                             />
                         )}
                     </div>
