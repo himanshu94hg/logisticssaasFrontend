@@ -62,7 +62,7 @@ export default function NavTabs(props) {
   const handleClick = async () => {
     try {
       const response = await axios.get(
-        `https://shipease.in/api/generate-report?type=${reportType}&from_date=${moment(startDate).format("YYYY-MM-DD")}&to_date=${moment(startDate).format("YYYY-MM-DD")}&seller_code=${userData?.code}`,
+        `https://shipease.in/api/generate-report?type=${reportType}&from_date=${moment(startDate).format("YYYY-MM-DD")}&to_date=${moment(endDate).format("YYYY-MM-DD")}&seller_code=${userData?.code}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`
