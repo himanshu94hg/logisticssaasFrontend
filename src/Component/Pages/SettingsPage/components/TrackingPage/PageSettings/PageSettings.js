@@ -30,9 +30,9 @@ const PageSettings = () => {
         banner_link: '',
         show_banner: false,
         show_menu: false,
-        show_footer: false,
+        show_footer: true,
         menus: [{ title: '', link: '' }],
-        // footerLinks: [{ name: '', link: '' }],
+        footer_links: [{ title: '', link: '' }],
     });
 
 
@@ -213,7 +213,6 @@ const PageSettings = () => {
                                     maxLength={10}
                                     name="support_phone"
                                     onChange={handleChange}
-
                                     value={settings.support_phone}
                                     className={`input-field ${errors.support_email && 'input-field-error'}`}
                                     onKeyPress={(e) => {
@@ -276,7 +275,7 @@ const PageSettings = () => {
                                         accept="image/*"
                                         onChange={handleFileUpload}
                                     />
-                                    {settings?.logo_file && <p style={{fontSize:12}}>Selected File: <span className='text-success'> {settings?.logo_file.slice(54)}</span></p>}
+                                    {settings?.logo_file && <p style={{ fontSize: 12 }}>Selected File: <span className='text-success'> {settings?.logo_file.slice(54)}</span></p>}
                                     {/* {logoError && <div className="custom-error">{logoError}</div>} */}
                                 </label>
                             </>
@@ -330,25 +329,25 @@ const PageSettings = () => {
                     </div>
 
                     {/* Footer Section */}
-                    {/* <div className="customization-form">
+                    <div className="customization-form">
                         <label>
                             <input
                                 type="checkbox"
                                 name="showFooter"
-                                checked={settings.showFooter}
+                                checked={settings.show_footer}
                                 onChange={handleChange}
                             />
                             Add Footer
                         </label>
                         {settings.show_footer && (
                             <AddHeaderMenu
-                                menus={settings.footerLinks}
+                                menus={settings.footer_links}
                                 handleMenuChange={handleFooterLinkChange}
                                 addMenu={addFooterLink}
                                 deleteMenu={deleteFooterLink}
                             />
                         )}
-                    </div> */}
+                    </div>
 
                     {/* Save Button */}
                     <div className="save-button-container">
