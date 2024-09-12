@@ -7,7 +7,7 @@ import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLo
 import magentoImg from "../../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../../assets/image/integration/Manual.png"
+import omsguru from "../../../../../../assets/image/logo/OmsGuruIcon.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
@@ -90,7 +90,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
             .catch(err => {
             });
     };
-    
+
     return (
         <>
 
@@ -135,9 +135,10 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                                         : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
                                                             : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                 : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                    : <CustomIcon />}
+                                                                    : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
+                                                                        : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                            : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : <CustomIcon />}
                                             &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                         </p>
                                         <p className='ws-nowrap d-flex align-items-center'>
@@ -219,12 +220,12 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                         </div>
-                                        {row?.awb_number && 
-                                        <CustomTooltip
-                                            triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
-                                            tooltipComponent={copyText}
-                                            addClassName='copytext-tooltip'
-                                        />
+                                        {row?.awb_number &&
+                                            <CustomTooltip
+                                                triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                tooltipComponent={copyText}
+                                                addClassName='copytext-tooltip'
+                                            />
                                         }
                                     </div>
                                 </td>
