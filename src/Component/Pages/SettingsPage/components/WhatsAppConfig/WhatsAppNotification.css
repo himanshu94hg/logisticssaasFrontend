@@ -1,0 +1,34 @@
+.whatsapp-comm .whatsapp-comm {
+    padding: 20px;
+}
+
+.whatsapp-comm .table-container {
+    margin-top: 20px;
+}
+
+.whatsapp-comm .card {
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-comm .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.whatsapp-comm .card-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    white-space: pre-line;
+}
+
+.whatsapp-comm .card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 450px;
+}
+
+.whatsapp-comm .card-body {
+    padding: 2px;
+}
