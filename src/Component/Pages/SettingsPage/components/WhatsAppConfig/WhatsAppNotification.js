@@ -94,7 +94,7 @@ const WhatsAppNotification = () => {
             <h4 className="my-3">WhatsApp Communication for Status Updates</h4>
             <Row>
                 {shipmentStatuses?.map((item) => (
-                    <Col key={item?.id} xs={12} md={6} lg={4} className="mb-4">
+                    <Col key={item?.id} xs={12} md={6} lg={4} xl={3} className="mb-4">
                         <Card className="shadow-sm p-2">
                             {/* WhatsApp Chat Preview */}
                             <Card.Img
