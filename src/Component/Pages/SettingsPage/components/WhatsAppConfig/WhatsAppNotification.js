@@ -7,11 +7,11 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import { toast } from 'react-toastify';
 import { debounce } from 'lodash';
 import './WhatsAppNotification.css';
-import Manifested from '../../../../../assets/image/whatsapp/Manifested.jpeg'
-import Delivered from '../../../../../assets/image/whatsapp/delivered.jpeg'
-import InTransit from '../../../../../assets/image/whatsapp/InTransit.jpeg'
-import PickedUp from '../../../../../assets/image/whatsapp/PickedUp.jpeg'
-import outForDelivery from '../../../../../assets/image/whatsapp/out-for-delivery.jpeg'
+import Manifested from '../../../../../assets/image/whatsapp/Manifested.png'
+import Delivered from '../../../../../assets/image/whatsapp/Delivered.png'
+import InTransit from '../../../../../assets/image/whatsapp/InTransit.png'
+import PickedUp from '../../../../../assets/image/whatsapp/Pickedup.png'
+import outForDelivery from '../../../../../assets/image/whatsapp/OutForDelivery.png'
 
 // Static image mapping
 const imageMap = {
@@ -94,7 +94,7 @@ const WhatsAppNotification = () => {
             <h4 className="my-3">WhatsApp Communication for Status Updates</h4>
             <Row>
                 {shipmentStatuses?.map((item) => (
-                    <Col key={item?.id} xs={12} md={6} lg={4} className="mb-4">
+                    <Col key={item?.id} xs={12} md={6} lg={4} xl={3} className="mb-4">
                         <Card className="shadow-sm p-2">
                             {/* WhatsApp Chat Preview */}
                             <Card.Img
