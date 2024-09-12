@@ -7,11 +7,11 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import { toast } from 'react-toastify';
 import { debounce } from 'lodash';
 import './WhatsAppNotification.css';
-import Manifested from '../../../../../assets/image/whatsapp/Manifested.jpeg'
-import Delivered from '../../../../../assets/image/whatsapp/delivered.jpeg'
-import InTransit from '../../../../../assets/image/whatsapp/InTransit.jpeg'
-import PickedUp from '../../../../../assets/image/whatsapp/PickedUp.jpeg'
-import outForDelivery from '../../../../../assets/image/whatsapp/out-for-delivery.jpeg'
+import Manifested from '../../../../../assets/image/whatsapp/Manifested.png'
+import Delivered from '../../../../../assets/image/whatsapp/Delivered.png'
+import InTransit from '../../../../../assets/image/whatsapp/InTransit.png'
+import PickedUp from '../../../../../assets/image/whatsapp/Pickedup.png'
+import outForDelivery from '../../../../../assets/image/whatsapp/OutForDelivery.png'
 
 // Static image mapping
 const imageMap = {
