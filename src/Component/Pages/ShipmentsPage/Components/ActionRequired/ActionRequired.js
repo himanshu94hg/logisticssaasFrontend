@@ -26,6 +26,8 @@ import UnicommerceIcon from "../../../../../assets/image/integration/Unicommerce
 import OrderTagsIcon from "../../../../common/Icons/OrderTagsIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
+
 
 const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const navigate = useNavigate()
@@ -204,6 +206,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                                 : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Store Hippo" width="20" />
                                                                     : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Magento" width="20" />
                                                                         : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Amazon" width="20" />
+                                                                        : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
                                                                             : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Amazon" width="20" />
                                                                                 : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Unicommerce" width="20" />
                                                                                     : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="API" width="30" />

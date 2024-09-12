@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
+import omsguru from "../../../../../../assets/image/logo/OmsGuruIcon.png"
 import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
 import CustomTooltip from '../../../../../common/CustomTooltip/CustomTooltip'
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
@@ -124,9 +125,10 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                                         : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
                                                             : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                 : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                    : <CustomIcon />}
+                                                                    : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
+                                                                        : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                            : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : <CustomIcon />}
                                             &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                         </p>
                                         <p className='ws-nowrap d-flex align-items-center'>
