@@ -74,13 +74,17 @@ const WhatsAppNotification = () => {
         fetchData()
     }, [refresh])
 
-
     const handleChangeStatus = async (e, id) => {
+        const newStatus = e.target.checked;
+        setShipmentStatuses(prevStatuses =>
+            prevStatuses.map(item =>
+                item.id === id ? { ...item, status: newStatus } : item
+            )
+        );
         const data = {
             id: id,
             is_enabled: e.target.checked
         };
-
         try {
             const response = await axios.post(
                 `${BASE_URL_CORE}/core-api/shipease-admin/seller-whatsapp-message/`,
@@ -93,8 +97,12 @@ const WhatsAppNotification = () => {
                 }
             );
             if (response.status === 200) {
-                toast.success("Status updated successfully!");
-                setRefresh(new Date())
+                toast.success('Status updated successfully!');
+                setShipmentStatuses((prevStatuses) =>
+                    prevStatuses.map((item) =>
+                        item.id === id ? { ...item, status: newStatus } : item
+                    )
+                );
             }
         } catch (error) {
             customErrorFunction(error);
