@@ -127,7 +127,7 @@ const WhatsAppNotification = () => {
                             />
 
                             <Card.Body>
-                                <Card.Title>{item?.title} Status</Card.Title>
+                                <Card.Title>{item?.title}</Card.Title>
                                 {/* Status Toggle */}
                                 <Form.Check
                                     type="switch"
