@@ -8,8 +8,14 @@
 
 .whatsapp-comm .card {
     border: none;
-    border-radius: 10px;
     transition: all 0.3s ease;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 15px;
 }
 
 .whatsapp-comm .card:hover {
@@ -19,7 +25,7 @@
 
 .whatsapp-comm .card-title {
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
     white-space: pre-line;
 }
 
@@ -28,8 +34,13 @@
     height: 453px;
     border: 2px solid #075e55;
     border-radius: 1.5rem;
+    margin-bottom: 20px;
 }
 
 .whatsapp-comm .card-body {
     padding: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -7,11 +7,11 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import { toast } from 'react-toastify';
 import { debounce } from 'lodash';
 import './WhatsAppNotification.css';
-import Manifested from '../../../../../assets/image/whatsapp/Manifested.png'
-import Delivered from '../../../../../assets/image/whatsapp/Delivered.png'
-import InTransit from '../../../../../assets/image/whatsapp/InTransit.png'
-import PickedUp from '../../../../../assets/image/whatsapp/Pickedup.png'
-import outForDelivery from '../../../../../assets/image/whatsapp/OutForDelivery.png'
+import Manifested from '../../../../../assets/image/whatsapp/Manifested.png';
+import Delivered from '../../../../../assets/image/whatsapp/Delivered.png';
+import InTransit from '../../../../../assets/image/whatsapp/InTransit.png';
+import PickedUp from '../../../../../assets/image/whatsapp/Pickedup.png';
+import outForDelivery from '../../../../../assets/image/whatsapp/OutForDelivery.png';
 
 // Static image mapping
 const imageMap = {
@@ -25,12 +25,16 @@ const imageMap = {
 const WhatsAppNotification = () => {
     let authToken = Cookies.get("access_token");
     const [shipmentStatuses, setShipmentStatuses] = useState([]);
-    const [refresh, setRefresh] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!authToken) {
+                setError('Authorization token missing');
+                return;
+            }
+
             setLoading(true);
             try {
                 const response = await axios.get(
@@ -43,7 +47,10 @@ const WhatsAppNotification = () => {
                     }
                 );
                 if (response.status === 200) {
-                    setShipmentStatuses(response?.data);
+                    setShipmentStatuses(response?.data.map(status => ({
+                        ...status,
+                        status: Boolean(status.status) // Convert to boolean if necessary
+                    })));
                 }
             } catch (error) {
                 customErrorFunction(error);
@@ -53,12 +60,18 @@ const WhatsAppNotification = () => {
             }
         };
         fetchData();
-    }, [refresh, authToken]);
+    }, [authToken]);
 
     const handleChangeStatus = debounce(async (e, id) => {
+        const newStatus = e.target.checked;
+        setShipmentStatuses(prevStatuses =>
+            prevStatuses.map(item =>
+                item.id === id ? { ...item, status: newStatus } : item
+            )
+        );
         const data = {
             id: id,
-            is_enabled: e.target.checked,
+            is_enabled: newStatus,
         };
 
         try {
@@ -74,10 +87,21 @@ const WhatsAppNotification = () => {
             );
             if (response.status === 200) {
                 toast.success('Status updated successfully!');
-                setRefresh(new Date());
+
+                // Immutably update the state to ensure re-render
+                setShipmentStatuses((prevStatuses) =>
+                    prevStatuses.map((item) =>
+                        item.id === id ? { ...item, status: newStatus } : item
+                    )
+                );
             }
         } catch (error) {
             customErrorFunction(error);
+            setShipmentStatuses(prevStatuses =>
+                prevStatuses.map(item =>
+                    item.id === id ? { ...item, status: !newStatus } : item
+                )
+            );
         }
     }, 300); // Debounce by 300ms
 
@@ -86,7 +110,7 @@ const WhatsAppNotification = () => {
     }
 
     if (error) {
-        return <div className="text-danger">{error}</div>;
+        return <div className="text-danger" role="alert">{error}</div>;
     }
 
     return (
@@ -95,7 +119,7 @@ const WhatsAppNotification = () => {
             <Row>
                 {shipmentStatuses?.map((item) => (
                     <Col key={item?.id} xs={12} md={6} lg={4} xl={3} className="mb-4">
-                        <Card className="shadow-sm p-2">
+                        <Card className="whatsapp-comm__card shadow-sm p-2">
                             {/* WhatsApp Chat Preview */}
                             <Card.Img
                                 variant="top"
@@ -110,7 +134,7 @@ const WhatsAppNotification = () => {
                                     type="switch"
                                     title={item?.status}
                                     aria-label={`${item?.title} status toggle`}
-                                    checked={item?.status}
+                                    checked={Boolean(item?.status)}
                                     onChange={(e) => handleChangeStatus(e, item?.id)}
                                     label={item?.status ? 'Enabled' : 'Disabled'}
                                 />
