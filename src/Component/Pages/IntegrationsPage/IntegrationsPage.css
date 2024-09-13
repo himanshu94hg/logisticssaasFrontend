@@ -11,7 +11,7 @@
     gap: 30px;
 }
 
-.card {
+.card-grid-container .card {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
@@ -27,15 +27,15 @@
     transform: scale(1.05);
 } */
 
-.card:hover .card-img-container {
+.card-grid-container .card:hover .card-img-container {
     flex-basis: 50%;
 }
 
-.card .card-img-container img {
+.card-grid-container .card .card-img-container img {
     transition: 1s;
 }
 
-.card:hover .card-img-container img {
+.card-grid-container .card:hover .card-img-container img {
     transform: rotate(360deg);
 }
 

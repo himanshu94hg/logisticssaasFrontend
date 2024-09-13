@@ -1,0 +1,46 @@
+.whatsapp-comm .whatsapp-comm {
+    padding: 20px;
+}
+
+.whatsapp-comm .table-container {
+    margin-top: 20px;
+}
+
+.whatsapp-comm .card {
+    border: none;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 15px;
+}
+
+.whatsapp-comm .card:hover {
+    /* transform: scale(1.02); */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.whatsapp-comm .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    white-space: pre-line;
+}
+
+.whatsapp-comm .card img {
+    width: auto;
+    height: 453px;
+    border: 2px solid #075e55;
+    border-radius: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.whatsapp-comm .card-body {
+    padding: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
