@@ -190,10 +190,10 @@ const PageSettings = () => {
                 menus: []
             }))
         }
-        if (!settings.show_menu) {
+        if (!settings.show_footer) {
             setSettings((prev) => ({
                 ...prev,
-                menus: []
+                footer_links: []
             }))
         }
     }, [settings.show_logo, settings.show_banner,settings.show_menu,settings.show_footer])
