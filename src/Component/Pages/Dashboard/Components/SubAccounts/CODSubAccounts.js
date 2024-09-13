@@ -1,40 +1,35 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from 'react-apexcharts';
+import { BASE_URL_ORDER } from "../../../../../axios/config";
+import { globalGetApiCallFunction } from "../../../../../customFunction/apicall";
 
-const CodOrdersChartChildOne = () => {
+const CodOrdersChartChildOne = ({ data }) => {
     const [chartWidth, setChartWidth] = useState(380);
     const [resOffsetX, setresOffsetX] = useState(180)
 
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
-            // Adjust the chart width based on screen size
             if (screenWidth >= 1720) {
-                setChartWidth(290); // for larger screens
-                setresOffsetX(180); // for larger screens
+                setChartWidth(290);
+                setresOffsetX(180);
                 console.log(resOffsetX)
             } else if (screenWidth >= 768) {
-                setChartWidth(265); // for medium screens
-                setresOffsetX(100); // for medium screens
+                setChartWidth(265);
+                setresOffsetX(100);
             } else {
-                setChartWidth(200); // default width for smaller screens
-                setresOffsetX(100); // default width for smaller screens
+                setChartWidth(200);
+                setresOffsetX(100);
             }
         };
-
-        // Call the handleResize function on initial load
         handleResize();
-
-        // Add event listener to window resize event
         window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+    }, []);
 
 
     const [chartData, setChartData] = useState({
-        series: [76, 67, 61, 90],
+        series: [76, 67, 61, 10],
         options: {
             chart: {
                 height: 390,
@@ -145,6 +140,16 @@ const CodOrdersChartChildOne = () => {
         },
     });
 
+    useEffect(() => {
+        if (data) {
+            setChartData((prev) => ({
+                ...prev,
+                series: data.series,
+                labels: data.labels
+            }))
+        }
+    }, [data])
+
     return (
         <div>
             <div id="chart">
@@ -159,12 +164,32 @@ const CodOrdersChartChildOne = () => {
     );
 };
 
-const CODSubAccounts = () => {
-    const [selectedOption, setSelectedOption] = useState('Child One');
+const CODSubAccounts = ({ labeldata, activeTab }) => {
+    const [data, setData] = useState(null);
+    const [selectedOption, setSelectedOption] = useState("0");
+    const orderEndPoint = BASE_URL_ORDER
 
     const handleSelectChange = (event) => {
         setSelectedOption(event.target.value);
     };
+
+    useEffect(() => {
+        let urlParams = `${orderEndPoint}/orders-api/dashboard/cod-sub-account/?sub_account_id=${selectedOption}`;
+        const fetchData = async () => {
+            try {
+                const response = await globalGetApiCallFunction(urlParams);
+                setData(response)
+                console.log(response, "responseresponse")
+
+            } catch (error) {
+            }
+        };
+        if (activeTab === "Sub Accounts") {
+            fetchData();
+        }
+    }, [selectedOption]);
+
+
 
     return (
         <>
@@ -173,16 +198,17 @@ const CODSubAccounts = () => {
                     <h4 className="title mb-0">COD Sub Accounts</h4>
                     <div>
                         <label className="d-flex flex-row align-items-center gap-2 font12" htmlFor="selectOption">Account
-                            <select className="select-field font12" id="selectOption" value={selectedOption} onChange={handleSelectChange}>
-                                <option value="Child One">Child One</option>
-                                <option value="Child Two">Child Two</option>
-                                <option value="Child Three">Child Three</option>
+                            <select className="select-field font12" id="selectOption" onChange={handleSelectChange}>
+                                <option value="0">Select</option>
+                                {labeldata && labeldata?.map((item) =>
+                                    <option value={item?.value}>{item.label}</option>
+                                )}
                             </select>
                         </label>
                     </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                    <CodOrdersChartChildOne />
+                    <CodOrdersChartChildOne data={data} />
                 </div>
             </div>
         </>
