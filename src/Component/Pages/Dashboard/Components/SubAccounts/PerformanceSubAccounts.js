@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { globalGetApiCallFunction } from "../../../../../customFunction/apicall";
+import { BASE_URL_ORDER } from "../../../../../axios/config";
 
-const PerformanceSubAccounts = () => {
+const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
+    const orderEndPoint = BASE_URL_ORDER
 
     const courierPartner = [
         { counter_itme: 'Booked', one: 'X (Y%)' },
@@ -9,11 +12,28 @@ const PerformanceSubAccounts = () => {
         { counter_itme: 'Delivered', one: 'X (Y%)' },
     ]
 
-    const [selectedOption, setSelectedOption] = useState('Child One');
+    const [data, setData] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('0');
 
     const handleSelectChange = (event) => {
         setSelectedOption(event.target.value);
     };
+
+
+    useEffect(() => {
+        let urlParams = `${orderEndPoint}/orders-api/dashboard/performance-sub-account/?sub_account_id=${selectedOption}`;
+        const fetchData = async () => {
+            try {
+                const response = await globalGetApiCallFunction(urlParams);
+                setData(response)
+            } catch (error) {
+            }
+        };
+        if (activeTab === "Sub Accounts") {
+            fetchData();
+        }
+    }, [selectedOption]);
+
 
     return (
         <>
@@ -23,9 +43,10 @@ const PerformanceSubAccounts = () => {
                     <div>
                         <label className="d-flex flex-row align-items-center gap-2 font12" htmlFor="selectOption">Account
                             <select className="select-field font12" id="selectOption" value={selectedOption} onChange={handleSelectChange}>
-                                <option value="Child One">Child One</option>
-                                <option value="Child Two">Child Two</option>
-                                <option value="Child Three">Child Three</option>
+                                <option value="0">Select</option>
+                                {labeldata && labeldata?.map((item) =>
+                                    <option value={item?.value}>{item.label}</option>
+                                )}
                             </select>
                         </label>
                     </div>
@@ -35,11 +56,9 @@ const PerformanceSubAccounts = () => {
                         <thead>
                             <tr>
                                 <th scope="col">{selectedOption}</th>
-                                <th scope="col">Week 1</th>
-                                <th scope="col">Week 2</th>
-                                <th scope="col">Week 3</th>
-                                <th scope="col">Week 4</th>
-                                <th scope="col">Week 5</th>
+                                {data?.labels?.map((item)=>
+                                <th scope="col">{item}</th>
+                                )}
                             </tr>
                         </thead>
                         <tbody>

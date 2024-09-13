@@ -5,7 +5,7 @@ import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRe
 import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";
 import NdrDeliveredIcon from "../../../../common/Icons/InfoCardsIcons/NdrDeliveredIcon";
 
-function SubAccountsInfo() {
+function SubAccountsInfo({cardCounter}) {
   const [totalNdr, setTotalNdr] = useState({ total_ndr_count: 100 }); // Dummy data
   const [actionRequested, setActionRequested] = useState({ total_ndr_count: 50 }); // Dummy data
   const [actionReq, setActionreq] = useState({ total_ndr_count: 75 }); // Dummy data
@@ -25,7 +25,7 @@ function SubAccountsInfo() {
                       <NdrIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Accounts</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{totalNdr.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{cardCounter?.total_accounts}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -47,7 +47,7 @@ function SubAccountsInfo() {
                       <ActionRequiredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Sub Accounts</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionReq.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{cardCounter?.sub_accounts}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -69,7 +69,7 @@ function SubAccountsInfo() {
                       <ActionRequestedIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Referral Accounts</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionRequested.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{cardCounter?.refferal_accounts}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -91,7 +91,7 @@ function SubAccountsInfo() {
                       <NdrDeliveredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Refferal Amount</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd.total_delivered_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{cardCounter?.refferal_amount}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />

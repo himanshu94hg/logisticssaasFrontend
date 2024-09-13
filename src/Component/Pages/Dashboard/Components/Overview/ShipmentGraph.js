@@ -81,7 +81,7 @@ const ShipmentGraph = ({ activeTab }) => {
     };
     
     useEffect(() => {
-        if(authToken){
+        if(authToken && activeTab==="Overview"){
             fetchData();
         }
     }, [activeTab]);
