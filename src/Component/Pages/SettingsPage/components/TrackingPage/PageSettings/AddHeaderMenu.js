@@ -29,7 +29,7 @@ const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
                         />
                     </label>
                     {
-                        menus.length > 1 &&
+                        menus?.length > 1 &&
                         <div style={{ maxWidth: '36px' }}>
                             <button className='btn' type="button" onClick={() => deleteMenu(index)}>
                                 <FontAwesomeIcon icon={faTrashCan} />

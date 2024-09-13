@@ -71,17 +71,17 @@ const TrackingPagePreview = ({ settings }) => {
 
 
             {/* Footer Preview */}
-            {/* {settings.show_footer && (
+            {settings?.show_footer && (
                 <nav className='footer-nav'>
                     <ul>
-                        {settings.footerLinks.map((menu, index) => (
+                        {settings?.footer_links?.map((menu, index) => (
                             <li key={index}>
-                                <a href={menu.link || '#'} target='_blank'>{menu.name || 'Link'}</a>
+                                <a href={menu.link || '#'} target='_blank'>{menu.title || 'Link'}</a>
                             </li>
                         ))}
                     </ul>
                 </nav>
-            )} */}
+            )}
         </div>
 
 

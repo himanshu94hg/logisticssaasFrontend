@@ -15,6 +15,7 @@ const PageSettings = () => {
     const [errors, setErrors] = useState({})
     const authToken = Cookies.get("access_token");
     const [logoError, setLogoError] = useState("")
+    const [refresh, setRefresh] = useState(null)
 
     const [settings, setSettings] = useState({
         subdomain: '',
@@ -89,26 +90,23 @@ const PageSettings = () => {
         setSettings({ ...settings, menus: updatedMenus });
     };
 
-
-
     const handleFooterLinkChange = (index, e) => {
         const { name, value } = e.target;
-        const updatedFooterLinks = [...settings.footerLinks];
+        const updatedFooterLinks = [...settings.footer_links];
         updatedFooterLinks[index][name] = value;
-        setSettings({ ...settings, footerLinks: updatedFooterLinks });
+        setSettings({ ...settings, footer_links: updatedFooterLinks });
     };
 
     const addFooterLink = () => {
-        setSettings({ ...settings, footerLinks: [...settings.footerLinks, { title: '', link: '' }] });
+        setSettings({ ...settings, footer_links: [...settings.footer_links, { title: '', link: '' }] });
     };
 
     const deleteFooterLink = (index) => {
-        const updatedFooterLinks = settings.footerLinks.filter((_, i) => i !== index);
-        setSettings({ ...settings, footerLinks: updatedFooterLinks });
+        const updatedFooterLinks = settings.footer_links.filter((_, i) => i !== index);
+        setSettings({ ...settings, footer_links: updatedFooterLinks });
     };
 
 
-    const [refresh, setRefresh] = useState(null)
 
     const handleSave = async () => {
         const newErrors = {}
@@ -171,6 +169,36 @@ const PageSettings = () => {
         fetchData();
     }, [refresh]);
 
+
+    useEffect(() => {
+        if (!settings.show_logo) {
+            setSettings((prev) => ({
+                ...prev,
+                logo_file: ""
+            }))
+        }
+        if (!settings.show_banner) {
+            setSettings((prev) => ({
+                ...prev,
+                banner_desktop: "",
+                banner_mobile: ""
+            }))
+        }
+        if (!settings.show_menu) {
+            setSettings((prev) => ({
+                ...prev,
+                menus: []
+            }))
+        }
+        if (!settings.show_menu) {
+            setSettings((prev) => ({
+                ...prev,
+                menus: []
+            }))
+        }
+    }, [settings.show_logo, settings.show_banner,settings.show_menu,settings.show_footer])
+
+    console.log(settings, "this is a settings data")
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
@@ -333,7 +361,7 @@ const PageSettings = () => {
                         <label>
                             <input
                                 type="checkbox"
-                                name="showFooter"
+                                name="show_footer"
                                 checked={settings.show_footer}
                                 onChange={handleChange}
                             />
@@ -345,6 +373,7 @@ const PageSettings = () => {
                                 handleMenuChange={handleFooterLinkChange}
                                 addMenu={addFooterLink}
                                 deleteMenu={deleteFooterLink}
+                                settings={settings}
                             />
                         )}
                     </div>
