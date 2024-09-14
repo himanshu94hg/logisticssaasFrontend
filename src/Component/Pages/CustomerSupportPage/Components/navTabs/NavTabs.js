@@ -114,6 +114,11 @@ export default function NavTabs(props) {
               type="search" value={props.searchValue}
               className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
               onChange={(e) => props.setSearchValue(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  props.handleSearch()
+                }
+              }}
             />
             {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
 

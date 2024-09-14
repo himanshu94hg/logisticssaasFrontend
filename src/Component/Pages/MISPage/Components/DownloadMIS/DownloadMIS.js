@@ -110,6 +110,21 @@ const DownloadMIS = ({ activeTab }) => {
             .catch(error => console.error('Error:', error));
     };
 
+    const handleSearchKey = (e) => {
+        if (e.key === "Enter") {
+            handleSearch()
+        }
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <section className='position-relative downloads-mis'>
             <div className="position-relative">
@@ -121,17 +136,7 @@ const DownloadMIS = ({ activeTab }) => {
                                 value={searchValue}
                                 placeholder="Search your downloads"
                                 onChange={(e) => setSearchValue(e.target.value)}
-                                onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                    if (
-                                        e.key === ' ' &&
-                                        e.target.value.endsWith(' ')
-                                    ) {
-                                        e.preventDefault();
-                                    } else if (!allowedCharacters.test(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}
+                                onKeyPress={handleSearchKey}
                             />
                             <button onClick={handleSearch}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />

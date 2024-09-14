@@ -65,6 +65,21 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         setscheduledReport(scheduleReportsData?.results)
     }
 
+    const handleSearchKey = (e) => {
+        if (e.key === "Enter") {
+            handleSearch()
+        }
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <section className='position-relative downloads-mis'>
             <div className="position-relative">
@@ -76,17 +91,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                                 value={searchValue}
                                 placeholder="Search Report Title"
                                 onChange={(e) => setSearchValue(e.target.value)}
-                                onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                    if (
-                                        e.key === ' ' &&
-                                        e.target.value.endsWith(' ')
-                                    ) {
-                                        e.preventDefault();
-                                    } else if (!allowedCharacters.test(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}
+                                onKeyPress={handleSearchKey}
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())} >
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />

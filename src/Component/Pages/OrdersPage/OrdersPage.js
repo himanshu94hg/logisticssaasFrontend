@@ -288,6 +288,25 @@ const OrdersPage = () => {
                 customErrorFunction(error)
             });
     }
+
+
+    const handleSearchKey = (e) => {
+        if(e.key==="Enter"){
+            setReset(new Date())
+        }
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+
+
+
     return (
         <>
             <NavTabs
@@ -315,17 +334,7 @@ const OrdersPage = () => {
                                 className={`input-field`}
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
-                                onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                    if (
-                                        e.key === ' ' &&
-                                        e.target.value.endsWith(' ')
-                                    ) {
-                                        e.preventDefault();
-                                    } else if (!allowedCharacters.test(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}
+                                onKeyPress={handleSearchKey}
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
