@@ -7,19 +7,15 @@ import { percentage } from "../../../../../customFunction/functionLogic";
 function CourierWiseDashboard() {
   const partnerList = JSON.parse(localStorage.getItem('partnerList'));
   const { courierWiseData } = useSelector(state => state?.dashboardOverviewReducer);
-  const sortedCourierWiseData = [...courierWiseData].sort((a, b) => {
-    if (a.courier_name < b.courier_name) return -1;
-    if (a.courier_name > b.courier_name) return 1;
-    return 0;
-  });
 
-  const totalValue = sortedCourierWiseData.reduce((acc, courier) => acc + courier.value, 0);
+
+  const totalValue = courierWiseData?.reduce((acc, courier) => acc + courier.value, 0);
 
   return (
     <div className="box-shadow shadow-sm p10">
       <h4 className="title">Courier Wise allocation</h4>
       <ul className="list-ui list-ui-point mt20 ">
-        {sortedCourierWiseData.map((courier, index) => (
+        {courierWiseData?.map((courier, index) => (
           <li key={index} className="d-flex justify-content-between">
             <p className="font12 bold-600 mb-10">
               {courier?.courier_name &&
