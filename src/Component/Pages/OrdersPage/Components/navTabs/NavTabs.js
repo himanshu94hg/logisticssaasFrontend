@@ -28,7 +28,8 @@ export default function NavTabs(props) {
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
 
 
-  const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
+  const navItems = ["All", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
+  // const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
     dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
