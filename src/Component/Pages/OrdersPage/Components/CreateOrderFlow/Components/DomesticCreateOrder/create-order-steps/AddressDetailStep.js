@@ -4,13 +4,16 @@ import { toast } from 'react-toastify';
 import React, { useRef, useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useLocation } from 'react-router-dom/dist';
+import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
+import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 
 export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setFormData, editErrors, isChecked, setIsChecked }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [errors, setErrors] = useState({});
+    let authToken = Cookies.get("access_token")
 
 
     const validateFormData = () => {
@@ -79,7 +82,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
     };
 
 
-    const handleChangeShiping = (e, field) => {
+    const handleChangeShiping = async (e, field) => {
         const value = e.target.value;
         setFormData(prevData => {
             const newFormData = {
@@ -97,7 +100,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
             }
             return newFormData;
         });
-
         if (field === 'mobile_number') {
             if (value.length === 10) {
                 setErrors(prevErrors => {
@@ -118,44 +120,41 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                     const { pincode, ...restErrors } = prevErrors;
                     return restErrors;
                 });
-                axios.get(`https://api.postalpincode.in/pincode/${value}`)
-                    .then(response => {
-                        if (response?.data[0]?.Message === "No records found") {
-                            setErrors(prevErrors => ({
-                                ...prevErrors,
-                                pincode: "Please enter valid pincode!"
-                            }));
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${e.target.value}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
+                if (response?.data?.status === "Success") {
+                    setFormData(prevState => ({
+                        ...prevState,
+                        shipping_details: {
+                            ...prevState.shipping_details,
+                            city: response?.data?.city,
+                            state: response?.data?.state,
+                            country: response?.data?.country,
                         }
-                        if (response.data && response.data.length > 0) {
-                            const data = response.data[0];
-                            const postOffice = data.PostOffice[0];
-                            setFormData(prevState => ({
-                                ...prevState,
-                                shipping_details: {
-                                    ...prevState.shipping_details,
-                                    city: postOffice.District,
-                                    state: postOffice.State,
-                                    country: postOffice.Country
-                                }
-                            }));
-                            if (isChecked) {
-                                setFormData(prevState => ({
-                                    ...prevState,
-                                    billing_details: {
-                                        ...prevState.billing_details,
-                                        city: postOffice.District,
-                                        state: postOffice.State,
-                                        country: postOffice.Country
-                                    }
-                                }));
+                    }));
+                    if (isChecked) {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            billing_details: {
+                                ...prevState.billing_details,
+                                city: response?.data?.city,
+                                state: response?.data?.state,
+                                country: response?.data?.country,
                             }
-                        }
-                    })
-                    .catch(error => {
-                    });
-
-
-            } else if (value.length > 0 && value.length !== 6) {
+                        }));
+                    }
+                }
+                else {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        pincode: "Please enter valid pincode!"
+                    }));
+                }
+            }
+            else {
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     pincode: "Pincode should be 6 digits!"
@@ -165,7 +164,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
     };
 
 
-    const handleChangeBilling = (e, field) => {
+    const handleChangeBilling = async (e, field) => {
         const value = e.target.value
         setFormData(prevData => ({
             ...prevData,
@@ -188,41 +187,37 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                 }));
             }
         }
-
         if (field === "pincode") {
             if (value.length === 6) {
                 setErrors(prevErrors => {
                     const { billing_pincode, ...restErrors } = prevErrors;
                     return restErrors;
                 });
-                axios.get(`https://api.postalpincode.in/pincode/${value}`)
-                    .then(response => {
-                        if (response?.data[0]?.Message === "No records found") {
-                            setErrors(prevErrors => ({
-                                ...prevErrors,
-                                billing_pincode: "Please enter valid pincode!"
-                            }));
-                        }
-                        if (response.data && response.data.length > 0) {
-                            const data = response.data[0];
-                            const postOffice = data.PostOffice[0];
-                            if (!isChecked) {
-                                setFormData(prevState => ({
-                                    ...prevState,
-                                    billing_details: {
-                                        ...prevState.billing_details,
-                                        city: postOffice.District,
-                                        state: postOffice.State,
-                                        country: postOffice.Country
-                                    }
-                                }));
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${e.target.value}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
+                if (response?.data?.status === "Success") {
+                    if (!isChecked) {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            billing_details: {
+                                ...prevState.billing_details,
+                                city: response?.data.city,
+                                state: response?.data.state,
+                                country: response?.data.country
                             }
-                        }
-                    })
-                    .catch(error => {
-                    });
-
-            } else if (value.length > 0 && value.length !== 6) {
+                        }));
+                    }
+                }
+                else {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        billing_pincode: "Please enter valid pincode!"
+                    }));
+                }
+            } else {
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     billing_pincode: "Pincode should be 6 digits!"

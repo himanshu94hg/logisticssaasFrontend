@@ -1,11 +1,16 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import { BASE_URL_CORE } from '../../../../../../../../axios/config';
+import { customErrorFunction } from '../../../../../../../../customFunction/errorHandling';
 
 const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked, setIsChecked, setPincodeError, setPincodeError1 }) => {
+    let authToken = Cookies.get("access_token")
+
     const [BillingDetails, setBillingDetails] = useState(true);
 
-    const handleChangeShiping = (e, field) => {
+    const handleChangeShiping = async (e, field) => {
         const value = e.target.value;
         setFormData(prevData => {
             const newFormData = {
@@ -42,63 +47,64 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
 
         if (field === "pincode") {
             if (value.length === 6) {
-                setErrors(prevErrors => {
-                    const { pincode, ...restErrors } = prevErrors;
-                    return restErrors;
-                });
-                axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
-                    .then(response => {
-                        if (response?.data[0]?.Message === "No records found") {
-                            setErrors(prevErrors => ({
-                                ...prevErrors,
-                                pincode: "Please enter valid pincode!"
-                            }));
-                            setPincodeError(true)
-                        } else {
-                            setPincodeError(false)
-                        }
-                        if (response.data && response.data.length > 0) {
-                            const data = response.data[0];
-                            const postOffice = data.PostOffice[0];
-                            setFormData(prevState => ({
-                                ...prevState,
-                                shipping_details: {
-                                    ...prevState.shipping_details,
-                                    city: postOffice.District,
-                                    state: postOffice.State,
-                                    country: postOffice.Country,
-                                    landmark: postOffice.District
-                                }
-                            }));
-                            if (isChecked) {
-                                setFormData(prevState => ({
-                                    ...prevState,
-                                    billing_details: {
-                                        ...prevState.billing_details,
-                                        city: postOffice.District,
-                                        state: postOffice.State,
-                                        country: postOffice.Country,
-                                        landmark: postOffice.District
-                                    }
-                                }));
-                            }
-                            if (!isChecked) {
-                                setFormData(prevState => ({
-                                    ...prevState,
-                                    billing_details: {
-                                        ...prevState.billing_details,
-                                        city: postOffice.District,
-                                        state: postOffice.State,
-                                        country: postOffice.Country
-                                    }
-                                }));
-                            }
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${e.target.value}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
                         }
                     })
-                    .catch(error => {
-                    });
+                    if (response?.data?.status === "Success") {
+                        setPincodeError(false)
+                        setErrors(prevErrors => {
+                            const { pincode, ...restErrors } = prevErrors;
+                            return restErrors;
+                        });
+                        setFormData(prevState => ({
+                            ...prevState,
+                            shipping_details: {
+                                ...prevState.shipping_details,
+                                city: response?.data?.city,
+                                state: response?.data?.state,
+                                country: response?.data?.country,
+                            }
+                        }));
+                        if (isChecked) {
+                            setFormData(prevState => ({
+                                ...prevState,
+                                billing_details: {
+                                    ...prevState.billing_details,
+                                    city: response?.data?.city,
+                                    state: response?.data?.state,
+                                    country: response?.data?.country,
+                                }
+                            }));
+                        }
+                        if (!isChecked) {
+                            setFormData(prevState => ({
+                                ...prevState,
+                                billing_details: {
+                                    ...prevState.billing_details,
+                                    city: response?.data?.city,
+                                    state: response?.data?.state,
+                                    country: response?.data?.country,
+                                }
+                            }));
+                        }
+                    }
+                    else {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            pincode: "Please enter valid pincode!"
+                        }));
+                        setPincodeError(true)
+                    }
+                } catch (error) {
+                    customErrorFunction(error)
+                }
 
-            } else if (value.length > 0 && value.length !== 6) {
+            }
+
+            else if (value.length > 0 && value.length !== 6) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     pincode: "Pincode should be 6 digits!"
