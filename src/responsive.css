@@ -144,8 +144,13 @@
 
     .sidenav-toggle-icon {
         display: flex;
-        gap: 10px;
+        gap: 3px;
         align-items: center;
+    }
+
+    .sidenav-toggle-icon img {
+        width: 30px;
+        height: 30px;
     }
 
     .sidenav-toggle-icon button {
@@ -450,6 +455,22 @@
 
     .settings-page-container {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-container {
+        height: calc(100vh - 106px);
+    }
+
+    #sidenav button.nav-link {
+        cursor: pointer;
+        padding-inline: 6px;
+        white-space: nowrap;
+        padding-block: 7px;
+        border-radius: 0.5rem;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: absolute;
     }
 }
 
@@ -798,6 +819,10 @@
         min-height: unset;
         margin-block: 40px;
         background: linear-gradient(272deg, rgba(255, 255, 255, 1) 0%, rgba(25, 117, 201, 1) 25%, rgba(25, 117, 201, 1) 75%, rgba(255, 255, 255, 1) 100%);
+    }
+
+    .seller-profile-section {
+        width: 23em;
     }
 }
 
