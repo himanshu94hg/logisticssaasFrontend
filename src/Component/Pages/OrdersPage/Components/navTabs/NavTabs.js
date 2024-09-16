@@ -28,8 +28,8 @@ export default function NavTabs(props) {
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
 
 
-  const navItems = ["All", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
-  // const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
+  // const navItems = ["All", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
+  const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
     dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
@@ -68,9 +68,9 @@ export default function NavTabs(props) {
   //   []
   // );
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (channelGetCard?.results?.length > 0) {
-       try {
+      try {
         const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${userData?.id}`);
 
         if (response.status === 200) {
