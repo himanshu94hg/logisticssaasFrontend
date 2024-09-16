@@ -11,6 +11,7 @@ import NonActiveService from '../Components/NonActiveService/NonActiveService'
 import { BASE_URL_ORDER } from '../../../../axios/config'
 import { globalGetApiCallFunction } from '../../../../customFunction/apicall'
 
+
 const SubAccounts = ({ activeTab }) => {
   const orderEndPoint = BASE_URL_ORDER
 
@@ -40,7 +41,7 @@ const SubAccounts = ({ activeTab }) => {
   return (
     <>
       <div className='position-relative'>
-        <NonActiveService />  
+        <NonActiveService />
         <Row className='cardsSpace position-relative z-2'>
           <Col className='col-12'>
             <Row>
