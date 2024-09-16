@@ -41,7 +41,7 @@ const Dropdown = ({ links, isOpen, setExpanded }) => {
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => {
         if (link.label === "Zone Mapping" && ZoneService === false) {
-          return null; 
+          return null;
         }
         return (
           <NavLink key={index} to={link.to}

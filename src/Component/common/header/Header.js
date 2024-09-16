@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import { customErrorFunction } from "../../../customFunction/errorHandling";
 import globalDebouncedClick from "../../../debounce";
 import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
-import FullLogo from '../../../assets/image/logo/logo.svg'
+import FullLogo from '../../../assets/image/logo/mobileLogo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 import { clearAllCookies } from "../../Pages/Dashboard/Dashboard";
 import LoaderScreen from "../../LoaderScreen/LoaderScreen";
@@ -204,56 +204,51 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                 </Nav.Link>
                 {
                   screenWidthData > 991 &&
-                  <>
-                    <div className="icons links ">
-                      <div className="iconContainer notificationIcon bell">
-                        <FontAwesomeIcon icon={faBell} />
-                        <span className="bellColor">3</span>
-                      </div>
+                  <div className="icons links ">
+                    <div className="iconContainer notificationIcon bell">
+                      <FontAwesomeIcon icon={faBell} />
+                      <span className="bellColor">3</span>
                     </div>
-                    <NavDropdown
-                      title={
-                        <span className="user-image-icon">
-                          {/* <img
-                      src={UserImage}
-                      className="user-photo"
-                    /> */}
-                          {/* <FontAwesomeIcon icon={faUser} /> */}
-                          <UserImageIcon />
-                        </span>
-                      }
-                      id="basic-nav-dropdown"
-                      className="user-image-container"
-                    >
-                      <NavDropdown.Item eventKey="4.1" className="d-flex flex-column align-items-start">
-                        <div style={{ maxWidth: '150px', whiteSpace: 'break-spaces' }}>Hello, {userData?.first_name || "Seller"}</div>
-                        <div>{userData?.code && `(${userData?.code})`}</div>
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item
-                        eventKey="4.2"
-                        onClick={handleProfile}
-                      >
-                        <FontAwesomeIcon icon={faEdit} /><span className="ms-2">View Profile</span>
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-
-                      <NavDropdown.Item
-                        eventKey="4.4"
-                        onClick={() => handleSwitch()}
-                      >
-                        <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item
-                        eventKey="4.3"
-                        onClick={() => handleLogout()}
-                      >
-                        <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  </>
+                  </div>
                 }
+
+                <NavDropdown
+                  title={
+                    // screenWidthData > 991 &&
+                    <span className="user-image-icon">
+                      <UserImageIcon />
+                    </span>
+                  }
+                  id="basic-nav-dropdown"
+                  className="user-image-container"
+                >
+                  <NavDropdown.Item eventKey="4.1" className="d-flex flex-column align-items-start">
+                    <div style={{ maxWidth: '150px', whiteSpace: 'break-spaces' }}>Hello, {userData?.first_name || "Seller"}</div>
+                    <div>{userData?.code && `(${userData?.code})`}</div>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item
+                    eventKey="4.2"
+                    onClick={handleProfile}
+                  >
+                    <FontAwesomeIcon icon={faEdit} /><span className="ms-2">View Profile</span>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+
+                  <NavDropdown.Item
+                    eventKey="4.4"
+                    onClick={() => handleSwitch()}
+                  >
+                    <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item
+                    eventKey="4.3"
+                    onClick={() => handleLogout()}
+                  >
+                    <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
+                  </NavDropdown.Item>
+                </NavDropdown>
               </div>
             </div>
           </Nav>
