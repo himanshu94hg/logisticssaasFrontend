@@ -665,6 +665,20 @@ ul.order-label-list li {
   max-width: 200px;
 }
 
+.missing-info-text {
+  color: #dc3545;
+  text-decoration: underline;
+}
+
+.missing-info-tooltip {
+  width: fit-content;
+  white-space: nowrap;
+  padding-block: 6px;
+  min-height: unset;
+  left: calc(100% + 1px);
+  font-weight: 700;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;

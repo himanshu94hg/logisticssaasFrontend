@@ -233,8 +233,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                                 : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                     : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                         : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                        : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                            : <CustomIcon />}
+                                                                                            : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
+                                                                                                : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -272,8 +272,11 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     <div className='Labels-pool'>
                                                                         {row?.order_tag?.map((item) => {
                                                                             return (
-                                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}</button></div>
-
+                                                                                <div className="label-button-container active">
+                                                                                    <button className='label-button'>
+                                                                                        <FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}
+                                                                                    </button>
+                                                                                </div>
                                                                             )
                                                                         })}
                                                                     </div>
@@ -286,16 +289,45 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 {/* customer detail */}
                                                 <div className='cell-inside-box'>
-                                                    <p>{row?.shipping_detail?.recipient_name}</p>
-                                                    <p>{row?.shipping_detail?.mobile_number}
+                                                    <p>
+                                                        {row?.shipping_detail?.recipient_name ?
+                                                            row?.shipping_detail?.recipient_name : (
+                                                                <CustomTooltip
+                                                                    triggerComponent={<span className="missing-info-text">Info Missing</span>}
+                                                                    tooltipComponent={row?.order_type === "Forward" ? 'Customer Name Missing' : "Warehouse Name Missing"}
+                                                                    addClassName='missing-info-tooltip'
+                                                                />
+                                                            )}
+                                                    </p>
+                                                    <p>
+                                                        {row?.shipping_detail?.mobile_number ?
+                                                            row?.shipping_detail?.mobile_number : (
+                                                                <CustomTooltip
+                                                                    triggerComponent={<span className="missing-info-text">Info Missing</span>}
+                                                                    tooltipComponent={"Mobile Number Missing"}
+                                                                    addClassName='missing-info-tooltip'
+                                                                />
+                                                            )}
                                                         <span className='details-on-hover ms-2'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
-                                                                {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
-                                                                {row?.shipping_detail?.city && `${row?.shipping_detail.city}, `}
-                                                                {row?.shipping_detail?.state && `${row?.shipping_detail.state}, `}
-                                                                {row?.shipping_detail?.pincode}
+
+                                                                {row?.shipping_detail?.address || row?.shipping_detail?.city || row?.shipping_detail?.state || row?.shipping_detail?.pincode ?
+                                                                    <>
+                                                                        {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
+                                                                        {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
+                                                                        {row?.shipping_detail?.city && `${row?.shipping_detail.city}, `}
+                                                                        {row?.shipping_detail?.state && `${row?.shipping_detail.state}, `}
+                                                                        {row?.shipping_detail?.pincode}
+                                                                    </>
+                                                                    :
+                                                                    <CustomTooltip
+                                                                        triggerComponent={<span className="missing-info-text">Incomplete Address</span>}
+                                                                        tooltipComponent={"Address Incomplete"}
+                                                                        addClassName='missing-info-tooltip'
+                                                                    />
+                                                                }
+
                                                             </span>
                                                         </span>
                                                     </p>
@@ -304,7 +336,16 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 <div className="cell-inside-box">
                                                     <p className="d-flex align-items-center gap-2">
-                                                        <p className="width-eclipse">{row?.order_products[0]?.product_name}</p>
+                                                        {row?.order_products[0]?.product_name ?
+                                                            <p className="width-eclipse">{row?.order_products[0]?.product_name}</p>
+                                                            :
+                                                            <CustomTooltip
+                                                                triggerComponent={<span className="missing-info-text">Info Missing</span>}
+                                                                tooltipComponent={"Product name Missing"}
+                                                                addClassName='missing-info-tooltip'
+                                                            />
+                                                        }
+
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
@@ -321,7 +362,19 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     </p>
                                                     <p className="d-flex align-items-center gap-2">
                                                         <p>Qt.<span> {row?.order_products[0]?.quantity}</span></p>||
-                                                        <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0]?.sku}</p></p>
+                                                        {
+                                                            row?.order_products[0]?.sku ?
+                                                                <p className="d-flex align-items-center gap-1">SKU: <p style={{ maxWidth: '55px' }} className="width-eclipse">{row?.order_products[0]?.sku}</p></p> :
+                                                                (
+                                                                    <CustomTooltip
+                                                                        triggerComponent={<span className="missing-info-text">Info Missing</span>}
+                                                                        tooltipComponent={"SKU Missing"}
+                                                                        addClassName='missing-info-tooltip'
+                                                                    />
+                                                                )
+
+                                                        }
+
                                                     </p>
                                                     <p>
                                                     </p>
@@ -329,20 +382,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box'>
-                                                    {/* <p className='width-eclipse'>{row?.order_products.product_name}</p> */}
                                                     <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
-                                                        {/* <span className='details-on-hover ms-2 align-middle'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.order_products?.map((product, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                        <strong>Product:</strong> {product.product_name}<br />
-                                                                        <strong>SKU:</strong> {product.sku}<br />
-                                                                        <strong>Qt.:</strong> {product.quantity}<br />
-                                                                    </React.Fragment>
-                                                                ))}
-                                                            </span>
-                                                        </span> */}
                                                         <br />
                                                         LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}
                                                     </p>
@@ -358,7 +398,16 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                 <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                     {
                                                         row?.order_type === "Forward" ?
-                                                            <p>{row?.pickup_details?.p_warehouse_name}
+                                                            <p>
+                                                                {row?.pickup_details?.p_warehouse_name ?
+                                                                    row?.pickup_details?.p_warehouse_name
+                                                                    :
+                                                                    <CustomTooltip
+                                                                        triggerComponent={<span className="missing-info-text">Info Missing</span>}
+                                                                        tooltipComponent={"Warehouse name Missing"}
+                                                                        addClassName='missing-info-tooltip'
+                                                                    />
+                                                                }
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
