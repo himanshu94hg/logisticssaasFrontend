@@ -317,6 +317,11 @@ const ManageWarehouse = () => {
                 placeholder="Search by Location || Address || City || State || Pincode"
                 value={searchQuery}
                 onChange={handleSearch}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    searchWarehouse()
+                  }
+                }}
               />
               <button onClick={searchWarehouse}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />

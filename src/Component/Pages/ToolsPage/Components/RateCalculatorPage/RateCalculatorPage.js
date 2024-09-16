@@ -325,6 +325,12 @@ const RateCalculatorPage = () => {
     }
   }
 
+  const handleSearchKey = (e) => {
+    if (e.key === "Enter") {
+      orderIdApiCAll()
+    }
+  }
+
   return (
     <>
       <div className='rate-calc-page'>
@@ -346,7 +352,9 @@ const RateCalculatorPage = () => {
                     className="input-field"
                     value={orderId ?? ""}
                     placeholder="Enter Order ID"
+                    onKeyPress={handleSearchKey}
                     onChange={(e) => handleChangeOrder(e, "order_id")}
+
                   />
                 </label>
                 <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={() => globalDebouncedClick(() => orderIdApiCAll())}>Search</button>

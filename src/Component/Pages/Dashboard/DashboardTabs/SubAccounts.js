@@ -40,7 +40,7 @@ const SubAccounts = ({ activeTab }) => {
   return (
     <>
       <div className='position-relative'>
-        {/* <NonActiveService />   */}
+        <NonActiveService />  
         <Row className='cardsSpace position-relative z-2'>
           <Col className='col-12'>
             <Row>
