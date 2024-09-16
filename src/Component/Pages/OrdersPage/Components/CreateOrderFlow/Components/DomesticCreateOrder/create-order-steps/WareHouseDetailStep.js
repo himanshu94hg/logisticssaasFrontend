@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, editForm,cloneForm }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, editForm, cloneForm }) => {
     const [loading, setLoading] = useState(false);
     const authToken = Cookies.get("access_token");
     const [warehouses, setWarehouses] = useState([]);
@@ -27,12 +27,11 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
                 toast.error("Failed to fetch warehouses. Please try again later")
             }
         };
-
         fetchWarehouses();
     }, []);
 
     useEffect(() => {
-        if ((editForm === "edit-form" || cloneForm==="clone-form") && warehouses) {
+        if ((editForm || cloneForm === "clone-form") && warehouses) {
             let data = warehouses?.filter(item => item?.warehouse_name === wareHouseName)
             setFormData(prevFormData => ({
                 ...prevFormData,
@@ -86,8 +85,8 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
                                                 type="radio"
                                                 name="warehouse"
                                                 value={warehouse.id}
-                                                checked={formData.order_details.warehouse_id === warehouse.id}
                                                 onChange={handleRadioChange}
+                                                checked={formData.order_details.warehouse_id === warehouse.id}
                                             />
                                             <div className='d-flex h-100 flex-column justify-content-between'>
                                                 <div>
