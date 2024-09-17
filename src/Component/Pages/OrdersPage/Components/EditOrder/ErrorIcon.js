@@ -22,7 +22,7 @@ const ErrorIcon = () => {
                             cx="225.26"
                             cy="225.74"
                             r="184.32"
-                            fill="#dc3545"
+                            fill="#FC3B3B"
                             transform="rotate(-45 225.232 225.798)"
                             opacity={1}
                             data-original="#fe646f"

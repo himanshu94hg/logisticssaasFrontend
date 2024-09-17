@@ -144,7 +144,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
                 </div>
             </div>
             <div className='d-flex justify-content-end my-3 cof-btn-container align-items-center'>
-                <p style={{ color: '#dc3545' }} className='font13 mb-0'>{Object.keys(errors)?.length > 0 && '**Please fill all mandatory fields'}</p>
+                <p style={{ color: '#FC3B3B' }} className='font13 mb-0'>{Object.keys(errors)?.length > 0 && '**Please fill all mandatory fields'}</p>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Quick Ship</button>
             </div>
         </div>
