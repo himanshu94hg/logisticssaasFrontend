@@ -79,25 +79,30 @@ const BasicInfo = ({ activeTab, accountType }) => {
             pincode: ""
           }));
           try {
-            const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
-            if (response?.data[0]?.Message === "No records found") {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${value}`, {
+              headers: {
+                Authorization: `Bearer ${hardcodedToken}`
+              }
+            });
+            if (response?.data?.status === "Success") {
+              setFormData(prev => ({
+                ...prev,
+                city: response?.data?.city,
+                state: response?.data?.state,
+                country: response?.data?.country,
+              }));
+            } else {
               setErrors(prev => ({
                 ...prev,
                 pincode: "Please enter valid pincode!"
               }));
-            } else if (response.data && response.data.length > 0) {
-              const district = response.data[0]?.PostOffice[0]?.District;
-              const state = response.data[0]?.PostOffice[0]?.State;
-              setFormData(prev => ({
-                ...prev,
-                city: district || '',
-                state: state || '',
-              }));
             }
+
           } catch (error) {
             customErrorPincode();
           }
-        } else {
+        }
+        else {
           setErrors(prev => ({
             ...prev,
             pincode: "Pincode should be 6 digits!"
@@ -109,20 +114,17 @@ const BasicInfo = ({ activeTab, accountType }) => {
     }
   };
 
-
-
   useEffect(() => {
     if (activeTab === "Basic Information") {
       let url = `${BASE_URL_CORE}/core-api/seller/basic-info/`;
       if (accountType) {
         url += `?subaccount=${accountType}`;
       }
-      axios
-        .get(url, {
-          headers: {
-            'Authorization': `Bearer ${hardcodedToken}`,
-          },
-        })
+      axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+        },
+      })
         .then(response => {
           const basicInfoData = response.data[0] || {};
           if (response?.data?.length > 0) {
@@ -153,12 +155,13 @@ const BasicInfo = ({ activeTab, accountType }) => {
     }
   }, [activeTab, accountType]);
 
+
   const handleClickSubmit = async (formData) => {
     setLoaderRing(true)
     let url = `${BASE_URL_CORE}/core-api/seller/basic-info/`;
-      if (accountType) {
-        url += `?subaccount=${accountType}`;
-      }
+    if (accountType) {
+      url += `?subaccount=${accountType}`;
+    }
     try {
       const response = await axios.post(url, formData, {
         headers: {
@@ -213,11 +216,10 @@ const BasicInfo = ({ activeTab, accountType }) => {
       newErrors.gst_number = "GST Number is required!"
     }
     setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(errors)?.length === 0) {
       globalDebouncedClick(() => handleClickSubmit(formData))
     }
   };
-
 
   const uploadFile = async (e, type) => {
     const file = e.target.files[0];
