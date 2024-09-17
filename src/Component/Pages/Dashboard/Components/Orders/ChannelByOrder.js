@@ -11,6 +11,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import apiChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png";
 import easycomIcon from "../../../../../assets/image/integration/easyecom.png";
 import unicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png";
+import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png";
 import { capatlize, percentage } from '../../../../../customFunction/functionLogic';
 
 const ChannelByOrder = () => {
@@ -29,6 +30,7 @@ const ChannelByOrder = () => {
     { name: 'custom', total_count: 700, total_percentage: 35, logo: CustomIcon },
     { name: 'amazon_direct', total_count: 700, total_percentage: 35, logo: amazonDirImg },
     { name: 'unicommerce', total_count: 200, total_percentage: 10, logo: unicommerceIcon },
+    { name: 'omsguru', total_count: 200, total_percentage: 10, logo: unicommerceIcon },
   ];
 
   const getColorScale = data => {
@@ -44,6 +46,7 @@ const ChannelByOrder = () => {
       amazon_direct: '#ffc281',
       unicommerce: '#9b59b6',
       custom: '#5dade2',
+      omsguru:"brown"
     };
 
     return colorScale;
@@ -74,6 +77,8 @@ const ChannelByOrder = () => {
         return amazonDirImg;
       case "unicommerce":
         return unicommerceIcon;
+      case "omsguru":
+        return omsguru;
       case "custom":
         return null;
       default:
