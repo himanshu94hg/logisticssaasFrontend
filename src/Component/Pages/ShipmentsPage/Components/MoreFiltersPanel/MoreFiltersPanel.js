@@ -60,10 +60,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_source: "",
         courier_partner: "",
         payment_type: "",
-        channel_name:"",
+        channel_name: "",
         order_id: "",
         order_tag: "",
-        product:"",
+        product: "",
         sku: "",
         sku_match_type: "",
         pickup_address: "",
@@ -81,9 +81,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 courier_partner: "",
                 payment_type: null,
                 order_id: "",
-                channel_name:"",
+                channel_name: "",
                 order_tag: "",
-                product:"",
+                product: "",
                 sku: "",
                 sku_match_type: "",
                 pickup_address: "",
@@ -103,10 +103,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 courier_partner: "",
                 payment_type: null,
                 order_id: "",
-                channel_name:"",
+                channel_name: "",
                 order_tag: "",
                 sku: "",
-                product:"",
+                product: "",
                 sku_match_type: "",
                 pickup_address: "",
                 pickup_address_id: "",
@@ -231,13 +231,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type","channel_name"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type", "channel_name"].includes(name)) {
             const temp_data = value.map(item => item?.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
             }));
-        } else if (name === "order_id" || name === "sku"||name==="product") {
+        } else if (name === "order_id" || name === "sku" || name === "product") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
@@ -280,7 +280,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_id: "",
             order_tag: "",
             sku: "",
-            channel_name:"",
+            channel_name: "",
             sku_match_type: "",
             pickup_address: "",
             pickup_address_id: "",
@@ -328,7 +328,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     };
 
 
-  
+
     return (
         <>
             <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
@@ -449,7 +449,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                           
+
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
@@ -551,10 +551,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 )}
                             </label>
                             <div className='d-flex'>
-                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                <button className='btn cancel-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>
-                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                                <button className='btn main-button ms-3' type="submit">Apply</button>
                             </div>
                         </div>
                     </form>

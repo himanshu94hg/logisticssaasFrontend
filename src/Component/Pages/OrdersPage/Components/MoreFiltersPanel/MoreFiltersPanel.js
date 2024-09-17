@@ -587,15 +587,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 )}
                             </label>
                             <div className='d-flex'>
-                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                <button className='btn cancel-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>
-                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                                <button className='btn main-button ms-3' type="submit">Apply</button>
                             </div>
                         </div>
                     </form>
                 </section>
-            </div >
+            </div>
         </>
     )
 })

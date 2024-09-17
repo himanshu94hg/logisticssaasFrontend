@@ -212,8 +212,8 @@ const FilterTicketsForm = (props) => {
           </div>
         </div>
       </div>
-      <div className='mt-4 d-flex'>
-        <button className='btn main-button-outline' onClick={handleReset}>Reset</button>
+      <div className='mt-4 d-flex justify-content-end'>
+        <button className='btn cancel-button' onClick={handleReset}>Reset</button>
         <button className='btn main-button ms-3' onClick={handleApply}>
           Apply
         </button>

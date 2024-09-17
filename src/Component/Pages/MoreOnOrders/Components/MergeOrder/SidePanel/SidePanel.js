@@ -128,10 +128,10 @@ const SidePanel = (props) => {
                             </div>
                         </div>
                         <div className='advanced-filter-footer text-end'>
-                            <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                            <button className='btn cancel-button' type="button" onClick={handleReset}>
                                 Reset
                             </button>
-                            <button className='btn main-button ms-3' type="submit">Submit</button>
+                            <button className='btn main-button ms-3' type="submit">Apply</button>
                         </div>
                     </form>
                 </section>
