@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
 import globalDebouncedClick from "../../../../../debounce";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -179,6 +179,67 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         }
         setShow(false)
     }
+
+
+    const [dropdownPosition, setDropdownPosition] = useState({});
+    const [activeIndex, setActiveIndex] = useState(null);
+    const rowRefs = useRef([]);
+
+    rowRefs.current = [];
+
+    const updateDropdownPosition = () => {
+        const viewportHeight = window.innerHeight;
+        const updatedPositions = {};
+
+        rowRefs.current.forEach((row, index) => {
+            if (row) {
+                const { top, height } = row.getBoundingClientRect();
+                const rowTopRelativeToViewport = top; // Distance from the top of the viewport
+                const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
+
+                const viewportRowsCount = Math.floor(viewportHeight / height); // How many rows fit in the viewport
+
+                let position = 'middle'; // Default to middle
+
+                if (rowTopRelativeToViewport < viewportHeight * 0.25) {
+                    // Top 25% of the viewport (top rows)
+                    position = 'below';
+                } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
+                    // Bottom 25% of the viewport (bottom rows)
+                    position = 'above';
+                }
+
+                updatedPositions[index] = position;
+            }
+        });
+
+        setDropdownPosition(updatedPositions);
+    };
+
+    useEffect(() => {
+        updateDropdownPosition(); // Initial positioning
+        window.addEventListener('scroll', updateDropdownPosition); // Add scroll event listener
+        window.addEventListener('resize', updateDropdownPosition); // Update on window resize
+        return () => {
+            window.removeEventListener('scroll', updateDropdownPosition); // Cleanup
+            window.removeEventListener('resize', updateDropdownPosition); // Cleanup
+        };
+    }, []);
+
+
+
+    const handleMouseEnter = (index) => {
+        setActiveIndex(index);
+        updateDropdownPosition(); // Ensure position is updated on mouse enter
+    };
+
+    const handleMouseLeave = () => {
+        setActiveIndex(null);
+        setDropdownPosition({})
+    };
+
+
+    console.log('activeIndex', dropdownPosition)
 
     return (
         <section className='position-relative'>
@@ -449,23 +510,27 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3'>
                                                     <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
-                                                    <div className='action-options'>
-                                                        <div className='threedots-img'>
+                                                    <div ref={(el) => (rowRefs.current[index] = el)}
+                                                        onMouseEnter={() => handleMouseEnter(index)}
+                                                        onMouseLeave={handleMouseLeave} className="action-options">
+                                                        <div className="threedots-img">
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        <div className='action-list'>
+                                                        {/* {activeIndex === index && ( */}
+                                                        <div className={`action-list ${dropdownPosition[index] || ''}`}>
                                                             <ul>
-                                                                <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row?.id]); setOrderTagId(row?.order_tag) }}>Add Tag</li>
-                                                                <li className='action-hr'></li>
+                                                                <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
+                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
+                                                                <li className="action-hr"></li>
                                                                 <li>Call Buyer</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleShow(row?.id, "mark-verify"))}>Mark As Verified</li>
-                                                                <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
-                                                                <li className='action-hr'></li>
-                                                                <li onClick={() => handleShow(row?.id, "cancel")}>Cancel Order</li>
-                                                                <li onClick={() => handleShow(row?.id, "delete")}>Delete Order</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}>Mark As Verified</li>
+                                                                <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
+                                                                <li className="action-hr"></li>
+                                                                <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
+                                                                <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
                                                             </ul>
                                                         </div>
+                                                        {/* )} */}
                                                     </div>
                                                 </div>
                                             </td>

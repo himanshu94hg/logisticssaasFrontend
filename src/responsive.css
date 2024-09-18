@@ -48,6 +48,13 @@
     .add-warehouse-section .inputs-container {
         width: 90%
     }
+
+    .action-options .action-list {
+        right: 59px;
+        position: fixed;
+        top: 48% !important;
+        bottom: unset !important;
+    }
 }
 
 @media screen and (max-width:1305px) {

@@ -325,19 +325,6 @@
   transition: 0.3s;
 }
 
-.action-options .action-list {
-  transition: 0.3s;
-  max-height: 0;
-  position: absolute;
-  right: 35px;
-  top: 0;
-  overflow: hidden;
-  border-radius: 2px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
-  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
-  padding: 0px;
-}
-
 .action-options.bulk-actions {
   z-index: 2;
 }
