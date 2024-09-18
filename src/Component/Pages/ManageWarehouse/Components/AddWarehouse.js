@@ -3,16 +3,16 @@ import "./AddWarehouse.css";
 import './AddWarehouse.css'
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import { manageWarehousesPattern } from '../../../../Routes';
+import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-import { useSelector } from 'react-redux';
-import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 
 const AddWarehouse = () => {
     const navigate = useNavigate()
@@ -57,58 +57,30 @@ const AddWarehouse = () => {
         event.preventDefault();
         try {
             const newErrors = {}
-            if (!warehouseData.warehouse_name) {
-                newErrors.warehouse_name = "Warehouse Name is required!"
-            }
-            if (!warehouseData.contact_name) {
-                newErrors.contact_name = "Contact Person Name is required!"
-            }
-            if (!warehouseData.contact_number) {
-                newErrors.contact_number = "Contact Number is required!"
-            } else if (warehouseData.contact_number.length !== 10) {
-                newErrors.contact_number = "Contact Number must be 10 digits!";
-            }
-            if (!warehouseData.gst_number) {
-                newErrors.gst_number = "GST Number is required!"
-            }else if (warehouseData.gst_number.length !== 15) {
-                newErrors.gst_number = "GST Number must be 15 digits!";
-            }
-            if (!warehouseData.address_line1) {
-                newErrors.address_line1 = "Address Line 1 is required!"
-            }
-            if (!warehouseData.address_line2) {
-                newErrors.address_line2 = "Address Line 2 is required!"
-            }
-            if (!warehouseData.pincode) {
-                newErrors.pincode = "Pincode is required!"
-            }
-            if (!warehouseData.city) {
-                newErrors.city = "City is required!"
-            }
-            if (!warehouseData.state) {
-                newErrors.state = "State is required!"
-            }
-            if (!warehouseData.rto_details.warehouse_name) {
-                newErrors.rto_warehouse_name = "Warehouse Name is required!"
-            }
-            if (!warehouseData.rto_details.contact_person_name) {
-                newErrors.contact_person_name = "Contact Person Name is required!"
-            }
-            if (!warehouseData.rto_details.contact_number) {
-                newErrors.rto_contact_number = "Contact Number is required!"
-            }
-            if (!warehouseData.rto_details.address) {
-                newErrors.address = "Address is required!"
-            }
-            if (!warehouseData.rto_details.pincode) {
-                newErrors.rto_pincode = "Pincode is required!"
-            }
-            if (!warehouseData.rto_details.city) {
-                newErrors.rto_city = "City is required!"
-            }
-            if (!warehouseData.rto_details.state) {
-                newErrors.rto_state = "State is required!"
-            }
+            const { warehouse_name, contact_name, contact_number, gst_number, address_line1, address_line2, pincode, city, state, rto_details } = warehouseData;
+            !warehouse_name && (newErrors.warehouse_name = "Warehouse Name is required!");
+            !contact_name && (newErrors.contact_name = "Contact Person Name is required!");
+            !contact_number
+                ? (newErrors.contact_number = "Contact Number is required!")
+                : contact_number.length !== 10 && (newErrors.contact_number = "Contact Number must be 10 digits!");
+            !gst_number
+                ? (newErrors.gst_number = "GST Number is required!")
+                : gst_number.length !== 15 && (newErrors.gst_number = "GST Number must be 15 digits!");
+            !address_line1 && (newErrors.address_line1 = "Address Line 1 is required!");
+            !address_line2 && (newErrors.address_line2 = "Address Line 2 is required!");
+            !pincode && (newErrors.pincode = "Pincode is required!");
+            !city && (newErrors.city = "City is required!");
+            !state && (newErrors.state = "State is required!");
+
+            const { warehouse_name: rto_warehouse_name, contact_person_name, contact_number: rto_contact_number, address, pincode: rto_pincode, city: rto_city, state: rto_state } = rto_details;
+            !rto_warehouse_name && (newErrors.rto_warehouse_name = "Warehouse Name is required!");
+            !contact_person_name && (newErrors.contact_person_name = "Contact Person Name is required!");
+            !rto_contact_number && (newErrors.rto_contact_number = "Contact Number is required!");
+            !address && (newErrors.address = "Address is required!");
+            !rto_pincode && (newErrors.rto_pincode = "Pincode is required!");
+            !rto_city && (newErrors.rto_city = "City is required!");
+            !rto_state && (newErrors.rto_state = "State is required!");
+
             setErrors(newErrors)
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
@@ -148,9 +120,8 @@ const AddWarehouse = () => {
         '9:00 PM', '10:00 PM', '11:00 PM'
     ];
 
-    const handleChangeWarehouse = (event) => {
+    const handleChangeWarehouse = async (event) => {
         const { name, value } = event.target;
-
         if (name === "contact_number") {
             if (value.length === 10) {
                 setErrors((prev) => {
@@ -164,7 +135,6 @@ const AddWarehouse = () => {
                 }))
             }
         }
-
         if (name === "pincode") {
             if (value.length === 6) {
                 setErrors(prevErrors => {
@@ -172,30 +142,28 @@ const AddWarehouse = () => {
                     return restErrors;
                 });
                 try {
-                    axios.get(`https://api.postalpincode.in/pincode/${value}`)
-                        .then(response => {
-                            if (response?.data[0]?.Message === "No records found") {
-                                setErrors(prevErrors => ({
-                                    ...prevErrors,
-                                    pincode: "Please enter valid pincode!"
-                                }));
-                            } else {
-                                const data = response.data[0]?.PostOffice[0];
-                                if (response?.data[0]?.PostOffice?.length > 0) {
-                                    setWareHouseData((prev) => ({
-                                        ...prev,
-                                        city: data.District,
-                                        state: data.State,
-                                        country: data.Country,
-                                    }));
-                                }
-                            }
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${value}`, {
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`
                         }
-                        )
+                    })
+                    if (response?.data?.status === "Success") {
+                        setWareHouseData((prev) => ({
+                            ...prev,
+                            city: response?.data?.city,
+                            state: response?.data?.state,
+                            country: response?.data?.country,
+                        }));
+                    } else {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            pincode: "Please enter valid pincode!"
+                        }));
+                    }
                 } catch (error) {
                     customErrorFunction(error)
                 }
-            } else if (value.length > 0 && value.length !== 6) {
+            } else {
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     pincode: "Pincode should be 6 digits!"
@@ -223,7 +191,7 @@ const AddWarehouse = () => {
         }));
     };
 
-    const handleChangeRto = (event) => {
+    const handleChangeRto = async (event) => {
         const { name, value } = event.target;
         if (name === "contact_number") {
             if (value.length === 10) {
@@ -251,7 +219,6 @@ const AddWarehouse = () => {
                 }))
             }
         }
-
         if (name === "pincode") {
             if (value.length === 6) {
                 setErrors(prevErrors => {
@@ -259,36 +226,34 @@ const AddWarehouse = () => {
                     return restErrors;
                 });
                 try {
-                    axios.get(`https://api.postalpincode.in/pincode/${value}`)
-                        .then(response => {
-                            if (response?.data[0]?.Message === "No records found") {
-                                setErrors(prevErrors => ({
-                                    ...prevErrors,
-                                    rto_pincode: "Please enter valid pincode!"
-                                }));
-                            }
-                            else {
-                                if (response?.data && response?.data?.length > 0) {
-                                    const data = response.data[0]?.PostOffice[0];
-                                    setWareHouseData((prev) => ({
-                                        ...prev,
-                                        rto_details: {
-                                            ...prev.rto_details,
-                                            city: data.District,
-                                            state: data.State,
-                                            country: data.Country,
-                                        }
-                                    }));
-                                }
-                            }
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${value}`, {
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`
                         }
-                        )
+                    })
+                    if (response?.data?.status === "Success") {
+                        setWareHouseData((prev) => ({
+                            ...prev,
+                            rto_details: {
+                                ...prev.rto_details,
+                                city: response?.data.city,
+                                state: response?.data.state,
+                                country: response?.data.country,
+                            }
+                        }));
+                    }
+                    else {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            rto_pincode: "Please enter valid pincode!"
+                        }));
+                    }
                 }
                 catch (error) {
-                    // Handle error
+                    customErrorFunction(error)
                 }
             }
-            else if (value.length > 0 && value.length !== 6) {
+            else {
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     rto_pincode: "Pincode should be 6 digits!"
@@ -345,7 +310,6 @@ const AddWarehouse = () => {
             }));
         }
     }, [SameRTO, warehouseData.pincode, warehouseData.city, warehouseData.state])
-
 
     const handleReset = () => {
         setErrors({})
@@ -446,7 +410,7 @@ const AddWarehouse = () => {
                                         name="contact_number"
                                         placeholder='XXXXXXXXXX'
                                         value={warehouseData.contact_number}
-                                        maxLength={10}
+                                        maxLength={10}  
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();

@@ -1,27 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import './Components/AddWarehouse.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { BASE_URL_CORE } from '../../../axios/config';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 
 const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
-    const dispatch = useDispatch();
-    const pincodeRef = useRef(null);
-    const cityRef = useRef(null);
-    const stateRef = useRef(null);
-    const countryRef = useRef(null);
-    const pincodeRef1 = useRef(null);
-    const cityRef1 = useRef(null);
-    const stateRef1 = useRef(null);
-    const countryRef1 = useRef(null);
-    const [SameRTO, setSameRTO] = useState(false);
-    const [formErrors, setFormErrors] = useState({});
     const popRef = useRef(null);
+    const dispatch = useDispatch();
+    const [SameRTO, setSameRTO] = useState(false);
+    const hardcodedToken = Cookies.get("access_token");
+    const [formErrors, setFormErrors] = useState({});
     const [formData, setFormData] = useState({
         warehouse_name: "",
         address_line1: "",
@@ -55,8 +49,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             country: ""
         }
     });
-
-    console.log("SameRTOSameRTOSameRTOSameRTO", SameRTO)
     const { warehouseDetails } = useSelector(state => state?.settingsSectionReducer)
     useEffect(() => {
         if (warehouseDetails) {
@@ -211,80 +203,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }
     };
 
-    const handlePincodeChange = async () => {
-        const pincode = pincodeRef.current.value;
-        if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
-        try {
-            const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
-            if (response.data && response.data.length > 0) {
-                const data = response.data[0];
-                const postOffice = data.PostOffice[0];
-                setFormData(prevState => ({
-                    ...prevState,
-                    rto_details: {
-                        ...prevState.rto_details,
-                        city: postOffice.District,
-                        state: postOffice.State,
-                        country: postOffice.Country
-                    }
-                }));
-            } else {
-                throw new Error('No data found for the given pincode.');
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid pincode! Please enter a valid pincode.',
-                confirmButtonText: 'OK'
-            });
-        }
-    };
-
-    const handlePincodeChange1 = async () => {
-        const pincode = pincodeRef1.current.value;
-
-        if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
-
-        try {
-            const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
-
-            if (response.data && response.data.length > 0) {
-                const data = response.data[0];
-                const postOffice = data.PostOffice[0];
-                console.log(postOffice, "postOfficepostOfficepostOffice")
-                setFormData(prevState => ({
-                    ...prevState,
-                    city: postOffice.District,
-                    state: postOffice.State,
-                    country: postOffice.Country
-                }));
-            } else {
-                throw new Error('No data found for the given pincode.');
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    const handleInputChange = (e, section) => {
+    const handleInputChange = async (e, section) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -317,9 +236,32 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 }));
             }
         }
+        if (name === "pincode") {
+            if (value.length === 6) {
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${value}`, {
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`
+                        }
+                    });
+                    if (response?.data?.status === "Success") {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            city: response?.data?.city,
+                            state: response?.data?.state,
+                            country: response?.data?.country
+                        }));
+                    } else {
+                        throw new Error('No data found for the given pincode.');
+                    }
+                } catch (error) {
+                    customErrorFunction(error)
+                }
+            }
+        }
     };
 
-    const handleInputChange1 = (e) => {
+    const handleInputChange1 = async (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -328,7 +270,34 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 [name]: value
             }
         }));
+        if (name === "pincode") {
+            if (value.length === 6) {
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/get-pincode-detail/?pincode=${value}`, {
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`
+                        }
+                    });
+                    if (response?.data?.status === "Success") {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            rto_details: {
+                                ...prevState.rto_details,
+                                city: response?.data?.city,
+                                state: response?.data?.state,
+                                country: response?.data?.country
+                            }
+                        }));
+                    } else {
+                        throw new Error('No data found for the given pincode.');
+                    }
+                } catch (error) {
+                    customErrorFunction(error)
+                }
+            }
+        }
     }
+
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
         setFormData(prevState => ({
@@ -348,6 +317,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             e.preventDefault();
         }
     }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (popRef.current && !popRef.current.contains(event.target)) {
@@ -475,19 +445,17 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     <span>Pincode<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
-                                        className={`input-field`}
                                         name="pincode"
-                                        placeholder='Enter Pincode'
-                                        ref={pincodeRef1}
-                                        onBlur={handlePincodeChange1}
                                         maxLength={6}
+                                        className={`input-field`}
+                                        placeholder='Enter Pincode'
                                         value={formData.pincode || ''}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();
                                             }
                                         }}
-                                        onChange={(e) => handleInputChange(e, "")}
+                                        onChange={(e) => handleInputChange(e, "pincode")}
                                     />
                                     <span className="custom-error">{formErrors.pincode}</span>
                                 </label>
@@ -497,7 +465,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         type="text"
                                         className='input-field'
                                         name="city"
-                                        ref={cityRef1}
                                         value={formData.city || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                         onKeyPress={(e) => handleKeyPress(e)}
@@ -512,7 +479,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         type="text"
                                         className='input-field'
                                         name="state"
-                                        ref={stateRef1}
                                         value={formData.state || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                     />
@@ -524,7 +490,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         type="text"
                                         className='input-field'
                                         name="country"
-                                        ref={countryRef1}
                                         value={formData.country || ''}
                                         onChange={(e) => handleInputChange(e, "")}
                                     />
@@ -691,9 +656,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             className='input-field'
                                             name="pincode"
                                             placeholder='Enter Pincode'
-                                            ref={pincodeRef}
                                             maxLength={6}
-                                            onBlur={handlePincodeChange}
                                             value={formData.rto_details.pincode || ''}
                                             onChange={(e) => handleInputChange1(e)}
                                         />
@@ -707,7 +670,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             type="text"
                                             className='input-field'
                                             name="city"
-                                            ref={cityRef}
                                             value={formData.rto_details.city || ''}
                                             onChange={(e) => handleInputChange1(e)}
                                             maxLength={100}
@@ -721,7 +683,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             type="text"
                                             className='input-field'
                                             name="state"
-                                            ref={stateRef}
                                             value={formData.rto_details.state || ''}
                                             maxLength={100}
                                             onChange={(e) => handleInputChange1(e)}
@@ -736,7 +697,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                             type="text"
                                             className='input-field'
                                             name="country"
-                                            ref={countryRef}
                                             value={formData.rto_details.country || ''}
                                             onChange={(e) => handleInputChange1(e)}
                                         />

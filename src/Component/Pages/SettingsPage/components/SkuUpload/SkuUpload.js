@@ -83,27 +83,31 @@ const SkuUpload = () => {
             } catch (error) {
                 customErrorFunction(error);
             }
-
         }
     }
 
     const handleSelectRow = (id) => {
+        let updatedSelectedRows = [];
         if (selectedRows.includes(id)) {
-            setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+          updatedSelectedRows = selectedRows.filter((rowId) => rowId !== id);
         } else {
-            setSelectedRows([...selectedRows, id]);
+          updatedSelectedRows = [...selectedRows, id];
         }
-    };
+        setSelectedRows(updatedSelectedRows);
+    
+        setSelectAll(updatedSelectedRows.length === skuData.length);
+      };
+    
+      const handleSelectAll = (e) => {
+        if (e.target.checked) {
+          setSelectAll(true);
+          setSelectedRows(skuData.map((row) => row.id));
+        } else {
+          setSelectedRows([]);
+          setSelectAll(false);
+        }
+      };
 
-    const handleSelectAll = () => {
-        if (selectedRows?.length === skuData?.length) {
-            setSelectAll(false)
-            setSelectedRows([]);
-        } else {
-            setSelectedRows(skuData?.map(row => row.id));
-            setSelectAll(true)
-        }
-    };
 
     const handleImport = async () => {
         const formData = new FormData();
@@ -160,29 +164,15 @@ const SkuUpload = () => {
 
     const handleAddSku = async (type) => {
         const newErrors = {}
-        if (!skuFormData.product_name) {
-            newErrors.product_name = "Product Name is required!"
-        }
-        if (!skuFormData.sku) {
-            newErrors.sku = "Product SKU is required!"
-        }
-        if (!skuFormData.brand_name) {
-            newErrors.brand_name = "Brand Name is required!"
-        }
-        if (!skuFormData.width) {
-            newErrors.width = "Width Name is required!"
-        }
-        if (!skuFormData.weight) {
-            newErrors.weight = "Weight Name is required!"
-        }
-        if (!skuFormData.length) {
-            newErrors.length = "Length is required!"
-        }
-        if (!skuFormData.height) {
-            newErrors.height = "Height Name is required!"
-        }
-        setErrorsAll(newErrors)
+        !skuFormData.product_name && (newErrors.product_name = "Product Name is required!");
+        !skuFormData.sku && (newErrors.sku = "Product SKU is required!");
+        !skuFormData.brand_name && (newErrors.brand_name = "Brand Name is required!");
+        !skuFormData.width && (newErrors.width = "Width is required!");
+        !skuFormData.weight && (newErrors.weight = "Weight is required!");
+        !skuFormData.length && (newErrors.length = "Length is required!");
+        !skuFormData.height && (newErrors.height = "Height is required!");
 
+        setErrorsAll(newErrors)
         if (Object.keys(newErrors).length == 0) {
             if (type === "Add") {
                 try {
@@ -331,17 +321,11 @@ const SkuUpload = () => {
         }
     }, [userData])
 
-    // useEffect(() => {
-    //     if (selectedRows.length > 0 && selectedRows.length === skuData?.length) {
-    //         setSelectAll(true)
-    //     }
-    // }, [selectedRows])
-
 
     return (
         <section className='sku-upload-page'>
             <header className='d-flex justify-content-between w-100 align-items-center'>
-                <h4 className='mb-0'>SKU Upload</h4>
+                <h4 className='mb-0'>SKU sssssssssUpload</h4>
                 <div className='d-flex gap-2 align-items-center'>
                     <Button className='btn main-button' onClick={handleExport}>Export</Button>
                     <Button className='btn main-button' onClick={() => handleAddShow("Add")}>Add SKU</Button>

@@ -293,7 +293,14 @@ const OrderDetail = () => {
                                             <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Collectable Amount </td>
                                             <td style={{ width: '20%', paddingBottom: '20px' }}>
                                                 <p className='text-end'>
-                                                    ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)?.toFixed(2)}
+                                                    {orderDetails?.payment_type === "COD" ?
+                                                        <span>
+                                                            ₹ {parseFloat(orderDetails?.invoice_amount || 0)?.toFixed(2)}
+                                                        </span> :
+                                                        <span>
+                                                            ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)?.toFixed(2)}
+                                                        </span>
+                                                    }
                                                 </p>
                                             </td>
                                         </tr>
