@@ -516,21 +516,21 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                         <div className="threedots-img">
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        {/* {activeIndex === index && ( */}
-                                                        <div className={`action-list ${dropdownPosition[index] || ''}`}>
-                                                            <ul>
-                                                                <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
-                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
-                                                                <li className="action-hr"></li>
-                                                                <li>Call Buyer</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}>Mark As Verified</li>
-                                                                <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
-                                                                <li className="action-hr"></li>
-                                                                <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
-                                                                <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
-                                                            </ul>
-                                                        </div>
-                                                        {/* )} */}
+                                                        {activeIndex === index && (
+                                                            <div className={`action-list ${dropdownPosition[index] || ''}`}>
+                                                                <ul>
+                                                                    <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
+                                                                    <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
+                                                                    <li className="action-hr"></li>
+                                                                    <li>Call Buyer</li>
+                                                                    <li onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}>Mark As Verified</li>
+                                                                    <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
+                                                                    <li className="action-hr"></li>
+                                                                    <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
+                                                                    <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
+                                                                </ul>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </td>
