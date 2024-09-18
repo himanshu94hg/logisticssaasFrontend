@@ -378,8 +378,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
+                                <label className='filter-date-by'>
+                                    Filter By
+                                    <select className='select-field' name="" id="">
+                                        <option value="">Order Date</option>
+                                        <option value="">Shipped Date</option>
+                                        <option value="">Pickup Requested Date</option>
+                                    </select>
+                                </label>
                                 <div className="date-picker-container">
-                                    Start Date
+                                    From
                                     <DatePicker
                                         showIcon
                                         isClearable
@@ -388,7 +396,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         showMonthDropdown
                                         maxDate={new Date()}
                                         placeholderText='Select Start Date'
-                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        dateFormat="dd MMM, yyyy, h:mm aa"
                                         onKeyDown={(e) => handleKeyDown(e)}
                                         selected={filterParams?.start_date}
                                         closeOnScroll={(e) => e.target === document}
@@ -398,7 +406,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </div>
                                 <div className="date-picker-container">
-                                    End Date
+                                    To
                                     <DatePicker
                                         showIcon
                                         isClearable
@@ -408,7 +416,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         maxDate={new Date()}
                                         placeholderText='Select End Date'
                                         selected={filterParams?.end_date}
-                                        dateFormat="dd MMMM, yyyy h:mm aa"
+                                        dateFormat="dd MMM, yyyy h:mm aa"
                                         onKeyDown={(e) => handleKeyDown(e)}
                                         closeOnScroll={(e) => e.target === document}
                                         onChange={(e) => handleChange("end_date", e)}
@@ -513,6 +521,26 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         type="text"
                                         className='input-field'
                                         placeholder='Enter product name'
+                                        value={filterParams.product}
+                                        onChange={(e) => handleChange("product", e)}
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Min Weight
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Min Weight (in gram)'
+                                        value={filterParams.product}
+                                        onChange={(e) => handleChange("product", e)}
+                                    />
+                                </label>
+                                <label>Max Weight
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Max Weight (in gram)'
                                         value={filterParams.product}
                                         onChange={(e) => handleChange("product", e)}
                                     />
