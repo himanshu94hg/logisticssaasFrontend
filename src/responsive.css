@@ -704,6 +704,10 @@
         flex-direction: column;
     }
 
+    .morefilters-panel label.filter-date-by select {
+        width: 100%;
+    }
+
     .manage-warehouse .box-grid {
         grid-template-columns: repeat(1, minmax(150px, 1fr));
     }

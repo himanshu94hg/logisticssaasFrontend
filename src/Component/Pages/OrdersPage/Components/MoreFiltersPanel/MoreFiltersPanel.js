@@ -526,26 +526,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
-                                <label>Min Weight
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Min Weight (in gram)'
-                                        value={filterParams.product}
-                                        onChange={(e) => handleChange("product", e)}
-                                    />
-                                </label>
-                                <label>Max Weight
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Max Weight (in gram)'
-                                        value={filterParams.product}
-                                        onChange={(e) => handleChange("product", e)}
-                                    />
-                                </label>
-                            </div>
+
                             <div className='filter-row'>
                                 <label>SKU
                                     <input
