@@ -87,22 +87,27 @@ const SkuUpload = () => {
     }
 
     const handleSelectRow = (id) => {
+        let updatedSelectedRows = [];
         if (selectedRows.includes(id)) {
-            setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+          updatedSelectedRows = selectedRows.filter((rowId) => rowId !== id);
         } else {
-            setSelectedRows([...selectedRows, id]);
+          updatedSelectedRows = [...selectedRows, id];
         }
-    };
-
-    const handleSelectAll = (e) => {
+        setSelectedRows(updatedSelectedRows);
+    
+        setSelectAll(updatedSelectedRows.length === skuData.length);
+      };
+    
+      const handleSelectAll = (e) => {
         if (e.target.checked) {
-            setSelectAll(true)
-            setSelectedRows(skuData?.map(row => row.id));
+          setSelectAll(true);
+          setSelectedRows(skuData.map((row) => row.id));
         } else {
-            setSelectedRows([]);
-            setSelectAll(false)
+          setSelectedRows([]);
+          setSelectAll(false);
         }
-    };
+      };
+
 
     const handleImport = async () => {
         const formData = new FormData();
