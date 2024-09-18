@@ -925,3 +925,10 @@ input:disabled {
 .table-responsive::-webkit-scrollbar {
   height: 2px;
 }
+
+
+img {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
