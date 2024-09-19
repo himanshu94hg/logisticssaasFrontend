@@ -31,6 +31,7 @@ import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { Color } from "antd/es/color-picker";
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -256,7 +257,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             onChange={handleSelectAll}
                                         />
                                     </div>
-
                                 </th>
                                 <th style={{ width: '16.5%' }}>Order Details</th>
                                 <th style={{ width: '15.5%' }}>Customer details</th>
@@ -352,7 +352,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                 <div className='cell-inside-box'>
                                                     <p>
                                                         {row?.shipping_detail?.recipient_name ?
-                                                            row?.shipping_detail?.recipient_name : (
+                                                            <span data-truncate-name>{row?.shipping_detail?.recipient_name}</span>
+                                                            : (
                                                                 <CustomTooltip
                                                                     triggerComponent={<span className="missing-info-text">Info Missing</span>}
                                                                     tooltipComponent={row?.order_type === "Forward" ? 'Customer Name Missing' : "Warehouse Name Missing"}
@@ -362,18 +363,14 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     </p>
                                                     <p>
                                                         {row?.shipping_detail?.mobile_number ?
-                                                            row?.shipping_detail?.mobile_number : (
-                                                                <CustomTooltip
-                                                                    triggerComponent={<span className="missing-info-text">Info Missing</span>}
-                                                                    tooltipComponent={"Mobile Number Missing"}
-                                                                    addClassName='missing-info-tooltip'
-                                                                />
-                                                            )}
-                                                        <span className='details-on-hover ms-2'>
+                                                            row?.shipping_detail?.mobile_number :
+                                                            <span className="missing-info-text">Info Missing</span>
+                                                        }
+                                                        <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
 
-                                                                {row?.shipping_detail?.address || row?.shipping_detail?.city || row?.shipping_detail?.state || row?.shipping_detail?.pincode ?
+                                                                {(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ?
                                                                     <>
                                                                         {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
                                                                         {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
@@ -382,13 +379,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                         {row?.shipping_detail?.pincode}
                                                                     </>
                                                                     :
-                                                                    <CustomTooltip
-                                                                        triggerComponent={<span className="missing-info-text">Incomplete Address</span>}
-                                                                        tooltipComponent={"Address Incomplete"}
-                                                                        addClassName='missing-info-tooltip'
-                                                                    />
+                                                                    <b className="missing-details">Customer Details Missing</b>
                                                                 }
-
                                                             </span>
                                                         </span>
                                                     </p>
