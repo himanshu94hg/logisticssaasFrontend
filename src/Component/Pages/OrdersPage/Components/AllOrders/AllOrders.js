@@ -584,7 +584,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
-                                                                        {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                        {row?.pickup_details?.p_address_line1 && `${(row?.pickup_details?.p_address_line1)},`}
                                                                         {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
                                                                         {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
                                                                         {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
