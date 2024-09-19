@@ -88,6 +88,60 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
         width: '190px'
     }
 
+
+    const handleExportAll = async (args) => {
+        const requestData = {
+            "invoice_ids": `${selectedRows.join(',')}`
+        };
+        setExportButtonClick(true);
+        setLoading(true)
+        if (activeTab === "Shipping Charges") {
+            dispatch({ type: "EXPORT_SHIPPING_DATA_ACTION", payload: { ids: "" } });
+        }
+        else if (activeTab === "Recharge Logs") {
+            dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: { ids: "" } });
+        }
+        else if (activeTab === "Passbook") {
+            dispatch({ type: "EXPORT_PASSBOOK_DATA_ACTION", payload: { ids: "" } });
+        }
+        else if (activeTab === "Credit Receipt") {
+            dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: { ids: "" } });
+        }
+        else if (activeTab === "Invoices") {
+            if (args === "all") {
+                dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: { ids: "" } });
+            } else {
+                try {
+                    const response = await axios.post(`${BASE_URL_CORE}/core-api/features/export-invoice-data/`, requestData, {
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        responseType: 'blob'
+                    });
+
+                    if (response.status === 200) {
+                        setSelectAll(false)
+                        toast.success("Data Export Successfully!");
+                        const FileSaver = require('file-saver');
+                        const blob = new Blob([response.data], { type: 'application/ms-excel' });
+                        FileSaver.saveAs(blob, `invoice.xlsx`);
+                        setBulkActionShow(false)
+                    }
+                } catch (error) {
+                    customErrorFunction(error)
+                    toast.error(error?.response?.data?.detail)
+                    setLoading(false)
+                }
+            }
+
+        }
+
+        setSelectedOrderRows([])
+        setSelectedRows([])
+        setSelectAll(false)
+    };
+
     return (
         <>
             {selectedRows.length > 0 && (
@@ -99,8 +153,22 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                         </div>
                         <ul className='ba-actions d-flex'>
                             <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                            {activeTab === "Remittance Logs" &&
-                                <li onClick={handleExportData}><ExportIcon /><span>Export data</span></li>
+
+                            {activeTab === "Shipping Charges" ?
+                                <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> :
+                                activeTab === "Remitance Logs" ?
+                                    <li onClick={handleExportData}><ExportIcon /><span>Export Data</span></li> :
+                                    activeTab === "Recharge Logs" ?
+                                        <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> :
+                                        activeTab === "Invoices" ?
+                                            <>
+                                                <li onClick={() => handleExportAll("all")}><ExportIcon /><span>Export All</span></li>
+                                                <li onClick={() => handleExportAll("data")}><ExportIcon /><span>Export Data</span></li>
+                                            </> :
+                                            activeTab === "Passbook" ?
+                                                <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> :
+                                                activeTab === "credit" ?
+                                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> : ""
                             }
                         </ul>
                         <div className='ba-close'></div>
