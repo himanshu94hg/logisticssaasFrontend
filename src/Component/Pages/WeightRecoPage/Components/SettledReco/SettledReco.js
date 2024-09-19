@@ -179,7 +179,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.order?.courier_partner && <img src={partnerList[row?.Order?.courier_partner]["image"]} alt='Partner' />}
+                                                {row?.order?.courier_partner && <img src={partnerList[row?.order?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
                                                         {row?.order?.awb_number}

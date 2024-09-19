@@ -112,16 +112,16 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             </div>
                                         </td>
                                         <td>
-                                            <div className='cell-inside-box'>
+                                            <div className='cell-inside-box shipping-details'>
                                                 <p className='mt-1'>
-                                                    {row?.order?.courier_partner && <img src={partnerList[row?.Order?.courier_partner]["image"]} alt='Partner' />}
+                                                    {row?.order?.courier_partner && <img src={partnerList[row?.order?.courier_partner]["image"]} alt='Partner' />}
                                                     <p className='text-capitalize'>{row?.order?.courier_partner && partnerList[row?.order?.courier_partner]["title"]}</p>
                                                 </p>
-                                                <CustomTooltip
+                                                {/* <CustomTooltip
                                                     triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.order?.awb_number)}><FaRegCopy /></button>}
                                                     tooltipComponent={copyText}
                                                     addClassName='copytext-tooltip'
-                                                />
+                                                /> */}
                                             </div>
 
                                         </td>
