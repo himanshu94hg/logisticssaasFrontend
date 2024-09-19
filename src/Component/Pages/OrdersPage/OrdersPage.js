@@ -162,7 +162,7 @@ const OrdersPage = () => {
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}&search_by=${searchType}`;
                     break;
                 case "Processing":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}&search_by=${searchType}`;
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}&search_by=${searchType}`;
                     break;
                 case "Ready to Ship":
                     apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}&q=${sanitizedSearchValue}&search_by=${searchType}`;
@@ -372,15 +372,16 @@ const OrdersPage = () => {
 
                     </div>
                     <p className='popular-search'>Most Popular Search by
-                        <span className='text-sh-red'> Info Missing</span> |
-                        <span className="text-green"> Live</span> |
-                        <span className='text-sh-primary'> COD</span> |
-                        <span className='text-sh-primary'> Prepaid</span> |
-                        <span className='text-sh-primary'> Yesterday</span> |
-                        <span className='text-yellow'> One Week</span> |
-                        <span> Last Month</span> |
-                        <span className='text-green'> Delivered</span> |
-                        <span className='text-sh-red'> Cancel order</span> </p>
+                        <span className='text-sh-red'>Info Missing</span>|
+                        <span className="text-green">Live</span>|
+                        <span className='text-sh-primary'>COD</span>|
+                        <span className='text-sh-primary'>Prepaid</span>|
+                        <span className='text-green'>Delivered</span>|
+                        <span className='text-sh-red'>Cancel order</span>|
+                        <span className='text-sh-primary'>Yesterday</span>|
+                        <span className='text-yellow'>Last Week</span>|
+                        <span>Last Month</span>
+                    </p>
                 </div>
                 {screenWidthData < 592 &&
                     <div className="nav-actions-container">

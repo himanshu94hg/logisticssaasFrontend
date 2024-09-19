@@ -704,10 +704,15 @@ ul.order-label-list li {
 .search-container .popular-search {
   font-size: 10px;
   margin-top: 0.22rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .search-container .popular-search span {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 @media screen and (max-width:1366px) {
