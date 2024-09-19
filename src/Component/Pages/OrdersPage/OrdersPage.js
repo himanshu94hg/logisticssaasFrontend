@@ -291,7 +291,7 @@ const OrdersPage = () => {
 
 
     const handleSearchKey = (e) => {
-        if(e.key==="Enter"){
+        if (e.key === "Enter") {
             setReset(new Date())
         }
         const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
@@ -371,14 +371,17 @@ const OrdersPage = () => {
 
 
                     </div>
-                    <p className='font10 mt-1'>Most Popular Search by
-                        <span> COD</span> |
-                        <span>Prepaid</span> |
-                        <span>Yesterday</span> |
-                        <span>One Week</span> |
-                        <span>Last Month</span> |
-                        <span>Delivered</span> |
-                        <span>Cancel order</span> </p>
+                    <p className='popular-search'>Most Popular Search by
+                        <span className='text-sh-red'>Info Missing</span>|
+                        <span className="text-green">Live</span>|
+                        <span className='text-sh-primary'>COD</span>|
+                        <span className='text-sh-primary'>Prepaid</span>|
+                        <span className='text-green'>Delivered</span>|
+                        <span className='text-sh-red'>Cancel order</span>|
+                        <span className='text-sh-primary'>Yesterday</span>|
+                        <span className='text-yellow'>Last Week</span>|
+                        <span>Last Month</span>
+                    </p>
                 </div>
                 {screenWidthData < 592 &&
                     <div className="nav-actions-container">
