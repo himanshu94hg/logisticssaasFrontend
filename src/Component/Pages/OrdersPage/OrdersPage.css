@@ -691,6 +691,25 @@ ul.order-label-list li {
   font-weight: 700;
 }
 
+.cell-inside-box .details-on-hover.missing-address .missing-details {
+  color: #F31429;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.missing-address svg>g>path {
+  fill: #F31429;
+}
+
+.search-container .popular-search {
+  font-size: 10px;
+  margin-top: 0.22rem;
+}
+
+.search-container .popular-search span {
+  cursor: pointer;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
