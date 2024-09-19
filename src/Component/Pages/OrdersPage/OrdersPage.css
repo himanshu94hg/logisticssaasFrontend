@@ -331,11 +331,12 @@
   position: relative;
   cursor: pointer;
   width: fit-content;
+  text-transform: lowercase;
 }
 
 
-.cell-inside-box .product-details span,
-.cell-inside-box .details-on-hover span {
+.cell-inside-box .product-details>span,
+.cell-inside-box .details-on-hover>span {
   display: none;
   padding: 2px 10px;
   text-decoration: none;
@@ -358,8 +359,12 @@
   white-space: break-spaces;
 }
 
-.cell-inside-box .product-details span:after,
-.cell-inside-box .details-on-hover span:after {
+.cell-inside-box .details-on-hover span {
+  text-transform: capitalize;
+}
+
+.cell-inside-box .product-details>span:after,
+.cell-inside-box .details-on-hover>span:after {
   content: '';
   position: absolute;
   bottom: 40px;
@@ -371,13 +376,13 @@
   transform: rotate(270deg);
 }
 
-.cell-inside-box .product-details:hover span,
-.cell-inside-box .details-on-hover:hover span {
+.cell-inside-box .product-details:hover>span,
+.cell-inside-box .details-on-hover:hover>span {
   display: block;
 }
 
 
-.cell-inside-box .details-on-hover.extra span {
+.cell-inside-box .details-on-hover.extra>span {
   padding: 13px;
   text-decoration: none;
   color: #111;
@@ -394,15 +399,15 @@
 }
 
 .cell-inside-box .product-details span hr,
-.cell-inside-box .details-on-hover span hr {
+.cell-inside-box .details-on-hover>span hr {
   margin-block: 4px;
 }
 
-.cell-inside-box .details-on-hover span hr:last-of-type {
+.cell-inside-box .details-on-hover>span hr:last-of-type {
   display: none;
 }
 
-.cell-inside-box .details-on-hover.extra span:after {
+.cell-inside-box .details-on-hover.extra>span:after {
   content: '';
   position: absolute;
   bottom: 108px;
