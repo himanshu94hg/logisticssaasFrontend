@@ -230,7 +230,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p data-truncate-name>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -275,22 +275,22 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                             <span className='details-on-hover ms-2'>
                                                                 <InfoIcon />
                                                                 <span style={{ width: '250px' }}>
-                                                                    {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
-                                                                    {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
-                                                                    {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
-                                                                    {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
-                                                                    {row?.pickup_details?.p_pincode}
+                                                                    <b>Address:</b> {row?.pickup_details?.p_address_line1}<br />
+                                                                    <b>Landmark:</b> {row?.pickup_details?.p_address_line2}<br />
+                                                                    <b>City:</b> {row?.pickup_details?.p_city}<br />
+                                                                    <b>State:</b> {row?.pickup_details?.p_state}<br />
+                                                                    <b>Pincode:</b> {row?.pickup_details?.p_pincode}
                                                                 </span>
                                                             </span>
                                                         </p> : <p>{row?.shipping_detail?.recipient_name}
                                                             <span className='details-on-hover ms-2'>
                                                                 <InfoIcon />
                                                                 <span style={{ width: '250px' }}>
-                                                                    {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
-                                                                    {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
-                                                                    {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
-                                                                    {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
-                                                                    {row?.shipping_detail?.pincode}
+                                                                    <b>Address:</b> {row?.shipping_detail?.address}<br />
+                                                                    <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                    <b>City:</b> {row?.shipping_detail?.city}<br />
+                                                                    <b>State:</b> {row?.shipping_detail?.state}<br />
+                                                                    <b>Pincode:</b> {row?.shipping_detail?.pincode}
                                                                 </span>
                                                             </span>
                                                         </p>
