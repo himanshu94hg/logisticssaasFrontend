@@ -213,13 +213,14 @@
     margin-inline: 0 15px;
 }
 
+/* 
 .morefilters-panel label.filter-date-by {
     width: auto;
 }
 
 .morefilters-panel label.filter-date-by select {
     width: 80px;
-}
+} */
 
 /* 
 .morefilters-panel ::-webkit-scrollbar {

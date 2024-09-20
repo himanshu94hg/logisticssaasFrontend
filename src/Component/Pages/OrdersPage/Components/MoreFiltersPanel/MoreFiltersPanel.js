@@ -391,12 +391,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <DatePicker
                                         showIcon
                                         isClearable
-                                        showTimeInput
                                         showYearDropdown
                                         showMonthDropdown
                                         maxDate={new Date()}
                                         placeholderText='Select Start Date'
-                                        dateFormat="dd MMM, yyyy, h:mm aa"
+                                        dateFormat="dd MMM, yyyy"
                                         onKeyDown={(e) => handleKeyDown(e)}
                                         selected={filterParams?.start_date}
                                         closeOnScroll={(e) => e.target === document}
@@ -410,13 +409,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <DatePicker
                                         showIcon
                                         isClearable
-                                        showTimeInput
                                         showMonthDropdown
                                         showYearDropdown
                                         maxDate={new Date()}
                                         placeholderText='Select End Date'
                                         selected={filterParams?.end_date}
-                                        dateFormat="dd MMM, yyyy h:mm aa"
+                                        dateFormat="dd MMM, yyyy"
                                         onKeyDown={(e) => handleKeyDown(e)}
                                         closeOnScroll={(e) => e.target === document}
                                         onChange={(e) => handleChange("end_date", e)}
