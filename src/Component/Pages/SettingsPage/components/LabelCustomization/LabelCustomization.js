@@ -43,8 +43,8 @@ const LabelCustomization = () => {
         section4: false,
         section5: false,
         section6: false,
-        dimension_visibility:false,
-        product_price_visibility:false
+        dimension_visibility: false,
+        product_price_visibility: false
     });
 
     const [acc, setAcc] = useState(false)
@@ -75,7 +75,7 @@ const LabelCustomization = () => {
                 [name]: checked,
                 shipment_detail_visibility: checked,
                 awb_barcode_visibility: checked,
-                dimension_visibility:checked
+                dimension_visibility: checked
 
             }));
         }
@@ -89,7 +89,7 @@ const LabelCustomization = () => {
                 ordernumber_visibility: checked,
                 manifest_date_visibility: checked,
                 order_detail_visibility: checked,
-                s_warehouse_visibility:checked
+                s_warehouse_visibility: checked
             }));
         }
         if (name === "section4") {
@@ -102,7 +102,7 @@ const LabelCustomization = () => {
                 all_product_display: checked,
                 display_full_product_name: checked,
                 tabular_form_enabled: checked,
-                product_price_visibility:checked
+                product_price_visibility: checked
 
             }));
         }
@@ -193,9 +193,9 @@ const LabelCustomization = () => {
                 section4: customizationData?.section4,
                 section5: customizationData?.section5,
                 section6: customizationData?.section6,
-                dimension_visibility:customizationData?.dimension_visibility,
-                s_warehouse_visibility:customizationData?.s_warehouse_visibility,
-                product_price_visibility:customizationData?.product_price_visibility
+                dimension_visibility: customizationData?.dimension_visibility,
+                s_warehouse_visibility: customizationData?.s_warehouse_visibility,
+                product_price_visibility: customizationData?.product_price_visibility
             })
         }
     }, [customizationData])
@@ -372,7 +372,8 @@ const LabelCustomization = () => {
                 <Col className="col-6 box-shadow shadow-sm p10">
                     <div>
                         <LabelData items={items} setItems={setItems} />
-                        <div className='float-end'>
+                        <div className='d-flex justify-content-between align-items-center w-100'>
+                            <p className='text-sh-red font12'>**Order ID must be 20 characters or less</p>
                             <button className='btn main-button' onClick={handleSubmit}>Save Customization</button>
                         </div>
                     </div>
