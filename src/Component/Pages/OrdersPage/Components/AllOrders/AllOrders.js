@@ -534,17 +534,26 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                 </div>
                                             </td>
                                             <td>
+                                                {/* customer detail */}
                                                 <div className='cell-inside-box'>
-                                                    <p>{row?.shipping_detail?.recipient_name}</p>
-                                                    <p>{row?.shipping_detail?.mobile_number ?? null}
-                                                        <span className='details-on-hover ms-2'>
+                                                    <p>
+                                                        <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
+                                                    </p>
+                                                    <p>
+                                                        {row?.shipping_detail?.mobile_number ?
+                                                            row?.shipping_detail?.mobile_number :
+                                                            <span className="missing-info-text">Contact Missing</span>
+                                                        }
+                                                        <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address && `${row?.shipping_detail.address}, `}
-                                                                {row?.shipping_detail?.landmark && `${row?.shipping_detail.landmark}, `}
-                                                                {row?.shipping_detail?.city && `${row?.shipping_detail.city}, `}
-                                                                {row?.shipping_detail?.state && `${row?.shipping_detail.state}, `}
-                                                                {row?.shipping_detail?.pincode}
+                                                                <>
+                                                                    <b>Address:</b> {row?.shipping_detail.address || <span className="text-sh-red">Address Missing</span>}<br />
+                                                                    <b>Landmark:</b> {row?.shipping_detail.landmark}<br />
+                                                                    <b>City:</b> {row?.shipping_detail.city || <span className="text-sh-red">City Missing</span>}<br />
+                                                                    <b>State:</b> {row?.shipping_detail.state || <span className="text-sh-red">State Missing</span>}<br />
+                                                                    <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
+                                                                </>
                                                             </span>
                                                         </span>
                                                     </p>
@@ -553,26 +562,26 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
-                                                        <span className='details-on-hover ms-2 align-middle'>
+                                                        <span className={`details-on-hover ms-2 ${row?.order_products.some((product) => !product.product_name || !product.sku) && 'missing-address'}`}>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
                                                                 {row?.order_products.map((product, index) => (
                                                                     <React.Fragment key={index}>
-                                                                        <strong>Product:</strong> {product.product_name}<br />
-                                                                        <strong>SKU:</strong> {product.sku}<br />
+                                                                        <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Product Name Missing</span>}<br />
+                                                                        <strong>SKU:</strong> {product.sku || <span className="missing-info-text">SKU Missing</span>}<br />
                                                                         <strong>Qt.:</strong> {product.quantity}<br />
                                                                     </React.Fragment>
                                                                 ))}
                                                             </span>
                                                         </span>
                                                         <br />
-                                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                                        LBH(cm): {(row?.dimension_detail?.length || row?.dimension_detail?.breadth || row?.dimension_detail?.height) ? <span>{row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span> : <span className="missing-info-text">Dimension Missing</span>}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className='cell-inside-box'>
-                                                    <p className='ws-nowrap'>₹ {row?.invoice_amount}</p>
+                                                    <p>{row?.invoice_amount ? <span>&#x20B9; {row?.invoice_amount}</span> : <span className="missing-info-text">Invoice Amount Missing</span>}</p>
                                                     <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                                 </div>
                                             </td>
@@ -584,11 +593,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
-                                                                        {row?.pickup_details?.p_address_line1 && `${(row?.pickup_details?.p_address_line1)},`}
-                                                                        {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
-                                                                        {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
-                                                                        {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
-                                                                        {row?.pickup_details?.p_pincode}
+                                                                        <b>Address:</b> {row?.pickup_details?.p_address_line1}<br />
+                                                                        <b>Landmark:</b> {row?.pickup_details?.p_address_line2}<br />
+                                                                        <b>City:</b> {row?.pickup_details?.p_city}<br />
+                                                                        <b>State:</b> {row?.pickup_details?.p_state}<br />
+                                                                        <b>Pincode:</b> {row?.pickup_details?.p_pincode}
                                                                     </span>
                                                                 </span>
                                                             </p> : <p>{row?.shipping_detail?.recipient_name}

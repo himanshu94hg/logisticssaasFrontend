@@ -19,7 +19,7 @@
   color: var(--sh-primary);
   position: relative;
   cursor: pointer;
-  max-width: 150px;
+  max-width: 135px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
