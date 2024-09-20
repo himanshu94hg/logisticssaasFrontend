@@ -570,6 +570,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                                         <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Product Name Missing</span>}<br />
                                                                         <strong>SKU:</strong> {product.sku || <span className="missing-info-text">SKU Missing</span>}<br />
                                                                         <strong>Qt.:</strong> {product.quantity}<br />
+                                                                        <hr />
                                                                     </React.Fragment>
                                                                 ))}
                                                             </span>

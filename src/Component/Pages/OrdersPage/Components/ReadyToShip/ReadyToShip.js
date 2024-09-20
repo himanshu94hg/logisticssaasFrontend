@@ -452,6 +452,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
                                                                     <strong>Qt.:</strong> {product.quantity}<br />
+                                                                    <hr />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
