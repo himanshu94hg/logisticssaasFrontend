@@ -378,14 +378,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                <label className='filter-date-by'>
+                                {/* <label className='filter-date-by'>
                                     Filter By
                                     <select className='select-field' name="" id="">
                                         <option value="">Order Date</option>
                                         <option value="">Shipped Date</option>
                                         <option value="">Pickup Requested Date</option>
                                     </select>
-                                </label>
+                                </label> */}
                                 <div className="date-picker-container">
                                     From
                                     <DatePicker
@@ -524,7 +524,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
+                            {/* <div className='filter-row'>
                                 <label>Min Weight
                                     <input
                                         type="text"
@@ -543,7 +543,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("product", e)}
                                     />
                                 </label>
-                            </div>
+                            </div> */}
                             <div className='filter-row'>
                                 <label>SKU
                                     <input

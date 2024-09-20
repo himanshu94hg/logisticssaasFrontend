@@ -195,7 +195,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
             },
             other_details: {
                 ...prevData.other_details,
-                number_of_packets: isChecked ? 1 : 0,
+                number_of_packets: isChecked ? 2 : 0,
             },
         }));
     };

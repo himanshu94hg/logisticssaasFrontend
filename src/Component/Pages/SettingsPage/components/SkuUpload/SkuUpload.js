@@ -325,7 +325,7 @@ const SkuUpload = () => {
     return (
         <section className='sku-upload-page'>
             <header className='d-flex justify-content-between w-100 align-items-center'>
-                <h4 className='mb-0'>SKU sssssssssUpload</h4>
+                <h4 className='mb-0'>SKU Upload</h4>
                 <div className='d-flex gap-2 align-items-center'>
                     <Button className='btn main-button' onClick={handleExport}>Export</Button>
                     <Button className='btn main-button' onClick={() => handleAddShow("Add")}>Add SKU</Button>
