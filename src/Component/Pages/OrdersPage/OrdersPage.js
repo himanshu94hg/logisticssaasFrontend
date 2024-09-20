@@ -377,7 +377,7 @@ const OrdersPage = () => {
                         <span className='text-sh-primary'>COD</span>|
                         <span className='text-sh-primary'>Prepaid</span>|
                         <span className='text-green'>Delivered</span>|
-                        <span className='text-sh-red'>Cancel order</span>|
+                        <span className='text-sh-red'>Cancelled order</span>|
                         <span className='text-sh-primary'>Yesterday</span>|
                         <span className='text-yellow'>Last Week</span>|
                         <span>Last Month</span>
