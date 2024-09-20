@@ -34,6 +34,7 @@ const ServiceabilityPage = () => {
     pickup_pincode: '',
     delivery_pincode: ''
   });
+  
   const [status, setStatus] = useState(false)
   const { shipeaseServicePincode, courierPartnerName, serviceAbility, serviceCourierPincode } = useSelector(state => state?.toolsSectionReducer)
   const handleChange = (selected) => {
