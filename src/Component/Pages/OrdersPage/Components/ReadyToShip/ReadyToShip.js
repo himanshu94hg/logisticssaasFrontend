@@ -340,15 +340,14 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         />
                                     </div>
                                 </th>
-                                <th style={{ width: '20%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '21%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
+                                <th style={{ width: '16.5%' }}>Order Details</th>
+                                <th style={{ width: '15.5%' }}>Customer details</th>
+                                <th style={{ width: '15.5%' }}>Package Details</th>
+                                <th style={{ width: '8.5%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th>
-
+                                <th style={{ width: '8%' }}>Status</th>
+                                <th style={{ width: '10%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -377,8 +376,8 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                             : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                     : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                    : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                        : <CustomIcon />}
+                                                                                        : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
+                                                                                            : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
