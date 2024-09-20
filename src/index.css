@@ -925,3 +925,17 @@ input:disabled {
 .table-responsive::-webkit-scrollbar {
   height: 2px;
 }
+
+
+img {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+[data-truncate-name] {
+  display: inline-block;
+  max-width: 90px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
