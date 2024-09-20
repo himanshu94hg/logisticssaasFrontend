@@ -382,7 +382,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             <span style={{ width: '250px' }}>
                                                                 {row?.order_products?.map((product, index) => (
                                                                     <React.Fragment key={index}>
-                                                                        <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Name Missing</span>}<br />
+                                                                        <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Product Name Missing</span>}<br />
                                                                         <strong>SKU:</strong> {product.sku || <span className="missing-info-text">SKU Missing</span>}<br />
                                                                         <strong>Qt.:</strong> {product.quantity}<br />
                                                                         <hr />
