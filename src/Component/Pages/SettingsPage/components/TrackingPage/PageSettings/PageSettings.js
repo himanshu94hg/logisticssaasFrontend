@@ -202,7 +202,7 @@ const PageSettings = () => {
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
-            <h1>Customize Your Tracking Page</h1>
+            <h4>Customize Your Tracking Page</h4>
             <div className='d-flex gap-2 w-100'>
                 <div className='w-100'>
                     {/* subdomain and Contact Info Section */}
