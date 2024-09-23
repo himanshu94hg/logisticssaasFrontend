@@ -410,16 +410,17 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p>
-                                                        {row?.invoice_amount || row?.invoice_amount === 0 ? (
-                                                            row?.invoice_amount === 0 ? (
-                                                                <span className="missing-info-text">Invoice Amount is Zero</span>
+                                                        {row?.invoice_amount != null ? (
+                                                            Number(row.invoice_amount) === 0 ? (
+                                                                <span className="missing-info-text">Amount is Zero</span>
                                                             ) : (
-                                                                <span>&#x20B9; {row?.invoice_amount}</span>
+                                                                <span>&#x20B9; {row.invoice_amount}</span>
                                                             )
                                                         ) : (
                                                             <span className="missing-info-text">Invoice Amount Missing</span>
                                                         )}
                                                     </p>
+
                                                     <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                                 </div>
                                             </td>
