@@ -49,6 +49,7 @@ const SettingsPage = () => {
     return (
         <>
             <section className='row settings-page-container'>
+                {/* Company */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -81,6 +82,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={CompanyBG} alt="CompanyBG" />
                 </div>
+                {/* Pickup Address */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -101,6 +103,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={AdressBG} alt="CompanyBG" />
                 </div>
+                {/* COD Payments */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -133,6 +136,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={codBG} alt="CompanyBG" />
                 </div>
+                {/* Label, Invoice & POD */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -155,7 +159,8 @@ const SettingsPage = () => {
                                         Customize Invoice
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li onClick={() => Navigate(ProofOfDeliveryPattern)}>
+                                    {/* <li onClick={() => Navigate(ProofOfDeliveryPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -173,38 +178,8 @@ const SettingsPage = () => {
                     </div>
                     <img src={LabelBG} alt="CompanyBG" />
                 </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Billing</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate(gstInvoicingPattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        GSTIN Invoicing
-                                    </li>
-                                    <li onClick={() => Navigate(BillingAddressPattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Billing Address
-                                    </li>
-                                    <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Shipease Bank Details
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={BillingBG} alt="CompanyBG" />
-                </div>
+
+                {/* Sub Accounts Management */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -225,80 +200,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={SubAccountBG} alt="SubAccountBG" />
                 </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Panel Customization</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate(ThemeCustomizationPattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Theme
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Customization
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={PanelCustomizationBG} alt="SubAccountBG" />
-                </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>User Role Management</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate('/manage-user-role')}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Manage Users
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={UserRoleBG} alt="CompanyBG" />
-                </div>
-
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Notifications</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate(BuyerCommunicationPagePattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Buyer Communication
-                                    </li>
-                                    <li onClick={() => Navigate(SellerNotificationsPagePattern)}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Seller Notifications
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={NotificationBG} alt="CompanyBG" />
-                </div>
-
+                {/* WhatsApp Communication */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -319,64 +221,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={NotificationBG} alt="CompanyBG" />
                 </div>
-
-
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Shipment Features</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Split Shipment
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        COD to Prepaid
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Order Verification
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Secure Shipment
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Activate Direct Ship
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        RTO Score
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Delivery Boost
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={ShipmentBG} alt="CompanyBG" />
-                </div>
+                {/* Tracking Page */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -433,6 +278,181 @@ const SettingsPage = () => {
                     </div>
                     <img src={TrackingBG} alt="CompanyBG" />
                 </div>
+                {/* Billing */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Billing</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate(gstInvoicingPattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        GSTIN Invoicing
+                                    </li>
+                                    {/* <li onClick={() => Navigate(BillingAddressPattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Billing Address
+                                    </li>
+                                    {/* <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Shipease Bank Details
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={BillingBG} alt="CompanyBG" />
+                </div>
+                {/* Panel Customization */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Panel Customization</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate(ThemeCustomizationPattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Theme
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Customization
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={PanelCustomizationBG} alt="SubAccountBG" />
+                </div>
+                {/* User Role Management */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>User Role Management</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate('/manage-user-role')}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Manage Users
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={UserRoleBG} alt="CompanyBG" />
+                </div>
+                {/* Notifications */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Notifications</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate(BuyerCommunicationPagePattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Buyer Communication
+                                    </li>
+                                    {/* <li onClick={() => Navigate(SellerNotificationsPagePattern)}> */}
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Seller Notifications
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={NotificationBG} alt="CompanyBG" />
+                </div>
+
+                {/* Shipment Features */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Shipment Features</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Split Shipment
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        COD to Prepaid
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Order Verification
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Secure Shipment
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Activate Direct Ship
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        RTO Score
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Delivery Boost
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={ShipmentBG} alt="CompanyBG" />
+                </div>
+
+                {/* Return */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -459,6 +479,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={ReturnBG} alt="CompanyBG" />
                 </div>
+                {/* API */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -485,6 +506,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
                 </div>
+                {/* International Settings */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -511,6 +533,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={InternationalBG} alt="CompanyBG" />
                 </div>
+                {/* Courier */}
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
