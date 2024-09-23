@@ -1,0 +1,8 @@
+.tracking-script-page {
+    height: calc(100vh - 118px);
+}
+
+.tracking-code-textarea {
+    min-height: 200px;
+    height: auto;
+}
