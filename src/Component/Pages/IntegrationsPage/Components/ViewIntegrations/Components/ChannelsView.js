@@ -4,7 +4,7 @@ import shopify from "../../../../../../assets/image/integration/shopify.jpg"
 import WCLogo from '../../../../../../assets/image/integration/WCLogo.png'
 import Magento from '../../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../../assets/image/integration/OpenCart.png'
-import Amazon from '../../../../../../assets/image/integration/Amazon.png'
+import Amazon from '../../../../../../assets/image/integration/AmazonLogo.png'
 import Flipkart from '../../../../../../assets/image/integration/Flipkart.png'
 import Manual from '../../../../../../assets/image/integration/Manual.png'
 import moment from 'moment';
@@ -50,7 +50,7 @@ const ChannelsView = ({ channelData }) => {
                                             </td>
                                             <td>
                                                 <img src={
-                                                    row?.channel === "shopify" ? shopify : row?.channel === "amazon_direct" ? Amazon : row?.channel === "woocommerce" ? WCLogo : Manual
+                                                    row?.channel === "shopify" ? shopify : row?.channel === "amazon_direct" ? Amazon : row?.channel === "amazon" ? Amazon : row?.channel === "woocommerce" ? WCLogo : Manual
                                                 }
                                                     alt={`${row?.channel_name} logo`} width={50} height={50} className='integration-logo me-2' />
                                                 <span className='text-capitalize'>{row?.channel.split("_").join(" ")}</span>
