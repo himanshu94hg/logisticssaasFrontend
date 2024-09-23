@@ -20,6 +20,7 @@ import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomiz
 import { useNavigate } from 'react-router-dom'
 import {
     BillingAddressPattern,
+    BrandedTrackingPattern,
     BuyerCommunicationPagePattern,
     LabelCustomizationPattern,
     ManageSubAccountPattern,
@@ -29,6 +30,7 @@ import {
     ShipeaseBankDetailsPattern,
     SkuUploadPattern,
     ThemeCustomizationPattern,
+    TrackingScriptPattern,
     WhatsAppNotificationPattern,
     customerPattern,
     gstInvoicingPattern,
@@ -230,7 +232,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate("/branded-tracking")}>
+                                    <li onClick={() => Navigate(BrandedTrackingPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -266,7 +268,7 @@ const SettingsPage = () => {
                                         </span>
                                         NPS Report
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    <li onClick={() => Navigate(TrackingScriptPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

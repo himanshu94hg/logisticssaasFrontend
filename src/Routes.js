@@ -294,3 +294,8 @@ export const BrandedTrackingPattern = "/branded-tracking";
 export const BrandedTrackingRoutes = () => {
     return generatePath(BrandedTrackingPattern);
 };
+
+export const TrackingScriptPattern = "/tracking-script";
+export const TrackingScriptRoutes = () => {
+    return generatePath(TrackingScriptPattern);
+};
