@@ -113,7 +113,7 @@ const QuickCreateOrder = (activeTab) => {
     })
 
     useEffect(() => {
-        if (dataRefresh || activeTab) {
+        if (dataRefresh ) {
             setFormData({
                 order_details: {
                     customer_order_number: '',
