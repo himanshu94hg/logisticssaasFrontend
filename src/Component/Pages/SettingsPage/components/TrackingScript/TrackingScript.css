@@ -2,7 +2,8 @@
     height: calc(100vh - 118px);
 }
 
-.tracking-code-textarea {
-    min-height: 200px;
-    height: auto;
+.tracking-code-textarea.input-field {
+    height: calc(100vh - 312px);
+    overflow: auto;
+    margin-top: 10px;
 }
