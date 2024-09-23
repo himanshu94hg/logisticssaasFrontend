@@ -1,0 +1,9 @@
+.tracking-script-page {
+    height: calc(100vh - 118px);
+}
+
+.tracking-code-textarea.input-field {
+    height: calc(100vh - 312px);
+    overflow: auto;
+    margin-top: 10px;
+}
