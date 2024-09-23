@@ -322,6 +322,7 @@
   text-decoration: none;
   border-bottom: 2px dashed var(--sh-primary);
   width: fit-content;
+  text-transform: uppercase;
 }
 
 .cell-inside-box .product-details,
@@ -713,6 +714,7 @@ ul.order-label-list li {
   align-items: center;
   gap: 4px;
   white-space: nowrap;
+  flex-wrap: wrap;
 }
 
 .search-container .popular-search span {

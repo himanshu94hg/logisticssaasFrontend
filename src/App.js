@@ -69,7 +69,7 @@ import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/Courie
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPop";
 // import "./responsive.css";
-import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern } from "./Routes";
+import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern, TrackingScriptPattern } from "./Routes";
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 import { BASE_URL_CORE } from './axios/config';
 import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/VerifiedCustomer";
@@ -78,6 +78,7 @@ import WhatsAppNotification from "./Component/Pages/SettingsPage/components/What
 import CCAvenueRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/CCAvenueRedirect";
 import SkuUpload from "./Component/Pages/SettingsPage/components/SkuUpload/SkuUpload";
 import PageSettings from "./Component/Pages/SettingsPage/components/TrackingPage/PageSettings/PageSettings";
+import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingScript/TrackingScript";
 
 function App() {
   const location = useLocation()
@@ -240,6 +241,7 @@ function App() {
             <Route path={WhatsAppNotificationPattern} element={<WhatsAppNotification />} />
             <Route path={SkuUploadPattern} element={<SkuUpload />} />
             <Route path={BrandedTrackingPattern} element={<PageSettings />} />
+            <Route path={TrackingScriptPattern} element={<TrackingScript />} />
 
             <Route path={ccavenueRedirectIntegrationPattern} element={<CCAvenueRedirect />} />
           </Routes>
