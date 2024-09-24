@@ -81,7 +81,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: "",
         pickup_address_id: "",
         channel_name: "",
-        order_type: null
+        order_type: null,
+        date_filter_by: "",
+        min_weight: '',
+        max_weight: '',
     })
 
     useEffect(() => {
@@ -219,7 +222,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku_match_type: "",
                 pickup_address: "",
                 pickup_address_id: "",
-                order_type: ""
+                order_type: "",
+                min_weight: '',
+                max_weight: '',
+                date_filter_by: "",
             })
             setErrors({})
         }
@@ -242,7 +248,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku_match_type: "",
                 pickup_address: "",
                 pickup_address_id: "",
-                order_type: null
+                order_type: null,
+                min_weight: '',
+                max_weight: '',
+                date_filter_by: "",
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
@@ -268,7 +277,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 ...prev,
                 [name]: temp_data
             }));
-        } else if (name === "order_id" || name === "sku" || name === "product") {
+        } else if (name === "order_id" || name === "sku" || name === "product" || name === "min_weight" || name === "max_weight") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
@@ -277,6 +286,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setFilterParams(prev => ({
                 ...prev,
                 sku_match_type: value
+            }));
+        }
+        else if (name === "date_filter_by") {
+            setFilterParams(prev => ({
+                ...prev,
+                date_filter_by: value.target.value
             }));
         }
         else if (name === "pickup_address") {
@@ -316,7 +331,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: "",
             pickup_address_id: "",
-            order_type: null
+            order_type: null,
+            min_weight: '',
+            max_weight: '',
+            date_filter_by: "",
         })
         setErrors({})
     };
@@ -378,14 +396,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                {/* <label className='filter-date-by'>
+                                <label className='filter-date-by'>
                                     Filter By
-                                    <select className='select-field' name="" id="">
-                                        <option value="">Order Date</option>
-                                        <option value="">Shipped Date</option>
-                                        <option value="">Pickup Requested Date</option>
+                                    <select className='select-field' value={filterParams?.date_filter_by} name="" onChange={(e) => handleChange("date_filter_by", e)}>
+                                        <option value="">Select</option>
+                                        <option value="order_date">Order Date</option>
+                                        <option value="shipped">Shipped Date</option>
+                                        <option value="pickup_requested">Pickup Requested Date</option>
                                     </select>
-                                </label> */}
+                                </label>
                                 <div className="date-picker-container">
                                     From
                                     <DatePicker
@@ -524,14 +543,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            {/* <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label>Min Weight
                                     <input
                                         type="text"
                                         className='input-field'
                                         placeholder='Enter Min Weight (in gram)'
-                                        value={filterParams.product}
-                                        onChange={(e) => handleChange("product", e)}
+                                        value={filterParams.min_weight}
+                                        onChange={(e) => handleChange("min_weight", e)}
                                     />
                                 </label>
                                 <label>Max Weight
@@ -539,11 +558,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         type="text"
                                         className='input-field'
                                         placeholder='Enter Max Weight (in gram)'
-                                        value={filterParams.product}
-                                        onChange={(e) => handleChange("product", e)}
+                                        value={filterParams.max_weight}
+                                        onChange={(e) => handleChange("max_weight", e)}
                                     />
                                 </label>
-                            </div> */}
+                            </div>
                             <div className='filter-row'>
                                 <label>SKU
                                     <input
