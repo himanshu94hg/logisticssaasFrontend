@@ -76,12 +76,12 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
-                                <th style={{ width: '8%' }}>Payment</th>
-                                <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '6%' }}>Status</th>
+                                <th>Order Details</th>
+                                <th>Customer details</th>
+                                <th>Package Details</th>
+                                <th>Payment</th>
+                                <th>Pickup Address</th>
+                                <th>Status</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -164,7 +164,7 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p data-truncate-name>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
