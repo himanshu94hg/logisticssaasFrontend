@@ -89,7 +89,7 @@ const SettingsPage = () => {
                     <div className='tile'>
                         <div className="tile-content">
                             <div className='tile-heading'>
-                                <h3>Pickup Address</h3>
+                                <h3>Warehouses</h3>
                             </div>
                             <div className='tile-body'>
                                 <ul>
@@ -97,7 +97,7 @@ const SettingsPage = () => {
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        Manage Pickup Addresses
+                                        Manage Warehouses
                                     </li>
                                 </ul>
                             </div>
@@ -126,7 +126,8 @@ const SettingsPage = () => {
                                         </span>
                                         Early COD
                                     </li>
-                                    <li onClick={() => Navigate(PostpaidSettingsPagePattern)}>
+                                    {/* <li onClick={() => Navigate(PostpaidSettingsPagePattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

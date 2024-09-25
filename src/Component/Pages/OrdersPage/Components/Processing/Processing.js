@@ -239,9 +239,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         setDropdownPosition({})
     };
 
-
-    console.log('activeIndex', dropdownPosition)
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -475,7 +472,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
                                                         {activeIndex === index && (
-                                                            <div className={`action-list ${dropdownPosition[index] || ''}`}>
+                                                            <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
                                                                     <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
                                                                     <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>

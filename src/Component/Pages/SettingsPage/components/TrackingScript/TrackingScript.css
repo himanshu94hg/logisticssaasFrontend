@@ -7,3 +7,17 @@
     overflow: auto;
     margin-top: 10px;
 }
+
+.copy-feedback {
+    top: -24px;
+    color: green;
+    font-size: 14px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.error-feedback {
+    top: -24px;
+    color: red;
+    font-size: 14px;
+}
