@@ -1,6 +1,6 @@
 import moment from 'moment';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import globalDebouncedClick from '../../../../../debounce';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -118,6 +118,63 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
         globalDebouncedClick(() => handleClickDownloadInvoice(data));
     };
 
+    const [dropdownPosition, setDropdownPosition] = useState({});
+    const [activeIndex, setActiveIndex] = useState(null);
+    const rowRefs = useRef([]);
+
+    rowRefs.current = [];
+
+    const updateDropdownPosition = () => {
+        const viewportHeight = window.innerHeight;
+        const updatedPositions = {};
+
+        rowRefs.current.forEach((row, index) => {
+            if (row) {
+                const { top, height } = row.getBoundingClientRect();
+                const rowTopRelativeToViewport = top; // Distance from the top of the viewport
+                const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
+
+                const viewportRowsCount = Math.floor(viewportHeight / height); // How many rows fit in the viewport
+
+                let position = 'middle'; // Default to middle
+
+                if (rowTopRelativeToViewport < viewportHeight * 0.25) {
+                    // Top 25% of the viewport (top rows)
+                    position = 'below';
+                } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
+                    // Bottom 25% of the viewport (bottom rows)
+                    position = 'above';
+                }
+
+                updatedPositions[index] = position;
+            }
+        });
+
+        setDropdownPosition(updatedPositions);
+    };
+
+    useEffect(() => {
+        updateDropdownPosition(); // Initial positioning
+        window.addEventListener('scroll', updateDropdownPosition); // Add scroll event listener
+        window.addEventListener('resize', updateDropdownPosition); // Update on window resize
+        return () => {
+            window.removeEventListener('scroll', updateDropdownPosition); // Cleanup
+            window.removeEventListener('resize', updateDropdownPosition); // Cleanup
+        };
+    }, []);
+
+
+
+    const handleMouseEnter = (index) => {
+        setActiveIndex(index);
+        updateDropdownPosition(); // Ensure position is updated on mouse enter
+    };
+
+    const handleMouseLeave = () => {
+        setActiveIndex(null);
+        setDropdownPosition({})
+    };
+
 
     return (
         <section className='position-relative'>
@@ -182,16 +239,25 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button' onClick={() => manifestDownload(row?.id)}> Download Manifest</button>
-                                                <div className='action-options'>
+                                                <div
+                                                    ref={(el) => (rowRefs.current[index] = el)}
+                                                    onMouseEnter={() => handleMouseEnter(index)}
+                                                    onMouseLeave={handleMouseLeave}
+                                                    className="action-options"
+                                                >
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={() => handleDownloadLabel(row?.manifest_order)}>Download Label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row?.manifest_order)}>Download Invoice</li>
-                                                        </ul>
-                                                    </div>
+                                                    {
+                                                        activeIndex === index && (
+                                                            <div className={`action-list ${dropdownPosition[index] || ''}`}>
+                                                                <ul>
+                                                                    <li onClick={() => handleDownloadLabel(row?.manifest_order)}>Download Label</li>
+                                                                    <li onClick={() => handleDownloadInvoice(row?.manifest_order)}>Download Invoice</li>
+                                                                </ul>
+                                                            </div>
+                                                        )
+                                                    }
                                                 </div>
                                             </div>
                                         </td>
