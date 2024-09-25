@@ -162,8 +162,8 @@ const SettingsPage = () => {
                                         Customize Invoice
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li onClick={() => Navigate(ProofOfDeliveryPattern)}>
-                                        {/* <li> */}
+                                    {/* <li onClick={() => Navigate(ProofOfDeliveryPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -245,24 +245,24 @@ const SettingsPage = () => {
                                         </span>
                                         Themes
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Promotional Banners
-                                    </li>
+                                    </li> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Product Recommendation
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Header Links
-                                    </li>
+                                    </li> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
@@ -290,22 +290,22 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate(gstInvoicingPattern)}>
-                                        {/* <li> */}
+                                    {/* <li onClick={() => Navigate(gstInvoicingPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         GSTIN Invoicing
                                     </li>
-                                    <li onClick={() => Navigate(BillingAddressPattern)}>
-                                        {/* <li> */}
+                                    {/* <li onClick={() => Navigate(BillingAddressPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Billing Address
                                     </li>
-                                    <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}>
-                                        {/* <li> */}
+                                    {/* <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
