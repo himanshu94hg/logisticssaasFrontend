@@ -29,6 +29,7 @@ import FullLogo from '../../../assets/image/logo/mobileLogo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 import { clearAllCookies } from "../../Pages/Dashboard/Dashboard";
 import LoaderScreen from "../../LoaderScreen/LoaderScreen";
+import ShowNotificationPanel from "./ShowNotificationPanel/ShowNotificationPanel";
 
 export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
@@ -46,6 +47,9 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
+  const [NotificationCount, setNotificationCount] = useState(null)
+  const [ShowNotification, setShowNotification] = useState(false)
 
 
   function handleKeyPress(event) {
@@ -205,9 +209,11 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                 {
                   screenWidthData > 991 &&
                   <div className="icons links ">
-                    <div className="iconContainer notificationIcon bell">
+                    <div onClick={() => setShowNotification(true)} className="iconContainer notificationIcon bell">
                       <FontAwesomeIcon icon={faBell} />
-                      <span className="bellColor">3</span>
+                      {NotificationCount &&
+                        <span className="bellColor">3</span>
+                      }
                     </div>
                   </div>
                 }
@@ -259,6 +265,8 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
       <LoaderScreen loading={LoaderRing} />
+
+      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} />
 
       {
         screenWidthData < 992 &&
