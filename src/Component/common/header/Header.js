@@ -266,7 +266,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
       <LoaderScreen loading={LoaderRing} />
 
-      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} />
+      {/* <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} /> */}
 
       {
         screenWidthData < 992 &&
