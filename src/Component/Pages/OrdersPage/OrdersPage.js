@@ -93,6 +93,9 @@ const OrdersPage = () => {
         }
     }, [orderCancelled, orderdelete, loaderState])
 
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
+    console.log(mostPopular, "queryParamTempqueryParamTemp")
+
     useEffect(() => {
         if (activeTab) {
             setOrders([])
@@ -182,7 +185,7 @@ const OrdersPage = () => {
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-                const decodedURL = decodeURIComponent(queryString);
+                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
                 if (decodedURL) {
                     apiUrl += '&' + decodedURL;
                 }
@@ -270,6 +273,7 @@ const OrdersPage = () => {
         setReset(new Date())
         setSearchOption(SearchOptions[0])
         setSearchStatus(false)
+        setMostPopular({ most_popular_search: '' })
     }
 
     const handleQueryfilter = (value) => {
@@ -304,6 +308,9 @@ const OrdersPage = () => {
             e.preventDefault();
         }
     }
+
+
+    
 
 
 
@@ -372,15 +379,15 @@ const OrdersPage = () => {
 
                     </div>
                     <p className='popular-search'>Most Popular Search by
-                        <span className='text-sh-red'>Info Missing</span>|
-                        <span className="text-green">Live</span>|
-                        <span className='text-sh-primary'>COD</span>|
-                        <span className='text-sh-primary'>Prepaid</span>|
-                        <span className='text-green'>Delivered</span>|
-                        <span className='text-sh-red'>Cancelled order</span>|
-                        <span className='text-sh-primary'>Yesterday</span>|
-                        <span className='text-yellow'>Last Week</span>|
-                        <span>Last Month</span>
+                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date());setQueryParamTemp({});setHandleResetFrom(true) }}>Info Missing</span>|
+                        <span className="text-green" onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
+                        <span className='text-green' onClick={() => { setMostPopular({ most_popular_search: "delivered" }); setReset(new Date()) }}>Delivered</span>|
+                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "cancel_order" }); setReset(new Date()) }}>Cancelled order</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "yesterday" }); setReset(new Date()) }}>Yesterday</span>|
+                        <span className='text-yellow' onClick={() => { setMostPopular({ most_popular_search: "one_week" }); setReset(new Date()) }}>Last Week</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "last_month" }); setReset(new Date()) }}>Last Month</span>
                     </p>
                 </div>
                 {screenWidthData < 592 &&
