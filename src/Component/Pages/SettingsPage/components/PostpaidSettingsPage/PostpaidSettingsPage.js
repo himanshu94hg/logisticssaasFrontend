@@ -19,7 +19,7 @@ const PostpaidSettingsPage = () => {
                 </div>
                 <p className='mb-0'>Benefits of using Postpaid Plan:</p>
                 <ol>
-                    <li>Dynamic Shipping Limit based on your risk profile at Shiprocket.</li>
+                    <li>Dynamic Shipping Limit based on your risk profile at Shipease.</li>
                     <li>Your shipping limit will change everyday at midnight to provide you with uninterrupted shipping.</li>
                     <li>Faster COD remittance every Monday, Wednesday and Friday ( will not be processed on Bank Holidays ).</li>
                 </ol>
