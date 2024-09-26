@@ -358,7 +358,7 @@ const ManageWarehouse = () => {
 
         <section className='warehouse-grid-container'>
           <div>
-            <h4 className='mb-3'>Manage Pickup Addresses</h4>
+            <h4 className='mb-3'>Manage Warehouse Addresses</h4>
             <BoxGrid boxData={initialData} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
           </div>
         </section>

@@ -310,7 +310,7 @@ const OrdersPage = () => {
     }
 
 
-    
+
 
 
 
@@ -379,7 +379,7 @@ const OrdersPage = () => {
 
                     </div>
                     <p className='popular-search'>Most Popular Search by
-                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date());setQueryParamTemp({});setHandleResetFrom(true) }}>Info Missing</span>|
+                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date()) }}>Info Missing</span>|
                         <span className="text-green" onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
                         <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
                         <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
