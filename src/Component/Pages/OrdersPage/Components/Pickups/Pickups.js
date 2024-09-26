@@ -12,7 +12,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { faCircle, } from '@fortawesome/free-solid-svg-icons';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -316,6 +316,64 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     };
 
 
+    const [dropdownPosition, setDropdownPosition] = useState({});
+    const [activeIndex, setActiveIndex] = useState(null);
+    const rowRefs = useRef([]);
+
+    rowRefs.current = [];
+
+    const updateDropdownPosition = () => {
+        const viewportHeight = window.innerHeight;
+        const updatedPositions = {};
+
+        rowRefs.current.forEach((row, index) => {
+            if (row) {
+                const { top, height } = row.getBoundingClientRect();
+                const rowTopRelativeToViewport = top; // Distance from the top of the viewport
+                const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
+
+                const viewportRowsCount = Math.floor(viewportHeight / height); // How many rows fit in the viewport
+
+                let position = 'middle'; // Default to middle
+
+                if (rowTopRelativeToViewport < viewportHeight * 0.25) {
+                    // Top 25% of the viewport (top rows)
+                    position = 'below';
+                } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
+                    // Bottom 25% of the viewport (bottom rows)
+                    position = 'above';
+                }
+
+                updatedPositions[index] = position;
+            }
+        });
+
+        setDropdownPosition(updatedPositions);
+    };
+
+    useEffect(() => {
+        updateDropdownPosition(); // Initial positioning
+        window.addEventListener('scroll', updateDropdownPosition); // Add scroll event listener
+        window.addEventListener('resize', updateDropdownPosition); // Update on window resize
+        return () => {
+            window.removeEventListener('scroll', updateDropdownPosition); // Cleanup
+            window.removeEventListener('resize', updateDropdownPosition); // Cleanup
+        };
+    }, []);
+
+
+
+    const handleMouseEnter = (index) => {
+        setActiveIndex(index);
+        updateDropdownPosition(); // Ensure position is updated on mouse enter
+    };
+
+    const handleMouseLeave = () => {
+        setActiveIndex(null);
+        setDropdownPosition({})
+    };
+
+
 
     return (
         <section className='position-relative'>
@@ -407,7 +465,6 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                                 {row?.order_tag?.map((item) => {
                                                                     return (
                                                                         <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}</button></div>
-
                                                                     )
                                                                 })}
                                                             </div>
@@ -526,17 +583,25 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                     <button className='btn main-button' onClick={() => handleShow(row?.id, "generate-manifest")}>Generate Manifest</button>
                                                 }
 
-                                                <div className='action-options'>
+                                                <div ref={(el) => (rowRefs.current[index] = el)}
+                                                    onMouseEnter={() => handleMouseEnter(index)}
+                                                    onMouseLeave={handleMouseLeave}
+                                                    className="action-options"
+                                                >
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
-                                                            <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
-                                                        </ul>
-                                                    </div>
+                                                    {
+                                                        activeIndex === index && (
+                                                            <div className={`action-list ${dropdownPosition[index] || ''}`}>
+                                                                <ul>
+                                                                    <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
+                                                                    <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
+                                                                    <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
+                                                                </ul>
+                                                            </div>
+                                                        )
+                                                    }
                                                 </div>
                                             </div>
                                         </td>
@@ -570,7 +635,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                     </div>
                 </Modal.Footer>
             </Modal>
-        </section >
+        </section>
     );
 };
 

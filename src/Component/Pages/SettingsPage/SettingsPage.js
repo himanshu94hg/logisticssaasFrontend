@@ -89,7 +89,7 @@ const SettingsPage = () => {
                     <div className='tile'>
                         <div className="tile-content">
                             <div className='tile-heading'>
-                                <h3>Pickup Address</h3>
+                                <h3>Warehouses</h3>
                             </div>
                             <div className='tile-body'>
                                 <ul>
@@ -97,7 +97,7 @@ const SettingsPage = () => {
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        Manage Pickup Addresses
+                                        Manage Warehouses
                                     </li>
                                 </ul>
                             </div>
@@ -126,7 +126,8 @@ const SettingsPage = () => {
                                         </span>
                                         Early COD
                                     </li>
-                                    <li onClick={() => Navigate(PostpaidSettingsPagePattern)}>
+                                    {/* <li onClick={() => Navigate(PostpaidSettingsPagePattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -244,24 +245,24 @@ const SettingsPage = () => {
                                         </span>
                                         Themes
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Promotional Banners
-                                    </li>
+                                    </li> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Product Recommendation
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Header Links
-                                    </li>
+                                    </li> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
@@ -395,92 +396,6 @@ const SettingsPage = () => {
                     </div>
                     <img src={NotificationBG} alt="CompanyBG" />
                 </div>
-
-                {/* Shipment Features */}
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Shipment Features</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Split Shipment
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        COD to Prepaid
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Order Verification
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Secure Shipment
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Activate Direct Ship
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        RTO Score
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Delivery Boost
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={ShipmentBG} alt="CompanyBG" />
-                </div>
-
-                {/* Return */}
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Return</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Return Settings
-                                    </li>
-                                    <li onClick={() => Navigate()}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Refund Settings
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={ReturnBG} alt="CompanyBG" />
-                </div>
                 {/* API */}
                 <div className="col main-container">
                     <div className='tile'>
@@ -508,6 +423,96 @@ const SettingsPage = () => {
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
                 </div>
+
+
+
+                {/* Return */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Return Management</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Return Settings
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Refund Settings
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={ReturnBG} alt="CompanyBG" />
+                </div>
+
+                {/* Shipment Features */}
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Shipment Features</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    {/* <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Split Shipment
+                                    </li> */}
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        COD to Prepaid
+                                    </li>
+                                    {/* <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Order Verification
+                                    </li> */}
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Secure Shipment
+                                    </li>
+                                    {/* 
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Activate Direct Ship
+                                    </li> */}
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        RTO Score
+                                    </li>
+                                    <li onClick={() => Navigate()}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Delivery Boost
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={ShipmentBG} alt="CompanyBG" />
+                </div>
+
                 {/* International Settings */}
                 <div className="col main-container">
                     <div className='tile'>

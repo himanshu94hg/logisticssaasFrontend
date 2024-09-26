@@ -55,13 +55,13 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                 <th style={{ width: '1%' }}>
 
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
-                                <th style={{ width: '8%' }}>Payment</th>
-                                <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '6%' }}>Status</th>
-                                <th style={{ width: '6%' }}>Action</th>
+                                <th style={{ width: '16.5%' }}>Order Details</th>
+                                <th style={{ width: '16.5%' }}>Customer details</th>
+                                <th style={{ width: '16.5%' }}>Package Details</th>
+                                <th style={{ width: '14%' }}>Payment</th>
+                                <th style={{ width: '16.5%' }}>Pickup Address</th>
+                                <th style={{ width: '8%' }}>Status</th>
+                                <th style={{ width: '11%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -137,7 +137,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p data-truncate-name>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
