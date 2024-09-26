@@ -111,7 +111,7 @@ export default function NavTabs(props) {
                   className={`d-none d-lg-block ${props.activeTab === tab ? "active" : ""}`}
                   onClick={() => { props.setActiveTab(tab); props.setCurrentPage(1); props.setItemsPerPage(20); props.setSearchValue(''); props.setsearchType(props.SearchOptions[0].value) }}
                 >
-                  <div className="navItemsContainer">{tab}</div>
+                  <div className="navItemsContainer">{tab}<span className="tab-counter">157</span></div>
                 </Nav.Link>
               ))}
             </div>
