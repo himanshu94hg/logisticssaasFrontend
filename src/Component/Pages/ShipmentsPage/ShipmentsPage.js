@@ -285,14 +285,12 @@ const ShipmentsPage = () => {
                             </>
                         }
                     </div>
-                    <p className='font10'>Most Popular Search by
-                        <span>COD</span> |
-                        <span>Prepaid</span> |
-                        <span>Yesterday</span> |
-                        <span>One Week</span> |
-                        <span>Last Month</span> |
-                        <span>Delivered</span> |
-                        <span>Cancel order</span> </p>
+                    <p className='popular-search'>Most Popular Search by:
+                        <span>One Attempt</span>|
+                        <span>Two Attempts</span>|
+                        <span>Three Attempts</span>|
+                        <span>More Than Three Attempts</span>
+                    </p>
                 </div>
                 {screenWidthData < 592 &&
                     <div className="nav-actions-container">

@@ -317,14 +317,14 @@ const MoreOnOrders = () => {
                             </>
                         }
                     </div>
-                    <p className='font10'>Most Popular Search by
-                        <span>COD</span> |
-                        <span>Prepaid</span> |
-                        <span>Yesterday</span> |
-                        <span>One Week</span> |
-                        <span>Last Month</span> |
-                        <span>Delivered</span> |
-                        <span>Cancel order</span> </p>
+                    <p className='popular-search'>Most Popular Search by:
+                        <span>Info Missing</span>|
+                        <span>COD</span>|
+                        <span>Prepaid</span>|
+                        <span>Yesterday</span>|
+                        <span>Last Week</span>|
+                        <span>Last Month</span>
+                    </p>
                 </div>
                 {screenWidthData < 592 &&
                     <div className="nav-actions-container">

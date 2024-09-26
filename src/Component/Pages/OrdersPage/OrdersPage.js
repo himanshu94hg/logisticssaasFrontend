@@ -334,7 +334,7 @@ const OrdersPage = () => {
     return (
         <>
             <NavTabs
-            counterData={counterData}
+                counterData={counterData}
                 activeTab={activeTab}
                 setRateRef={setRateRef}
                 setActiveTab={setActiveTab}
@@ -396,15 +396,15 @@ const OrdersPage = () => {
 
 
                     </div>
-                    <p className='popular-search'>Most Popular Search by
-                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date()) }}>Info Missing</span>|
-                        <span className="text-green" onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
-                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
-                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
-                        <span className='text-green' onClick={() => { setMostPopular({ most_popular_search: "delivered" }); setReset(new Date()) }}>Delivered</span>|
-                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "cancel_order" }); setReset(new Date()) }}>Cancelled order</span>|
-                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "yesterday" }); setReset(new Date()) }}>Yesterday</span>|
-                        <span className='text-yellow' onClick={() => { setMostPopular({ most_popular_search: "one_week" }); setReset(new Date()) }}>Last Week</span>|
+                    <p className='popular-search'>Most Popular Search by:
+                        <span onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date()) }}>Info Missing</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "delivered" }); setReset(new Date()) }}>Delivered</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "cancel_order" }); setReset(new Date()) }}>Cancelled order</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "yesterday" }); setReset(new Date()) }}>Yesterday</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "one_week" }); setReset(new Date()) }}>Last Week</span>|
                         <span onClick={() => { setMostPopular({ most_popular_search: "last_month" }); setReset(new Date()) }}>Last Month</span>
                     </p>
                 </div>
