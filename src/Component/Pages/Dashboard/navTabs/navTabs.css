@@ -83,3 +83,22 @@
 .nav-actions-container .nav-actions-list ul li svg {
     font-size: 1.4rem;
 }
+
+.tab-counter {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    transition: 0.3s ease-in-out;
+    height: 15px;
+    border-radius: 50%;
+    min-width: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 7px;
+    padding-inline: 2px;
+    font-size: 12px;
+}
+
+.tab-counter:hover {
+    transform: scale(1.5);
+}
