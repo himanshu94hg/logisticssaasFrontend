@@ -334,6 +334,7 @@ const OrdersPage = () => {
     return (
         <>
             <NavTabs
+            counterData={counterData}
                 activeTab={activeTab}
                 setRateRef={setRateRef}
                 setActiveTab={setActiveTab}

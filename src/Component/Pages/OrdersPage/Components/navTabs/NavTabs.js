@@ -36,38 +36,6 @@ export default function NavTabs(props) {
   }, [])
   const [sellerId, setSellerId] = useState(null)
 
-  // useEffect(() => {
-  //   dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
-  // }, [])
-
-  // useEffect(() => {
-  //   if (userData) {
-  //     setSellerId(userData?.id)
-  //   }
-  // }, [userData])
-
-
-  // const handleClick = async () => {
-  //   if (sellerId != null || sellerId != undefined) {
-  //     try {
-  //       const response = await axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerId}`);
-
-  //       if (response.status === 200) {
-  //         toast.success('Order fetched successfully');
-  //         props.setRateRef(new Date());
-  //       }
-  //     } catch (error) {
-  //       toast.error('Order fetch failed!');
-  //     }
-  //   }
-  // };
-
-
-  // const debouncedHandleClick = useCallback(
-  //   debounce((param) => handleClick(param), 700),
-  //   []
-  // );
-
   const handleSubmit = async () => {
     if (channelGetCard?.results?.length > 0) {
       try {
@@ -111,7 +79,14 @@ export default function NavTabs(props) {
                   className={`d-none d-lg-block ${props.activeTab === tab ? "active" : ""}`}
                   onClick={() => { props.setActiveTab(tab); props.setCurrentPage(1); props.setItemsPerPage(20); props.setSearchValue(''); props.setsearchType(props.SearchOptions[0].value) }}
                 >
-                  <div className="navItemsContainer">{tab}<span className="tab-counter">157</span></div>
+                  <div className="navItemsContainer">{tab}<span className="tab-counter">
+                    {tab === "All" && props?.counterData?.["all_order"]}
+                    {tab === "Processing" && props?.counterData?.["processing"]}
+                    {tab === "Ready to Ship" && props?.counterData?.["ready_to_ship"]}
+                    {tab === "Pickup" && props?.counterData?.["pickup"]}
+                    {tab === "Manifest" && props?.counterData?.["manifest"]}
+                    {tab === "Returns" && props?.counterData?.["returns"]}
+                  </span></div>
                 </Nav.Link>
               ))}
             </div>
