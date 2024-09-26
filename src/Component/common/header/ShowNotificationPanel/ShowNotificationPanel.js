@@ -70,26 +70,26 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification }) => {
                 <div ref={panelRef} className="notification-panel">
                     <div className="notification-header">
                         <h3>Notifications</h3>
-                        <button className="btn-close" onClick={handleClose}>×</button>
+                        <button className="btn-close p-0" onClick={handleClose}>×</button>
                     </div>
                     <div className="notification-tabs">
                         <button
                             className={`tab-button ${activeTab === 'notifications' ? 'active' : ''}`}
                             onClick={() => setActiveTab('notifications')}
                         >
-                            Notifications ({notifications.length})
+                            Alerts ({notifications.length})
                         </button>
                         <button
                             className={`tab-button ${activeTab === 'dailyUpdates' ? 'active' : ''}`}
                             onClick={() => setActiveTab('dailyUpdates')}
                         >
-                            Daily Updates ({dailyUpdates.length})
+                            Important Updates ({dailyUpdates.length})
                         </button>
                         <button
                             className={`tab-button ${activeTab === 'promotions' ? 'active' : ''}`}
                             onClick={() => setActiveTab('promotions')}
                         >
-                            Promotions ({promotions.length})
+                            What's new ({promotions.length})
                         </button>
                     </div>
                     <div className="notification-body">
