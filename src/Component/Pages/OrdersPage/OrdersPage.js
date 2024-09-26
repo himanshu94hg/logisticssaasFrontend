@@ -61,6 +61,7 @@ const OrdersPage = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState("")
+    const [counterData, setCounterData] = useState(null)
     const [addTagShow, setaddTagShow] = useState(false)
     const [pickupStatus, setPickupStatus] = useState('')
     const [selectedRows, setSelectedRows] = useState([]);
@@ -92,6 +93,9 @@ const OrdersPage = () => {
             setLoader(false)
         }
     }, [orderCancelled, orderdelete, loaderState])
+
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
+    console.log(mostPopular, "queryParamTempqueryParamTemp")
 
     useEffect(() => {
         if (activeTab) {
@@ -182,7 +186,7 @@ const OrdersPage = () => {
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-                const decodedURL = decodeURIComponent(queryString);
+                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
                 if (decodedURL) {
                     apiUrl += '&' + decodedURL;
                 }
@@ -270,6 +274,7 @@ const OrdersPage = () => {
         setReset(new Date())
         setSearchOption(SearchOptions[0])
         setSearchStatus(false)
+        setMostPopular({ most_popular_search: '' })
     }
 
     const handleQueryfilter = (value) => {
@@ -304,6 +309,25 @@ const OrdersPage = () => {
             e.preventDefault();
         }
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [orderCancelled, orderClone, orderdelete]);
+
 
 
 
@@ -372,15 +396,15 @@ const OrdersPage = () => {
 
                     </div>
                     <p className='popular-search'>Most Popular Search by
-                        <span>Info Missing</span>|
-                        <span>Live</span>|
-                        <span>COD</span>|
-                        <span>Prepaid</span>|
-                        <span>Delivered</span>|
-                        <span>Cancelled order</span>|
-                        <span>Yesterday</span>|
-                        <span>Last Week</span>|
-                        <span>Last Month</span>
+                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date()) }}>Info Missing</span>|
+                        <span className="text-green" onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
+                        <span className='text-green' onClick={() => { setMostPopular({ most_popular_search: "delivered" }); setReset(new Date()) }}>Delivered</span>|
+                        <span className='text-sh-red' onClick={() => { setMostPopular({ most_popular_search: "cancel_order" }); setReset(new Date()) }}>Cancelled order</span>|
+                        <span className='text-sh-primary' onClick={() => { setMostPopular({ most_popular_search: "yesterday" }); setReset(new Date()) }}>Yesterday</span>|
+                        <span className='text-yellow' onClick={() => { setMostPopular({ most_popular_search: "one_week" }); setReset(new Date()) }}>Last Week</span>|
+                        <span onClick={() => { setMostPopular({ most_popular_search: "last_month" }); setReset(new Date()) }}>Last Month</span>
                     </p>
                 </div>
                 {screenWidthData < 592 &&

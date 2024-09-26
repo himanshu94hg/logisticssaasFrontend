@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import VerificationStep from './Components/VerificationStep'
 import OTPStep from './Components/OTPStep'
+import React, { useEffect, useState } from 'react'
 import SuccessStep from './Components/SuccessStep'
+import VerificationStep from './Components/VerificationStep'
 import EnterPasswordStep from './Components/EnterPasswordStep'
 
 const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
-
-    const [VerificationTabs, setVerificationTabs] = useState('first-step')
+    const [step, setStep] = useState(1)
+    const [email, setEmail] = useState("")
 
     useEffect(() => {
         if (ChangePassword) {
             setTimeout(() => {
-                setVerificationTabs('first-step')
+                setStep(1)
             }, 1500);
         }
     }, [ChangePasswordPop])
-
-
 
     return (
         <>
@@ -25,23 +23,21 @@ const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
             </div>
             <div className='cp-body'>
                 {
-                    VerificationTabs === 'first-step' ?
-                        <VerificationStep setVerificationTabs={setVerificationTabs} />
-                        : VerificationTabs === 'second-step' ?
-                            <>
-                                <OTPStep setVerificationTabs={setVerificationTabs} />
-                            </> :
-                            VerificationTabs === 'third-step' ?
-                                <>
-                                    <EnterPasswordStep
-                                        ChangePasswordPop={ChangePasswordPop}
-                                        setChangePasswordPop={setChangePasswordPop}
-                                        setVerificationTabs={setVerificationTabs}
-                                    />
-                                </> :
-                                <>
-                                    <SuccessStep setChangePasswordPop={setChangePasswordPop} />
-                                </>
+                    step === 1 &&
+                    <VerificationStep setStep={setStep} setEmail={setEmail} />
+                }
+                {step === 2 &&
+                    <OTPStep setStep={setStep} email={email} />}
+
+                {step === 3 &&
+                    <EnterPasswordStep
+                        email={email}
+                        setStep={setStep}
+                        ChangePasswordPop={ChangePasswordPop}
+                        setChangePasswordPop={setChangePasswordPop}
+                    />}
+                {step === 4 &&
+                    <SuccessStep setChangePasswordPop={setChangePasswordPop} />
                 }
             </div>
         </>
