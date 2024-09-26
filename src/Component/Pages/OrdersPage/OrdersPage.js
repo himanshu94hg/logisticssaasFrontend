@@ -61,6 +61,7 @@ const OrdersPage = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState("")
+    const [counterData, setCounterData] = useState(null)
     const [addTagShow, setaddTagShow] = useState(false)
     const [pickupStatus, setPickupStatus] = useState('')
     const [selectedRows, setSelectedRows] = useState([]);
@@ -309,7 +310,23 @@ const OrdersPage = () => {
         }
     }
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [orderCancelled, orderClone, orderdelete]);
 
 
 
