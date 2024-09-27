@@ -23,6 +23,7 @@ import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -40,7 +41,7 @@ const WeightRecoPage = () => {
     const [reset, setReset] = useState(null)
     let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
-    const [queryName, setQueryName] = useState([])    
+    const [queryName, setQueryName] = useState([])
     const [backDrop, setBackDrop] = useState(false);
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -242,7 +243,15 @@ const WeightRecoPage = () => {
         fetchData();
     }, []);
 
-    
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
+
+    const searchOptions = [
+        { key: 'dispute_accepted', label: 'Dispute Accepted', tooltip: 'This will show all the orders where the dispute is accepted' },
+        { key: 'dispute_raised', label: 'Dispute Raised', tooltip: 'This will show all the orders where a dispute has been raised' },
+        { key: 'COD', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
+        { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' }
+    ];
+
 
     return (
         <>
@@ -297,11 +306,25 @@ const WeightRecoPage = () => {
 
                         }
                     </div>
-                    <p className='popular-search'>Most Popular Search by:
-                        <span>Dispute Accepted</span>|
-                        <span>Dispute Raised</span>|
-                        <span>COD</span>|
-                        <span>Prepaid</span>
+                    <p className='popular-search'>
+                        Looking for:
+                        {searchOptions
+                            .map(({ key, label, tooltip }) => (
+                                <CustomTooltip
+                                    key={key}
+                                    triggerComponent={
+                                        <span
+                                            className={mostPopular.most_popular_search === key ? 'active' : ''}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                        >
+                                            {label}
+                                        </span>
+                                    }
+                                    tooltipComponent={tooltip}
+                                    addClassName='popular-search-tooltip'
+                                />
+                            ))
+                        }
                     </p>
                 </div>
                 {screenWidthData < 592 &&
