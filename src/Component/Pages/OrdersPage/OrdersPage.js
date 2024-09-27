@@ -411,7 +411,7 @@ const OrdersPage = () => {
                     <p className='popular-search'>
                         Looking for:
                         {searchOptions
-                            .filter(option => option.tabs.includes(activeTab)) // Show only options for the active tab
+                            .filter(option => option.tabs.includes(activeTab)) 
                             .map(({ key, label, tooltip }) => (
                                 <CustomTooltip
                                     key={key}
