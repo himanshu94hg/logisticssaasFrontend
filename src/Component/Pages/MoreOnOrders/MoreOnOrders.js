@@ -291,11 +291,8 @@ const MoreOnOrders = () => {
 
     const searchOptions = [
         { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
-        { key: 'live', label: 'Live', tooltip: 'This will show all the live orders' },
         { key: 'cod', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
         { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' },
-        { key: 'delivered', label: 'Delivered', tooltip: 'This will show all the delivered orders' },
-        { key: 'cancel_order', label: 'Cancelled Order', tooltip: 'This will show all the cancelled orders' },
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday' },
         { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week' },
         { key: 'last_month', label: 'Last Month', tooltip: 'This will show all the orders from the last month' },
