@@ -551,6 +551,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         placeholder='Enter Min Weight (in gram)'
                                         value={filterParams.min_weight}
                                         onChange={(e) => handleChange("min_weight", e)}
+                                        onKeyPress={(e) => {
+                                            const value = e.target.value;
+                                            if (!/[\d.]/.test(e.key) || (e.key === '.' && value.includes('.'))) {
+                                                e.preventDefault();
+                                            }
+                                            const parts = value.split('.');
+                                            if (parts.length === 2 && parts[1].length >= 2) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
                                 <label>Max Weight
@@ -560,6 +570,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         placeholder='Enter Max Weight (in gram)'
                                         value={filterParams.max_weight}
                                         onChange={(e) => handleChange("max_weight", e)}
+                                        onKeyPress={(e) => {
+                                            const value = e.target.value;
+                                            if (!/[\d.]/.test(e.key) || (e.key === '.' && value.includes('.'))) {
+                                                e.preventDefault();
+                                            }
+                                            const parts = value.split('.');
+                                            if (parts.length === 2 && parts[1].length >= 2) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
                             </div>
