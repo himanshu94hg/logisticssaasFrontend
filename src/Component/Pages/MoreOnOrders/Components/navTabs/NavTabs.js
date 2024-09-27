@@ -60,7 +60,7 @@ export default function NavTabs(props) {
               >
                 <div className="navItemsContainer">
                   {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                  {item.title}
+                  {item.title}<span className="tab-counter">100</span>
                 </div>
               </Nav.Link>
             ))}

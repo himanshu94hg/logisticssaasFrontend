@@ -34,7 +34,7 @@ export default function NavTabs(props) {
                   title={item.title}
                 >
                   <div className="navItemsContainer">
-                    {item.title}
+                    {item.title}<span className="tab-counter">100</span>
                   </div>
                 </Nav.Link>
               ))

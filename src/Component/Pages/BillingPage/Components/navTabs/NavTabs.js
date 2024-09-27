@@ -59,7 +59,7 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
                   >
                     <div className="navItemsContainer">
                       {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                      {item.title}
+                      {item.title}<span className="tab-counter">100</span>
                     </div>
                   </Nav.Link>
                 ))
