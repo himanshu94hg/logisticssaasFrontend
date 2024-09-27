@@ -22,6 +22,7 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -250,7 +251,14 @@ const ShipmentsPage = () => {
         fetchData();
     }, []);
 
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
 
+    const searchOptions = [
+        { key: 'one_attempt', label: 'One Attempt', tooltip: 'This will show all the orders with 1 delivery attempt' },
+        { key: 'two_attempts', label: 'Two Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
+        { key: 'three_attempts', label: 'Three Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
+        { key: 'more_than_three_attempts', label: 'More Than Three Attempts', tooltip: 'This will show all the orders with more than 3 delivery attempts' },
+    ];
 
     return (
         <>
@@ -305,11 +313,26 @@ const ShipmentsPage = () => {
                             </>
                         }
                     </div>
-                    <p className='popular-search'>Most Popular Search by:
-                        <span>One Attempt</span>|
-                        <span>Two Attempts</span>|
-                        <span>Three Attempts</span>|
-                        <span>More Than Three Attempts</span>
+
+                    <p className='popular-search'>
+                        Looking for:
+                        {searchOptions
+                            .map(({ key, label, tooltip }) => (
+                                <CustomTooltip
+                                    key={key}
+                                    triggerComponent={
+                                        <span
+                                            className={mostPopular.most_popular_search === key ? 'active' : ''}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                        >
+                                            {label}
+                                        </span>
+                                    }
+                                    tooltipComponent={tooltip}
+                                    addClassName='popular-search-tooltip'
+                                />
+                            ))
+                        }
                     </p>
                 </div>
                 {screenWidthData < 592 &&
