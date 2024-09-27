@@ -674,6 +674,10 @@
     .warehouse-edit.open {
         width: 92%;
     }
+
+    .search-container .popular-search {
+        flex-wrap: wrap;
+    }
 }
 
 @media screen and (max-width:633px) {

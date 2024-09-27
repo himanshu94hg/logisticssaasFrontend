@@ -31,6 +31,7 @@ import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsC
 import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
 import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
 import ThreeDots from '../../../assets/image/icons/ThreeDots.png'
+import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -330,6 +331,17 @@ const OrdersPage = () => {
     }, [orderCancelled, orderClone, orderdelete]);
 
 
+    const searchOptions = [
+        { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details', tabs: ['All', 'Processing'] },
+        { key: 'live', label: 'Live', tooltip: 'This will show all the live orders', tabs: ['All'] },
+        { key: 'cod', label: 'COD', tooltip: 'This will show all the cash on delivery orders', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup'] },
+        { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup'] },
+        { key: 'delivered', label: 'Delivered', tooltip: 'This will show all the delivered orders', tabs: ['All'] },
+        { key: 'cancel_order', label: 'Cancelled Order', tooltip: 'This will show all the cancelled orders', tabs: ['All'] },
+        { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
+        { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
+        { key: 'last_month', label: 'Last Month', tooltip: 'This will show all the orders from the last month', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
+    ];
 
 
     return (
@@ -395,19 +407,27 @@ const OrdersPage = () => {
                                 <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                             </>
                         }
-
-
                     </div>
-                    <p className='popular-search'>Most Popular Search by:
-                        <span onClick={() => { setMostPopular({ most_popular_search: "info_missing" }); setReset(new Date()) }}>Info Missing</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "live" }); setReset(new Date()) }}>Live</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "cod" }); setReset(new Date()) }}>COD</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "prepaid" }); setReset(new Date()) }}>Prepaid</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "delivered" }); setReset(new Date()) }}>Delivered</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "cancel_order" }); setReset(new Date()) }}>Cancelled order</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "yesterday" }); setReset(new Date()) }}>Yesterday</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "one_week" }); setReset(new Date()) }}>Last Week</span>|
-                        <span onClick={() => { setMostPopular({ most_popular_search: "last_month" }); setReset(new Date()) }}>Last Month</span>
+                    <p className='popular-search'>
+                        Looking for:
+                        {searchOptions
+                            .filter(option => option.tabs.includes(activeTab)) // Show only options for the active tab
+                            .map(({ key, label, tooltip }) => (
+                                <CustomTooltip
+                                    key={key}
+                                    triggerComponent={
+                                        <span
+                                            className={mostPopular.most_popular_search === key ? 'active' : ''}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                        >
+                                            {label}
+                                        </span>
+                                    }
+                                    tooltipComponent={tooltip}
+                                    addClassName='popular-search-tooltip'
+                                />
+                            ))
+                        }
                     </p>
                 </div>
                 {screenWidthData < 592 &&
