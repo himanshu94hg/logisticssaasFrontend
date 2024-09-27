@@ -686,6 +686,8 @@ ul.order-label-list li {
 .missing-info-text {
   color: #FC3B3B;
   text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
 }
 
 .missing-info-tooltip {
@@ -709,17 +711,35 @@ ul.order-label-list li {
 
 .search-container .popular-search {
   font-size: 10px;
-  margin-top: 0.22rem;
+  margin-top: 6px;
   display: flex;
   align-items: center;
   gap: 4px;
   white-space: nowrap;
-  flex-wrap: wrap;
 }
 
 .search-container .popular-search span {
   cursor: pointer;
   white-space: nowrap;
+  padding-inline: 10px;
+  color: var(--sh-primary);
+  border-radius: 0.5rem;
+  border: 1px solid var(--sh-primary-light);
+  padding-block: 2px;
+}
+
+.search-container .popular-search span.active {
+  background: var(--sh-primary-light);
+  border: none;
+}
+
+.search-container .popular-search .popular-search-tooltip {
+  width: fit-content;
+  white-space: nowrap;
+  min-height: unset;
+  top: -210%;
+  left: -150%;
+  bottom: unset;
 }
 
 @media screen and (max-width:1366px) {
@@ -730,5 +750,4 @@ ul.order-label-list li {
   .orders-section-tabs .table-container {
     height: calc(100vh - 291px);
   }
-
 }
