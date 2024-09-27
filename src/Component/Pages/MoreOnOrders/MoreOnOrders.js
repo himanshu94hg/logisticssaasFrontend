@@ -22,6 +22,7 @@ import { BASE_URL_CORE, BASE_URL_ORDER } from '../../../axios/config';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -286,9 +287,23 @@ const MoreOnOrders = () => {
         fetchData();
     }, [orderdelete]);
 
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
+
+    const searchOptions = [
+        { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
+        { key: 'live', label: 'Live', tooltip: 'This will show all the live orders' },
+        { key: 'cod', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
+        { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' },
+        { key: 'delivered', label: 'Delivered', tooltip: 'This will show all the delivered orders' },
+        { key: 'cancel_order', label: 'Cancelled Order', tooltip: 'This will show all the cancelled orders' },
+        { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday' },
+        { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week' },
+        { key: 'last_month', label: 'Last Month', tooltip: 'This will show all the orders from the last month' },
+    ];
+
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData}/>
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} />
             <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -339,13 +354,25 @@ const MoreOnOrders = () => {
                             </>
                         }
                     </div>
-                    <p className='popular-search'>Most Popular Search by:
-                        <span>Info Missing</span>|
-                        <span>COD</span>|
-                        <span>Prepaid</span>|
-                        <span>Yesterday</span>|
-                        <span>Last Week</span>|
-                        <span>Last Month</span>
+                    <p className='popular-search'>
+                        Looking for:
+                        {searchOptions
+                            .map(({ key, label, tooltip }) => (
+                                <CustomTooltip
+                                    key={key}
+                                    triggerComponent={
+                                        <span
+                                            className={mostPopular.most_popular_search === key ? 'active' : ''}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                        >
+                                            {label}
+                                        </span>
+                                    }
+                                    tooltipComponent={tooltip}
+                                    addClassName='popular-search-tooltip'
+                                />
+                            ))
+                        }
                     </p>
                 </div>
                 {screenWidthData < 592 &&
