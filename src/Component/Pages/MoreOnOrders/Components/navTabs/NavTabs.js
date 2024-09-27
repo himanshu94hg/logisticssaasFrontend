@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-// import "./navTabs.css";
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+import React, {  useState } from "react";
+import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const navItems = [
   { name: 'Reassign Order', title: 'Reassign Order' },
@@ -21,21 +10,10 @@ const navItems = [
 ]
 
 export default function NavTabs(props) {
-  const navigation = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("Domestic");
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
 
   const handleSelect = (selectedTab) => {
     props.setActiveTab(selectedTab);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
   };
 
 
@@ -59,16 +37,18 @@ export default function NavTabs(props) {
                 title={item.name}
               >
                 <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                  {item.title}<span className="tab-counter">100</span>
+                  {item.title}<span className="tab-counter">
+                    {item?.name === "Reassign Order" && props?.counterData?.reassign_order_count}
+                    {item?.name === "Merge Order" && props?.counterData?.merge_order_count}
+                    {item?.name === "Split Order" && props?.counterData?.split_order_count}
+                  </span>
                 </div>
               </Nav.Link>
             ))}
             <NavDropdown
-              title={props.activeTab || "Select Option"} // Set default value based on activeTab
+              title={props.activeTab || "Select Option"}
               id="nav-dropdown"
               onSelect={handleSelect}
-              // Show on mobile
               className="d-block d-lg-none"
               drop="left"
             >

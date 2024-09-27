@@ -7,7 +7,6 @@ import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
 import NavTabs from './Components/navTabs/NavTabs';
 import globalDebouncedClick from '../../../debounce';
-import { BASE_URL_CORE } from '../../../axios/config';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import Pagination from '../../common/Pagination/Pagination';
@@ -19,6 +18,7 @@ import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 import ReassignOrder from './Components/ReassignOrder/ReassignOrder';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { BASE_URL_CORE, BASE_URL_ORDER } from '../../../axios/config';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
@@ -264,9 +264,31 @@ const MoreOnOrders = () => {
         }
     }
 
+    const [counterData, setCounterData] = useState(null)
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-more-on-order-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, [orderdelete]);
+
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData}/>
             <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
