@@ -12,27 +12,27 @@ const OTPStep = ({email, setStep }) => {
     let authToken = Cookies.get("access_token")
 
     const handleClick = async () => {
-        setStep(3)
-
-        // const data={
-        //     username: email,
-        //     otp: value, 
-        //     feature: "sign-in"
-        // }
-
-        // try {
-        //     const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/verifying-otp/`,data, {
-        //         headers: {
-        //             Authorization: `Bearer ${authToken}`
-        //         }
-        //     });
-        //     if (response?.status === 200) {
-        //         setValue('')
-        //         toast.success(response?.data?.message)
-        //     }
-        // } catch (error) {
-        //     customErrorFunction(error)
-        // }
+        
+        const data={
+            username: email,
+            otp: value, 
+            feature: "sign-in"
+        }
+        
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/verifying-otp/`,data, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            if (response?.status === 200) {
+                setStep(3)
+                setValue('')
+                toast.success(response?.data?.message)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
     }
 
     return (

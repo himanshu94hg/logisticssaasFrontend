@@ -13,25 +13,25 @@ const VerificationStep = ({ setStep ,setEmail}) => {
 
 
     const handleClick = async () => {
-        setStep(2)
-
-        // if (!value) {
-        //     setError('Please enter a valid email or phone number.');
-        //     return;
-        // }
-        // try {
-        //     const response = await axios.get(`${BASE_URL_CORE}/core-api/accounts/sending-otp/?username=${value}&feature=sign-in`, {
-        //         headers: {
-        //             Authorization: `Bearer ${authToken}`
-        //         }
-        //     });
-        //     if (response?.status === 200) {
-        //         setValue('')
-        //         toast.success(response?.data?.message)
-        //     }
-        // } catch (error) {
-        //     customErrorFunction(error)
-        // }
+        
+        if (!value) {
+            setError('Please enter a valid email or phone number.');
+            return;
+        }
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/accounts/sending-otp/?username=${value}&feature=sign-in`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            if (response?.status === 200) {
+                setStep(2)
+                setValue('')
+                toast.success(response?.data?.message)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
     }
 
 

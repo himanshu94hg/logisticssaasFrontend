@@ -13,35 +13,36 @@ const EnterPasswordStep = ({ ChangePasswordPop, setChangePasswordPop, setStep, e
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handlePasswordSubmit = async () => {
-        setStep(4);
-
-        // if (!newPassword || !confirmPassword) {
-        //     setError('Both fields are required.');
-        //     return;
-        // }
-        // if (newPassword !== confirmPassword) {
-        //     setError('Passwords do not match.');
-        //     return;
-        // }
-        // const data = {
-        //     username: email,
-        //     password: newPassword,
-        // }
-        // try {
-        //     const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/change-password/`, data, {
-        //         headers: {
-        //             Authorization: `Bearer ${authToken}`
-        //         }
-        //     });
-        //     if (response?.status === 200) {
-        //         setNewPassword('')
-        //         setConfirmPassword('')
-        //         setChangePasswordPop(false);
-        //         toast.success(response?.data?.message);
-        //     }
-        // } catch (error) {
-        //     customErrorFunction(error);
-        // }
+        if (!newPassword || !confirmPassword) {
+            setError('Both fields are required.');
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+        const data = {
+            username: email,
+            password: newPassword,
+        }
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/change-password/`, data, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            if (response?.status === 200) {
+                setNewPassword('')
+                setConfirmPassword('')
+                setStep(4);
+                setTimeout(() => {
+                    setChangePasswordPop(false);
+                }, 2000);
+                toast.success(response?.data?.message);
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
     };
 
     return (
