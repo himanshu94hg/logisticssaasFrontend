@@ -69,6 +69,7 @@ const MoreOnOrders = () => {
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
 
     const activeTabValueSet =
         activeTab === "Reassign Order"
@@ -288,7 +289,6 @@ const MoreOnOrders = () => {
         fetchData();
     }, [orderdelete]);
 
-    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
 
     const searchOptions = [
         { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
