@@ -1,12 +1,15 @@
+import axios from 'axios';
 import moment from 'moment';
 import './WeightRecoPage.css';
 import Select from 'react-select';
+import Cookies from 'js-cookie';
 import { debounce } from 'lodash';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
 import NavTabs from './Components/navTabs/NavTabs';
 import globalDebouncedClick from '../../../debounce';
 import { useDispatch, useSelector } from 'react-redux';
+import { BASE_URL_ORDER } from '../../../axios/config';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import Pagination from '../../common/Pagination/Pagination';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
@@ -19,6 +22,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -34,12 +38,14 @@ const WeightRecoPage = () => {
     const dispatch = useDispatch();
     const [awbNo, setAwbNo] = useState(null)
     const [reset, setReset] = useState(null)
+    let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
-    const [queryName, setQueryName] = useState([])
+    const [queryName, setQueryName] = useState([])    
     const [backDrop, setBackDrop] = useState(false);
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState("")
+    const [counterData, setCounterData] = useState(null)
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -218,9 +224,29 @@ const WeightRecoPage = () => {
         }
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-weight-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, []);
+
+    
+
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

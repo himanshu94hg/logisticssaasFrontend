@@ -1,6 +1,4 @@
 import axios from "axios";
-import Cookies from 'js-cookie';
-import { debounce } from "lodash";
 import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -15,26 +13,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-// import "./navTabs.css";
 
 export default function NavTabs(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const sellerData = Cookies.get("user_id");
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
-  const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-
+  const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
 
   const navItems = ["All", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
-  // const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   useEffect(() => {
     dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
   }, [])
-  const [sellerId, setSellerId] = useState(null)
 
   const handleSubmit = async () => {
     if (channelGetCard?.results?.length > 0) {
@@ -124,9 +117,7 @@ export default function NavTabs(props) {
                 <div className="selected-option">
                   {selectedOption || "Select an option"}
                   <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
-
                 </div>
-
                 <div className={`options-container ${isOpen ? "open" : ""}`}>
                   <div
                     className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
@@ -136,9 +127,7 @@ export default function NavTabs(props) {
                   </div>
                   <div
                     title="Disabled"
-                    // className={`option ${selectedOption === "International" ? "selected" : ""}`}
                     className={`option`}
-                  // onClick={() => handleOptionSelect("International")}
                   >
                     International <br />(Will be activated on Request)
                   </div>
@@ -158,7 +147,6 @@ export default function NavTabs(props) {
                 <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
               </div>
             }
-
             {screenWidthData < 992 &&
               <div className="nav-actions-container">
                 <div className="nav-action-dots">
@@ -183,7 +171,6 @@ export default function NavTabs(props) {
           </div>
         </Nav>
       </Navbar.Collapse>
-
     </Navbar>
   );
 }

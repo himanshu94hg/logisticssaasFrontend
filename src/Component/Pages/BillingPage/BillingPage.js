@@ -1,7 +1,10 @@
+import axios from 'axios';
 import './BillingPage.css';
 import moment from 'moment';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
+import { BASE_URL_CORE } from '../../../axios/config';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import Pagination from '../../common/Pagination/Pagination';
@@ -12,6 +15,7 @@ import RechargeLogs from './Components/RechargeLogs/RechargeLogs';
 import CreditReceipt from './Components/CreditReceipt/CreditReceipt';
 import RemittanceLogs from './Components/RemittanceLogs/RemittanceLogs';
 import ShippingCharges from './Components/ShippingCharges/ShippingCharges';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
@@ -19,11 +23,12 @@ const BillingPage = () => {
     const dispatch = useDispatch();
     const [awbNo, setAwbNo] = useState(null)
     const [reset, setReset] = useState(null)
-    const [isOpen, setIsOpen] = useState(false);
+    let authToken = Cookies.get("access_token")
     const [loader, setLoader] = useState(false)
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [selectAll, setSelectAll] = useState(false);
+    const [counterData, setCounterData] = useState(null)
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -137,9 +142,28 @@ const BillingPage = () => {
         setMoreFilters(false);
     };
 
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/get-billing-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
             <div className='billing-page-container'>
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
                     setAwbNo={setAwbNo}

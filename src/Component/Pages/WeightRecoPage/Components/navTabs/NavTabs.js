@@ -34,7 +34,11 @@ export default function NavTabs(props) {
                   title={item.title}
                 >
                   <div className="navItemsContainer">
-                    {item.title}<span className="tab-counter">100</span>
+                    {item.title}<span className="tab-counter">
+                      {item.name === "Weight Reconciliation" && props?.counterData?.total_weight_reconciliation}
+                      {item.name === "On-Hold Reconciliation" && props?.counterData?.on_hold_weight_reconciliation}
+                      {item.name === "Settled Reconciliation" && props?.counterData?.settled_weight_reconciliation}
+                    </span>
                   </div>
                 </Nav.Link>
               ))

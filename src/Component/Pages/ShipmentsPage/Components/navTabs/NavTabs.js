@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-// import "./navTabs.css";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const navItems = [
   { name: 'Action Required', title: 'Action Required' },
@@ -16,17 +9,6 @@ const navItems = [
 ]
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleSelect = (selectedTab) => {
     props.setActiveTab(selectedTab);
@@ -53,19 +35,22 @@ export default function NavTabs(props) {
                   title={item.title}
                 >
                   <div className="navItemsContainer">
-                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                    {item.title}<span className="tab-counter">100</span>
+                    {item.title}<span className="tab-counter">
+                      {item.name === "Action Required" && props?.counterData?.pending_order_count}
+                      {item.name === "Action Requested" && props?.counterData?.requested_order_count}
+                      {item.name === "Delivered" && props?.counterData?.delivered_order_count}
+                      {item.name === "RTO" && props?.counterData?.rto_order_count}
+                    </span>
                   </div>
                 </Nav.Link>
               ))
             }
             <NavDropdown
-              title={props.activeTab || "Select Option"} // Set default value based on activeTab
+              drop="left"
               id="nav-dropdown"
               onSelect={handleSelect}
-              // Show on mobile
               className="d-block d-lg-none"
-              drop="left"
+              title={props.activeTab || "Select Option"}
             >
               {navItems.map((item) => (
                 <NavDropdown.Item

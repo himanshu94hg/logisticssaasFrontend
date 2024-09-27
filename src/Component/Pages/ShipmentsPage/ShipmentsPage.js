@@ -1,7 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import { debounce } from 'lodash';
 import Select from 'react-select';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
@@ -52,6 +51,8 @@ const ShipmentsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageStatus, pageStatusSet] = useState(true)
     const [searchValue, setSearchValue] = useState("")
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [counterData, setCounterData] = useState(null)
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [queryParamTemp, setQueryParamTemp] = useState({})
@@ -60,7 +61,6 @@ const ShipmentsPage = () => {
     const [activeTab, setActiveTab] = useState("Action Required");
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryParamSearch, setQueryParamSearch] = useState(null)
-    const [selectedRows, setSelectedRows] = useState([]);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
@@ -232,9 +232,29 @@ const ShipmentsPage = () => {
         }
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-shipment-counter/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                if (response?.status === 200) {
+                    setCounterData(response.data);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchData();
+    }, []);
+
+
+
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} counterData={counterData} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

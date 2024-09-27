@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-// import "./navTabs.css";
 import { HiOutlineFilter } from "react-icons/hi";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const navItems = [
   { name: 'Shipping Charges', title: 'Shipping Charges' },
@@ -16,19 +11,7 @@ const navItems = [
   { name: 'Credit Receipt', title: 'Credit Receipt' },
 ]
 
-export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreFilters }) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
-  };
-
+export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counterData }) {
 
   const handleSelect = (selectedTab) => {
     setActiveTab(selectedTab);
@@ -58,8 +41,14 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
                     title={item.title}
                   >
                     <div className="navItemsContainer">
-                      {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                      {item.title}<span className="tab-counter">100</span>
+                      {item.title}<span className="tab-counter">
+                        {item.name === "Shipping Charges" && counterData?.shipping_charge}
+                        {item.name === "Remittance Logs" && counterData?.remittance_log}
+                        {item.name === "Recharge Logs" && counterData?.recharge_log}
+                        {item.name === "Invoices" && counterData?.invoice}
+                        {item.name === "Passbook" && counterData?.passbook}
+                        {item.name === "Credit Receipt" && counterData?.credit_receipt}
+                      </span>
                     </div>
                   </Nav.Link>
                 ))
@@ -106,13 +95,9 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
                 minWidth: '110px',
               }}
             >
-              {/* {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)} */}
             </ul>
           </div>
         }
-        {/* <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button">Export CSV</button>
-      </div> */}
       </Navbar>
     </>
   );
