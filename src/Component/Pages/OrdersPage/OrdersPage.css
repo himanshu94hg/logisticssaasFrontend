@@ -737,10 +737,25 @@ ul.order-label-list li {
   width: fit-content;
   white-space: nowrap;
   min-height: unset;
-  top: -210%;
-  left: -150%;
+  top: -157%;
+  left: -127%;
   bottom: unset;
+  font-size: 12px;
+  padding: 2px 10px;
+  /* overflow: visible; */
 }
+
+/* 
+.search-container .popular-search .popular-search-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: rotate(180deg);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #ffffff transparent;
+} */
 
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
