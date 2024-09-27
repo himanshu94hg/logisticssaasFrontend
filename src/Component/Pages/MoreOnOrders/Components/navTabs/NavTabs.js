@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
@@ -33,6 +33,7 @@ export default function NavTabs(props) {
                 className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
                 onClick={() => {
                   props.setActiveTab(item.name);
+                  props.setMostPopular({ most_popular_search: '' })
                 }}
                 title={item.name}
               >

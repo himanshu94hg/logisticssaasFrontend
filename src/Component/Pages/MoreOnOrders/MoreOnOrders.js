@@ -125,9 +125,9 @@ const MoreOnOrders = () => {
             const queryString = Object.keys(queryParams)
                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                 .join('&');
-
-            if (queryString) {
-                apiUrl += '&' + queryString;
+                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
+            if (decodedURL) {
+                apiUrl += '&' + decodedURL;
             }
             axios.get(apiUrl, {
                 headers: {
@@ -214,6 +214,7 @@ const MoreOnOrders = () => {
         setReset(new Date())
         setCurrentPage(1)
         setSearchOption(SearchOptions[0])
+        setMostPopular({most_popular_search:''})
 
     }
 
@@ -291,7 +292,7 @@ const MoreOnOrders = () => {
 
     const searchOptions = [
         { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
-        { key: 'cod', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
+        { key: 'COD', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
         { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' },
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday' },
         { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week' },
@@ -300,7 +301,7 @@ const MoreOnOrders = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setMostPopular={setMostPopular} />
             <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
