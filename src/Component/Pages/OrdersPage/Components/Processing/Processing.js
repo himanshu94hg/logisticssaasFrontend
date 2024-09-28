@@ -392,8 +392,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                         <div>Qt.<span> {row?.order_products[0]?.quantity}</span></div>||
                                                         <div className="d-flex align-items-center gap-1">SKU: <span data-truncate-name>{row?.order_products[0]?.sku || <span className="missing-info-text">SKU Missing</span>}</span></div>
                                                     </p>
-                                                    <p>
-                                                    </p>
                                                 </div>
                                             </td>
                                             <td>
