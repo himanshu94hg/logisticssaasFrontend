@@ -31,6 +31,7 @@ import {
     SkuUploadPattern,
     ThemeCustomizationPattern,
     TrackingScriptPattern,
+    UserManagementPattern,
     WhatsAppNotificationPattern,
     customerPattern,
     gstInvoicingPattern,
@@ -354,8 +355,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate('/manage-user-role')}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(UserManagementPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

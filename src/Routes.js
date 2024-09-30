@@ -299,3 +299,8 @@ export const TrackingScriptPattern = "/tracking-script";
 export const TrackingScriptRoutes = () => {
     return generatePath(TrackingScriptPattern);
 };
+
+export const UserManagementPattern = "/manage-user-role";
+export const UserManagementRoutes = () => {
+    return generatePath(UserManagementPattern);
+};

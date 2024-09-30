@@ -766,7 +766,7 @@ ul.order-label-list li {
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: 290px;
+  width: fit-content;
 }
 
 .order-related-dates>span>span {
@@ -774,6 +774,8 @@ ul.order-label-list li {
   white-space: nowrap;
   justify-content: space-between;
   width: 100%;
+  gap: 5px;
+  align-items: center;
 }
 
 @media screen and (max-width:1366px) {
