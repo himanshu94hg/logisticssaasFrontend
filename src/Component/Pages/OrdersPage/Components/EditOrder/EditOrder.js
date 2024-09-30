@@ -251,9 +251,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderId, EditOrderSection, dispatch])
 
-
-    console.log(orderDetailsData,"orderDetailsDataorderDetailsDataorderDetailsData")
-
     useEffect(() => {
         if (orderDetailsData) {
             const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);

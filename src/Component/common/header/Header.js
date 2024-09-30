@@ -126,6 +126,54 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     setExpanded(!isExpanded)
   }
 
+
+  const [alerts, setAlerts] = useState([])
+  const [whatsNew, setWhatsNew] = useState([])
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+
+        if (response.status === 200) {
+          setAlerts(response?.data)
+        }
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    }
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/whats-new/list/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        if (response.status === 200) {
+          setWhatsNew(response?.data)
+        }
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    }
+    fetchData()
+  }, [])
+
+
+  console.log(whatsNew,"whatsNewwhatsNewwhatsNew")
+
+
+
+
   return (
     <>
       <Navbar
@@ -266,7 +314,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
       <LoaderScreen loading={LoaderRing} />
 
-      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} />
+      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} whatsNew={whatsNew} alerts={alerts} />
 
       {
         screenWidthData < 992 &&

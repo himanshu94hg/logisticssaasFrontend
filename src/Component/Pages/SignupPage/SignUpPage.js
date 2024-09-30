@@ -243,7 +243,7 @@ const SignUpPage = () => {
                                         <div className='d-flex gap-3'>
                                             <label className="inputBox">
                                                 <input
-                                                    autoComplete="off"
+                                                    autoComplete="new-password"
                                                     type='text'
                                                     className='input-field'
                                                     id="email"
@@ -256,7 +256,7 @@ const SignUpPage = () => {
                                             </label>
                                             <label className="inputBox">
                                                 <input
-                                                    autoComplete="off"
+                                                    autoComplete="new-password"
                                                     className='input-field'
                                                     type={PasswordShow ? "text" : "password"}
                                                     id="password"
