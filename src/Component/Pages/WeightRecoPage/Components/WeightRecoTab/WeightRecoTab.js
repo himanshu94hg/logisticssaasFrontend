@@ -20,6 +20,13 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
+import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch();
@@ -150,27 +157,72 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order?.channel && row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.order?.channel && row?.order?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.order?.channel && row?.order?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.order?.channel && row?.order?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.order?.channel && row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                    : ""}
-                                                    &nbsp;
-                                                    <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
+                                                    {row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row?.order?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row?.order?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row?.order?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row?.order?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row?.order?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
+                                                                                    : row?.order?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
+                                                                                        : row?.order?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
+                                                                                            : <CustomIcon />}
+                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
+                                                        {row?.order?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
+                                                    </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    <img src={ForwardIcon} className={`${row?.order.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <img
+                                                                src={ForwardIcon}
+                                                                className={`${row?.order?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                alt="Forward/Reverse"
+                                                                width={24}
+                                                            />
+                                                        }
+                                                        tooltipComponent={<>{row?.order?.order_type}</>}
+                                                        addClassName='verified-hover'
+                                                    />
+                                                    <span className='ms-2'>{`${moment(row?.order?.order_date).format('DD MMM YYYY')} || ${moment(row?.order?.order_date).format('h:mm A')}`}</span>
+                                                    {row?.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
+                                                    {
+                                                        row?.order?.order_tag.length > 0 && <CustomTooltip
+                                                            triggerComponent={<span className='ms-1'>
+                                                                <OrderTagsIcon />
+                                                            </span>}
+                                                            tooltipComponent={
+                                                                <div className='Labels-pool'>
+                                                                    {row?.order?.order_tag?.map((item) => {
+                                                                        return (
+                                                                            <div className="label-button-container active">
+                                                                                <button className='label-button'>
+                                                                                    <FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}
+                                                                                </button>
+                                                                            </div>
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                            }
+                                                        />
+                                                    }
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order?.order_products[0]?.product_name}
+                                                <p className='d-flex align-items-center gap-2'>
+                                                    <span data-truncate-name>{row?.order?.order_products[0]?.product_name}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -183,6 +235,10 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                             ))}
                                                         </span>
                                                     </span>
+                                                </p>
+                                                <p className="d-flex align-items-center gap-2">
+                                                    <div>Qt.<span> {row?.order?.order_products[0]?.quantity}</span></div>||
+                                                    <div className="d-flex align-items-center gap-1">SKU: <span data-truncate-name>{row?.order?.order_products[0]?.sku}</span></div>
                                                 </p>
                                             </div>
                                         </td>

@@ -317,7 +317,18 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             tooltipComponent={<>{row?.order_type}</>}
                                                             addClassName='verified-hover'
                                                         />
-                                                        <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                        <CustomTooltip
+                                                            triggerComponent={
+                                                                <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                            }
+                                                            tooltipComponent={
+                                                                <span>
+                                                                    <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                    <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                                </span>
+                                                            }
+                                                            addClassName='order-related-dates'
+                                                        />
                                                         {row?.is_mps === true &&
                                                             <span className="mps-flag">MPS</span>
                                                         }
@@ -391,8 +402,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     <p className="d-flex align-items-center gap-2">
                                                         <div>Qt.<span> {row?.order_products[0]?.quantity}</span></div>||
                                                         <div className="d-flex align-items-center gap-1">SKU: <span data-truncate-name>{row?.order_products[0]?.sku || <span className="missing-info-text">SKU Missing</span>}</span></div>
-                                                    </p>
-                                                    <p>
                                                     </p>
                                                 </div>
                                             </td>
