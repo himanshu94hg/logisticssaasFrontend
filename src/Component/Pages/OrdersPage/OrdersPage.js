@@ -96,7 +96,6 @@ const OrdersPage = () => {
     }, [orderCancelled, orderdelete, loaderState])
 
     const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
-    console.log(mostPopular, "queryParamTempqueryParamTemp")
 
     useEffect(() => {
         if (activeTab) {
@@ -328,7 +327,7 @@ const OrdersPage = () => {
             }
         };
         fetchData();
-    }, [orderCancelled, orderClone, orderdelete]);
+    }, [orderCancelled, orderClone, orderdelete,pickupStatus]);
 
 
     const searchOptions = [

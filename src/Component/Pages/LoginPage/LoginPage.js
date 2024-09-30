@@ -8,17 +8,17 @@ import EmailIcon from './Icons/EmailIcon';
 import GoogleIcon from './Icons/GoogleIcon';
 import FacebookIcon from './Icons/FacebookIcon';
 import React, { useEffect, useState } from 'react';
-import Logo from '../../../assets/image/logo/logo.svg'
+import globalDebouncedClick from '../../../debounce';
+import { BASE_URL_CORE } from '../../../axios/config';
+import { IoIosEyeOff, IoIosEye } from "react-icons/io";
+import Logo from '../../../assets/image/logo/logo.svg';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { indexPattern, signUpPattern } from '../../../Routes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
-import { BASE_URL_CORE } from '../../../axios/config';
-import globalDebouncedClick from '../../../debounce';
-import { IoIosEyeOff, IoIosEye } from "react-icons/io";
-import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
-const LoginPage = ({ setTokenExists, tokenExists }) => {
+const LoginPage = ({ setTokenExists }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const pathname = useLocation();
@@ -37,7 +37,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   const [newPassword, setNewPassword] = useState('');
   const [otpVerified, setOtpVerified] = useState(false);
 
-  console.log("otpVerifiedotpVerifiedotpVerified",otpVerified)
   useEffect(() => {
     let intervalId;
     if (isTimerRunning && timer > 0) {
