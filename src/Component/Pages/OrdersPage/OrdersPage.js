@@ -327,7 +327,7 @@ const OrdersPage = () => {
             }
         };
         fetchData();
-    }, [orderCancelled, orderClone, orderdelete]);
+    }, [orderCancelled, orderClone, orderdelete,pickupStatus]);
 
 
     const searchOptions = [
