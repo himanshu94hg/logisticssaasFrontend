@@ -5,9 +5,8 @@ import AddSubAccount from './AddSubAccount';
 import UnicommerceIcon from '../../../../../assets/image/integration/UnicommerceIcon.png'
 import AmazonLogo from '../../../../../assets/image/integration/AmazonLogo1.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { faCopy, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { IoWalletOutline } from "react-icons/io5";
-import { RiMailSendLine } from "react-icons/ri";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiError } from "react-icons/bi";
 import { MdOutlineVerified } from "react-icons/md";
@@ -50,7 +49,7 @@ const ManageSubAccount = () => {
 
   const sendEmail = (username, email, password) => {
     const subject = `New User Registration: ${username}`;
-    const body = `Hello,\n\nPlease find the user details below:\n\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\n\nThank you.`;
+    const body = `Hello,\n\nPlease find the user details below:\n\nUser Name: ${username}\nEmail: ${email}\nPassword: ${password}\n\nThank you.`;
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink
   }
@@ -154,14 +153,14 @@ const ManageSubAccount = () => {
                   <td>
                     <Form.Check
                       type="switch"
-                      label={account?.seller?.status?"Active":"Inactive"}
+                      label={account?.seller?.status ? "Active" : "Inactive"}
                       checked={account?.seller?.status}
                       onChange={() => toggleStatus(index)}
                     />
                   </td>
                   <td>
-                    <button onClick={() => sendEmail(account.name, account?.seller?.email, account?.password)} className='btn p-0'>
-                      <RiMailSendLine className='font20' />
+                    <button onClick={() => sendEmail(account.name, account?.seller?.email, account?.password)} className='btn email-btn'>
+                      <FontAwesomeIcon icon={faEnvelope} />
                     </button>
                   </td>
                 </tr>
