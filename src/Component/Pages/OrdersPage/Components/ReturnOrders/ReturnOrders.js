@@ -205,8 +205,20 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                         tooltipComponent={<>{row?.order_type}</>}
                                                         addClassName='verified-hover'
                                                     />
-
-                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                        }
+                                                        tooltipComponent={
+                                                            <span>
+                                                                <span><strong>Pickup Requested Date:</strong>{`${moment(row?.pickup_generate_datetime).format('DD MMM YYYY')} || ${moment(row?.pickup_generate_datetime).format('hh:mm A')}`}</span>
+                                                                <span><strong>Booked Date:</strong>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                            </span>
+                                                        }
+                                                        addClassName='order-related-dates'
+                                                    />
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
@@ -219,7 +231,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                                 {row?.order_tag?.map((item) => {
                                                                     return (
                                                                         <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
-
                                                                     )
                                                                 })}
                                                             </div>

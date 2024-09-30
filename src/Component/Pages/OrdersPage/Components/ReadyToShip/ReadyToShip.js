@@ -460,7 +460,19 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         tooltipComponent={<>{row?.order_type}</>}
                                                         addClassName='verified-hover'
                                                     />
-                                                    <span className='ms-2'>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <span className='ms-2'>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                        }
+                                                        tooltipComponent={
+                                                            <span>
+                                                                <span><strong>Booked Date:</strong>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                            </span>
+                                                        }
+                                                        addClassName='order-related-dates'
+                                                    />
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
