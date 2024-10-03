@@ -3,7 +3,7 @@ import './ShowNotificationPanel.css'; // Custom CSS for styling
 import React, { useState, useEffect, useRef } from 'react';
 
 
-const ShowNotificationPanel = ({ showNotification, setShowNotification,alerts,whatsNew }) => {
+const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, whatsNew, impUpdate }) => {
     const panelRef = useRef(null);
     const [activeTab, setActiveTab] = useState('notifications');
 
@@ -34,12 +34,11 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification,alerts,wh
                 </div>
             ));
         } else if (activeTab === 'dailyUpdates') {
-            return whatsNew?.map((item) => (
-                // <div className="notification-item" key={item.id}>
-                //     <span>{item.message}</span>
-                //     <small>{moment(item.updated_at).fromNow()}</small>
-                // </div>
-                <></>
+            return impUpdate?.map((item) => (
+                <div className="notification-item" key={item.id}>
+                    <span>{item.message}</span>
+                    <small>{moment(item.updated_at).fromNow()}</small>
+                </div>
             ));
         } else if (activeTab === 'promotions') {
             return whatsNew.map((item) => (
@@ -70,7 +69,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification,alerts,wh
                             className={`tab-button ${activeTab === 'dailyUpdates' ? 'active' : ''}`}
                             onClick={() => setActiveTab('dailyUpdates')}
                         >
-                            Important Updates ({0})
+                            Important Updates ({impUpdate?.length})
                         </button>
                         <button
                             className={`tab-button ${activeTab === 'promotions' ? 'active' : ''}`}

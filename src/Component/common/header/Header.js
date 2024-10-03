@@ -129,12 +129,14 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   const [alerts, setAlerts] = useState([])
   const [whatsNew, setWhatsNew] = useState([])
+  const [impUpdate, setImpUpdate] = useState([])
 
+  console.log(userData?.id, "userData?.id")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications/`, {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications/?seller_id=${userData?.id}`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -147,13 +149,17 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    fetchData()
-  }, [])
+    if (userData?.id !== undefined) {
+      fetchData()
+    }
+  }, [userData])
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/whats-new/list/`, {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/whats-new/list/?type=whatsnew`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -168,8 +174,26 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     fetchData()
   }, [])
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/whats-new/list/?type=promotion`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        if (response.status === 200) {
+          setImpUpdate(response?.data)
+        }
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    }
+    fetchData()
+  }, [])
 
-  console.log(whatsNew,"whatsNewwhatsNewwhatsNew")
+
+  console.log(whatsNew, "whatsNewwhatsNewwhatsNew")
 
 
 
@@ -314,7 +338,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
       <LoaderScreen loading={LoaderRing} />
 
-      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} whatsNew={whatsNew} alerts={alerts} />
+      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} whatsNew={whatsNew} alerts={alerts} impUpdate={impUpdate} />
 
       {
         screenWidthData < 992 &&

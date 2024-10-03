@@ -943,3 +943,8 @@ img {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.select-error{
+  border: 1px solid red;
+  border-radius: 5px;
+}
