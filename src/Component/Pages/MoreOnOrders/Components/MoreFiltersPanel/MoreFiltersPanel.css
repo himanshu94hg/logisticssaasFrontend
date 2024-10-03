@@ -116,3 +116,7 @@
     gap: 7px;
     flex-direction: row;
 }
+
+.morefilters-panel .date-picker-container .react-datepicker-popper {
+    left: -19px !important;
+}
