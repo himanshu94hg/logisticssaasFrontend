@@ -125,36 +125,38 @@ const UserRoleManage = () => {
             </div>
 
             {/* Modal for Adding User */}
-            <Modal show={AddUser} onHide={handleAddUser}>
+            <Modal className='confirmation-modal add-user-pop' show={AddUser} onHide={handleAddUser}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="formFullName">
-                            <Form.Label>Full Name</Form.Label>
-                            <Form.Control
+                    <form>
+                        <div className='form-group'>
+                            <label>Full Name</label>
+                            <input
+                                className='form-control input-field'
                                 type="text"
                                 placeholder="Enter full name"
                                 name="fullName"
                                 value={newUser.fullName}
                                 onChange={handleInputChange}
                             />
-                        </Form.Group>
-                        <Form.Group controlId="formEmail" className="mt-3">
-                            <Form.Label>Email ID</Form.Label>
-                            <Form.Control
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Email ID</label>
+                            <input
+                                className='form-control input-field'
                                 type="email"
                                 placeholder="Enter email"
                                 name="email"
                                 value={newUser.email}
                                 onChange={handleInputChange}
                             />
-                        </Form.Group>
-                        <Form.Group controlId="formModules" className="mt-3">
-                            <Form.Label>Modules to Access</Form.Label>
-                            <Form.Control
-                                as="select"
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Modules to Access</label>
+                            <select
+                                className='form-control select-field'
                                 name="modules"
                                 value={newUser.modules}
                                 onChange={handleInputChange}
@@ -163,40 +165,44 @@ const UserRoleManage = () => {
                                 <option value="Module 1">Module 1</option>
                                 <option value="Module 2">Module 2</option>
                                 <option value="Module 3">Module 3</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formBuyerAccess" className="mt-3">
-                            <Form.Label>Buyer Detail Access</Form.Label>
+                            </select>
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Buyer Detail Access</label>
                             <div>
-                                <Form.Check
+                                <input
                                     type="radio"
-                                    label="Allowed"
                                     name="buyerAccess"
-                                    value={true}
+                                    value="true"
                                     checked={newUser.buyerAccess === 'true'}
                                     onChange={handleInputChange}
                                 />
-                                <Form.Check
+                                <label className='ms-2'>Allowed</label>
+                                <br />
+                                <input
                                     type="radio"
-                                    label="Not Allowed"
                                     name="buyerAccess"
-                                    value={false}
+                                    value="false"
                                     checked={newUser.buyerAccess === 'false'}
                                     onChange={handleInputChange}
                                 />
+                                <label className='ms-2'>Not Allowed</label>
                             </div>
-                        </Form.Group>
-                    </Form>
+                        </div>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleAddUser}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveUser}>
-                        Save Changes
-                    </Button>
+                    <div className='d-flex gap-2 justify-content-end w-100'>
+                        <button className="btn cancel-button" onClick={handleAddUser}>
+                            Close
+                        </button>
+                        <button className="btn main-button" onClick={handleSaveUser}>
+                            Save Changes
+                        </button>
+                    </div>
                 </Modal.Footer>
             </Modal>
+
         </section>
     );
 }

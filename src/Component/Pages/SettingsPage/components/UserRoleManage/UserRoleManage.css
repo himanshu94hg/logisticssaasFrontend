@@ -1,0 +1,8 @@
+.confirmation-modal.add-user-pop .modal-dialog {
+    margin-top: 8%;
+}
+
+.confirmation-modal.add-user-pop .modal-body {
+    text-align: unset;
+    margin-inline: 10px;
+}
