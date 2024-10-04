@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import { Form, Card, Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import './WhatsAppNotification.css';
-import Manifested from '../../../../../assets/image/whatsapp/Manifested.png';
-import Delivered from '../../../../../assets/image/whatsapp/Delivered.png';
-import InTransit from '../../../../../assets/image/whatsapp/InTransit.png';
-import PickedUp from '../../../../../assets/image/whatsapp/Pickedup.png';
-import outForDelivery from '../../../../../assets/image/whatsapp/OutForDelivery.png';
+import NDRFlow from '../../../../../assets/image/whatsapp/NDRFlow.png';
+import TrackYourOrder from '../../../../../assets/image/whatsapp/TrackYourOrder.png';
+import WhatsAppChatDomestic from '../../../../../assets/image/whatsapp/WhatsAppChatDomestic.png';
 
 // Static image mapping
 const imageMap = {
-    "Create Order": Manifested,
-    "Book Order": PickedUp,
-    "Track Order": InTransit,
-    "NDR Flow": outForDelivery,
+    "Create Order": WhatsAppChatDomestic,
+    "Book Order": WhatsAppChatDomestic,
+    "Track Order": TrackYourOrder,
+    "NDR Flow": NDRFlow,
 };
 
 // Dummy data for shipment statuses

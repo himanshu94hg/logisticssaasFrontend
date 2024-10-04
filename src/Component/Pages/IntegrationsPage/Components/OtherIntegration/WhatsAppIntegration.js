@@ -4,30 +4,25 @@ import HeartIcon from './HeartIcon';
 import TruckIcon from './TruckIcon';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import PackageMagnifyingIcon from './PackageMagnifyingIcon';
 import Logo from '../../../../../assets/image/integration/whatsappIcon.png';
-import WhatsAppChatScreen from '../../../../../assets/image/WhatsChatBot.png';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import WhatsAppChatDomestic from '../../../../../assets/image/WhatsAppChatDomestic.png';
-
+import TrackYourOrder from '../../../../../assets/image/whatsapp/TrackYourOrder.png';
+import WhatsAppChatDomestic from '../../../../../assets/image/whatsapp/WhatsAppChatDomestic.png';
+import NDRFlow from '../../../../../assets/image/whatsapp/NDRFlow.png';
 
 const WhatsAppIntegration = () => {
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const [BotTabs, setBotTabs] = useState("book")
+    const [BotTabs, setBotTabs] = useState("Create Order");
     const authToken = Cookies.get("access_token");
-    // const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
- 
 
-    const handleShow = () => {
-        setShow(!show)
-    }
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(!show);
 
     const handleWhattsApp = async () => {
-        setShow(false)
+        setShow(false);
         try {
             const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp" }, {
                 headers: {
@@ -36,16 +31,58 @@ const WhatsAppIntegration = () => {
                 }
             });
             if (response.status === 200) {
-                toast.success(response?.data.message)
+                toast.success(response?.data.message);
             }
         } catch (error) {
-            customErrorFunction(error)
+            customErrorFunction(error);
         }
-    }
+    };
 
-    const handleHold=()=>{
-        toast.info("Functionality is not live now!")
-    }
+    const handleHold = () => {
+        toast.info("Functionality is not live now!");
+    };
+
+    const renderTabContent = (tab) => {
+        switch (tab) {
+            case "Create Order":
+                return (
+                    <>
+                        <h5>Instant Order Creation</h5>
+                        <p>No more hassle of filling long forms. Just provide the product name or code, and our WhatsApp bot will help you create an order swiftly, allowing you to focus more on growing your business.</p>
+                    </>
+                );
+            case "book":
+                return (
+                    <>
+                        <h5>Effortless Order Booking</h5>
+                        <p>Simply select the product you need, and our WhatsApp bot will guide you through booking the order seamlessly. Experience a fast and straightforward order booking process right through your chat.</p>
+                    </>
+                );
+            case "track":
+                return (
+                    <>
+                        <h5>Real-Time Order Tracking</h5>
+                        <p>Wondering where your order is? Just ask! Our WhatsApp bot provides real-time updates on your order status, ensuring that you know the exact delivery timeline without any guesswork.</p>
+                    </>
+                );
+            case "NDR Flow":
+                return (
+                    <>
+                        <h5>Non-Delivery Resolution (NDR) Assistance</h5>
+                        <p>Having trouble with deliveries? Our WhatsApp bot helps you manage Non-Delivery Resolutions effortlessly, so that any delivery issues are resolved quickly, keeping your customers happy.</p>
+                    </>
+                );
+            default:
+                return null;
+        }
+    };
+
+    const chatImages = {
+        "Create Order": WhatsAppChatDomestic,
+        book: WhatsAppChatDomestic,
+        track: TrackYourOrder,
+        "NDR Flow": NDRFlow
+    };
 
     return (
         <>
@@ -69,8 +106,13 @@ const WhatsAppIntegration = () => {
                     </ul>
                     <div className='mt-5 d-flex flex-column align-items-center gap-3'>
                         <h5>Keep your buyers informed with live updates that have a <span>93%</span> read rate.</h5>
-                        <p className='font30 py-2'><span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span><button className='btn main-button ms-3' onClick={handleShow}>Activate Now</button></p>
-                        <p className='font12 pt-2'><span className='fw-bold'>Note:</span> Customise real time tracking update to share with your buyers, per status just @ &#8377;0.99. Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.</p>
+                        <p className='font30 py-2'>
+                            <span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span>
+                            <button className='btn main-button ms-3' onClick={handleShow}>Activate Now</button>
+                        </p>
+                        <p className='font12 pt-2'>
+                            <span className='fw-bold'>Note:</span> Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.
+                        </p>
                     </div>
                     <div className='mt-5 d-flex w-100'>
                         <div className='try-it-out'>
@@ -79,14 +121,14 @@ const WhatsAppIntegration = () => {
                                 <h5 className='mb-2'>Enter your number to receive live tracking updates via WhatsApp.</h5>
                                 <label className='whatsapp-get-started'>
                                     <input type="text" placeholder='Enter 10 Digit Mobile Number' />
-                                    <button  onClick={handleHold}>Get Demo Now</button>
+                                    <button onClick={handleHold}>Get Demo Now</button>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div className='mt-5'>
                         <h3>Seamless Experience with Our WhatsApp Bot</h3>
-                        <p>Say hello to effortless shopping with our new WhatsApp Bot! Now, managing your orders is as easy as sending a message. Here’s how our WhatsApp integration can enhance your shopping experience</p>
+                        <p>Say hello to effortless shopping with our new WhatsApp Bot! Now, managing your orders is as easy as sending a message. Here’s how our WhatsApp integration can enhance your shopping experience:</p>
                         <div className='row'>
                             <div className='col-3'>
                                 <iframe src="https://lottie.host/embed/e0f8cbb6-1125-43dc-bfe2-85d1f2515588/cQ51N3voCq.json"
@@ -95,57 +137,25 @@ const WhatsAppIntegration = () => {
 
                             <div className='col-6'>
                                 <ul className='additional-features-nav'>
+                                    <li onClick={() => setBotTabs("Create Order")} className={`${BotTabs === "Create Order" && 'active'}`}>Create Order</li>
                                     <li onClick={() => setBotTabs("book")} className={`${BotTabs === "book" && 'active'}`}>Book Order</li>
                                     <li onClick={() => setBotTabs("track")} className={`${BotTabs === "track" && 'active'}`}>Track Order</li>
-                                    <li onClick={() => setBotTabs("cancel")} className={`${BotTabs === "cancel" && 'active'}`}>Cancel Order</li>
-                                    <li onClick={() => setBotTabs("support")} className={`${BotTabs === "support" && 'active'}`}>Support</li>
+                                    <li onClick={() => setBotTabs("NDR Flow")} className={`${BotTabs === "NDR Flow" && 'active'}`}>NDR Flow</li>
                                 </ul>
                                 <div className="additional-features">
-                                    {
-                                        BotTabs === "book" &&
-                                        <>
-                                            <h5>Instant Order Placement</h5>
-                                            <p>No more navigating through multiple pages to place an order. Simply message us the product name or code on WhatsApp, and our bot will guide you through a quick and easy order process.</p>
-                                        </>
-                                    }
-                                    {
-                                        BotTabs === "track" &&
-                                        <>
-                                            <h5>Real-Time Order Tracking</h5>
-                                            <p>Wondering where your order is? Just ask! Our WhatsApp bot provides real-time updates on your order status, so you always know when to expect your delivery.</p>
-                                        </>
-                                    }
-                                    {
-                                        BotTabs === "cancel" &&
-                                        <>
-                                            <h5>Hassle-Free Order Cancellation</h5>
-                                            <p>Change of mind? No problem! You can cancel your order directly through WhatsApp without any fuss.</p>
-                                        </>
-                                    }
-                                    {
-                                        BotTabs === "support" &&
-                                        <>
-                                            <h5>Personalized Support</h5>
-                                            <p>Need help? Our WhatsApp bot is here 24/7 to assist with any questions or issues you may have, from product inquiries to order modifications.</p>
-                                        </>
-                                    }
+                                    {renderTabContent(BotTabs)}
                                     <div>
                                         <button className='btn main-button float-end' onClick={handleHold}>Activate Now</button>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-3 chat-window">
-                                {BotTabs === "book" && <img src={WhatsAppChatDomestic} alt="" />}
-                                {BotTabs === "track" && <img src={WhatsAppChatScreen} alt="" />}
-                                {BotTabs === "cancel" && <img src={WhatsAppChatScreen} alt="" />}
-                                {BotTabs === "support" && <img src={WhatsAppChatScreen} alt="" />}
+                                {chatImages[BotTabs] && <img src={chatImages[BotTabs]} alt="WhatsApp Chat Screen" />}
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
-
-
 
             <Modal
                 show={show}
@@ -157,7 +167,7 @@ const WhatsAppIntegration = () => {
                     <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to activate the whatsapp ?
+                    Are you sure you want to activate WhatsApp integration?
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='d-flex gap-2'>
@@ -168,9 +178,8 @@ const WhatsAppIntegration = () => {
                     </div>
                 </Modal.Footer>
             </Modal>
-
         </>
-    )
-}
+    );
+};
 
-export default WhatsAppIntegration
+export default WhatsAppIntegration;
