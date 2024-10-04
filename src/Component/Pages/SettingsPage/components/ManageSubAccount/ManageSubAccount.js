@@ -132,12 +132,12 @@ const ManageSubAccount = () => {
                   </td>
                   <td>
                     <div className='channel-list'>
-                      <div>
+                      {/* <div>
                         <img src={UnicommerceIcon} alt="" width={30} title='Unicommerce' />
                       </div>
                       <div>
                         <img src={AmazonLogo} alt="" width={30} title='Amazon' />
-                      </div>
+                      </div> */}
                     </div>
                   </td>
                   <td><IoWalletOutline className='font20 fw-bold' style={{ verticalAlign: '-4px' }} /> &#x20b9;{account?.seller?.balance}</td>

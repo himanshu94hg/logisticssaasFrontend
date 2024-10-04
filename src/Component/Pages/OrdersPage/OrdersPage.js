@@ -72,6 +72,8 @@ const OrdersPage = () => {
     const [UpdateWeight, setUpdateWeight] = useState(false)
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [manifestOrders, setManifestOrders] = useState([])
+    const [orderStatus, setOrderStatus] = useState("")
+
     const [orderTracking, setOrderTracking] = useState(false)
     const [activeTab, setActiveTab] = useState("Processing");
     const [BulkActionShow, setBulkActionShow] = useState(false)
@@ -460,6 +462,7 @@ const OrdersPage = () => {
                         partnerList={partnerList}
                         MoreFilters={MoreFilters}
                         setSelectAll={setSelectAll}
+                        setOrderStatus={setOrderStatus}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
@@ -617,7 +620,7 @@ const OrdersPage = () => {
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
-            <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} />
+            <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} orderStatus={orderStatus} setOrderStatus={setOrderStatus}/>
 
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}

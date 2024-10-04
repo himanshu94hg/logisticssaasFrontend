@@ -36,7 +36,7 @@ import UnicommerceIcon from "../../../../../assets/image/integration/Unicommerce
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -211,6 +211,16 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
         }
     };
 
+    const handleReverseOrder = (orderId, status) => {
+        if (status === "delivered") {
+            setCloneOrderSection(true)
+            setOrderId(orderId)
+            setOrderStatus(status)
+        } else {
+            toast.error("Only delivered order can be reverse!")
+        }
+    }
+
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -243,9 +253,10 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
         })
     }
 
-    const openCloneSection = (id) => {
+    const openCloneSection = (id,status) => {
         setCloneOrderSection(true)
         setOrderId(id)
+        setOrderStatus(status)
     }
 
     const handleClickAWB = (orders) => {
@@ -769,10 +780,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setEditOrderSec
                                                         {activeIndex === index && (
                                                             <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
-                                                                    <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
+                                                                    <li onClick={() => openCloneSection(row?.id,row?.status)}>Clone Order</li>
                                                                     <li onClick={() => handleShowCancel(row?.id, row?.id, row?.status)}>Cancel Order</li>
                                                                     <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                     <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id, row?.status))}>Reassign Order</li>
+                                                                    <li onClick={() => globalDebouncedClick(() => handleReverseOrder(row?.id, row?.status))}>Reverse Order</li>
                                                                     <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id, row?.status))}>Download label</li>
                                                                     <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row?.status))}>Download Invoice</li>
                                                                     {

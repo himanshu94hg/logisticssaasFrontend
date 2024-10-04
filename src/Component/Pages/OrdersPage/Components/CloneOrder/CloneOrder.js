@@ -16,15 +16,15 @@ import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
 import ErrorIcon from '../EditOrder/ErrorIcon';
 
-const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
+const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId ,orderStatus,setOrderStatus}) => {
     const dispatch = useDispatch()
+    const cloneForm = "clone-form"
     const currentDate = new Date();
-    const [wareHouseName, setWareHouseName] = useState("")
-    const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
-    const cloneForm = "clone-form"
-
+    const [wareHouseName, setWareHouseName] = useState("")
+    const [activeSection, setActiveSection] = useState("Order Details");
+    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -98,7 +98,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             }
         ],
     })
-    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
+
 
     useEffect(() => {
         if (orderUpdateRes) {
@@ -110,8 +110,11 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         if (CloneOrderSection) {
             setActiveSection("Order Details");
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+        }else{
+            setOrderStatus("")
         }
     }, [CloneOrderSection]);
+
 
     const validateFormData = () => {
         const newErrors = {};
@@ -212,7 +215,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-
     const handleClone = () => {
         if (validateFormData()) {
             dispatch({
@@ -237,7 +239,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     useEffect(() => {
         if (orderDetailsData) {
             const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
-
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
@@ -248,7 +249,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                     order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
-                    order_type: orderDetailsData?.order_type,
+                    order_type: orderStatus==="delivered"? "Reverse":orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
                     channel_id: orderDetailsData?.channel_id
                 },
