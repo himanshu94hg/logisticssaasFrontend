@@ -280,6 +280,11 @@ export const WhatsAppNotificationRoutes = () => {
     return generatePath(WhatsAppNotificationPattern);
 };
 
+export const WhatsAppBotsPattern = "/whatsapp-bots";
+export const WhatsAppBotsRoutes = () => {
+    return generatePath(WhatsAppBotsPattern);
+};
+
 export const ccavenueRedirectIntegrationPattern = "/ccavenue-response";
 export const ccavenueRedirectIntegrationRoutes = () => {
     return generatePath(ccavenueRedirectIntegrationPattern);

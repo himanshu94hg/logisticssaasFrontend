@@ -32,6 +32,7 @@ import {
     ThemeCustomizationPattern,
     TrackingScriptPattern,
     UserManagementPattern,
+    WhatsAppBotsPattern,
     WhatsAppNotificationPattern,
     customerPattern,
     gstInvoicingPattern,
@@ -218,6 +219,12 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         WhatsApp Notification
+                                    </li>
+                                    <li onClick={() => Navigate(WhatsAppBotsPattern)}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        WhatsApp Bots
                                     </li>
                                 </ul>
                             </div>
