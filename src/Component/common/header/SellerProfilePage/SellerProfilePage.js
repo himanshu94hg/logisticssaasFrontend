@@ -5,6 +5,7 @@ import { faChevronRight, faCopy } from '@fortawesome/free-solid-svg-icons'
 import sellerProfileImage from '../../../../assets/image/sellerProfileImage.svg'
 import { FaRegCopy } from "react-icons/fa";
 import CustomTooltip from '../../CustomTooltip/CustomTooltip'
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
     const textRef = useRef(null);
@@ -24,6 +25,28 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
         }
     };
 
+    const [image, setImage] = useState(sellerProfileImage); // State for the image URL
+
+
+    const fileInputRef = useRef(null);
+
+    const handleButtonClick = () => {
+        fileInputRef.current.click(); // Programmatically click the file input
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setImage(reader.result); // Update the image state with the uploaded image URL
+            };
+
+            reader.readAsDataURL(file); // Convert the file to a base64 URL
+        }
+    };
+
     return (
         <>
             <section className={`seller-profile-section ${ViewProfile && 'open'}`}>
@@ -33,7 +56,16 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                 <div className='sp-header-sec'>
                     <div className='sp-wh-container'>
                         <div className='sp-image-container'>
-                            <img src={sellerProfileImage} alt="" />
+                            <img src={image} alt="" />
+                            <button onClick={handleButtonClick}>
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                            </button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                style={{ display: 'none' }}
+                                onChange={handleFileChange}
+                            />
                         </div>
                         <div className='sp-seller-name'>
                             <h4 className='mb-0'>{userData?.first_name} {userData?.last_name}</h4>
