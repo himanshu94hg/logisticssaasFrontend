@@ -90,6 +90,11 @@
     /* background-color: #8CD3DB; */
 }
 
+.card-img-container.ClickPost {
+    background-color: #94c7ff;
+    /* background-color: #8CD3DB; */
+}
+
 .card-img-container.WhatsApp {
     background-color: #cdf5dc;
     /* background-color: #8CD3DB; */
@@ -162,7 +167,7 @@
 }
 
 .clickpost .int-header {
-    background-color: #c4cad0;
+    background-color: #94c7ff;
 }
 
 .easycom .int-header {
@@ -252,6 +257,10 @@
     background-color: #8CD3DB;
 }
 
+.clickpost .int-header-right:after {
+    background-color: #007aff;
+}
+
 .unicommerce .int-header-right:after {
     background-color: #4786ed;
 }
@@ -262,10 +271,6 @@
 
 .omsguru .int-header-right:after {
     background-color: #0e76bc;
-}
-
-.clickpost .int-header-right:after {
-    background-color: #414141;
 }
 
 .vineretail .int-header-right:after {
@@ -296,7 +301,7 @@
     width: fit-content;
     display: flex;
     gap: 10px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .int-checkbox label input {
@@ -346,6 +351,7 @@
     height: 94%;
 }
 
+
 .unicommerce .timeline::after {
     background-color: #c7daf7;
     height: 77%;
@@ -361,7 +367,7 @@
 }
 
 .clickpost .timeline::after {
-    background-color: #c4cad0;
+    background-color: #94c7ff;
 }
 
 .vineretail .timeline::after {
@@ -414,6 +420,7 @@
     border: 4px solid #8CD3DB;
 }
 
+
 .unicommerce .timeline-list:after {
     border: 4px solid #4786ed;
 }
@@ -427,7 +434,7 @@
 }
 
 .clickpost .timeline-list:after {
-    border: 4px solid #414141;
+    border: 4px solid #007aff;
 }
 
 .vineretail .timeline-list:after {

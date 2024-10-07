@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
 import EasyShipLogo from '../../../../../assets/image/integration/EasyShipLogo.png'
+import ClickPostLogo from '../../../../../assets/image/integration/ClickPostLogo.png'
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const OMSIntegration = () => {
@@ -10,9 +11,9 @@ const OMSIntegration = () => {
 
     useEffect(() => {
         setLoader(true)
-            setTimeout(() => {
-                setLoader(false)
-            }, 230);
+        setTimeout(() => {
+            setLoader(false)
+        }, 230);
     }, [])
 
     const OMSData = [
@@ -25,7 +26,7 @@ const OMSIntegration = () => {
     ];
 
     const OtherOMS = [
-        { child: 'clickpost', title: 'ClickPost', imageUrl: 'https://www.shipease.in/public/assets/images/oms/clickpost2.png' },
+        { child: 'clickpost', title: 'ClickPost', imageUrl: ClickPostLogo },
         // Add more data as needed
     ];
 

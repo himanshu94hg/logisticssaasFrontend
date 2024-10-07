@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
+import Logo from '../../../../../assets/image/integration/ClickPostLogo.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
 
 const ClickPostIntegrationForm = () => {
 
@@ -16,7 +17,7 @@ const ClickPostIntegrationForm = () => {
             <div className='clickpost'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src='https://www.shipease.in/public/assets/images/oms/clickpost2.png' alt="Logo" />
+                        <img src={Logo} alt="Logo" />
                         <h2 className='mb-0'>ClickPost</h2>
                     </div>
                     <div className='int-header-right'>
