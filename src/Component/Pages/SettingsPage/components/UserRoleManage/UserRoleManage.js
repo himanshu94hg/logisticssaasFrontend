@@ -1,67 +1,170 @@
-import React, { useState } from 'react';
+import axios from 'axios';
 import './UserRoleManage.css';
-import { Button, Form, Modal } from 'react-bootstrap';
+import Cookies from 'js-cookie';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { Form, Modal } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faEnvelope, faEnvelopeOpen, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { faEnvelopeOpen, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 
 const UserRoleManage = () => {
-    const [ds, setDs] = useState(null);
-    const [copiedText, setCopiedText] = useState('');
-    const [AddUser, setAddUser] = useState(false);
-    const [User, setUser] = useState([
-        {
-            fullName: 'John Doe',
-            email: 'john@example.com',
-            lastLogin: '2024-09-29 10:15 AM',
-            modules: 'Module 1, Module 2',
-            buyerAccess: true,
-            seller: { status: true }
+    const [show, setShow] = useState(false)
+    const [errors, setErrors] = useState('')
+    const [reset, setReset] = useState(null)
+    const [modules, setModules] = useState([])
+    let authToken = Cookies.get("access_token")
+    const [toggleData, setToggleData] = useState({})
+    const [employeeUser, setEmployeeUser] = useState([])
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+    const [formData, setFormData] = useState({
+        employee: {
+            name: "",
+            seller_id: null,
+            mobile: "",
+            password: "",
+            email: ""
         },
-        {
-            fullName: 'Jane Doe',
-            email: 'jane@example.com',
-            lastLogin: '2024-09-28 12:45 PM',
-            modules: 'Module 3',
-            buyerAccess: false,
-            seller: { status: false }
+        employee_rights: []
+    })
+
+    useEffect(() => {
+        if (userData) {
+            setFormData((prev) => ({
+                ...prev,
+                employee: {
+                    seller_id: userData?.id
+                }
+            }))
         }
-    ]);
-    const [newUser, setNewUser] = useState({ fullName: '', email: '', modules: '', buyerAccess: '' });
 
-    const handleAddUser = () => {
-        setAddUser(!AddUser);
-    };
-
-    const toggleStatus = (index) => {
-        setUser(prevAccounts =>
-            prevAccounts.map((account, i) =>
-                i === index
-                    ? { ...account, seller: { ...account.seller, status: !account.seller.status } }
-                    : account
-            )
-        );
-    };
-
-    const handleCopy = (text, index) => {
-        setDs(index);
-        setCopiedText(text);
-        setTimeout(() => {
-            setCopiedText('');
-            setDs(null);
-        }, 1500);
-    };
+    }, [userData])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewUser(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({
+            ...prev,
+            employee: {
+                ...formData.employee,
+                [name]: value
+            },
+            employee_rights: {
+                ...formData.employee_rights,
+                [name]: value
+            }
+        }))
     };
 
-    const handleSaveUser = () => {
-        setUser([...User, { ...newUser, lastLogin: 'Never', seller: { status: false } }]);
-        setNewUser({ fullName: '', email: '', modules: '', buyerAccess: '' });
-        setAddUser(false);
+    const handleRights = (selectedOptions) => {
+        const selectedRights = selectedOptions.map(option => ({
+            route_id: option.value
+        }));
+
+        setFormData((prev) => ({
+            ...prev,
+            employee_rights: selectedRights
+        }));
     };
+
+    const handleAddUser = () => {
+        setShow(!show);
+    };
+
+    const toggleStatus = async (e, id) => {
+        setToggleData({
+            id: id,
+            status: e.target.checked
+        })
+        try {
+            const response = await axios.put(`${BASE_URL_CORE}/core-api/seller/create-employee/`, {
+                id: id,
+                status: e.target.checked
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            if (response?.status === 200) {
+                setReset(new Date())
+                toast.success("Status Updated successfully!");
+            }
+        } catch (error) {
+            customErrorFunction(error);
+            setShow(false)
+        }
+    };
+
+    const validateForm = () => {
+        let validationErrors = '';
+        let isValid = true;
+
+        if (!formData.employee.name && !formData.employee.code && !formData.employee.email && !formData.employee.password) {
+            validationErrors = "All Field is required!";
+            isValid = false;
+        }
+        console.log(validationErrors, "errorserrorserrors")
+        setErrors(validationErrors)
+        return isValid;
+    }
+
+    const handleSaveUser = async () => {
+        if (!validateForm()) {
+            return;
+        }
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/create-employee/`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            if (response?.status === 200) {
+                setShow(false)
+                setReset(new Date())
+                toast.success("Employee Created successfully!");
+                setFormData(
+                    {
+                        employee: {
+                            name: "",
+                            seller_id: 1,
+                            mobile: "",
+                            password: "",
+                            email: ""
+                        },
+                        employee_rights: []
+                    }
+                )
+            }
+        } catch (error) {
+            customErrorFunction(error);
+            setShow(false)
+        }
+    };
+
+
+    const handleDeleteUser = async (id) => {
+        const data = {
+            id: id
+        }
+        
+        try {
+            const response = await axios.delete(`${BASE_URL_CORE}/core-api/seller/create-employee/`, data, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            if (response?.status === 200) {
+                setReset(new Date())
+                toast.success("Employee Deleted successfully!");
+
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    }
 
     const handleSendEmail = (fullName, email, password) => {
         const subject = `New User Registration: ${fullName}`;
@@ -69,6 +172,50 @@ const UserRoleManage = () => {
         const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.location.href = mailtoLink
     }
+    useEffect(() => {
+        const fetchSellers = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/create-employee/`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                    },
+                });
+                if (response.status === 200) {
+                    setEmployeeUser(response?.data)
+                }
+
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchSellers();
+    }, [reset]);
+
+    useEffect(() => {
+        const fetchSellers = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/get-rights/`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                    },
+                });
+                if (response.status === 200) {
+                    const temp = response?.data?.map((item) => ({
+                        label: item.title,
+                        value: item.id
+                    })
+                    )
+                    setModules(temp)
+                }
+
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+        fetchSellers();
+    }, []);
+
+    console.log(formData, "this is a module data")
 
     return (
         <section className='manage-sub-accounts'>
@@ -81,30 +228,31 @@ const UserRoleManage = () => {
                 <table className="w-100">
                     <thead>
                         <tr className='table-row box-shadow'>
-                            <th>User Details</th>
-                            <th>Last Login</th>
-                            <th>Module(s)</th>
-                            <th>Buyer Details Access</th>
-                            <th style={{ width: '10%' }}>Status</th>
-                            <th>Action</th>
+                            <th style={{ width: '20%' }}>Employee Name</th>
+                            <th style={{ width: '20%' }}>Code</th>
+                            <th style={{ width: '20%' }}>Module(s)</th>
+                            <th style={{ width: '20%' }}>Status</th>
+                            <th style={{ width: '20%' }}>Action</th>
                         </tr>
                         <tr className="blank-row"><td></td></tr>
                     </thead>
                     <tbody>
-                        {User.map((account, index) => (
+                        {employeeUser.map((account, index) => (
                             <React.Fragment key={index}>
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                                 <tr className='table-row box-shadow'>
-                                    <td>{account.fullName}</td>
-                                    <td>{account.lastLogin}</td>
-                                    <td>{account.modules}</td>
-                                    <td>{account.buyerAccess ? 'Allowed' : 'Not Allowed'}</td>
+                                    <td>{account.name}</td>
+                                    <td>{account.code}</td>
+                                    <td>{account?.employee_rights?.map((item) => (
+                                        <p className='fw-bold'>{item?.route_name}</p>
+                                    ))}</td>
                                     <td>
                                         <Form.Check
                                             type="switch"
+                                            checked={account.status}
+                                            // value={account?.status}
+                                            onChange={(e) => toggleStatus(e, account?.id)}
                                             label={account.seller?.status ? "Active" : "Inactive"}
-                                            checked={account.seller?.status}
-                                            onChange={() => toggleStatus(index)}
                                         />
                                     </td>
                                     <td>
@@ -115,6 +263,9 @@ const UserRoleManage = () => {
                                             <button title='Edit User' onClick={handleAddUser} className='btn edit-btn'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </button>
+                                            <button title='Delete User' onClick={() => handleDeleteUser(account?.id)} className='btn delete-btn'>
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -124,8 +275,7 @@ const UserRoleManage = () => {
                 </table>
             </div>
 
-            {/* Modal for Adding User */}
-            <Modal className='confirmation-modal add-user-pop' show={AddUser} onHide={handleAddUser}>
+            <Modal className='confirmation-modal add-user-pop' show={show} onHide={handleAddUser}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add User</Modal.Title>
                 </Modal.Header>
@@ -134,71 +284,77 @@ const UserRoleManage = () => {
                         <div className='form-group'>
                             <label>Full Name</label>
                             <input
-                                className='form-control input-field'
                                 type="text"
-                                placeholder="Enter full name"
-                                name="fullName"
-                                value={newUser.fullName}
+                                name="name"
                                 onChange={handleInputChange}
+                                placeholder="Enter full name"
+                                value={formData?.employee.name}
+                                className='form-control input-field'
                             />
+
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Mobile No</label>
+                            <input
+                                name="mobile"
+                                type="mobile"
+                                placeholder="Enter mobile"
+                                onChange={handleInputChange}
+                                value={formData?.employee.mobile}
+                                className='form-control input-field'
+                            />
+                            {errors.name && <div className="custom-error">{errors.name}</div>}
                         </div>
                         <div className='form-group mt-3'>
                             <label>Email ID</label>
                             <input
-                                className='form-control input-field'
                                 type="email"
-                                placeholder="Enter email"
                                 name="email"
-                                value={newUser.email}
+                                placeholder="Enter email"
                                 onChange={handleInputChange}
+                                value={formData?.employee.email}
+                                className='form-control input-field'
                             />
+                            {errors.name && <div className="custom-error">{errors.name}</div>}
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Password</label>
+                            <input
+                                name="password"
+                                type="password"
+                                autoComplete="new-password"
+                                placeholder="Enter Password"
+                                onChange={handleInputChange}
+                                value={formData?.employee.password}
+                                className='form-control input-field'
+                            />
+                            {errors.name && <div className="custom-error">{errors.name}</div>}
                         </div>
                         <div className='form-group mt-3'>
                             <label>Modules to Access</label>
-                            <select
-                                className='form-control select-field'
-                                name="modules"
-                                value={newUser.modules}
-                                onChange={handleInputChange}
-                            >
-                                <option value="">Select modules</option>
-                                <option value="Module 1">Module 1</option>
-                                <option value="Module 2">Module 2</option>
-                                <option value="Module 3">Module 3</option>
-                            </select>
+                            <Select
+                                options={modules}
+                                onChange={handleRights}
+                                isMulti
+                                isSearchable
+                            />
                         </div>
-                        <div className='form-group mt-3'>
-                            <label>Buyer Detail Access</label>
-                            <div>
-                                <input
-                                    type="radio"
-                                    name="buyerAccess"
-                                    value="true"
-                                    checked={newUser.buyerAccess === 'true'}
-                                    onChange={handleInputChange}
-                                />
-                                <label className='ms-2'>Allowed</label>
-                                <br />
-                                <input
-                                    type="radio"
-                                    name="buyerAccess"
-                                    value="false"
-                                    checked={newUser.buyerAccess === 'false'}
-                                    onChange={handleInputChange}
-                                />
-                                <label className='ms-2'>Not Allowed</label>
-                            </div>
-                        </div>
+
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className='d-flex gap-2 justify-content-end w-100'>
-                        <button className="btn cancel-button" onClick={handleAddUser}>
-                            Close
-                        </button>
-                        <button className="btn main-button" onClick={handleSaveUser}>
-                            Save Changes
-                        </button>
+                    <div className=''>
+                        <div>
+                            {errors && <div style={{ color: "red" }}>{errors}</div>}
+                        </div>
+                        <div className='d-flex gap-2 justify-content-end w-100'>
+                            <button className="btn cancel-button" onClick={handleAddUser}>
+                                Close
+                            </button>
+                            <button className="btn main-button" onClick={handleSaveUser}>
+                                Save Changes
+                            </button>
+                        </div>
                     </div>
                 </Modal.Footer>
             </Modal>

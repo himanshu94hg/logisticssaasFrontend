@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
+import { useDispatch } from "react-redux";
 import WalletIcon from "./Icons/WalletIcon";
 import { useEffect, useState } from "react";
 import TicketIcon from "./Icons/TicketIcon";
@@ -13,44 +14,42 @@ import UserImageIcon from "./Icons/UserImageIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
 import { Link, useNavigate } from "react-router-dom";
 import CreateOrderIcon from "./Icons/CreateOrderIcon";
+import globalDebouncedClick from "../../../debounce";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
-import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, indexPattern } from "../../../Routes";
-import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../axios/config";
-import { useDispatch } from "react-redux";
-import { customErrorFunction } from "../../../customFunction/errorHandling";
-import globalDebouncedClick from "../../../debounce";
-import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
-import FullLogo from '../../../assets/image/logo/mobileLogo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
+import FullLogo from '../../../assets/image/logo/mobileLogo.svg'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { clearAllCookies } from "../../Pages/Dashboard/Dashboard";
-import LoaderScreen from "../../LoaderScreen/LoaderScreen";
+import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../axios/config";
+import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
+import { customErrorFunction } from "../../../customFunction/errorHandling";
 import ShowNotificationPanel from "./ShowNotificationPanel/ShowNotificationPanel";
+import { faBell, faEdit, faSignOutAlt, faMagnifyingGlass, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, indexPattern } from "../../../Routes";
 
 export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [alerts, setAlerts] = useState([])
+  const [whatsNew, setWhatsNew] = useState([])
   let authToken = Cookies.get("access_token")
   let staticToken = Cookies.get("static_token")
-  const [LoaderRing, setLoaderRing] = useState(false)
+  const [impUpdate, setImpUpdate] = useState([])
   const [inputValue, setInputValue] = useState('');
+  const [ViewProfile, setViewProfile] = useState(false)
+  const [ShowNotification, setShowNotification] = useState(false)
+  const [NotificationCount, setNotificationCount] = useState(null)
   const [temp, setTemp] = useState({
     var1: null,
     var2: null,
   });
-  const [ViewProfile, setViewProfile] = useState(false)
-  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
-  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
-  const [NotificationCount, setNotificationCount] = useState(null)
-  const [ShowNotification, setShowNotification] = useState(false)
-
+  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -99,6 +98,18 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     }
   };
 
+  const handleSwitch = () => {
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`
+  }
+
+  const handleProfile = () => {
+    setViewProfile(!ViewProfile)
+  }
+
+  const handlesideMenu = () => {
+    setExpanded(!isExpanded)
+  }
+
   useEffect(() => {
     setTemp(prev => ({
       ...prev,
@@ -110,28 +121,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   useEffect(() => {
     dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
   }, [])
-
-  const handleSwitch = () => {
-    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`
-    console.log("object")
-  }
-
-  const handleProfile = () => {
-    setViewProfile(!ViewProfile)
-  }
-
-
-
-  const handlesideMenu = () => {
-    setExpanded(!isExpanded)
-  }
-
-
-  const [alerts, setAlerts] = useState([])
-  const [whatsNew, setWhatsNew] = useState([])
-  const [impUpdate, setImpUpdate] = useState([])
-
-  console.log(userData?.id, "userData?.id")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,8 +142,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       fetchData()
     }
   }, [userData])
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -192,11 +179,23 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     fetchData()
   }, [])
 
-
-  console.log(whatsNew, "whatsNewwhatsNewwhatsNew")
-
-
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications-counter/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        if (response.status === 200) {
+          setNotificationCount(response?.data)
+        }
+      } catch (error) {
+        customErrorFunction(error);
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -233,7 +232,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                   </div>
                 </div>
               }
-
               <div className="d-flex align-items-center" style={{ gap: "10px" }}>
                 {
                   screenWidthData > 991 &&
@@ -246,7 +244,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                         onKeyPress={handleKeyPress} />
                       <button onClick={() => globalDebouncedClick(() => handleNavigate())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     </div>
-
                     <div className="quick-actions-container">
                       <div className="quick-action-text">
                         <QuickIcon /> Quick Actions
@@ -283,8 +280,10 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                   <div className="icons links ">
                     <div onClick={() => setShowNotification(true)} className="iconContainer notificationIcon bell">
                       <FontAwesomeIcon icon={faBell} />
-                      {NotificationCount &&
-                        <span className="bellColor">3</span>
+                      {NotificationCount !== null &&
+                        <span className="bellColor">
+                          {parseInt(NotificationCount?.notification_count || 0) + parseInt(NotificationCount?.unread_notifications_count || 0) + parseInt(NotificationCount?.whatsnew_notification_count || 0)}
+                        </span>
                       }
                     </div>
                   </div>
@@ -336,10 +335,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       {ViewProfile}
 
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
-      <LoaderScreen loading={LoaderRing} />
-
       <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} whatsNew={whatsNew} alerts={alerts} impUpdate={impUpdate} />
-
       {
         screenWidthData < 992 &&
         <div onClick={() => setExpanded(false)} className={`backdrop ${!isExpanded && 'd-none'}`}></div>

@@ -38,8 +38,20 @@ const WhatsAppIntegration = () => {
         }
     };
 
-    const handleHold = () => {
-        toast.info("Functionality is not live now!");
+    const handleHold = async() => {
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp_bot" }, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                toast.success(response?.data.message);
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
     };
 
     const renderTabContent = (tab) => {
