@@ -8,6 +8,8 @@ import Amazon from '../../../../../../assets/image/integration/AmazonLogo.png'
 import Flipkart from '../../../../../../assets/image/integration/Flipkart.png'
 import Manual from '../../../../../../assets/image/integration/Manual.png'
 import moment from 'moment';
+import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const ChannelsView = ({ channelData }) => {
@@ -65,8 +67,9 @@ const ChannelsView = ({ channelData }) => {
                                                 {"Active"}
                                             </td>
                                             <td>
-                                                <div className='cell-inside-box'>
-                                                    <button className='btn main-button' onClick={() => handleShow(row)}>View</button>
+                                                <div className='d-flex gap-2 align-items-center flex-row'>
+                                                    <button title='Delete Integration' className='btn action-delete'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                                    <button className='btn action-edit' onClick={() => handleShow(row)}><FontAwesomeIcon icon={faEye} /></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -87,7 +90,7 @@ export default ChannelsView;
 
 const Preview = ({ show, handleClose, selectedRow }) => {
     return (
-        <Modal show={show} onHide={handleClose} size="md">
+        <Modal show={show} onHide={handleClose} size="md" className='confirmation-modal view-integration-modal'>
             <Modal.Header closeButton>
                 <Modal.Title>Channel Information</Modal.Title>
             </Modal.Header>
@@ -133,8 +136,12 @@ const Preview = ({ show, handleClose, selectedRow }) => {
                 </table>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Close</Button>
+                <div className='d-flex gap-2'>
+                    <button className="btn cancel-button" onClick={handleClose}>
+                        Close
+                    </button>
+                </div>
             </Modal.Footer>
-        </Modal >
+        </Modal>
     );
 };

@@ -1,3 +1,46 @@
 .view-integrations-page .table-container {
     height: calc(100vh - 164px);
 }
+
+
+.confirmation-modal.view-integration-modal .modal-dialog {
+    max-width: 550px;
+    margin-top: 8%;
+}
+
+.confirmation-modal.view-integration-modal table td {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    text-align: start;
+}
+
+.confirmation-modal.view-integration-modal table th,
+.confirmation-modal.view-integration-modal table td {
+    text-align: start;
+}
+
+
+.view-integration-page table button {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.view-integration-page table button:hover {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.view-integration-page table button.btn.action-delete,
+.view-integration-page table button.btn.action-delete:active {
+    background-color: #fddcdf;
+    color: #f31429;
+}
+
+.view-integration-page table button.btn.action-edit,
+.view-integration-page table button.btn.action-edit:active {
+    background-color: #C5DCF1;
+    color: #1975c9;
+}
