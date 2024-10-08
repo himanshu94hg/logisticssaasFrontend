@@ -16,7 +16,7 @@ import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
 import ErrorIcon from '../EditOrder/ErrorIcon';
 
-const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId ,orderStatus,setOrderStatus}) => {
+const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderStatus, setOrderStatus }) => {
     const dispatch = useDispatch()
     const cloneForm = "clone-form"
     const currentDate = new Date();
@@ -110,7 +110,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId ,orderSta
         if (CloneOrderSection) {
             setActiveSection("Order Details");
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
-        }else{
+        } else {
             setOrderStatus("")
         }
     }, [CloneOrderSection]);
@@ -242,14 +242,14 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId ,orderSta
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
-                    customer_order_number: orderDetailsData?.customer_order_number?.endsWith("_c") ? orderDetailsData?.customer_order_number : orderDetailsData?.customer_order_number + "_c",
+                    customer_order_number: orderStatus === "delivered" ? orderDetailsData?.customer_order_number : orderDetailsData?.customer_order_number?.endsWith("_c") ? orderDetailsData?.customer_order_number : orderDetailsData?.customer_order_number + "_c",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
-                    order_type: orderStatus==="delivered"? "Reverse":orderDetailsData?.order_type,
+                    order_type: orderStatus === "delivered" ? "Reverse" : orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
                     channel_id: orderDetailsData?.channel_id
                 },
@@ -437,7 +437,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId ,orderSta
                                 </div>
                             )}
                         </section>
-                        <button className='btn main-button ms-3 mt-3' onClick={() => handleClone()}>Clone</button>
+                        <button className='btn main-button ms-3 mt-3' onClick={() => handleClone()}>{ orderStatus === "delivered" ?"Reverse":"Clone"}</button>
                     </section>
                 </section>
             </section>
