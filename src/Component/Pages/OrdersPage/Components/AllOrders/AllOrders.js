@@ -36,7 +36,7 @@ import UnicommerceIcon from "../../../../../assets/image/integration/Unicommerce
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -253,7 +253,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
         })
     }
 
-    const openCloneSection = (id,status) => {
+    const openCloneSection = (id, status) => {
         setCloneOrderSection(true)
         setOrderId(id)
         setOrderStatus(status)
@@ -635,10 +635,10 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
                                                                 <>
-                                                                    <b>Address:</b> {row?.shipping_detail.address || <span className="text-sh-red">Address Missing</span>}<br />
-                                                                    <b>Landmark:</b> {row?.shipping_detail.landmark}<br />
-                                                                    <b>City:</b> {row?.shipping_detail.city || <span className="text-sh-red">City Missing</span>}<br />
-                                                                    <b>State:</b> {row?.shipping_detail.state || <span className="text-sh-red">State Missing</span>}<br />
+                                                                    <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
+                                                                    <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                    <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
+                                                                    <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
                                                                     <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
                                                                 </>
                                                             </span>
@@ -780,7 +780,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
                                                         {activeIndex === index && (
                                                             <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
-                                                                    <li onClick={() => openCloneSection(row?.id,row?.status)}>Clone Order</li>
+                                                                    <li onClick={() => openCloneSection(row?.id, row?.status)}>Clone Order</li>
                                                                     <li onClick={() => handleShowCancel(row?.id, row?.id, row?.status)}>Cancel Order</li>
                                                                     <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                     <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id, row?.status))}>Reassign Order</li>
