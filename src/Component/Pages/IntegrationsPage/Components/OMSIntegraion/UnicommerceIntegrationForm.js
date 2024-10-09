@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
-import DatePicker from 'react-datepicker';
+import UnicommerceIntLogo from '../../../../../assets/image/integration/UnicommerceIntLogo.png';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const UnicommerceIntegrationForm = () => {
-
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     return (
         <>
             <div className='unicommerce'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src='https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' alt="Logo" />
+                        <img src={UnicommerceIntLogo} alt="Logo" />
                         <h2 className='mb-0'>Unicommerce</h2>
                     </div>
                     <div className='int-header-right'>

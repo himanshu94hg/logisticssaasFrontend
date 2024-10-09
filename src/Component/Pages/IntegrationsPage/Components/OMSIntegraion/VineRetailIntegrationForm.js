@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
-import DatePicker from 'react-datepicker';
+import VineRetail from '../../../../../assets/image/integration/VineRetail.png';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const VineRetailIntegrationForm = () => {
-
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     return (
         <>
             <div className='vineretail'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src='https://www.shipease.in/public/assets/images/oms/vineretail.png' alt="Logo" />
-                        <h2 className='mb-0'>VineRetail</h2>
+                        <img src={VineRetail} alt="Logo" />
+                        <h2 className='mb-0'>Vin eRetail</h2>
                     </div>
                     <div className='int-header-right'>
                         <p className='mb-0'>Need Help?</p>

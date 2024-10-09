@@ -6,6 +6,7 @@ import Magento from '../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
 import Flipkart from '../../../../../assets/image/integration/Flipkart.png'
+import StoreHippo from '../../../../../assets/image/integration/StoreHippo.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
@@ -15,9 +16,9 @@ const ChannelsIntegration = () => {
 
     useEffect(() => {
         setLoader(true)
-            setTimeout(() => {
-                setLoader(false)
-            }, 230);
+        setTimeout(() => {
+            setLoader(false)
+        }, 230);
     }, [])
 
     const ShoppingCarts = [
@@ -25,7 +26,7 @@ const ChannelsIntegration = () => {
         { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
         // { child: 'opencart', title: 'Opencart', imageUrl: OpenCart },
         { child: 'channels', title: 'Opencart', imageUrl: OpenCart },
-        { child: 'storeHippo', title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        { child: 'storeHippo', title: 'StoreHippo', imageUrl: StoreHippo },
         { child: 'magento', title: 'Magento', imageUrl: Magento },
         // Add more data as needed
     ];
