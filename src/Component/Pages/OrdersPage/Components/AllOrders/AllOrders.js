@@ -24,6 +24,7 @@ import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import magentoImg from "../../../../../assets/image/integration/magento.png"
+import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
@@ -36,7 +37,7 @@ import UnicommerceIcon from "../../../../../assets/image/integration/Unicommerce
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -253,7 +254,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
         })
     }
 
-    const openCloneSection = (id,status) => {
+    const openCloneSection = (id, status) => {
         setCloneOrderSection(true)
         setOrderId(id)
         setOrderStatus(status)
@@ -554,7 +555,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
                                                                                     : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                         : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                             : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                                : <CustomIcon />}
+                                                                                                : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
+                                                                                                    : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -780,7 +782,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList,setOrderStatus, 
                                                         {activeIndex === index && (
                                                             <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
-                                                                    <li onClick={() => openCloneSection(row?.id,row?.status)}>Clone Order</li>
+                                                                    <li onClick={() => openCloneSection(row?.id, row?.status)}>Clone Order</li>
                                                                     <li onClick={() => handleShowCancel(row?.id, row?.id, row?.status)}>Cancel Order</li>
                                                                     <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                     <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id, row?.status))}>Reassign Order</li>

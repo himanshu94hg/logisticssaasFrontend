@@ -12,6 +12,7 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import CustomTooltip from "../../../../common/CustomTooltip/CustomTooltip";
 import { weightGreater } from '../../../../../customFunction/functionLogic'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
@@ -210,6 +211,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                                             : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Amazon" width="20" />
                                                                                 : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Unicommerce" width="20" />
                                                                                     : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="API" width="30" />
+                                                                                    : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
                                                                                         : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>

@@ -6,6 +6,7 @@ import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import magentoImg from "../../../../../assets/image/integration/magento.png"
@@ -198,6 +199,7 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                                                                 : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
                                                                                     : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                         : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                        : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
                                                                                             : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
