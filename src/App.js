@@ -78,9 +78,9 @@ import WhatsAppNotification from "./Component/Pages/SettingsPage/components/What
 import CCAvenueRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/CCAvenueRedirect";
 import SkuUpload from "./Component/Pages/SettingsPage/components/SkuUpload/SkuUpload";
 import PageSettings from "./Component/Pages/SettingsPage/components/TrackingPage/PageSettings/PageSettings";
-import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingScript/TrackingScript";
 import UserRoleManage from "./Component/Pages/SettingsPage/components/UserRoleManage/UserRoleManage";
 import WhatsAppBots from "./Component/Pages/SettingsPage/components/WhatsAppConfig/WhatsAppBots";
+import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPage/TrackingScript/TrackingScript";
 
 function App() {
   const location = useLocation()

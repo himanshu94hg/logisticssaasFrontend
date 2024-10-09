@@ -13,26 +13,26 @@ const TrackingScript = () => {
         window.addEventListener('DOMContentLoaded', (event) => {
             var createOrderTrackCss = document.createElement('link');
             createOrderTrackCss.setAttribute('rel', 'stylesheet');
-            createOrderTrackCss.setAttribute('href', 'https://ship.nimbuspost.com/assets/css/nimbus_order_track.css');
+            createOrderTrackCss.setAttribute('href', 'https://app.shipease.in/assets/css/shipease_order_track.css');
             document.body.appendChild(createOrderTrackCss);
 
             var createOrderTrackScript = document.createElement('script');
             createOrderTrackScript.setAttribute('onload', 'changeElement()');
-            createOrderTrackScript.setAttribute('src', 'https://ship.nimbuspost.com/assets/js/nimbus_order_track.js');
-            createOrderTrackScript.setAttribute('subdom', 'nimbuz');
+            createOrderTrackScript.setAttribute('src', 'https://app.shipease.in/assets/js/shipease_order_track.js');
+            createOrderTrackScript.setAttribute('subdom', 'shipease');
             document.body.appendChild(createOrderTrackScript);
         });
 
         function changeElement() {
-            document.getElementsByClassName('track-button-nib')[0].style.background = '';
-            document.getElementsByClassName('track-button-nib')[0].style.color = '';
-            document.getElementsByClassName('order-ship-box-nib')[0].style.backgroundColor = '';
-            document.querySelector('.order-ship-box-nib h1').style.color = '';
-            document.querySelector('.search-input-wrp-nib').style.backgroundColor = '';
-            document.querySelector('.search-button-wrp-nib').style.color = '';
+            document.getElementsByClassName('track-button-ship')[0].style.background = '';
+            document.getElementsByClassName('track-button-ship')[0].style.color = '';
+            document.getElementsByClassName('order-ship-box-ship')[0].style.backgroundColor = '';
+            document.querySelector('.order-ship-box-ship h1').style.color = '';
+            document.querySelector('.search-input-wrp-ship').style.backgroundColor = '';
+            document.querySelector('.search-button-wrp-ship').style.color = '';
             document.querySelector('#input_search').style.setProperty('--c', '');
             document.querySelector('#input_search').style.color = '';
-            document.querySelector('.search-button-wrp-nib').style.backgroundColor = '';
+            document.querySelector('.search-button-wrp-ship').style.backgroundColor = '';
         }
         </script>
         `;
