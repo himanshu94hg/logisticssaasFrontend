@@ -198,6 +198,7 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Manage Sub Accounts
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                 </ul>
                             </div>
@@ -225,6 +226,7 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         WhatsApp Bots
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                 </ul>
                             </div>
@@ -245,7 +247,8 @@ const SettingsPage = () => {
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        Page Settings
+                                        Branded Tracking Page
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
@@ -368,6 +371,7 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Manage Users
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                 </ul>
                             </div>
@@ -431,9 +435,6 @@ const SettingsPage = () => {
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
                 </div>
-
-
-
                 {/* Return */}
                 <div className="col main-container">
                     <div className='tile'>
@@ -461,7 +462,6 @@ const SettingsPage = () => {
                     </div>
                     <img src={ReturnBG} alt="CompanyBG" />
                 </div>
-
                 {/* Shipment Features */}
                 <div className="col main-container">
                     <div className='tile'>
