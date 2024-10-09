@@ -6,6 +6,7 @@ import EasyComLogoOMSLogo from '../../../../../assets/image/integration/EasyComL
 import ClickPostLogo from '../../../../../assets/image/integration/ClickPostLogo.png'
 import UniCommerceLogo from '../../../../../assets/image/integration/UniCommerceLogo.png'
 import VineRetailLogo from '../../../../../assets/image/integration/VineRetailLogo.png'
+import OMSGuruLogo from '../../../../../assets/image/integration/OMSGuruLogo.png'
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const OMSIntegration = () => {
@@ -23,7 +24,7 @@ const OMSIntegration = () => {
         { child: 'unicommerce', title: 'Unicommerce', imageUrl: UniCommerceLogo },
         { child: 'easyecom', title: 'EasyEcom', imageUrl: EasyComLogoOMSLogo },
         { child: 'vine-retail', title: 'Vin eRetail', imageUrl: VineRetailLogo },
-        { child: 'omsguru', title: 'OMSGuru', imageUrl: 'https://www.shipease.in/public/assets/images/oms/omsguru.png' },
+        { child: 'omsguru', title: 'OMSGuru', imageUrl: OMSGuruLogo },
         { child: 'easyship', title: 'EasyShip', imageUrl: EasyShipLogo },
         // Add more data as needed
     ];

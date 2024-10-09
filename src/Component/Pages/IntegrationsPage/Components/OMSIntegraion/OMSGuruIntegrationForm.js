@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
-import DatePicker from 'react-datepicker';
+import OMSGuru from '../../../../../assets/image/integration/OMSGuru.png';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const OMSGuruIntegrationForm = () => {
-
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     return (
         <>
             <div className='omsguru'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src='https://www.shipease.in/public/assets/images/oms/omsguru.png' alt="Logo" />
+                        <img src={OMSGuru} alt="Logo" />
                         <h2 className='mb-0'>OMSGuru</h2>
                     </div>
                     <div className='int-header-right'>
