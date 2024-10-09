@@ -139,19 +139,27 @@ const UserRoleManage = () => {
                 )
             }
         } catch (error) {
-            customErrorFunction(error);
             setShow(false)
+            customErrorFunction(error);
+            setFormData(
+                {
+                    employee: {
+                        name: "",
+                        seller_id: null,
+                        mobile: "",
+                        password: "",
+                        email: ""
+                    },
+                    employee_rights: []
+                }
+            )
         }
     };
 
 
     const handleDeleteUser = async (id) => {
-        const data = {
-            id: id
-        }
-        
         try {
-            const response = await axios.delete(`${BASE_URL_CORE}/core-api/seller/create-employee/`, data, {
+            const response = await axios.delete(`${BASE_URL_CORE}/core-api/seller/create-employee/${id}/`, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
                 },

@@ -12,14 +12,23 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import TrackYourOrder from '../../../../../assets/image/whatsapp/TrackYourOrder.png';
 import WhatsAppChatDomestic from '../../../../../assets/image/whatsapp/WhatsAppChatDomestic.png';
 import NDRFlow from '../../../../../assets/image/whatsapp/NDRFlow.png';
+import { useSelector } from 'react-redux';
 
 const WhatsAppIntegration = () => {
     const [show, setShow] = useState(false);
-    const [BotTabs, setBotTabs] = useState("Create Order");
     const authToken = Cookies.get("access_token");
+    const [BotTabs, setBotTabs] = useState("Create Order");
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(!show);
+    const handleShow = () =>{
+        if(userData?.whatsapp_message){
+            toast.success("Notification Already activated")
+        }else{
+            setShow(!show)
+        }
+    };
 
     const handleWhattsApp = async () => {
         setShow(false);
@@ -38,7 +47,10 @@ const WhatsAppIntegration = () => {
         }
     };
 
-    const handleHold = async() => {
+    const handleHold = async () => {
+      if(userData?.whatsapp_bot){
+        toast.success("Bot Already activated")
+      }else{
         try {
             const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp_bot" }, {
                 headers: {
@@ -52,6 +64,7 @@ const WhatsAppIntegration = () => {
         } catch (error) {
             customErrorFunction(error);
         }
+      }
     };
 
     const renderTabContent = (tab) => {
@@ -120,7 +133,7 @@ const WhatsAppIntegration = () => {
                         <h5>Keep your buyers informed with live updates that have a <span>93%</span> read rate.</h5>
                         <p className='font30 py-2'>
                             <span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span>
-                            <button className='btn main-button ms-3' onClick={handleShow}>Activate Now</button>
+                            <button className='btn main-button ms-3' onClick={handleShow}>{userData?.whatsapp_message?"Activated":"Activate Now"}</button>
                         </p>
                         <p className='font12 pt-2'>
                             <span className='fw-bold'>Note:</span> Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.
@@ -157,7 +170,7 @@ const WhatsAppIntegration = () => {
                                 <div className="additional-features">
                                     {renderTabContent(BotTabs)}
                                     <div>
-                                        <button className='btn main-button float-end' onClick={handleHold}>Activate Now</button>
+                                        <button className='btn main-button float-end' onClick={handleHold}>{userData?.whatsapp_bot?"Activated":"Activate Now"}</button>
                                     </div>
                                 </div>
                             </div>
