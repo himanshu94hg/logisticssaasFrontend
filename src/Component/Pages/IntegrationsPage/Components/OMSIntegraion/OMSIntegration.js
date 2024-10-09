@@ -24,7 +24,7 @@ const OMSIntegration = () => {
         { child: 'unicommerce', title: 'Unicommerce', imageUrl: UniCommerceLogo },
         { child: 'easyecom', title: 'EasyEcom', imageUrl: EasyComLogoOMSLogo },
         { child: 'vine-retail', title: 'Vin eRetail', imageUrl: VineRetailLogo },
-        { child: 'omsguru', title: 'OMSGuru', imageUrl: OMSGuruLogo },
+        { child: 'omsguru', title: 'OMS Guru', imageUrl: OMSGuruLogo },
         { child: 'easyship', title: 'EasyShip', imageUrl: EasyShipLogo },
         // Add more data as needed
     ];
