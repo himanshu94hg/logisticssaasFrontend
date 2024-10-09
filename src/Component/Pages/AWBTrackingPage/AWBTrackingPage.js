@@ -72,8 +72,8 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
                             {orderStatus?.order_tracking?.map((item) => {
                                 return (
                                     <li className={`${item?.status?.toLowerCase().includes("delivered") && 'active'}`}>
-                                        <div className={`track-icon ${item?.status?.toLowerCase().includes("delivered") && 'active'}`}>
-                                            {item?.status?.toLowerCase().includes(" delivered") ? <TrackingDone /> : <TrackingIcon />}
+                                        <div className={`track-icon ${item?.shipease_status?.toLowerCase().includes("delivered") && 'active'}`}>
+                                            {item?.shipease_status?.toLowerCase().includes(" delivered") ? <TrackingDone /> : <TrackingIcon />}
                                         </div>
                                         <div className='tracking-status'>
                                             <h4 className={item?.status?.toLowerCase().includes("delivered") ? 'text-capitalize' : ''}>{item?.status_description}</h4>
