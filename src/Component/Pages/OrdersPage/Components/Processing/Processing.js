@@ -370,10 +370,10 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
                                                                 <>
-                                                                    <b>Address:</b> {row?.shipping_detail.address || <span className="text-sh-red">Address Missing</span>}<br />
-                                                                    <b>Landmark:</b> {row?.shipping_detail.landmark}<br />
-                                                                    <b>City:</b> {row?.shipping_detail.city || <span className="text-sh-red">City Missing</span>}<br />
-                                                                    <b>State:</b> {row?.shipping_detail.state || <span className="text-sh-red">State Missing</span>}<br />
+                                                                    <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
+                                                                    <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                    <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
+                                                                    <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
                                                                     <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
                                                                 </>
                                                             </span>

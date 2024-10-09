@@ -501,10 +501,10 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            <b>Address: </b>{row?.shipping_detail.address}<br />
-                                                            <b>Landmark: </b>{row?.shipping_detail.landmark}<br />
-                                                            <b>City: </b>{row?.shipping_detail.city}<br />
-                                                            <b>State: </b>{row?.shipping_detail.state}<br />
+                                                            <b>Address: </b>{row?.shipping_detail?.address}<br />
+                                                            <b>Landmark: </b>{row?.shipping_detail?.landmark}<br />
+                                                            <b>City: </b>{row?.shipping_detail?.city}<br />
+                                                            <b>State: </b>{row?.shipping_detail?.state}<br />
                                                             <b>Pincode: </b>{row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
