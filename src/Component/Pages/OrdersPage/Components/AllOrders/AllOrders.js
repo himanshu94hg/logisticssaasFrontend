@@ -24,6 +24,7 @@ import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import magentoImg from "../../../../../assets/image/integration/magento.png"
+import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
@@ -554,7 +555,8 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                                                                                     : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
                                                                                         : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
                                                                                             : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                                : <CustomIcon />}
+                                                                                                : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
+                                                                                                    : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
