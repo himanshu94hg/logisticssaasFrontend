@@ -15,7 +15,7 @@ const EasyEcomIntegrationForm = () => {
         setCopiedText(text);
         setTimeout(() => {
             setCopiedText('');
-        }, 5000);
+        }, 3000);
     };
 
     return (
