@@ -1,33 +1,59 @@
-import React, { useState } from 'react';
-import './ProgressBar.css';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTruck, faClipboard, faHourglassHalf, faBoxOpen, faCheck } from '@fortawesome/free-solid-svg-icons'; // Add necessary icons
+import { faCheck, faTruck, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import './ProgressBar.css';
+
+const shipmentData = [
+    {
+        label: 'Booked',
+        date: '08 Sept, 2024',
+        time: '10:30 AM',
+        status: 'completed',
+        icon: faCheck
+    },
+    {
+        label: 'Pending Pickup',
+        date: '08 Sept, 2024',
+        time: '03:00 PM',
+        status: 'completed',
+        icon: faCheck
+    },
+    {
+        label: 'In Transit',
+        date: '09 Sept, 2024',
+        time: '02:00 PM',
+        status: 'active',
+        icon: faTruck
+    },
+    {
+        label: 'Out for Delivery',
+        date: '10 Sept, 2024',
+        time: '07:50 AM',
+        status: '',
+        icon: faBoxOpen
+    },
+    {
+        label: 'Delivered',
+        date: '10 Sept, 2024',
+        time: '01:30 PM',
+        status: '',
+        icon: faCheck
+    }
+];
 
 const ProgressBar = () => {
-    const [currentStep, setCurrentStep] = useState(1); // Active step set to 3 for example
-
-    const steps = [
-        { name: 'Booked', icon: faClipboard },
-        { name: 'Pending Pickup', icon: faHourglassHalf },
-        { name: 'In Transit', icon: faTruck },
-        { name: 'Out for Delivery', icon: faBoxOpen },
-        { name: 'Delivered', icon: faCheck },
-    ];
-
     return (
         <div className="progress-bar-container">
-            {steps.map((step, index) => (
+            {shipmentData.map((item, index) => (
                 <div key={index} className="step-container">
-                    <div
-                        className={`circle ${index < currentStep ? 'completed' : ''} ${index === currentStep ? 'active' : ''
-                            }`}
-                    >
-                        <FontAwesomeIcon icon={index < currentStep ? faCheck : step.icon} className="step-icon" />
+                    <div className={`circle ${item.status}`}>
+                        <FontAwesomeIcon icon={item.icon} className="step-icon" />
                     </div>
-                    {index < steps.length - 1 && (
-                        <div className={`line ${index < currentStep ? 'completed-line' : ''}`} />
+                    {index !== shipmentData.length - 1 && (
+                        <div className={`line ${item.status === 'completed' ? 'completed-line' : ''}`}></div>
                     )}
-                    <div className="step-label">{step.name}</div>
+                    <div className="step-label">{item.label}</div>
+                    <div className="timestamp">{item.date} || {item.time}</div>
                 </div>
             ))}
         </div>

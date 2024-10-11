@@ -1,0 +1,58 @@
+.customization-form label {
+    display: block;
+}
+
+.customization-form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.product-fields {
+    margin-top: 20px;
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    /* padding: 15px; */
+    /* border: 1px solid var(--sh-primary-middle); */
+    border-radius: 6px;
+    background-color: #fff;
+    gap: 15px;
+}
+
+.product-item label {
+    width: 100%;
+}
+
+.product-item button.delete-product {
+    width: 36px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background: #f1cbcf;
+    color: #FC3B3B;
+    height: 36px;
+    font-size: 1.1rem;
+}
+
+.product-item button.delete-product:hover {
+    background-color: #FC3B3B;
+    color: #fff;
+}
+
+button.add-more-products {
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    color: white;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

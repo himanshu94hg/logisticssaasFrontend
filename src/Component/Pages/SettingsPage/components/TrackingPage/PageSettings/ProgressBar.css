@@ -1,21 +1,22 @@
 /* Container for progress bar */
 .progress-bar-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    width: 90%;
     margin: 25px auto;
     position: relative;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 /* Each step container */
 .progress-bar-container .step-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
     flex: 1;
     text-align: center;
+    align-items: center;
 }
 
 /* Circles for each step */
@@ -62,8 +63,8 @@
     width: 100%;
     background-color: #e0e0e0;
     position: absolute;
-    top: 10px;
-    left: 45px;
+    top: 12px;
+    left: 64px;
     z-index: 0;
 }
 
@@ -75,9 +76,15 @@
 /* Label for each step */
 .progress-bar-container .step-label {
     margin-top: 8px;
-    font-size: 0.9rem;
+    font-size: 12px;
     font-weight: 500;
     color: #333;
+}
+
+.progress-bar-container .timestamp {
+    font-size: 10px;
+    color: #888;
+    margin-top: 5px;
 }
 
 /* Styling for completed step icons */
