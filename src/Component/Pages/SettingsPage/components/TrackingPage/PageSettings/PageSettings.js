@@ -204,8 +204,8 @@ const PageSettings = () => {
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
             <h4 className='mb-2'>Customize Your Tracking Page</h4>
-            <div className='d-flex gap-4 w-100'>
-                <div className='d-flex flex-column gap-3' style={{ width: 'calc(50% - 116px)' }}>
+            <div className='page-settings-main'>
+                <div className='tracking-form-container'>
                     {/* subdomain and Contact Info Section */}
                     <div className="customization-form">
                         <label className='position-relative'>
@@ -370,7 +370,7 @@ const PageSettings = () => {
                 </div>
 
                 {/* Live Preview */}
-                <div className="live-preview" style={{ width: '57%' }}>
+                <div className="live-preview">
                     <TrackingPagePreview settings={settings} />
                 </div>
             </div>

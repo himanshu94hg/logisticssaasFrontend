@@ -55,6 +55,7 @@
         top: 48% !important;
         bottom: unset !important;
     }
+
 }
 
 @media screen and (max-width:1305px) {
@@ -65,6 +66,30 @@
 
     .table-row th {
         white-space: nowrap;
+    }
+}
+
+@media screen and (max-width:1266px) {
+    .page-settings-container .tracking-form-container {
+        width: 100%;
+    }
+
+    .page-settings-container .page-settings-main {
+        flex-direction: column;
+    }
+
+    .page-settings-container .save-button-container {
+        display: flex;
+        justify-content: end;
+    }
+
+    .page-settings-container .live-preview {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .page-settings-container .tracking-page-preview {
+        min-width: 660px;
     }
 }
 
@@ -323,8 +348,6 @@
         height: calc(100vh - 300px);
     }
 
-
-
     .billing-page-container .table-container {
         height: calc(100vh - 299px);
     }
@@ -524,7 +547,6 @@
     .login-section .signin .content img {
         display: block;
     }
-
 
     .signup-section .signup .content {
         padding-inline: 20px;
