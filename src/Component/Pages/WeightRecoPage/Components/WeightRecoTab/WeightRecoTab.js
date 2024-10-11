@@ -116,6 +116,8 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
             .catch(err => {
             });
     };
+
+    console.log(weightRecoData,"lllllllllll")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -132,7 +134,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                 </th>
                                 <th style={{ width: '14%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Product Details</th>
-                                <th style={{ width: '6%' }}>Order Total</th>
+                                <th style={{ width: '6%' }}>Amount</th>
                                 <th style={{ width: '12%' }}>Shipping Details</th>
                                 <th style={{ width: '14%' }}>Entered Weight & Dimensions (CM)</th>
                                 <th style={{ width: '14%' }}>Charged Weight & Dimensions (CM)</th>
@@ -244,7 +246,10 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>₹ {row?.order?.invoice_amount}</p>
+                                                <p>
+                                                   <span> Applied amount  ₹ {row?.applied_amount}</span> <br />
+                                                   <span> Actual amount  ₹ {row?.charged_amount}</span>
+                                                  </p>
                                             </div>
                                         </td>
                                         <td>
@@ -272,7 +277,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.c_weight} kg</p>
+                                                <p>Wt:  {parseFloat(row?.c_weight/1000).toFixed(2)} kg</p>
                                                 <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                             </div>
                                         </td>

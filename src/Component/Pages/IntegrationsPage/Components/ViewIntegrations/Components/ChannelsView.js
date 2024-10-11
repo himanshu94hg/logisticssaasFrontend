@@ -10,6 +10,11 @@ import Manual from '../../../../../../assets/image/integration/Manual.png'
 import moment from 'moment';
 import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import { BASE_URL_CORE } from '../../../../../../axios/config';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 
 const ChannelsView = ({ channelData }) => {
@@ -17,6 +22,8 @@ const ChannelsView = ({ channelData }) => {
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const handleClose = () => setShow(false);
+    let authToken = Cookies.get("access_token")
+
 
     const handleShow = (row) => {
         setSelectedRow(row);
@@ -25,6 +32,23 @@ const ChannelsView = ({ channelData }) => {
 
 
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(`${BASE_URL_CORE}/core-api/channel/delete-channel/${id}/`, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            if (response.status === 200 || response.status === 201) {
+                // setEmployeeUser(response?.data)
+                toast.success("Channel deleted successfully!")
+
+            }
+
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
     return (
         <>
             <div className='view-integration-page'>
@@ -68,7 +92,7 @@ const ChannelsView = ({ channelData }) => {
                                             </td>
                                             <td>
                                                 <div className='d-flex gap-2 align-items-center flex-row'>
-                                                    <button title='Delete Integration' className='btn action-delete'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                                    <button title='Delete Integration' className='btn action-delete' onClick={() => handleDelete(row?.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
                                                     <button className='btn action-edit' onClick={() => handleShow(row)}><FontAwesomeIcon icon={faEye} /></button>
                                                 </div>
                                             </td>
