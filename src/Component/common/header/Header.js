@@ -197,6 +197,17 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     fetchData()
   }, [])
 
+  const [highlight, setHighlight] = useState(false);
+  useEffect(() => {
+    if (NotificationCount?.unread_notifications_count > 0) {
+      const interval = setInterval(() => {
+        setHighlight((prevHighlight) => !prevHighlight);  // Toggle shake effect
+      }, 2000);  // Trigger every second
+
+      return () => clearInterval(interval);
+    }
+  }, [NotificationCount?.unread_notifications_count]);
+
   return (
     <>
       <Navbar
@@ -278,7 +289,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                 {
                   screenWidthData > 991 &&
                   <div className="icons links ">
-                    <div onClick={() => setShowNotification(true)} className="iconContainer notificationIcon bell">
+                    <div onClick={() => setShowNotification(true)} className={`iconContainer notificationIcon bell ${highlight ? 'highlight' : ''}`}>
                       <FontAwesomeIcon icon={faBell} />
                       {NotificationCount !== null &&
                         <span className="bellColor">
