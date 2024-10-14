@@ -71,7 +71,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) =
                         <ul>
                             {orderStatus?.order_tracking?.map((item) => {
                                 return (
-                                    <li className={`${item?.status?.toLowerCase().includes("delivered") && 'active'}`}>
+                                    <li className={`${item?.shipease_status?.toLowerCase() === 'delivered' && 'active'}`}>
                                         <div className={`track-icon ${item?.shipease_status?.toLowerCase() === 'delivered' && 'active'}`}>
                                             {item?.shipease_status?.toLowerCase() === 'delivered' ? <TrackingDone /> : <TrackingIcon />}
                                         </div>
