@@ -182,7 +182,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications-counter/`, {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications-counter/?seller_id=${userData?.id}`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -194,8 +194,10 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    fetchData()
-  }, [])
+    if(userData?.id!=null){
+      fetchData()
+    }
+  }, [userData])
 
   return (
     <>
@@ -282,7 +284,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                       <FontAwesomeIcon icon={faBell} />
                       {NotificationCount !== null &&
                         <span className="bellColor">
-                          {parseInt(NotificationCount?.notification_count || 0) + parseInt(NotificationCount?.unread_notifications_count || 0) + parseInt(NotificationCount?.whatsnew_notification_count || 0)}
+                          {NotificationCount?.unread_notifications_count}
                         </span>
                       }
                     </div>
