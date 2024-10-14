@@ -5,7 +5,7 @@ import React from 'react';
 
 const AddHeaderMenu = ({ menus, handleMenuChange, addMenu, deleteMenu }) => {
     return (
-        <div className="customization-form">
+        <div className='mt-3'>
             {menus?.map((menu, index) => (
                 <div key={index} className="menu-item">
                     <label>

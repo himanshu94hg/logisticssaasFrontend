@@ -10,6 +10,7 @@ import TrackingPagePreview from './TrackingPagePreview';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { getFileData, uploadImageData } from '../../../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import ProductCustomization from './ProductCustomization';
 
 const PageSettings = () => {
     const [errors, setErrors] = useState({})
@@ -196,19 +197,20 @@ const PageSettings = () => {
                 footer_links: []
             }))
         }
-    }, [settings.show_logo, settings.show_banner,settings.show_menu,settings.show_footer])
+    }, [settings.show_logo, settings.show_banner, settings.show_menu, settings.show_footer])
 
     console.log(settings, "this is a settings data")
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
-            <h4>Customize Your Tracking Page</h4>
-            <div className='d-flex gap-2 w-100'>
-                <div className='w-100'>
+            <h4 className='mb-2'>Customize Your Tracking Page</h4>
+            <div className='page-settings-main'>
+                <div className='tracking-form-container'>
                     {/* subdomain and Contact Info Section */}
                     <div className="customization-form">
-                        <label>
+                        <label className='position-relative'>
                             Subdomain:
+                            <span className='domain-prefix'>https://</span>
                             <input
                                 type="text"
                                 name="subdomain"
@@ -216,8 +218,9 @@ const PageSettings = () => {
                                 onChange={handleChange}
                                 value={settings.subdomain}
                                 onKeyPress={handleKeyPress}
-                                className={`input-field ${errors.subdomain && 'input-field-error'}`}
+                                className={`input-field subdomain-name ${errors.subdomain && 'input-field-error'}`}
                             />
+                            <span className='domain-suffix'>.orderlocate.com</span>
                             {errors.subdomain && <span className="text-danger">{errors.subdomain}</span>}
                         </label>
                         <div className='two-column-inputs'>
@@ -294,7 +297,7 @@ const PageSettings = () => {
                         </label>
                         {settings.show_logo && (
                             <>
-                                <label>
+                                <label className='mt-3'>
                                     Upload Logo:
                                     <input
                                         className='form-control input-field'
@@ -356,27 +359,9 @@ const PageSettings = () => {
                         )}
                     </div>
 
-                    {/* Footer Section */}
-                    <div className="customization-form">
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="show_footer"
-                                checked={settings.show_footer}
-                                onChange={handleChange}
-                            />
-                            Add Footer
-                        </label>
-                        {settings.show_footer && (
-                            <AddHeaderMenu
-                                menus={settings.footer_links}
-                                handleMenuChange={handleFooterLinkChange}
-                                addMenu={addFooterLink}
-                                deleteMenu={deleteFooterLink}
-                                settings={settings}
-                            />
-                        )}
-                    </div>
+                    {/* Product Section */}
+                    <ProductCustomization />
+
 
                     {/* Save Button */}
                     <div className="save-button-container">
@@ -385,7 +370,7 @@ const PageSettings = () => {
                 </div>
 
                 {/* Live Preview */}
-                <div className="live-preview w-100">
+                <div className="live-preview">
                     <TrackingPagePreview settings={settings} />
                 </div>
             </div>
