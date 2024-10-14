@@ -184,13 +184,15 @@ table.performance-rating tr td {
     background: #fff;
     position: fixed;
     top: -500px;
-    left: 38%;
+    /* left: 38%; */
+    margin-inline: auto;
     z-index: 8;
     transition: 0.5s;
     border-radius: 0.5rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    min-width: 300px;
 }
 
 .quick-ship-exit.open {

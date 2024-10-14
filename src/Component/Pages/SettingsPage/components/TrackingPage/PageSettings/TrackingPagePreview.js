@@ -2,15 +2,22 @@ import React from 'react';
 import './TrackingPagePreview.css';
 import ProgressBar from './ProgressBar';
 import ShipmentProgress from './ShipmentProgress';
+import FeedbackForm from './FeedbackForm';
+import ProductCarousel from './ProductCarousel';
+import ShipeaseLogo from '../../../../../../assets/image/logo/logo.svg'
 
 const TrackingPagePreview = ({ settings }) => {
     return (
         <div className="tracking-page-preview">
             <header>
-
-                {/* Menu Preview */}
-                {settings.show_menu && (
-                    <nav className='menu-nav'>
+                <nav className='menu-nav'>
+                    <div className="logo">
+                        {settings.show_logo && settings.logo_file && (
+                            <img src={settings.logo_file} alt="Logo" className="brand-logo" />
+                        )}
+                    </div>
+                    {/* Menu Preview */}
+                    {settings.show_menu && (
                         <ul>
                             {settings.menus.map((menu, index) => (
                                 <li key={index}>
@@ -18,8 +25,8 @@ const TrackingPagePreview = ({ settings }) => {
                                 </li>
                             ))}
                         </ul>
-                    </nav>
-                )}
+                    )}
+                </nav>
                 {settings.show_banner && (
                     <div className="banner-preview">
                         <a href={settings.banner_link || '#'}>
@@ -32,59 +39,58 @@ const TrackingPagePreview = ({ settings }) => {
                         </a>
                     </div>
                 )}
-                <div className='d-flex flex-column align-items-center'>
-                    {settings.show_logo && settings.logo_file && (
-                        <img src={settings.logo_file} alt="Logo" className="brand-logo mt-3" />
-                    )}
-                    <h1 className='mb-0 font20 mt-3'>Track Your Order</h1>
+                <div className='d-flex flex-column align-items-center mt-3'>
+                    <h1 className='title'>Estimated Time Of Delivery: October 21, 2024</h1>
                 </div>
                 <ProgressBar />
             </header>
-
-
-
             <div className="tracking-info-preview">
-                <div className='prview-info'>
-                    <p>Order Number: <strong>Abcd-1234</strong></p>
-                    <p>Order Date: <strong>1 Sep, 2024 || 10:00 AM</strong></p>
-                    <p>Couier: <strong>Bluedart</strong></p>
-                    <p>AWB number: <strong>GSWYU1234</strong></p>
-                </div>
+                <FeedbackForm />
                 <hr />
-                <div className='prview-info'>
-                    <ShipmentProgress />
+                <ShipmentProgress />
+            </div>
+            <div>
+                {/* <ProductCarousel /> */}
+            </div>
+
+            <div className='footer'>
+                <div className="support-info">
+                    {
+                        settings.support_phone &&
+                        <>
+                            <p>
+                                <strong>Support Phone:</strong> {settings.support_phone}
+                            </p>
+                            {(settings.support_email || settings.privacy_policy) &&
+                                <span> || </span>
+                            }
+                        </>
+                    }
+                    {
+                        settings.support_email &&
+                        <>
+                            <p>
+                                <strong>Email us at:</strong>
+                                <a href={`mailto:${settings.support_email}`}>{settings.support_email}</a>
+                            </p>
+                            {settings.privacy_policy &&
+                                <span> || </span>
+                            }
+
+                        </>
+                    }
+                    {settings.privacy_policy &&
+                        <>
+                            <a href={settings.privacy_policy}><strong>Privacy Policy</strong></a>
+                        </>
+                    }
+                </div>
+                <div className="powered-by">
+                    Powered By <img src={ShipeaseLogo} height="25px" alt="" />
                 </div>
             </div>
 
-            <div className='d-flex gap-3 mx-2 justify-content-between'>
-                {settings.support_phone &&
-                    <p><strong>Support Phone:</strong> {settings.support_phone}</p>
-                }
-                {
-                    settings.supportEmail &&
-                    <p><strong>Support Email:</strong> <a href={`mailto:${settings.support_email}`}>{settings.support_email}</a></p>
-                }
-                {settings.privacy_policy &&
-                    <p><strong>Privacy Policy:</strong> <a href={settings.privacy_policy} target='_blank'>View</a></p>
-                }
-            </div>
-
-
-            {/* Footer Preview */}
-            {settings?.show_footer && (
-                <nav className='footer-nav'>
-                    <ul>
-                        {settings?.footer_links?.map((menu, index) => (
-                            <li key={index}>
-                                <a href={menu.link || '#'} target='_blank'>{menu.title || 'Link'}</a>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-            )}
-        </div>
-
-
+        </div >
     );
 };
 

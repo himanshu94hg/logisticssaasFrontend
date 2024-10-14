@@ -1,0 +1,119 @@
+.tracking-info-preview .details-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+
+.tracking-info-preview .preview-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-inline: 20px;
+    gap: 16px;
+    padding: 20px;
+    /* border: 1px solid #ddd; */
+    /* background-color: #f9f9f9; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.tracking-info-preview .preview-info p {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.8rem;
+    height: 100%;
+}
+
+.feedback-form {
+    width: 100%;
+    padding: 20px;
+    /* border: 1px solid #ddd; */
+    border-radius: 8px;
+    /* background-color: #f9f9f9; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.feedback-form label {
+    font-size: 0.8rem;
+    color: #000;
+}
+
+.rating-scale {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    flex-direction: column;
+}
+
+.rating-options {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.rating-options input[type="radio"] {
+    display: none;
+    accent-color: red;
+}
+
+.rating-options label {
+    width: 20px;
+    display: flex;
+    height: 20px;
+    border: 1px solid #1975c9;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.rating-options-comment {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.remarks {
+    margin-top: 15px;
+}
+
+.remarks label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.remarks textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 0.8rem;
+}
+
+.submit-button {
+    text-align: end;
+    margin-top: 4px;
+}
+
+.submit-button button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+}
