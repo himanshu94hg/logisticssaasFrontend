@@ -165,6 +165,8 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
     setExpanded(false);
   }
 
+
+
   const menuItems = [
     { to: "/", label: "Dashboard" },
     { to: "/Orders", label: "Orders" },
@@ -206,10 +208,33 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
 
   ];
 
+
+  const menuItems1 = [
+    { to: "/", label: "Dashboard" },
+    { to: "/Orders", label: "Orders" },
+    { to: "/Shipments", label: "Shipments" },
+    { to: "/billing", label: "Billing" },
+    { to: "/weight-reconciliation", label: "Weight Reco." },
+    { to: "/customer-support", label: "Support" },
+    { to: "/customer", label: "Onboarding" },
+    { to: "/settings", label: "Settings" },
+    {
+      to: "/Tools", label: "Tools", hasDropdown: true, dropdownLinks: [
+        { to: "/shipping-rates", label: "Rate Card" },
+        { to: "/rate-calculator", label: "Rate Calculator" },
+        { to: "/serviceability", label: "Serviceability" },
+        { label: "Zone Mapping", onClick: handleMappingShow },
+        { to: "/report-scheduler", label: "Report Scheduler" },
+        { to: "/courier-allocation", label: "Courier Allocation" },
+      ],
+    },
+  ];
+
+
   const handleMenuItemClick = () => {
     setExpanded(false);
   };
-
+  const userRole = "employee"
   return (
     <div
       id="sidenav"
@@ -225,19 +250,39 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
         />
       </div>
       <div className="menu-container">
-        {menuItems.map((item, index) => (
-          <MenuItem
-            key={index}
-            to={item.to}
-            label={item.label}
-            hasDropdown={item.hasDropdown}
-            dropdownLinks={item.dropdownLinks}
-            isExpanded={isExpanded}
-            openDropdown={openDropdown}
-            onDropdownToggle={handleDropdownToggle}
-            setExpanded={setExpanded}
-          />
-        ))}
+        {userRole === "employee" ?
+          <>
+            {menuItems1.map((item, index) => (
+              <MenuItem
+                key={index}
+                to={item.to}
+                label={item.label}
+                hasDropdown={item.hasDropdown}
+                dropdownLinks={item.dropdownLinks}
+                isExpanded={isExpanded}
+                openDropdown={openDropdown}
+                onDropdownToggle={handleDropdownToggle}
+                setExpanded={setExpanded}
+              />
+            ))}
+          </>
+          : <>
+            {menuItems.map((item, index) => (
+              <MenuItem
+                key={index}
+                to={item.to}
+                label={item.label}
+                hasDropdown={item.hasDropdown}
+                dropdownLinks={item.dropdownLinks}
+                isExpanded={isExpanded}
+                openDropdown={openDropdown}
+                onDropdownToggle={handleDropdownToggle}
+                setExpanded={setExpanded}
+              />
+            ))}
+          </>
+        }
+
       </div>
     </div>
   );
