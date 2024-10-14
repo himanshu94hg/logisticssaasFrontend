@@ -32,6 +32,7 @@ const PageSettings = () => {
         show_banner: false,
         show_menu: false,
         show_footer: true,
+        show_product:false,
         menus: [{ title: '', link: '' }],
         footer_links: [{ title: '', link: '' }],
     });
