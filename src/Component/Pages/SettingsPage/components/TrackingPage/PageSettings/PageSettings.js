@@ -33,11 +33,18 @@ const PageSettings = () => {
         show_banner: false,
         show_menu: false,
         show_footer: true,
-        show_product:false,
+        show_product: false,
         menus: [{ title: '', link: '' }],
         footer_links: [{ title: '', link: '' }],
+        products: [
+            {
+                link: "",
+                name: "",
+                amount: null,
+                image_url: ""
+            },
+        ],
     });
-
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -51,8 +58,7 @@ const PageSettings = () => {
         const { name } = e.target;
         const file = e.target.files[0];
         const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-
-        if (name === "logo_file" || name === "banner_desktop" || name === "banner_mobile") {
+        if (name === "logo_file" || name === "banner_desktop" || name === "banner_mobile"|| name==="image_url") {
             try {
                 const responseData = await getFileData(`brandedTracking/${e.target.files[0].name.replace(/\s/g, "")}`);
                 const awsUrl = responseData.data.url.url
@@ -130,18 +136,22 @@ const PageSettings = () => {
         setErrors(newErrors)
 
         if (Object.keys(newErrors).length === 0) {
-            try {
-                const response = await axios.post(`${BASE_URL_CORE}/core-api/crm-app/page-settings/`, settings, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                    },
-                });
-                if (response?.status === 201) {
-                    toast.success(response?.data?.message);
-                    setRefresh(new Date())
+            if (settings.products.length < 5 && settings?.show_product) {
+                alert("At least 5 products should be there.");
+            } else {
+                try {
+                    const response = await axios.post(`${BASE_URL_CORE}/core-api/crm-app/page-settings/`, settings, {
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`,
+                        },
+                    });
+                    if (response?.status === 201) {
+                        toast.success(response?.data?.message);
+                        setRefresh(new Date())
+                    }
+                } catch (error) {
+                    customErrorFunction(error);
                 }
-            } catch (error) {
-                customErrorFunction(error);
             }
         }
     };
@@ -199,8 +209,6 @@ const PageSettings = () => {
             }))
         }
     }, [settings.show_logo, settings.show_banner, settings.show_menu, settings.show_footer])
-
-    console.log(settings, "this is a settings data")
 
     return (
         <div className="page-settings-container box-shadow shadow-sm p10">
@@ -361,7 +369,11 @@ const PageSettings = () => {
                     </div>
 
                     {/* Product Section */}
-                    <ProductCustomization />
+                    <ProductCustomization
+                        settings={settings}
+                        setSettings={setSettings}
+                        handleFileUpload={handleFileUpload}
+                    />
 
 
                     {/* Save Button */}
