@@ -83,11 +83,11 @@ const ProductCustomization = () => {
                                         />
                                     </label>
                                     <label>
-                                        Product Image URL:
+                                        Product Image:
                                         <input
-                                            type="url"
+                                            type="file"
                                             name="image"
-                                            className='input-field'
+                                            className='form-control input-field'
                                             value={product.image}
                                             onChange={(e) => handleProductChange(index, e)}
                                         />
