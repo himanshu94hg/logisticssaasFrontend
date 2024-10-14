@@ -91,7 +91,7 @@
 
 .domain-prefix {
     position: absolute;
-    bottom: 1px;
+    top: 21px;
     left: 1px;
     /* background: var(--sh-primary-light); */
     color: var(--sh-primary);
@@ -106,7 +106,7 @@
 
 .domain-suffix {
     position: absolute;
-    bottom: 1px;
+    top: 21px;
     right: 1px;
     /* background: var(--sh-primary-light); */
     color: var(--sh-primary);
