@@ -313,7 +313,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>{pathName === "Reverse Order" ? "Pickup Details" : "Shipping Details"} </h3>
-                    <div className='row gap-2'>
+                    <div className='row gap-3'>
                         {/* Customer Name */}
                         <label className='col'>
                             <span>Recipient Name <span className='mandatory'>*</span></span>
@@ -533,7 +533,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                     <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
                         {/* Step 2 content */}
                         <h3 className='mb-4'>Billing Details</h3>
-                        <div className='row gap-2'>
+                        <div className='row gap-3'>
                             {/* Customer Name */}
                             <label className='col'>
                                 <span> Recipient Name <span className='mandatory'>*</span></span>
