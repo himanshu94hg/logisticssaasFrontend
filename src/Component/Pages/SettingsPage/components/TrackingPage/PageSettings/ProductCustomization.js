@@ -111,7 +111,7 @@ const ProductCustomization = ({ settings, setSettings }) => {
                                         <input
                                             type="file"
                                             name="image_url"
-                                            className='form-controls input-field'
+                                            className='form-control input-field'
                                             onChange={(e) => handleFileUpload(e, index)}
                                         />
                                         {product?.image_url && <p style={{ fontSize: 12 }}>Selected File: <span className='text-success'> {product?.image_url?.slice(54)}</span></p>}
