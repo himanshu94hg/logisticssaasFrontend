@@ -61,8 +61,10 @@ const LoginPage = ({ setTokenExists }) => {
         navigate(indexPattern);
         Cookies.set('access_token', response.data.access_token, { path: '/' });
         Cookies.set('user_id', response.data.user_id);
+        Cookies.set('emp_id', response.data.employee_id);
+        localStorage.setItem('user_type', response.data.type);
         dispatch({ type: LOGIN_DATA, payload: response });
-        window.location.reload();
+        window.location.reload(); 
       }
     } catch (error) {
       customErrorFunction(error);
