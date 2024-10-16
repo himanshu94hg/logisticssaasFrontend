@@ -21,7 +21,7 @@ export const orderdetailPattern = "/orderdetail/:slug";
 export const getOrderdetailRoute = () => {
     return generatePath(orderdetailPattern);
 };
-export const reassignOrdersPattern = "/more-on-orders";
+export const reassignOrdersPattern = "/MoreOnOrders";
 export const getReassignRoute = () => {
     return generatePath(reassignOrdersPattern);
 };
