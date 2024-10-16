@@ -182,12 +182,12 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
         { to: "/create-orders", label: "Quick Order" },
-        { to: "/more-on-orders", label: "Reassign Orders" },
-        { to: "/more-on-orders", label: "Merge Orders" },
-        { to: "/more-on-orders", label: "Split Orders" },
+        { to: "/MoreOnOrders", label: "Reassign Orders" },
+        { to: "/MoreOnOrders", label: "Merge Orders" },
+        { to: "/MoreOnOrders", label: "Split Orders" },
         { to: "/create-orders", label: "Reverse Order" },
       ],
-    },
+  },
     { to: "/Shipments", label: "Shipments" },
     {
       to: "Integration", label: "Integration", hasDropdown: true, dropdownLinks: [
@@ -226,8 +226,8 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
       });
       if (response.status === 200) {
         const temp = response?.data?.map((item) => ({
-          to: item?.route_title === "Dashboard" ? "/" : "/" + item?.route_title,
-          label: item?.route_title
+          to: item?.keyword === "dashboard" ? "/" : "/" + item?.keyword,
+          label: item?.route_title,
         }))
         setRouteData(temp)
       }

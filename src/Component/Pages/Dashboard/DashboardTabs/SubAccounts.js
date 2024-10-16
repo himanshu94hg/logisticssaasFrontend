@@ -34,6 +34,7 @@ const SubAccounts = ({ activeTab }) => {
             value: item.id
           }));
           setLabelData(temp)
+          console.log(temp, "res1", res1,res2)
         } catch (error) {
           customErrorFunction(error)
         }
@@ -42,6 +43,7 @@ const SubAccounts = ({ activeTab }) => {
     fetchData();
   }, [activeTab]);
 
+  console.log(labeldata, "labeldata")
 
   const fetchSku = async () => {
     try {
