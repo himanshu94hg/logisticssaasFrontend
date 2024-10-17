@@ -70,9 +70,61 @@ const UserRoleManage = () => {
         }));
     };
 
-    const handleAddUser = () => {
+    const [actionType, setActionType] = useState("edit")
+
+    const [editShow, setEditShow] = useState(false)
+    const [updateData, setUpdateData] = useState({})
+
+
+
+    const handleAddUser = (id, value) => {
         setShow(!show);
+
     };
+
+
+
+
+    const handleEditUser = async (id, value) => {
+        setEditShow(!editShow)
+        if (value === "edit") {
+            try {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/get-employee-detail/?id=${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                    },
+                });
+                if (response?.status === 200) {
+                    setUpdateData({
+                        id: response?.data?.id,
+                        name: response?.data?.name,
+                        mobile: response?.data?.mobile,
+                        password: response?.data?.password,
+                        email: response?.data?.email
+                    })
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+        }
+    }
+    const handleUpdateUser = async () => {
+        try {
+            const response = await axios.put(`${BASE_URL_CORE}/core-api/seller/create-employee/`, updateData, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            if (response?.status === 200) {
+                setShow(false)
+                setReset(new Date())
+                toast.success("Employee Created successfully!");
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+        setEditShow(false)
+    }
 
     const toggleStatus = async (e, id) => {
         setToggleData({
@@ -101,12 +153,10 @@ const UserRoleManage = () => {
     const validateForm = () => {
         let validationErrors = '';
         let isValid = true;
-
         if (!formData.employee.name && !formData.employee.code && !formData.employee.email && !formData.employee.password) {
             validationErrors = "All Field is required!";
             isValid = false;
         }
-        console.log(validationErrors, "errorserrorserrors")
         setErrors(validationErrors)
         return isValid;
     }
@@ -268,7 +318,7 @@ const UserRoleManage = () => {
                                             <button title='Send Mail to New User' className='btn edit-btn' onClick={() => handleSendEmail(account.fullName, account.email, account.password)}>
                                                 <FontAwesomeIcon icon={faEnvelopeOpen} />
                                             </button>
-                                            <button title='Edit User' onClick={handleAddUser} className='btn edit-btn'>
+                                            <button title='Edit User' onClick={() => handleEditUser(account?.id, "edit")} className='btn edit-btn'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </button>
                                             <button title='Delete User' onClick={() => handleDeleteUser(account?.id)} className='btn delete-btn'>
@@ -360,6 +410,74 @@ const UserRoleManage = () => {
                                 Close
                             </button>
                             <button className="btn main-button" onClick={handleSaveUser}>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal className='confirmation-modal add-user-pop' show={editShow} onHide={handleEditUser}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit User</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form>
+                        <div className='form-group'>
+                            <label>Full Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                onChange={handleInputChange}
+                                placeholder="Enter full name"
+                                value={updateData?.name}
+                                className='form-control input-field'
+                            />
+
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Mobile No</label>
+                            <input
+                                name="mobile"
+                                type="mobile"
+                                placeholder="Enter mobile"
+                                onChange={handleInputChange}
+                                value={updateData?.mobile}
+                                className='form-control input-field'
+                            />
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Email ID</label>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Enter email"
+                                onChange={handleInputChange}
+                                value={updateData?.email}
+                                className='form-control input-field'
+                            />
+                        </div>
+                        <div className='form-group mt-3'>
+                            <label>Password</label>
+                            <input
+                                name="password"
+                                type="password"
+                                autoComplete="new-password"
+                                placeholder="Enter Password"
+                                onChange={handleInputChange}
+                                value={updateData?.password}
+                                className='form-control input-field'
+                            />
+                        </div>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className=''>
+                        <div className='d-flex gap-2 justify-content-end w-100'>
+                            <button className="btn cancel-button" onClick={() => setEditShow(false)}>
+                                Close
+                            </button>
+                            <button className="btn main-button" onClick={handleUpdateUser}>
                                 Save Changes
                             </button>
                         </div>

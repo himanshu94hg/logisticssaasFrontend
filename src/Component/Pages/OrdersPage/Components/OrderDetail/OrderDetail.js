@@ -148,11 +148,7 @@ const OrderDetail = () => {
                             <h3 className='text-white text-start w-100'>Order ID: {orderDetails?.customer_order_number}</h3>
                             <div className='d-flex gap-2 w-100 justify-content-end'>
                                 <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
-                                {
-                                    orderDetails?.order_type === 'Reverse' &&
-                                    <button className='btn white-btn' onClick={handleQCCheckStatus}>QC Info</button>
-
-                                }
+                                {(orderDetails?.order_type === 'Reverse' && orderDetails?.other_details?.is_qc) && <button className='btn white-btn' onClick={handleQCCheckStatus}>QC Info</button>}
                                 <button className='btn white-btn' onClick={handleExport}><AiOutlineExport className='align-text-bottom' /> Export</button>
                             </div>
                         </div>

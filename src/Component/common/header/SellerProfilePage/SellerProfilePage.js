@@ -25,13 +25,13 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
         }
     };
 
-    const [image, setImage] = useState(sellerProfileImage); // State for the image URL
+    const [image, setImage] = useState(sellerProfileImage);
 
 
     const fileInputRef = useRef(null);
 
     const handleButtonClick = () => {
-        fileInputRef.current.click(); // Programmatically click the file input
+        fileInputRef.current.click();
     };
 
     const handleFileChange = (event) => {
@@ -40,10 +40,10 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                setImage(reader.result); // Update the image state with the uploaded image URL
+                setImage(reader.result);
             };
 
-            reader.readAsDataURL(file); // Convert the file to a base64 URL
+            reader.readAsDataURL(file);
         }
     };
 
