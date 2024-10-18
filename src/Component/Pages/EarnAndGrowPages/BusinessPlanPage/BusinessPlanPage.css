@@ -106,9 +106,21 @@
     height: 141px;
     border-radius: 42px 1px 130px 10px;
     top: 0%;
-    left: -100%;
+    /* left: -100%; */
+    left: -1%;
     z-index: -1;
-    transition: 0.4s;
+    /* transition: 0.4s; */
+    animation: moveBG 1s;
+}
+
+@keyframes moveBG {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: -1%;
+    }
 }
 
 .business-plan-page .plans-container .plan-item:hover .plan-item-heading::after {
