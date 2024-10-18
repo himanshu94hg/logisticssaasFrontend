@@ -3,6 +3,7 @@ import PnL from "./DashboardTabs/PnL";
 import NavTabs from "./navTabs/NavTabs";
 import { useSelector } from "react-redux";
 import Overview from "./DashboardTabs/Overview";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import SubAccounts from "./DashboardTabs/SubAccounts";
 import NDRDashboard from "./DashboardTabs/NDRDashboard";
@@ -13,7 +14,6 @@ import LoaderScreen from "../../LoaderScreen/LoaderScreen";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 import CourierDashboard from "./DashboardTabs/CourierDashboard";
 import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
-import { useNavigate } from "react-router-dom";
 
 export function clearAllCookies() {
   const cookies = document.cookie.split(";");
@@ -22,6 +22,7 @@ export function clearAllCookies() {
     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
   }
+  localStorage.clear();
 }
 
 function Dashboard() {

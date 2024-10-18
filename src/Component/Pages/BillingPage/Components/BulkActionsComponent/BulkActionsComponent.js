@@ -67,10 +67,33 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
     };
 
     const handleExportData = async () => {
-        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION", payload: selectedRows.join(',') });
-        setSelectedOrderRows([])
-        setSelectedRows([])
-        setSelectAll(false)
+        // dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION", payload: selectedRows.join(',') });
+        const requestData = {
+            ids: ""
+        };
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/billing/remittance-download/`, requestData, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                },
+                responseType: 'blob'
+            });
+
+            if (response.status === 200) {
+                setSelectAll(false)
+                toast.success("Data Export Successfully!");
+                const FileSaver = require('file-saver');
+                const blob = new Blob([response.data], { type: 'application/ms-excel' });
+                FileSaver.saveAs(blob, `remittance.xlsx`);
+                setBulkActionShow(false)
+                setSelectedOrderRows([])
+                setSelectedRows([])
+                setSelectAll(false)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
     }
 
     useEffect(() => {
@@ -156,8 +179,8 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
 
                             {activeTab === "Shipping Charges" ?
                                 <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> :
-                                activeTab === "Remitance Logs" ?
-                                    <li onClick={handleExportData}><ExportIcon /><span>Export Data</span></li> :
+                                activeTab === "Remittance Logs" ?
+                                    <li onClick={handleExportData}><ExportIcon /><span>Export All</span></li> :
                                     activeTab === "Recharge Logs" ?
                                         <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li> :
                                         activeTab === "Invoices" ?

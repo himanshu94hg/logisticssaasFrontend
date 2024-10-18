@@ -14,28 +14,26 @@ import { IoIosEyeOff, IoIosEye } from "react-icons/io";
 import Logo from '../../../assets/image/logo/logo.svg';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { indexPattern, signUpPattern } from '../../../Routes';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const LoginPage = ({ setTokenExists }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const pathname = useLocation();
-  const params = useParams();
+  const [timer, setTimer] = useState(20);
+  const token = Cookies.get('access_token');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState(false);
-  const [OtpLogin, setOtpLogin] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [SentOtp, setSentOtp] = useState(false);
-  const [timer, setTimer] = useState(20);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [PasswordShow, setPasswordShow] = useState(false);
-  const [LoaderRing, setLoaderRing] = useState(false);
+  const [OtpLogin, setOtpLogin] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [LoaderRing, setLoaderRing] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
+  const [PasswordShow, setPasswordShow] = useState(false);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   useEffect(() => {
     let intervalId;
@@ -46,6 +44,16 @@ const LoginPage = ({ setTokenExists }) => {
     }
     return () => clearInterval(intervalId);
   }, [timer, isTimerRunning]);
+
+  useEffect(() => {
+    if (token) {
+      setTokenExists(true);
+      navigate('/');
+    }
+    if (token && pathname.pathname === "/login") {
+      window.location.reload();
+    }
+  }, [navigate, setTokenExists, pathname]);
 
   const handleClickLogin = async () => {
     setLoaderRing(true);
@@ -59,10 +67,12 @@ const LoginPage = ({ setTokenExists }) => {
         setLoaderRing(false);
         setTokenExists(true);
         navigate(indexPattern);
-        Cookies.set('access_token', response.data.access_token, { path: '/' });
-        Cookies.set('user_id', response.data.user_id);
-        dispatch({ type: LOGIN_DATA, payload: response });
         window.location.reload();
+        Cookies.set('user_id', response.data.user_id);
+        Cookies.set('emp_id', response.data.employee_id);
+        dispatch({ type: LOGIN_DATA, payload: response });
+        localStorage.setItem('user_type', response.data.type);
+        Cookies.set('access_token', response.data.access_token, { path: '/' });
       }
     } catch (error) {
       customErrorFunction(error);
@@ -70,19 +80,7 @@ const LoginPage = ({ setTokenExists }) => {
     }
   };
 
-  const token = Cookies.get('access_token');
-  useEffect(() => {
-    if (token) {
-      setTokenExists(true);
-      navigate('/');
-    } 
-    if (token && pathname.pathname === "/login") {
-      window.location.reload();
-    }
-  }, [navigate, setTokenExists, pathname]);
-
   const handleLogin = async (e) => {
-    setStatus(true);
     e.preventDefault();
     globalDebouncedClick(() => handleClickLogin());
   };
@@ -94,13 +92,13 @@ const LoginPage = ({ setTokenExists }) => {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/verify-otp/`, {
         contact_number: username,
         otp: password,
-        feature:"sign-in"
+        feature: "sign-in"
       });
       if (response.status === 200) {
         toast.success("OTP Verified successfully!");
         setLoaderRing(false);
         setOtpVerified(true);
-        
+
       }
     } catch (error) {
       customErrorFunction(error);
@@ -113,7 +111,6 @@ const LoginPage = ({ setTokenExists }) => {
       toast.error("Please enter your mobile number.");
       return;
     }
-  
     setSentOtp(true);
     setTimer(20);
     setIsTimerRunning(true);
@@ -131,7 +128,7 @@ const LoginPage = ({ setTokenExists }) => {
       customErrorFunction(error);
     }
   };
-  
+
 
   const handleLoginOptions = () => {
     setOtpLogin(!OtpLogin);
@@ -166,7 +163,7 @@ const LoginPage = ({ setTokenExists }) => {
       setLoaderRing(false);
     }
   };
-  
+
 
   useEffect(() => {
     if (timer === 0) {

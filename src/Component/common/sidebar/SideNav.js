@@ -1,31 +1,33 @@
 import './SideNav.css';
+import axios from 'axios';
+import Cookies from "js-cookie";
 import OMSIcon from "./Icons/OMSIcon";
 import MISIcon from "./Icons/MISIcon";
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ToolsIcons from "./Icons/ToolsIcons";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
 import { useLocation } from 'react-router-dom';
+import { indexPattern } from '../../../Routes';
 import CustomerIcon from "./Icons/CustomerIcon";
 import SettingsIcon from './Icons/SettingsIcon';
 import ChannelsIcon from "./Icons/ChannelsIcon";
 import DashboardIcon from "./Icons/DashboardIcon";
 import ShipmentsIcon from "./Icons/ShipmentsIcon";
 import React, { useEffect, useState } from 'react';
+import { BASE_URL_CORE } from '../../../axios/config';
+import pathAction from '../../../redux/action/pathname';
 import MoreOnOrdersIcon from "./Icons/MoreOnOrdersIcon";
+import { NavLink, useNavigate } from 'react-router-dom';
 import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
-import { useDispatch } from 'react-redux';
-import pathAction from '../../../redux/action/pathname';
-import { indexPattern } from '../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import zonePathClearAction from '../../../redux/action/pathname/zonePath';
-import { useSelector } from 'react-redux';
-
-
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const Dropdown = ({ links, isOpen, setExpanded }) => {
   const dispatch = useDispatch();
@@ -35,7 +37,6 @@ const Dropdown = ({ links, isOpen, setExpanded }) => {
   useEffect(() => {
     setZoneService(sellerProfileCard?.seller_admin?.zone_service);
   }, [sellerProfileCard]);
-
 
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
@@ -59,25 +60,15 @@ const Dropdown = ({ links, isOpen, setExpanded }) => {
   );
 };
 
-
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle, setExpanded }) => {
   const location = useLocation();
+  const NavLinkComponent = hasDropdown ? 'div' : NavLink;
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer)
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
     onDropdownToggle(label);
   };
-
-
-  useEffect(() => {
-    if (label !== openDropdown) {
-      setDropdownOpen(false);
-    }
-  }, [openDropdown, label]);
-
-  const NavLinkComponent = hasDropdown ? 'div' : NavLink;
 
   const isActive = () => {
     if (!hasDropdown) {
@@ -94,10 +85,15 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
     }
   }
 
+  useEffect(() => {
+    if (label !== openDropdown) {
+      setDropdownOpen(false);
+    }
+  }, [openDropdown, label]);
+
   return (
     <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
-
         <NavLinkComponent onClick={handleMenuItemClick} to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
@@ -112,7 +108,6 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           {label === "MIS" && <MISIcon />}
           {label === "Support" && <CustomerSupportIcon />}
           {label === "Settings" && <SettingsIcon />}
-
           {isExpanded && <span className="mx-2">{label}
             {hasDropdown && (
               <span className={`dropdown-arrow ms-2 ${isDropdownOpen ? 'open' : ''}`}>
@@ -122,7 +117,6 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           </span>}
         </NavLinkComponent>
       </div>
-
       {hasDropdown && <Dropdown setExpanded={setExpanded} links={dropdownLinks} isOpen={isDropdownOpen} />}
     </div>
   );
@@ -130,9 +124,13 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
 const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
   const navigate = useNavigate()
+  const empId = Cookies.get("emp_id")
+  let authToken = Cookies.get("access_token")
   const [Logo, setLogo] = useState(mobileLogo);
+  const [routeData, setRouteData] = useState([])
+  const [finalRoute, setFinalRoute] = useState([])
+  const user_type = localStorage.getItem("user_type")
   const [openDropdown, setOpenDropdown] = useState(null);
-
 
   useEffect(() => {
     if (isExpanded === true) {
@@ -142,6 +140,19 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
     }
   }, [isExpanded])
 
+  useEffect(() => {
+    if (user_type === "emp") {
+      fetchData(empId);
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user_type === "emp") {
+      setFinalRoute(routeData)
+    } else {
+      setFinalRoute(menuItems)
+    }
+  }, [routeData])
 
   const handleMouseEnter = () => {
     setExpanded(true);
@@ -171,12 +182,12 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
         { to: "/create-orders", label: "Quick Order" },
-        { to: "/more-on-orders", label: "Reassign Orders" },
-        { to: "/more-on-orders", label: "Merge Orders" },
-        { to: "/more-on-orders", label: "Split Orders" },
+        { to: "/MoreOnOrders", label: "Reassign Orders" },
+        { to: "/MoreOnOrders", label: "Merge Orders" },
+        { to: "/MoreOnOrders", label: "Split Orders" },
         { to: "/create-orders", label: "Reverse Order" },
       ],
-    },
+  },
     { to: "/Shipments", label: "Shipments" },
     {
       to: "Integration", label: "Integration", hasDropdown: true, dropdownLinks: [
@@ -206,9 +217,24 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
 
   ];
 
-  const handleMenuItemClick = () => {
-    setExpanded(false);
-  };
+  const fetchData = async (id) => {
+    try {
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/manage-employee-rights?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      if (response.status === 200) {
+        const temp = response?.data?.map((item) => ({
+          to: item?.keyword === "dashboard" ? "/" : "/" + item?.keyword,
+          label: item?.route_title,
+        }))
+        setRouteData(temp)
+      }
+    } catch (error) {
+      customErrorFunction(error);
+    }
+  }
 
   return (
     <div
@@ -225,19 +251,21 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
         />
       </div>
       <div className="menu-container">
-        {menuItems.map((item, index) => (
-          <MenuItem
-            key={index}
-            to={item.to}
-            label={item.label}
-            hasDropdown={item.hasDropdown}
-            dropdownLinks={item.dropdownLinks}
-            isExpanded={isExpanded}
-            openDropdown={openDropdown}
-            onDropdownToggle={handleDropdownToggle}
-            setExpanded={setExpanded}
-          />
-        ))}
+        <>
+          {finalRoute?.map((item, index) => (
+            <MenuItem
+              key={index}
+              to={item.to}
+              label={item.label}
+              isExpanded={isExpanded}
+              setExpanded={setExpanded}
+              openDropdown={openDropdown}
+              hasDropdown={item.hasDropdown}
+              dropdownLinks={item.dropdownLinks}
+              onDropdownToggle={handleDropdownToggle}
+            />
+          ))}
+        </>
       </div>
     </div>
   );

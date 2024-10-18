@@ -203,8 +203,8 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   useEffect(() => {
     if (NotificationCount?.unread_notifications_count > 0) {
       const interval = setInterval(() => {
-        setHighlight((prevHighlight) => !prevHighlight);  // Toggle shake effect
-      }, 2000);  // Trigger every second
+        setHighlight((prevHighlight) => !prevHighlight);
+      }, 2000);
 
       return () => clearInterval(interval);
     }
