@@ -11,10 +11,10 @@ import TrackYourOrder from '../../../../../assets/image/whatsapp/TrackYourOrder.
 import WhatsAppChatDomestic from '../../../../../assets/image/whatsapp/WhatsAppChatDomestic.png';
 
 const imageMap = {
-    "Create Order": WhatsAppChatDomestic,
-    "Book Order": WhatsAppChatDomestic,
-    "Track Order": TrackYourOrder,
-    "NDR Flow": NDRFlow,
+    "create_order": WhatsAppChatDomestic,
+    "book_order": WhatsAppChatDomestic,
+    "track_order": TrackYourOrder,
+    "ndr": NDRFlow,
 };
 
 
@@ -81,7 +81,7 @@ const WhatsAppBots = () => {
                         <Card className="whatsapp-comm__card shadow-sm p-2">
                             <Card.Img
                                 variant="top"
-                                src={imageMap[item.title]}
+                                src={imageMap[item.keyword]}
                                 alt={`${item.title} WhatsApp preview`}
                             />
                             <Card.Body>
