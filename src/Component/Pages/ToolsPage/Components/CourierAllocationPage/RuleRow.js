@@ -25,7 +25,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
     };
 
     const handleInputChange = (index, value) => {
-        console.log(index,value,"lllllllllllllllll")
+        console.log(index, value, "lllllllllllllllll")
         const newRows = [...rows];
         newRows[index].match_value = value;
         setRows(newRows);
@@ -46,7 +46,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
         setConditions(newRows);
     };
 
-    console.log(rows,"dsddddddddddddd")
+    console.log(rows, "dsddddddddddddd")
 
     return (
         <>
@@ -150,10 +150,17 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter amount"
+                            onKeyPress={(e) => {
+                                const value = e.target.value;
+                                const regex = /^\d*\.?\d{0,2}$/;
+                                if (!regex.test(value + e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                     )}
                     {row?.condition_type === "payment_type" && (
-                        <select className='select-field'  value={row?.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
+                        <select className='select-field' value={row?.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
                             <option value="prepaid">Prepaid</option>
                             <option value="cod">COD</option>
@@ -164,8 +171,14 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             className='input-field'
                             type="text"
                             value={row?.match_value}
+                            maxLength={6}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter pickup pincode"
+                            onKeyPress={(e) => {
+                                if (!/\d/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                     )}
                     {row?.condition_type === "delivery_pincode" && (
@@ -173,8 +186,14 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             className='input-field'
                             type="text"
                             value={row?.match_value}
+                            maxLength={6}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter delivery pincode"
+                            onKeyPress={(e) => {
+                                if (!/\d/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                     )}
                     {row?.condition_type === "weight" && (
@@ -184,6 +203,14 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             value={row?.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
                             placeholder="Enter weight"
+                            onKeyPress={(e) => {
+                                const value = e.target.value;
+                                const regex = /^\d*\.?\d{0,2}$/;
+                                if (!regex.test(value + e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                                    e.preventDefault();
+                                }
+
+                            }}
                         />
                     )}
                     {row?.condition_type === "product_name" && (
