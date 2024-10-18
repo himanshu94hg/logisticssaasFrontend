@@ -42,7 +42,7 @@ const BusinessPlanPage = () => {
                                 <li className='non-active'><ListCrossIcon /> Order Verification</li>
                                 <li><ListIcon /> International Shipping</li>
                                 <li><ListIcon /> Courier Partners</li>
-                                <li><ListIcon /> Multiple Pickup Address</li>
+                                <li><span className='me-2'>5</span> Multiple Pickup Address</li>
                                 <li><ListIcon /> Product Weight Freeze</li>
                                 <li><ListIcon /> Payment Mode Change</li>
                                 <li><ListIcon /> Split Shipment</li>
@@ -50,7 +50,7 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> NDR & RTO Management</li>
                                 <li className='non-active'><ListCrossIcon /> Automated Emails and SMS</li>
                                 <li><ListIcon /> API Access</li>
-                                <li><ListIcon /> Sales Channel Integration</li>
+                                <li><span className='me-2'>2</span> Sales Channel Integration</li>
                                 <li><ListIcon /> Autosync Channel Orders</li>
                                 <li><ListIcon /> Bulk Order Upload & Processing</li>
                                 <li><ListIcon /> Bulk Shipping Manifests</li>
@@ -65,7 +65,7 @@ const BusinessPlanPage = () => {
                             <ul className={`${ActiveHeading === 1 && 'active'}`}>
                                 <li><ListIcon /> Reporting</li>
                                 <li><ListIcon /> Rate Calculator</li>
-                                <li><ListIcon /> Analytics dashboard</li>
+                                <li><span>Standard</span> Analytics dashboard</li>
                                 <li className='non-active'><ListCrossIcon /> Report Scheduler</li>
                             </ul>
                             <hr />
@@ -131,9 +131,9 @@ const BusinessPlanPage = () => {
                         <div className='plans-features'>
                             <button className='btn change-plan active'>Current Plan</button>
                             <ul className='active my-3'>
-                                <li><span>₹26.27/0.5 kg</span> Shipping Rates</li>
-                                <li><span>0 month</span> Minimum Signup Period</li>
-                                <li><span>20+</span> Courier Partners</li>
+                                <li><span>₹23.88/0.5 kg</span> Shipping Rates</li>
+                                <li><span>2 months</span> Minimum Signup Period</li>
+                                <li><span>30+</span> Courier Partners</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(0)} className={`list-heading ${ActiveHeading === 0 && 'active'}`}>Order & Order Management <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
@@ -141,7 +141,7 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> Order Verification</li>
                                 <li><ListIcon /> International Shipping</li>
                                 <li><ListIcon /> Courier Partners</li>
-                                <li><ListIcon /> Multiple Pickup Address</li>
+                                <li><span className='me-2'>10</span> Multiple Pickup Address</li>
                                 <li><ListIcon /> Product Weight Freeze</li>
                                 <li><ListIcon /> Payment Mode Change</li>
                                 <li><ListIcon /> Split Shipment</li>
@@ -149,23 +149,23 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> NDR & RTO Management</li>
                                 <li><ListIcon /> Automated Emails and SMS</li>
                                 <li><ListIcon /> API Access</li>
-                                <li><ListIcon /> Sales Channel Integration</li>
+                                <li><span className='me-2'>5</span> Sales Channel Integration</li>
                                 <li><ListIcon /> Autosync Channel Orders</li>
                                 <li><ListIcon /> Bulk Order Upload & Processing</li>
                                 <li><ListIcon /> Bulk Shipping Manifests</li>
                                 <li><ListIcon /> Label & Invoices Creation</li>
                                 <li><ListIcon /> Label</li>
-                                <li><ListIcon /> Invoice & POD Customization</li>
-                                <li><ListIcon /> Multiple User Login & Role Management</li>
-                                <li><ListIcon /> Postpaid</li>
+                                <li><span>Partial</span> Invoice & POD Customization</li>
+                                <li><span className='me-2'>5</span> Multiple User Login & Role Management</li>
+                                <li className='non-active'><ListCrossIcon /> Postpaid</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(1)} className={`list-heading ${ActiveHeading === 1 && 'active'}`}>Tools & Reporting <FontAwesomeIcon className={`${ActiveHeading === 1 && 'active'}`} icon={faChevronDown} /></p>
                             <ul className={`${ActiveHeading === 1 && 'active'}`}>
                                 <li><ListIcon /> Reporting</li>
                                 <li><ListIcon /> Rate Calculator</li>
-                                <li><ListIcon /> Analytics dashboard</li>
-                                <li><ListIcon /> Report Scheduler</li>
+                                <li><span className='me-2'>Pro</span> Analytics dashboard</li>
+                                <li className='non-active'><ListCrossIcon /> Report Scheduler</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(2)} className={`list-heading ${ActiveHeading === 2 && 'active'}`}>Payment <FontAwesomeIcon className={`${ActiveHeading === 2 && 'active'}`} icon={faChevronDown} /></p>
@@ -174,24 +174,24 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> COD Reconciliation and Settlement</li>
                                 <li><ListIcon /> Early COD</li>
                                 <li><ListIcon /> GSTIN Invoicing</li>
-                                <li><ListIcon /> Custom - COD Accounts/Invoicing</li>
+                                <li className='non-active'><ListCrossIcon /> Custom - COD Accounts/Invoicing</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(3)} className={`list-heading ${ActiveHeading === 3 && 'active'}`}>Support <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
                             <ul className={`${ActiveHeading === 3 && 'active'}`}>
                                 <li><ListIcon /> Training & Setup Assistance</li>
-                                <li><ListIcon /> Dedicated Key Account Manager for tiers</li>
+                                <li className='non-active'><ListCrossIcon /> Dedicated Key Account Manager for tiers</li>
                                 <li><ListIcon /> Weekly Webinars</li>
                                 <li><ListIcon /> Ticket Support and Panel Escalations</li>
-                                <li><ListIcon /> 24*7 Support</li>
+                                <li className='non-active'><ListCrossIcon /> 24*7 Support</li>
                                 <li><ListIcon /> Email & Chat Support</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(4)} className={`list-heading ${ActiveHeading === 4 && 'active'}`}>Tracking & Notification <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
                             <ul className={`${ActiveHeading === 4 && 'active'}`}>
                                 <li><ListIcon /> Real Time Shipment Tracking and Notifications</li>
-                                <li><ListIcon /> Multiple Email templates</li>
-                                <li><ListIcon /> Custom Branding Page with NPS</li>
+                                <li className='non-active'><ListCrossIcon /> Multiple Email templates</li>
+                                <li className='non-active'><ListCrossIcon /> Custom Branding Page with NPS</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(5)} className={`list-heading ${ActiveHeading === 5 && 'active'}`}>Returns <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
@@ -211,11 +211,11 @@ const BusinessPlanPage = () => {
                             <ul className='active mt-5'>
                                 <li><ListIcon /> WhatsApp notification</li>
                                 <li><ListIcon /> WhatsApp Bots</li>
-                                <li><ListIcon /> Free Shipping</li>
+                                <li className='non-active'><ListCrossIcon /> Free Shipping</li>
                                 <li><ListIcon /> Refer and Earn</li>
-                                <li><ListIcon /> Trackinng Script</li>
+                                <li className='non-active'><ListCrossIcon /> Trackinng Script</li>
                                 <li><ListIcon /> Webhook</li>
-                                <li><ListIcon /> Business Health Dashoard</li>
+                                <li className='non-active'><ListCrossIcon /> Business Health Dashoard</li>
                             </ul>
                         </div>
                     </div>
@@ -230,9 +230,9 @@ const BusinessPlanPage = () => {
                         <div className='plans-features'>
                             <button className='btn change-plan'>Upgrade</button>
                             <ul className='active my-3'>
-                                <li><span>₹26.27/0.5 kg</span> Shipping Rates</li>
-                                <li><span>0 month</span> Minimum Signup Period</li>
-                                <li><span>20+</span> Courier Partners</li>
+                                <li><span>₹20.34/0.5 kg</span> Shipping Rates</li>
+                                <li><span>1 month</span> Minimum Signup Period</li>
+                                <li><span>30+</span> Courier Partners</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(0)} className={`list-heading ${ActiveHeading === 0 && 'active'}`}>Order & Order Management <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
@@ -240,7 +240,7 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> Order Verification</li>
                                 <li><ListIcon /> International Shipping</li>
                                 <li><ListIcon /> Courier Partners</li>
-                                <li><ListIcon /> Multiple Pickup Address</li>
+                                <li><span>Unlimited</span> Multiple Pickup Address</li>
                                 <li><ListIcon /> Product Weight Freeze</li>
                                 <li><ListIcon /> Payment Mode Change</li>
                                 <li><ListIcon /> Split Shipment</li>
@@ -248,7 +248,7 @@ const BusinessPlanPage = () => {
                                 <li><ListIcon /> NDR & RTO Management</li>
                                 <li><ListIcon /> Automated Emails and SMS</li>
                                 <li><ListIcon /> API Access</li>
-                                <li><ListIcon /> Sales Channel Integration</li>
+                                <li><span>Unlimited</span> Sales Channel Integration</li>
                                 <li><ListIcon /> Autosync Channel Orders</li>
                                 <li><ListIcon /> Bulk Order Upload & Processing</li>
                                 <li><ListIcon /> Bulk Shipping Manifests</li>
@@ -263,7 +263,7 @@ const BusinessPlanPage = () => {
                             <ul className={`${ActiveHeading === 1 && 'active'}`}>
                                 <li><ListIcon /> Reporting</li>
                                 <li><ListIcon /> Rate Calculator</li>
-                                <li><ListIcon /> Analytics dashboard</li>
+                                <li><span>Pro Plus</span> Analytics dashboard</li>
                                 <li><ListIcon /> Report Scheduler</li>
                             </ul>
                             <hr />
