@@ -35,7 +35,7 @@
     width: auto;
     /* background: var(--sh-primary-light); */
     height: auto;
-    border-radius: 55px 55px 0.5rem 0.5rem;
+    border-radius: 3.5rem 3.5rem 0.5rem 0.5rem;
     /* border: 1px solid var(--sh-primary); */
     display: flex;
     /* align-items: center; */
@@ -63,12 +63,13 @@
     position: absolute;
     left: 25%;
     top: -19px;
+    font-weight: 600;
+    transition: 0.1s;
 }
 
 .business-plan-page .plans-container .plan-item .change-plan.active {
     color: #fff;
     background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
-    font-weight: 600;
 }
 
 .business-plan-page .plans-container .plan-item .change-plan:hover {
@@ -158,6 +159,7 @@
     bottom: -20px;
     color: #fff;
     font-size: 0.8rem;
+    font-weight: 700;
 }
 
 .business-plan-page .plan-price-container {
