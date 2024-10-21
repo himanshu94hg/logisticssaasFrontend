@@ -38,6 +38,10 @@
     .settings-page-container {
         grid-template-columns: repeat(4, 1fr);
     }
+
+    .confirmation-modal.add-user-pop .modal-dialog {
+        margin-top: 1%;
+    }
 }
 
 @media screen and (max-width:1366px) {
