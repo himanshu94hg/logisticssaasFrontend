@@ -1,3 +1,7 @@
+.manage-sub-accounts .table-container {
+    height: calc(100vh - 146px);
+}
+
 .confirmation-modal.add-user-pop .modal-dialog {
     margin-top: 8%;
 }
@@ -5,4 +9,67 @@
 .confirmation-modal.add-user-pop .modal-body {
     text-align: unset;
     margin-inline: 10px;
+}
+
+.manage-sub-accounts ul.user-rights-sections {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 5px;
+}
+
+.manage-sub-accounts ul.user-rights-sections li {
+    font-size: 14px;
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding: 2px 7px;
+    border-radius: 0.5rem;
+}
+
+.manage-sub-accounts button.user-based-mail,
+.manage-sub-accounts button.user-based-edit,
+.manage-sub-accounts button.user-based-delete {
+    font-size: 16px;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.manage-sub-accounts button.user-based-mail {
+    background: #ECF8EE;
+    color: #3BB54B;
+}
+
+.manage-sub-accounts button.user-based-edit {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+}
+
+.manage-sub-accounts button.user-based-delete {
+    background: #FCEAEA;
+    color: #F31429;
+}
+
+.manage-sub-accounts .user-pwd-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.manage-sub-accounts .user-pwd-container span:last-of-type {
+    font-size: 12px;
+    width: 120px;
+    padding-block: 2px;
+    border-radius: 0.5rem;
+    text-align: center;
+    background: #ECF8EE;
+    color: #3BB54B;
+    cursor: pointer;
+    user-select: none;
 }
