@@ -280,6 +280,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_id: "",
             order_tag: "",
             sku: "",
+            product:"",
             channel_name: "",
             sku_match_type: "",
             pickup_address: "",
