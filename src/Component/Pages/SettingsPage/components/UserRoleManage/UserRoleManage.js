@@ -8,7 +8,6 @@ import { Form, Modal } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { faEnvelopeOpen, faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 

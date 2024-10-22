@@ -73,4 +73,18 @@
     user-select: none;
 }
 
-.manage-sub-accounts .copy-key {}
+.manage-sub-accounts .copy-key {
+    width: 90px;
+}
+
+.manage-sub-accounts .email-btn {
+    font-size: 16px;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background: #ECF8EE;
+    color: #3BB54B;
+}
