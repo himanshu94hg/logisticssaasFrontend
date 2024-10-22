@@ -95,7 +95,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
                                 />
                             </span>
                         </div>
-                        <small className='mt-2'>{moment(item?.updated_at).fromNow()}</small>
+                        <small className='mt-2'>{moment(item?.created_at).fromNow()}</small>
                     </div>
                 </>
             ));
@@ -107,7 +107,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
                     <div className='d-flex align-items-end pb-2'>
                         <span>{item.message}</span>
                     </div>
-                    <small>{moment(item.updated_at).fromNow()}</small>
+                    <small>{moment(item.created_at).fromNow()}</small>
                     <div className='d-flex justify-content-between gap-4'>
                         <button className='btn main-button'>Check it Out!</button>
                         <button className='btn main-button' onClick={() => handleRead(item?.id)}>{item?.read_at ? "Unread" : "Read"}</button>
@@ -122,7 +122,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
                     <div className='d-flex align-items-end pb-2'>
                         <span>{item.message}</span>
                     </div>
-                    <small>{moment(item.updated_at).fromNow()}</small>
+                    <small>{moment(item.created_at).fromNow()}</small>
                     <div className='d-flex justify-content-between gap-4'>
                         <button className='btn main-button'>Check it Out!</button>
                         <button className='btn main-button' onClick={() => handleRead(item?.id)}>{item?.read_at ? "Unread" : "Read"}</button>
