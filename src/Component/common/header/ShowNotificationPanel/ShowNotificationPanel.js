@@ -59,24 +59,24 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
         } else if (activeTab === 'dailyUpdates') {
             return impUpdate?.map((item) => (
                 <div className="notification-item whats-new" key={item.id}>
-                    <img src="https://placehold.co/350x200?text=Promotional" alt="" />
+                    <img src={item?.image} alt="" />
                     <h4>Notification Title</h4>
-                    <div className='d-flex align-items-end pb-2'>
+                    <div>
                         <span>{item.message}</span>
                     </div>
-                    <small>{moment(item.updated_at).fromNow()}</small>
+                    <small className='mb-2'>{moment(item.updated_at).fromNow()}</small>
                     <button className='btn main-button'>Check it Out!</button>
                 </div>
             ));
         } else if (activeTab === 'promotions') {
             return whatsNew.map((item) => (
                 <div className="notification-item whats-new" key={item.id}>
-                    <img src="https://placehold.co/350x200?text=Promotional" alt="" />
+                    <img src={item?.image} alt="" />
                     <h4>Notification Title</h4>
-                    <div className='d-flex align-items-end pb-2'>
+                    <div>
                         <span>{item.message}</span>
-                        <small>{moment(item.updated_at).fromNow()}</small>
                     </div>
+                    <small className='mb-2'>{moment(item.updated_at).fromNow()}</small>
                     <button className='btn main-button'>Check it Out!</button>
                 </div>
             ));
