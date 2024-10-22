@@ -27,14 +27,18 @@
     margin: 0;
 }
 
-.btn-close {
+.notification-header .btn-close {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 12px;
     cursor: pointer;
+    white-space: nowrap;
+    width: fit-content;
+    background: var(--sh-primary-light);
+    color: var(--sh-primary)
 }
 
-.btn-close:focus {
+.notification-header .btn-close:focus {
     outline: none;
 }
 
@@ -62,10 +66,25 @@
     border-bottom: 2px solid #333;
 }
 
+.notification-panel .view-all-btn {
+    font-weight: 600;
+    /* text-decoration: underline; */
+    color: var(--sh-primary);
+    width: fit-content;
+    text-align: center;
+}
+
+.notification-panel .view-all-btn:hover {
+    text-shadow: 5px 3px 3px #5dabcd;
+}
+
 .notification-body {
     padding: 15px;
     flex-grow: 1;
+    max-height: calc(100vh - 165px);
+    overflow: auto;
 }
+
 
 .notification-item {
     margin-bottom: 15px;
@@ -74,8 +93,8 @@
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .notification-item span {
@@ -87,6 +106,49 @@
     color: #999;
     font-size: 12px;
     white-space: nowrap;
+}
+
+/* 
+.notification-item.whats-new {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+} */
+
+.notification-item.whats-new h4 {
+    max-width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1.2rem;
+    margin-block: 7px 0px;
+    font-weight: 600;
+}
+
+.notification-item.whats-new img {
+    width: 100%;
+    height: 200px;
+    border-radius: 0.5rem;
+}
+
+.notification-item .status-icon {
+    cursor: pointer;
+}
+
+.notification-item .mail-icon-tooltip {
+    left: unset;
+    white-space: nowrap;
+    min-height: unset;
+    right: -20px;
+    top: -25px;
+    bottom: unset;
+}
+
+.unread-notification {
+    border-left: 6px solid forestgreen;
+}
+
+.unread-notification .status-icon {
+    color: forestgreen;
 }
 
 @keyframes slideIn {
