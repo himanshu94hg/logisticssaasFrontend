@@ -202,7 +202,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     if (userData?.id != null) {
       fetchData()
     }
-  }, [userData, refresh])
+  }, [userData, refresh,impRefresh])
 
   useEffect(() => {
     if (NotificationCount?.unread_notifications_count > 0) {
@@ -212,7 +212,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
       return () => clearInterval(interval);
     }
-  }, [NotificationCount?.unread_notifications_count,impRefresh]);
+  }, [NotificationCount?.unread_notifications_count]);
 
   return (
     <>
