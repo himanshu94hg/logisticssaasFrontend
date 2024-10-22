@@ -164,7 +164,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
                         {renderContent()}
                     </div>
                     <div className='d-flex align-items-center justify-content-center'>
-                        <button className='btn view-all-btn' onClick={() => setViewAll(!viewAll)} >{viewAll ? "View Less" : "View ALL"}</button>
+                        <button className='btn view-all-btn' onClick={() => setViewAll(!viewAll)} >{viewAll ? "View Less" : "View All"}</button>
                     </div>
                 </div>
             )}
