@@ -194,7 +194,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    if(userData?.id!=null){
+    if (userData?.id != null) {
       fetchData()
     }
   }, [userData])
@@ -288,19 +288,19 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                     </span>
                   </div>
                 </Nav.Link>
-                {
-                  screenWidthData > 991 &&
-                  <div className="icons links ">
-                    <div onClick={() => setShowNotification(true)} className={`iconContainer notificationIcon bell ${highlight ? 'highlight' : ''}`}>
-                      <FontAwesomeIcon icon={faBell} />
-                      {NotificationCount !== null &&
-                        <span className="bellColor">
-                          {NotificationCount?.unread_notifications_count}
-                        </span>
-                      }
-                    </div>
+                {/* {
+                  screenWidthData > 991 && */}
+                <div className="icons links ">
+                  <div onClick={() => setShowNotification(true)} className={`iconContainer notificationIcon bell ${highlight ? 'highlight' : ''}`}>
+                    <FontAwesomeIcon icon={faBell} />
+                    {NotificationCount !== null &&
+                      <span className="bellColor">
+                        {NotificationCount?.unread_notifications_count}
+                      </span>
+                    }
                   </div>
-                }
+                </div>
+                {/* } */}
 
                 <NavDropdown
                   title={
