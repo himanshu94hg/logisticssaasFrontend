@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ManageSubAccount.css';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import AddSubAccount from './AddSubAccount';
 import UnicommerceIcon from '../../../../../assets/image/integration/UnicommerceIcon.png'
 import AmazonLogo from '../../../../../assets/image/integration/AmazonLogo1.png'
@@ -14,6 +14,8 @@ import Cookies from 'js-cookie';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import axios from 'axios';
+import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const ManageSubAccount = () => {
   const [ds, setDs] = useState(null)
@@ -44,7 +46,7 @@ const ManageSubAccount = () => {
     setTimeout(() => {
       setCopiedText('')
       setDs(false)
-    }, 1500);
+    }, 2000);
   }
 
   const sendEmail = (username, email, password) => {
@@ -77,6 +79,64 @@ const ManageSubAccount = () => {
     fetchSku();
   }, [refresh]);
 
+  const handleClose = () => {
+    setAddAccount(false)
+  }
+
+
+  const [formData, setFormData] = useState({
+    contact_number: '',
+    email: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${BASE_URL_CORE}/core-api/seller/sub-account/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (response.status === 201) {
+        setRefresh(new Date())
+        toast.success("Subaccount added successfully!")
+        setFormData({
+          contact_number: '',
+          email: '',
+        })
+        handleClose()
+      }
+    } catch (error) {
+      customErrorFunction(error)
+      handleClose()
+      setFormData({
+        contact_number: '',
+        email: '',
+      })
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    const allowedCharacters = /^[0-9\b.]+$/;
+    const { name, value } = e.target;
+    if (!allowedCharacters.test(e.key) && name === "contact_number") {
+      e.preventDefault()
+    }
+  }
+
   return (
     <section className='manage-sub-accounts'>
       <div className='d-flex justify-content-between align-items-center'>
@@ -90,7 +150,6 @@ const ManageSubAccount = () => {
             <tr className='table-row box-shadow'>
               <th>Subaccount Name</th>
               <th>Subaccount Email</th>
-              <th>Password</th>
               <th>Verification Status</th>
               <th>Channels</th>
               <th>Wallet Balance</th>
@@ -106,15 +165,12 @@ const ManageSubAccount = () => {
                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                 <tr className='table-row box-shadow'>
                   <td>{account?.seller?.company_name}</td>
-                  <td>{account?.seller?.email}</td>
                   <td>
-                    <div className='d-flex gap-2 align-items-center'>
-                      <span style={{ height: '14px' }}>*********</span>
+                    <div className='d-flex flex-column'>
+                      <p>{account?.seller?.email}</p>
                       <CopyToClipboard text={account.password} onCopy={() => handleCopy(account?.password, index)}>
-                        <button title='Click to Copy Password' className='btn p-0 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
-                          {(index === ds && copiedText === account?.password) &&
-                            <span className='copied-text'>Copied!</span>
-                          }
+                        <button title='Click to Copy Password' className='btn copy-password'>
+                          {(index === ds && copiedText === account?.password) ? 'Password Copied!' : 'Copy Password'}
                         </button>
                       </CopyToClipboard>
                     </div>
@@ -143,10 +199,8 @@ const ManageSubAccount = () => {
                   <td><IoWalletOutline className='font20 fw-bold' style={{ verticalAlign: '-4px' }} /> &#x20b9;{account?.seller?.balance}</td>
                   <td>
                     <CopyToClipboard text={account.apiKey} onCopy={() => handleCopy(account.apiKey, index)}>
-                      <button title='Click to Copy API Key' className='btn p-0 ms-2 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
-                        {(index === ds && copiedText === account.apiKey) &&
-                          <span className='copied-text'>Copied!</span>
-                        }
+                      <button title='Click to Copy API Key' className='btn copy-key'>
+                        {(index === ds && copiedText === account.apiKey) ? 'Key Copied!' : 'Copy Key'}
                       </button>
                     </CopyToClipboard>
                   </td>
@@ -160,7 +214,7 @@ const ManageSubAccount = () => {
                   </td>
                   <td>
                     <button onClick={() => sendEmail(account.name, account?.seller?.email, account?.password)} className='btn email-btn'>
-                      <FontAwesomeIcon icon={faEnvelope} />
+                      <FontAwesomeIcon icon={faEnvelopeOpen} />
                     </button>
                   </td>
                 </tr>
@@ -170,12 +224,73 @@ const ManageSubAccount = () => {
         </table>
       </div>
 
-      {AddAccount && (
+      {/* {AddAccount && (
         <AddSubAccount
           setRefresh={setRefresh}
           handleClose={() => setAddAccount(false)}
         />
-      )}
+      )} */}
+
+      <Modal className='confirmation-modal add-user-pop' show={AddAccount} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className='d-flex flex-column gap-3'>
+              <label>Contact Number
+                <input
+                  required
+                  type='text'
+                  maxLength={10}
+                  name='contact_number'
+                  onChange={handleChange}
+                  className='input-field'
+                  value={formData.contact_number}
+                  onKeyPress={(e) => handleKeyPress(e)}
+                />
+              </label>
+
+              <label>Subaccount Email
+                <input
+                  type='text'
+                  name='email'
+                  value={formData.email}
+                  onChange={handleChange}
+                  className='input-field'
+                  maxLength={60}
+                  onKeyDown={(e) => {
+                    if (e.key === " " && e.target.value.endsWith(' ')) {
+                      e.preventDefault()
+                    }
+                  }}
+                />
+              </label>
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className=''>
+            <div>
+              {/* {errors && <div style={{ color: "red" }}>{errors}</div>} */}
+            </div>
+            <div className='d-flex gap-2 justify-content-end w-100'>
+              <button
+                className="btn cancel-button"
+                onClick={handleClose}
+              >
+                Close
+              </button>
+              <button
+                className="btn main-button"
+                onClick={handleSubmit}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </section>
   );
 }
