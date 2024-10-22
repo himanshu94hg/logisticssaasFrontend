@@ -44,7 +44,7 @@ const ManageSubAccount = () => {
     setTimeout(() => {
       setCopiedText('')
       setDs(false)
-    }, 1500);
+    }, 2000);
   }
 
   const sendEmail = (username, email, password) => {
@@ -90,7 +90,6 @@ const ManageSubAccount = () => {
             <tr className='table-row box-shadow'>
               <th>Subaccount Name</th>
               <th>Subaccount Email</th>
-              <th>Password</th>
               <th>Verification Status</th>
               <th>Channels</th>
               <th>Wallet Balance</th>
@@ -106,15 +105,12 @@ const ManageSubAccount = () => {
                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                 <tr className='table-row box-shadow'>
                   <td>{account?.seller?.company_name}</td>
-                  <td>{account?.seller?.email}</td>
                   <td>
-                    <div className='d-flex gap-2 align-items-center'>
-                      <span style={{ height: '14px' }}>*********</span>
+                    <div className='d-flex flex-column'>
+                      <p>{account?.seller?.email}</p>
                       <CopyToClipboard text={account.password} onCopy={() => handleCopy(account?.password, index)}>
-                        <button title='Click to Copy Password' className='btn p-0 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
-                          {(index === ds && copiedText === account?.password) &&
-                            <span className='copied-text'>Copied!</span>
-                          }
+                        <button title='Click to Copy Password' className='btn copy-password'>
+                          {(index === ds && copiedText === account?.password) ? 'Password Copied!' : 'Copy Password'}
                         </button>
                       </CopyToClipboard>
                     </div>
@@ -143,10 +139,8 @@ const ManageSubAccount = () => {
                   <td><IoWalletOutline className='font20 fw-bold' style={{ verticalAlign: '-4px' }} /> &#x20b9;{account?.seller?.balance}</td>
                   <td>
                     <CopyToClipboard text={account.apiKey} onCopy={() => handleCopy(account.apiKey, index)}>
-                      <button title='Click to Copy API Key' className='btn p-0 ms-2 position-relative'><FontAwesomeIcon icon={faCopy} className='font20' />
-                        {(index === ds && copiedText === account.apiKey) &&
-                          <span className='copied-text'>Copied!</span>
-                        }
+                      <button title='Click to Copy API Key' className='btn copy-key'>
+                        {(index === ds && copiedText === account.apiKey) ? 'Key Copied!' : 'Copy Key'}
                       </button>
                     </CopyToClipboard>
                   </td>
