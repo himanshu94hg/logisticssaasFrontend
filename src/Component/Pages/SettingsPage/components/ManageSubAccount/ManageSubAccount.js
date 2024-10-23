@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ManageSubAccount.css';
 import { Button, Form, Modal } from 'react-bootstrap';
-import AddSubAccount from './AddSubAccount';
-import UnicommerceIcon from '../../../../../assets/image/integration/UnicommerceIcon.png'
-import AmazonLogo from '../../../../../assets/image/integration/AmazonLogo1.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { IoWalletOutline } from "react-icons/io5";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiError } from "react-icons/bi";
@@ -181,9 +177,10 @@ const ManageSubAccount = () => {
                         <MdOutlineVerified className='font20 text-success' /> Verified
                       </>
                       :
-                      <>
-                        <BiError className='font20 text-danger' /> Pending
-                      </>
+                      <div className='pending-status'>
+                        <BiError className='font20' />
+                        Pending
+                      </div>
                     }
                   </td>
                   <td>
