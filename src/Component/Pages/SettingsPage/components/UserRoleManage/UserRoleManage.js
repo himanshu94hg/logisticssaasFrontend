@@ -24,6 +24,7 @@ const UserRoleManage = () => {
     const [updateData, setUpdateData] = useState({})
     const [deleteShow, setDeleteShow] = useState(false)
     const [employeeUser, setEmployeeUser] = useState([])
+    const [PwdCopy, setPwdCopy] = useState("Copy Password")
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [formData, setFormData] = useState({
         employee: {
@@ -295,13 +296,28 @@ const UserRoleManage = () => {
         fetchSellers();
     }, []);
 
-    const [PwdCopy, setPwdCopy] = useState("Copy Password")
 
     const handlePwdCopy = (password, index) => {
         navigator.clipboard.writeText(password).then(() => {
             setPwdCopy(index);
-            setTimeout(() => setPwdCopy(null), 2000); // Reset the copied state after 2 seconds
+            setTimeout(() => setPwdCopy(null), 2000); 
         });
+    }
+
+    const handleClose = () => {
+        setShow(!show);
+        setFormData(
+            {
+                employee: {
+                    name: "",
+                    seller_id: null,
+                    mobile: "",
+                    password: "",
+                    email: ""
+                },
+                employee_rights: []
+            }
+        )
     }
 
     return (
@@ -470,7 +486,7 @@ const UserRoleManage = () => {
                             {errors && <div style={{ color: "red" }}>{errors}</div>}
                         </div>
                         <div className='d-flex gap-2 justify-content-end w-100'>
-                            <button className="btn cancel-button" onClick={handleAddUser}>
+                            <button className="btn cancel-button" onClick={handleClose}>
                                 Close
                             </button>
                             <button className="btn main-button" onClick={handleSaveUser}>

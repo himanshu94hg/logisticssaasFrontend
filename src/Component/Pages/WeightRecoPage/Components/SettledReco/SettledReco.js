@@ -203,7 +203,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.c_weight} kg</p>
+                                                <p>Wt:  {(row?.c_weight/1000).toFixed(2)} kg</p>
                                                 <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                                 <p className=''>Charged Amount : {row?.charged_amount}</p>
                                             </div>
