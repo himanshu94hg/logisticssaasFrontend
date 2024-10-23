@@ -88,3 +88,16 @@
     background: #ECF8EE;
     color: #3BB54B;
 }
+
+.manage-sub-accounts .pending-status {
+    background: #FDF7C2;
+    color: #A16418;
+    border-radius: 0.5rem;
+    width: 100px;
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 2px;
+    gap: 3px;
+}

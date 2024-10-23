@@ -956,6 +956,13 @@
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
+    .notification-panel {
+        width: 90%;
+    }
+
+    .iconContainer {
+        width: 27px;
+    }
 }
 
 @media screen and (max-width:400px) {
