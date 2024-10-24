@@ -34,12 +34,17 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [alerts, setAlerts] = useState([])
-  const [whatsNew, setWhatsNew] = useState([])
   let authToken = Cookies.get("access_token")
+  const [whatsNew, setWhatsNew] = useState([])
+  const [refresh, setRefresh] = useState(null);
   let staticToken = Cookies.get("static_token")
+  const [viewAll, setViewAll] = useState(false)
   const [impUpdate, setImpUpdate] = useState([])
   const [inputValue, setInputValue] = useState('');
+  const [highlight, setHighlight] = useState(false);
+  const [impRefresh, setImpRefresh] = useState(null);
   const [ViewProfile, setViewProfile] = useState(false)
+
   const [ShowNotification, setShowNotification] = useState(false)
   const [NotificationCount, setNotificationCount] = useState(null)
   const [temp, setTemp] = useState({
@@ -125,7 +130,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications/?seller_id=${userData?.id}`, {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/features/notifications/?seller_id=${userData?.id}&view_all=${viewAll}`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -141,7 +146,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     if (userData?.id !== undefined) {
       fetchData()
     }
-  }, [userData])
+  }, [userData, refresh, viewAll])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -159,7 +164,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       }
     }
     fetchData()
-  }, [])
+  }, [impRefresh])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -177,7 +182,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       }
     }
     fetchData()
-  }, [])
+  }, [impRefresh])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -194,12 +199,11 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    if(userData?.id!=null){
+    if (userData?.id != null) {
       fetchData()
     }
-  }, [userData])
+  }, [userData, refresh,impRefresh])
 
-  const [highlight, setHighlight] = useState(false);
   useEffect(() => {
     if (NotificationCount?.unread_notifications_count > 0) {
       const interval = setInterval(() => {
@@ -288,19 +292,19 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                     </span>
                   </div>
                 </Nav.Link>
-                {
-                  screenWidthData > 991 &&
-                  <div className="icons links ">
-                    <div onClick={() => setShowNotification(true)} className={`iconContainer notificationIcon bell ${highlight ? 'highlight' : ''}`}>
-                      <FontAwesomeIcon icon={faBell} />
-                      {NotificationCount !== null &&
-                        <span className="bellColor">
-                          {NotificationCount?.unread_notifications_count}
-                        </span>
-                      }
-                    </div>
+                {/* {
+                  screenWidthData > 991 && */}
+                <div className="icons links ">
+                  <div onClick={() => setShowNotification(true)} className={`iconContainer notificationIcon bell ${highlight ? 'highlight' : ''}`}>
+                    <FontAwesomeIcon icon={faBell} />
+                    {NotificationCount !== null &&
+                      <span className="bellColor">
+                        {NotificationCount?.unread_notifications_count}
+                      </span>
+                    }
                   </div>
-                }
+                </div>
+                {/* } */}
 
                 <NavDropdown
                   title={
@@ -348,7 +352,17 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       {ViewProfile}
 
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
-      <ShowNotificationPanel showNotification={ShowNotification} setShowNotification={setShowNotification} whatsNew={whatsNew} alerts={alerts} impUpdate={impUpdate} />
+      <ShowNotificationPanel
+        alerts={alerts}
+        viewAll={viewAll}
+        whatsNew={whatsNew}
+        impUpdate={impUpdate}
+        setViewAll={setViewAll}
+        setRefresh={setRefresh}
+        setImpRefresh={setImpRefresh}
+        showNotification={ShowNotification}
+        setShowNotification={setShowNotification}
+      />
       {
         screenWidthData < 992 &&
         <div onClick={() => setExpanded(false)} className={`backdrop ${!isExpanded && 'd-none'}`}></div>

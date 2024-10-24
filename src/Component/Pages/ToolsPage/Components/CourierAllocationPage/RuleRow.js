@@ -25,7 +25,6 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
     };
 
     const handleInputChange = (index, value) => {
-        console.log(index, value, "lllllllllllllllll")
         const newRows = [...rows];
         newRows[index].match_value = value;
         setRows(newRows);

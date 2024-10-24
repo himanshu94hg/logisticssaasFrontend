@@ -8,9 +8,8 @@ import { Form, Modal } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { faEnvelopeOpen, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelopeOpen, faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const UserRoleManage = () => {
     const [empId, setEmpId] = useState("")
@@ -25,6 +24,7 @@ const UserRoleManage = () => {
     const [updateData, setUpdateData] = useState({})
     const [deleteShow, setDeleteShow] = useState(false)
     const [employeeUser, setEmployeeUser] = useState([])
+    const [PwdCopy, setPwdCopy] = useState("Copy Password")
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [formData, setFormData] = useState({
         employee: {
@@ -296,6 +296,30 @@ const UserRoleManage = () => {
         fetchSellers();
     }, []);
 
+
+    const handlePwdCopy = (password, index) => {
+        navigator.clipboard.writeText(password).then(() => {
+            setPwdCopy(index);
+            setTimeout(() => setPwdCopy(null), 2000); 
+        });
+    }
+
+    const handleClose = () => {
+        setShow(!show);
+        setFormData(
+            {
+                employee: {
+                    name: "",
+                    seller_id: null,
+                    mobile: "",
+                    password: "",
+                    email: ""
+                },
+                employee_rights: []
+            }
+        )
+    }
+
     return (
         <section className='manage-sub-accounts'>
             <div className='d-flex justify-content-between align-items-center'>
@@ -306,13 +330,13 @@ const UserRoleManage = () => {
                 <table className="w-100">
                     <thead>
                         <tr className='table-row box-shadow'>
-                            <th style={{ width: '15%' }}>Employee Name</th>
-                            <th style={{ width: '15%' }}>Email</th>
+                            <th style={{ width: '14%' }}>Employee Name</th>
+                            <th style={{ width: '14%' }}>Email</th>
                             <th style={{ width: '10%' }}>Contact</th>
                             <th style={{ width: '10%' }}>Code</th>
-                            <th style={{ width: '20%' }}>Module(s)</th>
-                            <th style={{ width: '15%' }}>Status</th>
-                            <th style={{ width: '15%' }}>Action</th>
+                            <th style={{ width: '30%' }}>Module(s)</th>
+                            <th style={{ width: '9%' }}>Status</th>
+                            <th style={{ width: '12%' }}>Action</th>
                         </tr>
                         <tr className="blank-row"><td></td></tr>
                     </thead>
@@ -322,30 +346,39 @@ const UserRoleManage = () => {
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                                 <tr className='table-row box-shadow'>
                                     <td>{account.name}</td>
-                                    <td>{account.email}</td>
+                                    <td>
+                                        <div className='user-pwd-container'>
+                                            <span>{account.email}</span>
+                                            <span onClick={() => handlePwdCopy(account.password, index)}>{PwdCopy === index ? "Copied" : "Copy Password"}</span>
+                                        </div>
+                                    </td>
                                     <td>{account.mobile}</td>
                                     <td>{account.code}</td>
-                                    <td>{account?.employee_rights?.map((item) => (
-                                        <p className='fw-bold'>{item?.route_name}</p>
-                                    ))}</td>
+                                    <td>
+                                        <ul className='user-rights-sections'>
+                                            {account?.employee_rights?.map((item) => (
+                                                <li>{item?.route_name}</li>
+                                            ))}
+                                        </ul>
+                                    </td>
                                     <td>
                                         <Form.Check
                                             type="switch"
                                             checked={account.status}
                                             onChange={(e) => toggleStatus(e, account?.id)}
-                                            label={account.seller?.status ? "Active" : "Inactive"}
+                                            label={account?.status ? "Active" : "Inactive"}
                                         />
                                     </td>
                                     <td>
                                         <div className='d-flex align-items-center gap-2'>
-                                            <button title='Send Mail to New User' className='btn edit-btn' onClick={() => handleSendEmail(account.fullName, account.email, account.password)}>
+                                            <button title='Send Mail to New User' className='btn user-based-mail' onClick={() => handleSendEmail(account.fullName, account.email, account.password)}>
                                                 <FontAwesomeIcon icon={faEnvelopeOpen} />
                                             </button>
-                                            <button title='Edit User' onClick={() => handleEditUser(account?.id, "edit")} className='btn edit-btn'>
+                                            <button title='Edit User' onClick={() => handleEditUser(account?.id, "edit")} className='btn user-based-edit'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </button>
-                                            <button title='Delete User' onClick={() => handleDeleteShow(account?.id)} className='btn delete-btn'>
-                                                <FontAwesomeIcon icon={faTrash} />
+                                            <button title='Delete User' onClick={() => handleDeleteShow(account?.id)} className='btn user-based-delete'>
+                                                <FontAwesomeIcon icon={faTrashCan} />
                                             </button>
                                         </div>
                                     </td>
@@ -453,7 +486,7 @@ const UserRoleManage = () => {
                             {errors && <div style={{ color: "red" }}>{errors}</div>}
                         </div>
                         <div className='d-flex gap-2 justify-content-end w-100'>
-                            <button className="btn cancel-button" onClick={handleAddUser}>
+                            <button className="btn cancel-button" onClick={handleClose}>
                                 Close
                             </button>
                             <button className="btn main-button" onClick={handleSaveUser}>

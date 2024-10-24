@@ -262,7 +262,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                                 placeholder='Enter Customer Order Number'
                                 maxLength={100}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),-=.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
