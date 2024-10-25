@@ -461,8 +461,14 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         }
                                                         tooltipComponent={
                                                             <span>
-                                                                <span><strong>Pickup Requested Date:</strong>{`${moment(row?.pickup_generate_datetime).format('DD MMM YYYY')} || ${moment(row?.pickup_generate_datetime).format('hh:mm A')}`}</span>
-                                                                <span><strong>Booked Date:</strong>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                {
+                                                                    row?.pickup_generate_datetime &&
+                                                                    <span><strong>Pickup Requested Date:</strong>{`${moment(row?.pickup_generate_datetime).format('DD MMM YYYY')} || ${moment(row?.pickup_generate_datetime).format('hh:mm A')}`}</span>
+                                                                }
+                                                                {
+                                                                    row?.awb_assigned_date &&
+                                                                    <span><strong>Booked Date:</strong>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                }
                                                                 <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
                                                                 <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
                                                             </span>

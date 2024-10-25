@@ -76,7 +76,7 @@ const WeightRecoPage = () => {
             page_size: itemsPerPage,
             q: searchValue
         }
-
+        setLoader(true)
         switch (activeTab) {
             case "Weight Reconciliation":
                 dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
@@ -106,6 +106,13 @@ const WeightRecoPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
+
+
+    useEffect(() => {
+        if (weightData || holdData || setteledData) {
+            setLoader(false)
+        }
+    }, [weightData, holdData, setteledData])
 
     useEffect(() => {
         const temp_data = {
@@ -181,6 +188,7 @@ const WeightRecoPage = () => {
         []
     );
     const handleReset = () => {
+        setLoader(true)
         debouncedHandleClick();
         setSearchOption(SearchOptions[0])
 
@@ -343,7 +351,8 @@ const WeightRecoPage = () => {
             </div>}
             <div className='wt-page-container'>
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                    <WeightRecoTab weightRecoData={weightData?.results}
+                    <WeightRecoTab
+                        weightRecoData={weightData?.results}
                         setAwbNo={setAwbNo}
                         partnerList={partnerList}
                         selectedRows={selectedRows}

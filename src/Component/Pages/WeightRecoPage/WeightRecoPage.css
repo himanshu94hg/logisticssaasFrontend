@@ -1,9 +1,80 @@
 .wt-page-container .table-container {
-    height: calc(100vh - 289px);
+    height: calc(100vh - 301px);
 }
 
 @media screen and (max-width:1600px) {
     .wt-page-container .table-container {
-        height: calc(100vh - 281px);
+        height: calc(100vh - 291px);
     }
+}
+
+.view-dispute-panel {
+    position: fixed;
+    top: 0;
+    right: -1100px;
+    transition: 1s;
+    height: 100vh;
+    width: 1000px;
+    background-color: #fff;
+    z-index: 6;
+}
+
+.view-dispute-panel.open {
+    right: 0;
+}
+
+.view-dispute-panel p {
+    margin-bottom: 0;
+}
+
+.view-dispute-panel .panel-header {
+    width: 100%;
+    background-color: #CEDBF2;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-dispute-panel .panel-header .dispute-status {
+    text-transform: capitalize;
+}
+
+.view-dispute-panel .panel-body {
+    padding: 15px 20px;
+    position: relative;
+}
+
+.view-dispute-panel .flip-flex {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: calc(100vh - 197px);
+}
+
+
+.view-dispute-panel .flip-flex .table-container,
+.view-dispute-panel .flip-flex .remark-form-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.7s;
+    overflow-y: auto;
+    /* background: red; */
+}
+
+.view-dispute-panel .flip-flex .table-container.hide-content {
+    left: -100em;
+    opacity: 0;
+}
+
+.view-dispute-panel .flip-flex .remark-form-section.hide-content {
+    left: 100em;
+    opacity: 0;
+}
+
+.view-dispute-panel .remark-form-section textarea {
+    min-height: 200px;
 }
