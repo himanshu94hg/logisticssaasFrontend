@@ -1,10 +1,10 @@
 .wt-page-container .table-container {
-    height: calc(100vh - 289px);
+    height: calc(100vh - 301px);
 }
 
 @media screen and (max-width:1600px) {
     .wt-page-container .table-container {
-        height: calc(100vh - 281px);
+        height: calc(100vh - 291px);
     }
 }
 
@@ -49,8 +49,7 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 100%;
-    min-height: 500px;
+    height: calc(100vh - 197px);
 }
 
 
@@ -62,6 +61,7 @@
     width: 100%;
     height: 100%;
     transition: 0.7s;
+    overflow-y: auto;
     /* background: red; */
 }
 
@@ -73,4 +73,8 @@
 .view-dispute-panel .flip-flex .remark-form-section.hide-content {
     left: 100em;
     opacity: 0;
+}
+
+.view-dispute-panel .remark-form-section textarea {
+    min-height: 200px;
 }

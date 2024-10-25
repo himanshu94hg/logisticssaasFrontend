@@ -2,8 +2,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }) => {
     const dispatch = useDispatch();
@@ -15,13 +14,49 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
     }, [DisputeEscalate, selectedRow, dispatch]);
 
     const [AddRemarks, setAddRemarks] = useState(false)
+    const [remarkText, setRemarkText] = useState("");
+    const [imageInputs, setImageInputs] = useState([{ id: Date.now(), file: null }]);
+    const [error, setError] = useState(false)
 
     const handleAddRemarks = () => {
         setAddRemarks(!AddRemarks)
+        setRemarkText("");
+        setImageInputs([{ id: Date.now(), file: null }]);
     }
-    const handleAddImageInput = () => {
 
-    }
+    const handleAddImageInput = () => {
+        setImageInputs([...imageInputs, { id: Date.now(), file: null }]);
+    };
+
+    const handleRemoveImageInput = (id) => {
+        setImageInputs(imageInputs.filter((input) => input.id !== id));
+    };
+    const handleImageChange = (e, id) => {
+        const file = e.target.files[0];
+        setImageInputs((prevInputs) =>
+            prevInputs.map((input) => (input.id === id ? { ...input, file } : input))
+        );
+    };
+
+    const handleRemarkSubmit = () => {
+        if (remarkText.trim() || imageInputs.some((input) => input.file)) {
+            const remarkData = {
+                text: remarkText,
+                images: imageInputs.filter((input) => input.file).map((input) => input.file),
+            };
+
+            // Dispatch or handle the remark submission with text and images
+            console.log("Submitted Remark Data:", remarkData);
+
+            // Reset form
+            setRemarkText("");
+            setImageInputs([{ id: Date.now(), file: null }]);
+            setAddRemarks(false);
+        }
+        else {
+            setError(true)
+        }
+    };
 
     return (
         <>
@@ -85,10 +120,41 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                         </div>
                         <div className={`remark-form-section ${!AddRemarks && 'hide-content'}`}>
                             <div className='w-100'>
-                                <textarea name="" id=""></textarea>
+                                <textarea
+                                    cols={5}
+                                    className='input-field'
+                                    value={remarkText}
+                                    onChange={(e) => setRemarkText(e.target.value)}
+                                ></textarea>
                             </div>
-                            <input type="file" name="" id="" />
-                            <button onClick={handleAddImageInput}>Add more images</button>
+                            <div className='d-flex flex-column'>
+                                {imageInputs.map((input) => (
+                                    <div key={input.id} className='d-flex mb-2'>
+                                        <input
+                                            type="file"
+                                            className='form-control input-field'
+                                            onChange={(e) => handleImageChange(e, input.id)}
+                                        />
+                                        {imageInputs.length > 1 && (
+                                            <button
+                                                className='btn btn-danger ms-2'
+                                                onClick={() => handleRemoveImageInput(input.id)}
+                                            >
+                                                Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                                <button className='btn add-images-btn mt-2' onClick={handleAddImageInput}>
+                                    Add more images
+                                </button>
+                            </div>
+                            <div>
+                            </div>
+                            <div className='d-flex align-items-center justify-content-between w-100'>
+                                <button onClick={handleAddRemarks} className='btn cancel-button'>Cancel</button>
+                                <button onClick={handleRemarkSubmit} className='btn main-button'>Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
