@@ -27,9 +27,11 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import ViewDisputeHistory from './ViewDisputeHistory';
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch();
+    const [DisputeEscalate, setDisputeEscalate] = useState(false);
     const [show, setShow] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [showComment, setShowComment] = useState(false);
@@ -38,7 +40,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
-    console.log(partnerList,"partnerList")
+    console.log(partnerList, "partnerList")
 
 
     const handleClose = () => setShow(false);
@@ -94,11 +96,14 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     };
 
     const handleDispute = (row) => {
-        const rowString = JSON.stringify(row);
-        dispatch({ type: "DISPUTE_ACTION", payload: { "ids": rowString } });
-        if (disputeRecord.status === true) {
-            toast.success("Thank you for disputing.")
-        }
+        setDisputeEscalate(true)
+        setSelectedRow(row);
+
+        // const rowString = JSON.stringify(row);
+        // dispatch({ type: "DISPUTE_ACTION", payload: { "ids": rowString } });
+        // if (disputeRecord.status === true) {
+        //     toast.success("Thank you for disputing.")
+        // }
     };
 
     const handleClickAWB = (orders) => {
@@ -119,7 +124,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
             });
     };
 
-    console.log(weightRecoData,"lllllllllll")
+    console.log(weightRecoData, "lllllllllll")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -183,6 +188,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                         }
                                                     </span>
                                                 </p>
+
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <CustomTooltip
                                                         triggerComponent={
@@ -196,7 +202,21 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                         tooltipComponent={<>{row?.order?.order_type}</>}
                                                         addClassName='verified-hover'
                                                     />
-                                                    <span className='ms-2'>{`${moment(row?.order?.order_date).format('DD MMM YYYY')} || ${moment(row?.order?.order_date).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <span className='ms-2'>{`${moment(row?.order?.order_date).format('DD MMM YYYY')} || ${moment(row?.order?.order_date).format('h:mm A')}`}</span>
+                                                        }
+                                                        tooltipComponent={
+                                                            <span>
+                                                                <span><strong>Pickup Requested Date:</strong>{`${moment(row?.order?.pickup_generate_datetime).format('DD MMM YYYY')} || ${moment(row?.order?.pickup_generate_datetime).format('hh:mm A')}`}</span>
+                                                                <span><strong>Booked Date:</strong>{`${moment(row?.order?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.order?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Order Date:</strong>{`${moment(row?.order?.order_date).format('DD MMM YYYY')} || ${moment(row?.order?.order_date).format('hh:mm A')}`}</span>
+                                                                <span><strong>Created At:</strong>{`${moment(row?.order?.created_at).format('DD MMM YYYY')} || ${moment(row?.order?.created_at).format('hh:mm A')}`}</span>
+                                                            </span>
+                                                        }
+                                                        addClassName='order-related-dates'
+                                                    />
+
                                                     {row?.is_mps === true &&
                                                         <span className="mps-flag">MPS</span>
                                                     }
@@ -249,9 +269,9 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p>
-                                                   <span> Applied amount  ₹ {row?.applied_amount}</span> <br />
-                                                   <span> Actual amount  ₹ {row?.charged_amount}</span>
-                                                  </p>
+                                                    <span> Applied amount  ₹ {row?.applied_amount}</span> <br />
+                                                    <span> Actual amount  ₹ {row?.charged_amount}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -279,7 +299,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {parseFloat(row?.c_weight/1000).toFixed(2)} kg</p>
+                                                <p>Wt:  {parseFloat(row?.c_weight / 1000).toFixed(2)} kg</p>
                                                 <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                             </div>
                                         </td>
@@ -296,12 +316,12 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                         <button className='btn main-button' title='Accept' onClick={() => handleAccept(row?.id)}>
                                                             <FaCheckSquare />
                                                         </button>
-                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row?.id)} >
+                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row)} >
                                                             <FaTimes />
                                                         </button>
                                                     </React.Fragment>
                                                 ) : (
-                                                    <button className='btn main-button' onClick={() => handleShow(row)}>
+                                                    <button className='btn main-button' onClick={() => handleDispute(row)}>
                                                         View History
                                                     </button>
                                                 )}
@@ -330,9 +350,11 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                     </table>
                     {weightRecoData?.length === 0 && <NoData />}
                 </div>
+                <ViewDisputeHistory DisputeEscalate={DisputeEscalate} setDisputeEscalate={setDisputeEscalate} selectedRow={selectedRow} />
+                <div onClick={() => setDisputeEscalate(false)} className={`backdrop ${!DisputeEscalate && 'd-none'}`}></div>
+
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
                 <PreviewComment showComment={showComment} handleCloseComment={handleCloseComment} selectedRow={selectedRow} />
-
             </div>
         </section>
     );
