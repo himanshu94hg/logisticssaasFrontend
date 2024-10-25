@@ -13,6 +13,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import NumberFormater from "../../../../common/NumberFormater/NumberFormater";
 
 export default function NavTabs(props) {
   const navigate = useNavigate();
@@ -80,12 +81,7 @@ export default function NavTabs(props) {
                   }}
                 >
                   <div className="navItemsContainer">{tab}<span className="tab-counter">
-                    {tab === "All" && props?.counterData?.["all_order"]}
-                    {tab === "Processing" && props?.counterData?.["processing"]}
-                    {tab === "Ready to Ship" && props?.counterData?.["ready_to_ship"]}
-                    {tab === "Pickup" && props?.counterData?.["pickup"]}
-                    {tab === "Manifest" && props?.counterData?.["manifest"]}
-                    {tab === "Returns" && props?.counterData?.["returns"]}
+                    <NumberFormater number={tab === "All" && props?.counterData?.["all_order"] || tab === "Processing" && props?.counterData?.["processing"] || tab === "Ready to Ship" && props?.counterData?.["ready_to_ship"] || tab === "Pickup" && props?.counterData?.["pickup"] || tab === "Manifest" && props?.counterData?.["manifest"] || tab === "Returns" && props?.counterData?.["returns"]} />
                   </span></div>
                 </Nav.Link>
               ))}

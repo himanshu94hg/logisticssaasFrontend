@@ -704,11 +704,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
-                                                                        {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
-                                                                        {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
-                                                                        {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
-                                                                        {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
-                                                                        {row?.shipping_detail?.pincode}
+                                                                        <b>Address:</b> {row?.shipping_detail?.address}<br />
+                                                                        <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                        <b>City:</b> {row?.shipping_detail?.city}<br />
+                                                                        <b>State:</b> {row?.shipping_detail?.state}<br />
+                                                                        <b>Pincode:</b> {row?.shipping_detail?.pincode}
                                                                     </span>
                                                                 </span>
                                                             </p>
