@@ -1,19 +1,24 @@
 import React from 'react';
 
 const formatNumber = (num) => {
-    if (num == 0) {
+    if (num === undefined || num === null) {
         return '0';
-    } else if (num > 99999) {
+    } else if (num === 0) {
+        return '0';
+    } else if (num >= 100000) {
         return (num / 100000).toFixed(2) + ' L';
-    } else if (num > 999) {
+    } else if (num >= 1000) {
         return (num / 1000).toFixed(2) + ' K';
+    } else if (num < 0) {
+        return '-' + formatNumber(-num);
     } else {
         return num.toString();
     }
 };
 
-const NumberFormater = ({ number }) => {
-    return <span>{formatNumber(number)}</span>;
+const NumberFormatter = ({ number }) => {
+    const displayNumber = typeof number === 'number' ? number : 0;
+    return <span>{formatNumber(displayNumber)}</span>;
 };
 
-export default NumberFormater;
+export default NumberFormatter;
