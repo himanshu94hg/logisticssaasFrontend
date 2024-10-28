@@ -1,7 +1,9 @@
 import React from 'react';
 
 const formatNumber = (num) => {
-    if (num == 0) {
+    if (num == null || isNaN(num)) { 
+        return '-'; 
+    } else if (num ==0) {
         return '0';
     } else if (num > 99999) {
         return (num / 100000).toFixed(2) + ' L';
@@ -12,8 +14,8 @@ const formatNumber = (num) => {
     }
 };
 
-const NumberFormater = ({ number }) => {
+const NumberFormatter = ({ number }) => {
     return <span>{formatNumber(number)}</span>;
 };
 
-export default NumberFormater;
+export default NumberFormatter;
