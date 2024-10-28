@@ -306,7 +306,11 @@ const WeightRecoPage = () => {
                                             minWidth: '190px'
                                         }}
                                     >
-                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                        {
+                                            queryName.length > 0 ?
+                                                queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name || 'No Saved Filters'}</li>)
+                                                : <li>No Saved Filters</li>
+                                        }
                                     </ul>
                                 </div>
                                 <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>

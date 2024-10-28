@@ -156,7 +156,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order?.order_products[0]?.product_name}
+                                                <p data-truncate-name>{row?.order?.order_products[0]?.product_name}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -197,22 +197,26 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.e_weight} kg</p>
-                                                <p>LBH(cm): {row?.e_length} x {row?.e_breadth} x {row?.e_height}</p>
+                                                <p>LBH(cm): {row?.e_length && row?.e_breadth && row?.e_height ? `${row.e_length} x ${row.e_breadth} x ${row.e_height}` : ""}</p>
                                                 <p className=''>Applied Amount : {row?.applied_amount}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {(row?.c_weight/1000).toFixed(2)} kg</p>
-                                                <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
+                                                <p>Wt:  {(row?.c_weight / 1000).toFixed(2)} kg</p>
+                                                <p>LBH(cm): {row?.c_length && row?.c_breadth && row?.c_height ? `${row.c_length} x ${row.c_breadth} x ${row.c_height}` : ""}</p>
                                                 <p className=''>Charged Amount : {row?.charged_amount}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.s_weight} kg</p>
-                                                <p>LBH(cm): {row?.s_length} x {row?.s_breadth} x {row?.s_height}</p>
-                                                <p className=''>Settled Amount : {row?.settled_amount}</p>
+                                                <p>Wt: {row?.s_weight ? `${row.s_weight} kg` : ""}</p>
+                                                <p>
+                                                    LBH(cm): {(row?.s_length || row?.s_breadth || row?.s_height) ? (
+                                                        <>{row?.s_length} x {row?.s_breadth} x {row?.s_height}</>
+                                                    ) : ""}
+                                                </p>
+                                                <p>Settled Amount : {`${row?.settled_amount && row?.settled_amount}`}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
