@@ -28,6 +28,9 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import ViewDisputeHistory from './ViewDisputeHistory';
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
+import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
 
 const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const dispatch = useDispatch();
@@ -105,6 +108,8 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         //     toast.success("Thank you for disputing.")
         // }
     };
+
+    console.log(selectedRow,"selectedRow")
 
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
@@ -255,6 +260,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
                                                                     <strong>Qt.:</strong> {product.quantity}<br />
+                                                                    <hr />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -313,11 +319,11 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             <div className='d-flex align-items-center gap-3'>
                                                 {row?.status === "pending" ? (
                                                     <React.Fragment>
-                                                        <button className='btn main-button' title='Accept' onClick={() => handleAccept(row?.id)}>
-                                                            <FaCheckSquare />
+                                                        <button className='btn dispute-buttons' title='Accept' onClick={() => handleAccept(row?.id)}>
+                                                            <AcceptIcon size={30} />
                                                         </button>
-                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row)} >
-                                                            <FaTimes />
+                                                        <button className='btn dispute-buttons' title='Dispute' onClick={() => handleDispute(row)} >
+                                                            <BulkDisputeIcon size={30} />
                                                         </button>
                                                     </React.Fragment>
                                                 ) : (
