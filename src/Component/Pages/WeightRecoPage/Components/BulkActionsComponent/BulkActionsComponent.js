@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
+import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
+import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
 
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch()
@@ -61,18 +63,22 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                         <ul className='ba-actions'>
                             {activeTab === "Weight Reconciliation" &&
                                 <>
-                                    <li><span>Accept</span></li>
+                                    <li><AcceptIcon size={24} /><span>Accept</span></li>
+                                    <li><BulkDisputeIcon size={24} /><span>Dispute</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
                             {activeTab === "Settled Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
-                            {activeTab === "On Hold Reconciliation" &&
+                            {activeTab === "On-Hold Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
                         </ul>
