@@ -109,6 +109,8 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         // }
     };
 
+    console.log(selectedRow,"selectedRow")
+
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
         setOrderTracking(true)
