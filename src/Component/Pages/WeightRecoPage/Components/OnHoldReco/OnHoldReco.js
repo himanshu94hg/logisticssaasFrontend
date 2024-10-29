@@ -101,7 +101,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.id}</p>
+                                                <p>{row?.order?.id}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -132,8 +132,8 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>FWD : {row?.total_charges ?? 0} </p>
-                                                <p>RTO : {row?.rto_charges ?? 0} </p>
+                                                <p>FWD : {row?.total_charges || 0} </p>
+                                                <p>RTO : {row?.rto_charges || 0} </p>
                                             </div>
                                         </td>
                                     </tr>

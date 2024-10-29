@@ -8,6 +8,11 @@
     }
 }
 
+.copytext-tooltip {
+    white-space: nowrap;
+    min-height: unset;
+}
+
 .view-dispute-panel {
     position: fixed;
     top: 0;
