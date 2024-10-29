@@ -78,3 +78,7 @@
 .view-dispute-panel .remark-form-section textarea {
     min-height: 200px;
 }
+
+.dispute-buttons {
+    padding: 0;
+}
