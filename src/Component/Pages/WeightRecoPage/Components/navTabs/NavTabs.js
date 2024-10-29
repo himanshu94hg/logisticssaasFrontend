@@ -28,9 +28,7 @@ export default function NavTabs(props) {
                 <Nav.Link
                   key={item.name}
                   className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
-                  onClick={() => {
-                    props.setActiveTab(item.name);
-                  }}
+                  onClick={() => { props.setActiveTab(item.name); props.setCurrentPage(1) }}
                   title={item.title}
                 >
                   <div className="navItemsContainer">
