@@ -90,7 +90,6 @@ const WeightRecoPage = () => {
             default:
                 break;
         }
-
     }
 
     const handleMoreFilter = (data) => {
@@ -263,7 +262,7 @@ const WeightRecoPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setCurrentPage={setCurrentPage} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -306,7 +305,11 @@ const WeightRecoPage = () => {
                                             minWidth: '190px'
                                         }}
                                     >
-                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                        {
+                                            queryName.length > 0 ?
+                                                queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name || 'No Saved Filters'}</li>)
+                                                : <li>No Saved Filters</li>
+                                        }
                                     </ul>
                                 </div>
                                 <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
@@ -409,7 +412,7 @@ const WeightRecoPage = () => {
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} setAwbNo={setAwbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <LoaderScreen loading={loader} />

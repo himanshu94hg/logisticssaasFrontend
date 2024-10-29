@@ -1,22 +1,64 @@
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import moment from 'moment';
+import Cookies from "js-cookie"
+import { toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react'
+import { awsAccessKey } from '../../../../../config';
 import { useSelector, useDispatch } from 'react-redux';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+
 
 const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }) => {
     const dispatch = useDispatch();
+    const [reset, setReset] = useState(null)
+    let authToken = Cookies.get("access_token")
+    const [remarkText, setRemarkText] = useState("");
+    const [AddRemarks, setAddRemarks] = useState(false)
+    const [imageInputs, setImageInputs] = useState([{ id: Date.now(), file: null }]);
+    const [formData, setFormData] = useState({
+        ids: "",
+        remark: "",
+        images: "",
+    })
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
+
+    useEffect(() => {
+        const files = imageInputs.map(item => item.imageUrl)?.join(',');
+        setFormData((prev) => ({
+            ...prev,
+            images: files
+        }))
+
+    }, [imageInputs])
+
     useEffect(() => {
         if (DisputeEscalate && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
         }
-    }, [DisputeEscalate, selectedRow, dispatch]);
+    }, [DisputeEscalate, selectedRow, dispatch, reset]);
 
-    const [AddRemarks, setAddRemarks] = useState(false)
-    const [remarkText, setRemarkText] = useState("");
-    const [imageInputs, setImageInputs] = useState([{ id: Date.now(), file: null }]);
-    const [error, setError] = useState(false)
+
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            images: '',
+            remark: ''
+        }))
+    }, [DisputeEscalate])
+
+
+    useEffect(() => {
+        if (selectedRow?.id) {
+            setFormData((prev) => ({
+                ...prev,
+                ids: `${selectedRow?.id}`
+            }))
+        }
+    }, [selectedRow])
 
     const handleAddRemarks = () => {
         setAddRemarks(!AddRemarks)
@@ -31,30 +73,53 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
     const handleRemoveImageInput = (id) => {
         setImageInputs(imageInputs.filter((input) => input.id !== id));
     };
-    const handleImageChange = (e, id) => {
+
+    const handleImageChange = async (e, id) => {
         const file = e.target.files[0];
         setImageInputs((prevInputs) =>
             prevInputs.map((input) => (input.id === id ? { ...input, file } : input))
         );
+        try {
+            const responseData = await getFileData(`customerData/${e.target.files[0].name.replace(/\s/g, "")}`);
+            const awsUrl = responseData.data.url.url
+            const formData = new FormData();
+            formData.append('key', responseData.data.url.fields.key);
+            formData.append('file', e.target.files[0]);
+            formData.append('AWSAccessKeyId', awsAccessKey);
+            formData.append('policy', responseData.data.url.fields.policy);
+            formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+            const additionalData = await uploadImageData(awsUrl, formData);
+            if (additionalData?.status == 204) {
+                const imageUrl = responseData?.data?.url?.url + "weightdispute/" + e.target.files[0]?.name.replace(/\s/g, "")
+                setImageInputs((prevInputs) =>
+                    prevInputs.map((input) => (input.id === id ? { ...input, imageUrl } : input))
+                );
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
     };
 
-    const handleRemarkSubmit = () => {
-        if (remarkText.trim() || imageInputs.some((input) => input.file)) {
-            const remarkData = {
-                text: remarkText,
-                images: imageInputs.filter((input) => input.file).map((input) => input.file),
-            };
 
-            // Dispatch or handle the remark submission with text and images
-            console.log("Submitted Remark Data:", remarkData);
-
-            // Reset form
-            setRemarkText("");
-            setImageInputs([{ id: Date.now(), file: null }]);
-            setAddRemarks(false);
-        }
-        else {
-            setError(true)
+    const handleRemarkSubmit = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/orders-api/orders/weight-reconciliation-dispute/`, formData, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+            if (response?.status === 200) {
+                setAddRemarks(false)
+                setReset(new Date())
+                setFormData((prev) => ({
+                    ...prev,
+                    images: '',
+                    remark: ''
+                }))
+                toast.success("Courier blocking request submitted successfully!")
+            }
+        } catch (error) {
+            customErrorFunction(error)
         }
     };
 
@@ -80,7 +145,7 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                 <div className='panel-body'>
                     <div className='d-flex w-100 justify-content-between align-items-center my-3'>
                         <div>
-                            <p>Charged Weight: {selectedRow?.c_weight} kg</p>
+                            <p>Charged Weight: {(selectedRow?.c_weight / 1000).toFixed(2)} kg</p>
                             <p>Charged Dimensions (cm): {selectedRow?.c_length} x {selectedRow?.c_breadth} x {selectedRow?.c_height}</p>
                         </div>
                         <div>
@@ -123,8 +188,11 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                                 <textarea
                                     cols={5}
                                     className='input-field'
-                                    value={remarkText}
-                                    onChange={(e) => setRemarkText(e.target.value)}
+                                    value={formData.remark}
+                                    onChange={(e) => setFormData((prev) => ({
+                                        ...prev,
+                                        remark: e.target.value
+                                    }))}
                                 ></textarea>
                             </div>
                             <div className='d-flex flex-column'>
