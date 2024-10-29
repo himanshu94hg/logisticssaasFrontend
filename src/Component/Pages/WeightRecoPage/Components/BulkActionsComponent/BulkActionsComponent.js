@@ -63,22 +63,22 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                         <ul className='ba-actions'>
                             {activeTab === "Weight Reconciliation" &&
                                 <>
-                                    <li><AcceptIcon size={24} /><span>Accept</span></li>
-                                    <li><BulkDisputeIcon size={24} /><span>Dispute</span></li>
+                                    {/* <li><AcceptIcon size={24} /><span>Accept</span></li> */}
+                                    {/* <li><BulkDisputeIcon size={24} /><span>Dispute</span></li> */}
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li><ExportIcon /><span>Export All</span></li>
+                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
                                 </>
                             }
                             {activeTab === "Settled Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li><ExportIcon /><span>Export All</span></li>
+                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
                                 </>
                             }
                             {activeTab === "On-Hold Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li><ExportIcon /><span>Export All</span></li>
+                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
                                 </>
                             }
                         </ul>
