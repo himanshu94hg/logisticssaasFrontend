@@ -74,7 +74,6 @@ function* serviceAbilityShipeaseAction(action) {
 
 //GET COURIER PARTNER SERVICEABILITY PINCODE API
 async function serviceAbilityCourierPartnerAPI() {
-    console.log("object")
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_COURIER_PARTNER_NAME}`,

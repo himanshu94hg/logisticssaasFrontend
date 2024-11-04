@@ -10,7 +10,6 @@ import { customErrorFunction } from "../../../../../customFunction/errorHandling
 
 // GET_DASHBOARD_COURIER_DATA API 
 async function courierDataAPI(data) {
-    console.log(data,"this is courier action trigger")
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
 
     let listData = axios.request({

@@ -177,9 +177,6 @@ const ShipmentsPage = () => {
         setReset(new Date())
     }
 
-    console.log(SearchOption, "searchType")
-
-
     const handleChange = (option) => {
         setSearchOption(option);
         setsearchType(option.value)

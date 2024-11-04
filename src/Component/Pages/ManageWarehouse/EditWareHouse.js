@@ -184,9 +184,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 errors.country1 = 'Enter country name!';
             }
         }
-
         setFormErrors(errors);
-        console.log(errors, "this is errors")
         return valid;
     };
 

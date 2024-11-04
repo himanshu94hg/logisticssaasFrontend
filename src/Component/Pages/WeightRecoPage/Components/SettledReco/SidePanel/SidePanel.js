@@ -102,8 +102,6 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
         })
     };
     const handleChange = (fieldName, value) => {
-        // Handle the change
-        console.log(fieldName, value);
     };
 
 

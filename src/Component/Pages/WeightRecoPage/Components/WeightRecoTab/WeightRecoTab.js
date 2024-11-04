@@ -40,9 +40,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
-    console.log(partnerList, "partnerList")
-
-
     const handleClose = () => setShow(false);
     const handleCloseComment = () => setShowComment(false);
 
@@ -106,8 +103,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         // }
     };
 
-    console.log(selectedRow,"selectedRow")
-
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
         setOrderTracking(true)
@@ -125,8 +120,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
             .catch(err => {
             });
     };
-
-    console.log(weightRecoData, "lllllllllll")
     return (
         <section className='position-relative'>
             <div className="position-relative">

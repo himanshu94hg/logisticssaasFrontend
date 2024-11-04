@@ -46,9 +46,6 @@ const ViewIntegrations = () => {
         }
     }, [activeTab])
 
-
-    console.log(channelGetCard, "channelGetCardchannelGetCard")
-
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

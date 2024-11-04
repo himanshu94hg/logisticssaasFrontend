@@ -96,7 +96,6 @@ function* profileFilesAction(action) {
     try {
         let response = yield call(profileFileAPI, payload);
         if (response.status === 200) {
-            console.log("Error fetching profile data:", response);
             yield put({ type: GET_SELLER_PROFILE_DATA, payload: response?.data })
         }
         else {

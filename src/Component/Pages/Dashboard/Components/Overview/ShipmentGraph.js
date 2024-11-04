@@ -71,8 +71,6 @@ const ShipmentGraph = ({ activeTab }) => {
                         '#0F4A7D',
                     ],
                 }))
-                console.log(response?.data, "yyyyyyyyyyyyyyyyyyyy")
-
             }
 
         } catch (error) {

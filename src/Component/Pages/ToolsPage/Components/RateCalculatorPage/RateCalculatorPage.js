@@ -153,8 +153,6 @@ const RateCalculatorPage = () => {
     }
 
     setErrors(newErrors);
-    console.log(newErrors, "this is key data");
-
     if (Object.keys(newErrors).length === 0) {
       setLoader(true)
       setTimeout(() => {

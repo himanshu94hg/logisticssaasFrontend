@@ -234,8 +234,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [handleResetFrom])
 
-    console.log(SaveFilter, "SaveFilter")
-
     const handleChange = (name, value) => {
         if (["start_date", "end_date"].includes(name)) {
             setFilterParams(prev => ({

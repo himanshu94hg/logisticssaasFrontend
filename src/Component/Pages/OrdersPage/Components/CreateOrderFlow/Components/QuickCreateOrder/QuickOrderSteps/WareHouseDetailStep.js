@@ -87,8 +87,6 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
-    console.log(errors, "errorserrorserrorserrors")
-
 
     return (
         <div>

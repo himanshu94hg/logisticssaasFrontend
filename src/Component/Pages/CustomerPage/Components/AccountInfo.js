@@ -114,7 +114,6 @@ const AccountInfo = ({ activeTab, accountType }) => {
       }
       return error;
     });
-    console.log(newErrors, "this is merrrir", isValid, accounts)
     setErrors(newErrors);
 
     if (isValid) {

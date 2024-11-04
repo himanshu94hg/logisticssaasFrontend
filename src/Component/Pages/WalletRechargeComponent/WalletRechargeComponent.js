@@ -178,8 +178,6 @@ const WalletRechargeComponent = (props) => {
                             }
                         }
                     };
-
-                    console.log("optionsoptionsoptionsoptions",options);
                     const rzpay = new Razorpay(options);
                     rzpay.open();
 

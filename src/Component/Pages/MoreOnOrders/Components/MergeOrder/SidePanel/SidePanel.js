@@ -44,8 +44,6 @@ const SidePanel = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log('Filter submitted:', { startDate, endDate, name, location });
-        // Add your custom form submission logic here
     };
 
     const handleReset = () => {

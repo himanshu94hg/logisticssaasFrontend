@@ -67,15 +67,12 @@ const GSTInvoicingPage = () => {
     };
 
     const handleSaveDetails = () => {
-        console.log('GST details saved:', { gstin, invoicePrefix, invoiceSuffix, TDSPayment, tanNumber });
     };
 
     const handleAddState = () => {
-        console.log('Add state clicked');
     };
 
     const handleEdit = (id) => {
-        console.log('Edit clicked for state ID:', id);
     };
 
     return (

@@ -104,7 +104,6 @@ export default function NavTabs(props) {
     } else {
       setReportType("all_order")
     }
-    console.log(e.target.checked, "this is a report data")
   }
 
 

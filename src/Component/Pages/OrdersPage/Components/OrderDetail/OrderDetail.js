@@ -105,7 +105,6 @@ const OrderDetail = () => {
                 }
             });
             setQc(response?.data)
-            console.log(response, "this is eeeeeeeeeeeeee")
             setShowQCStatus(true)
 
         } catch (error) {
