@@ -3,10 +3,10 @@ import moment from 'moment';
 import './WeightRecoPage.css';
 import Select from 'react-select';
 import Cookies from 'js-cookie';
-import { debounce } from 'lodash';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
 import NavTabs from './Components/navTabs/NavTabs';
+import React, { useEffect, useState } from 'react';
 import globalDebouncedClick from '../../../debounce';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_ORDER } from '../../../axios/config';
@@ -14,16 +14,15 @@ import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 import Pagination from '../../common/Pagination/Pagination';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
 import SettledReco from './Components/SettledReco/SettledReco';
-import React, { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import { customErrorFunction } from '../../../customFunction/errorHandling';
-import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -59,6 +58,7 @@ const WeightRecoPage = () => {
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
     const { weightData, holdData, setteledData } = useSelector(state => state?.weightRecoReducer);
 
     const handleSidePanel = () => {
@@ -71,25 +71,7 @@ const WeightRecoPage = () => {
     }
 
     const handleSearch = () => {
-        const temp_data = {
-            page: currentPage,
-            page_size: itemsPerPage,
-            q: searchValue
-        }
-        setLoader(true)
-        switch (activeTab) {
-            case "Weight Reconciliation":
-                dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
-                break;
-            case "Settled Reconciliation":
-                dispatch({ type: "SETTELED_ACTION", payload: temp_data });
-                break;
-            case "On-Hold Reconciliation":
-                dispatch({ type: "HOLD_ACTION", payload: temp_data });
-                break;
-            default:
-                break;
-        }
+        setReset(new Date())
     }
 
     const handleMoreFilter = (data) => {
@@ -106,35 +88,63 @@ const WeightRecoPage = () => {
         setQueryParamTemp(queryParams);
     };
 
+    const handleReset = () => {
+        setLoader(true)
+        setSearchValue('')
+        setReset(new Date())
+        setQueryParamTemp({})
+        setHandleResetFrom(true)
+        setSearchOption(SearchOptions[0])
+    }
 
-    useEffect(() => {
-        if (weightData || holdData || setteledData) {
-            setLoader(false)
+    const handleChange = (SearchOption) => {
+        setSearchOption(SearchOption);
+    };
+
+    const handleQueryfilter = (value) => {
+        setQueryParamTemp({})
+    }
+
+    const handleSearchKey = (e) => {
+        if (e.key === "Enter") {
+            handleSearch()
         }
-    }, [weightData, holdData, setteledData])
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     useEffect(() => {
         const temp_data = {
             page: currentPage,
+            q: searchValue,
             page_size: itemsPerPage,
         }
+        const additional_data = queryParamTemp
+        const merged_data = { ...temp_data, ...additional_data };
         const fetchData = () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
-                    dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
+                    dispatch({ type: "WEIGHT_ACTION", payload: merged_data });
                     break;
                 case "Settled Reconciliation":
-                    dispatch({ type: "SETTELED_ACTION", payload: temp_data });
+                    dispatch({ type: "SETTELED_ACTION", payload: merged_data });
                     break;
                 case "On-Hold Reconciliation":
-                    dispatch({ type: "HOLD_ACTION", payload: temp_data });
+                    dispatch({ type: "HOLD_ACTION", payload: merged_data });
                     break;
                 default:
                     break;
             }
         };
         fetchData();
-    }, [activeTab, itemsPerPage, currentPage]);
+    }, [activeTab, itemsPerPage, currentPage, queryParamTemp, reset]);
 
     useEffect(() => {
         if (weightData && weightData?.count !== undefined) {
@@ -154,9 +164,11 @@ const WeightRecoPage = () => {
         }
     }, [setteledData]);
 
-    const handleChange = (SearchOption) => {
-        setSearchOption(SearchOption);
-    };
+    useEffect(() => {
+        if (weightData || holdData || setteledData) {
+            setLoader(false)
+        }
+    }, [weightData, holdData, setteledData])
 
     useEffect(() => {
         if (BulkActionShow) {
@@ -164,38 +176,6 @@ const WeightRecoPage = () => {
             setSelectedRows([])
         }
     }, [activeTab])
-
-
-    const handleClick = () => {
-        setSearchValue("")
-        setHandleResetFrom(true)
-        const temp_data = {
-            page: currentPage,
-            page_size: itemsPerPage,
-        }
-        if (activeTab === "Weight Reconciliation") {
-            dispatch({ type: "WEIGHT_ACTION", payload: temp_data });
-        } else if (activeTab === "Settled Reconciliation") {
-            dispatch({ type: "SETTELED_ACTION", payload: temp_data });
-        } else if (activeTab === "On-Hold Reconciliation") {
-            dispatch({ type: "HOLD_ACTION", payload: temp_data });
-        }
-    }
-
-    const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 700),
-        []
-    );
-    const handleReset = () => {
-        setLoader(true)
-        debouncedHandleClick();
-        setSearchOption(SearchOptions[0])
-
-    }
-
-    const handleQueryfilter = (value) => {
-        setQueryParamTemp({})
-    }
 
     useEffect(() => {
         if (favListData) {
@@ -217,21 +197,6 @@ const WeightRecoPage = () => {
         }
     }, [activeTab])
 
-    const handleSearchKey = (e) => {
-        if (e.key === "Enter") {
-            handleSearch()
-        }
-        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-        if (
-            e.key === ' ' &&
-            e.target.value.endsWith(' ')
-        ) {
-            e.preventDefault();
-        } else if (!allowedCharacters.test(e.key)) {
-            e.preventDefault();
-        }
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -250,15 +215,12 @@ const WeightRecoPage = () => {
         fetchData();
     }, []);
 
-    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
-
     const searchOptions = [
         { key: 'dispute_accepted', label: 'Dispute Accepted', tooltip: 'This will show all the orders where the dispute is accepted' },
         { key: 'dispute_raised', label: 'Dispute Raised', tooltip: 'This will show all the orders where a dispute has been raised' },
         { key: 'COD', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
         { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' }
     ];
-
 
     return (
         <>

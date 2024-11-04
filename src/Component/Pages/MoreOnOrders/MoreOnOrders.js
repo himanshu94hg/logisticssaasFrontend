@@ -291,7 +291,6 @@ const MoreOnOrders = () => {
 
 
     const searchOptions = [
-        { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
         { key: 'COD', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
         { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' },
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday' },

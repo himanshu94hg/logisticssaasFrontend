@@ -11,11 +11,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
-const SourceOptions = [
-    { label: "Amazon", value: "amazon" },
-    { label: "Custom", value: "Custom" },
-    { label: "Shopify", value: "shopify" },
-];
+
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
     { label: "Pending", value: "pending" },
@@ -58,10 +54,44 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [orderTag, setorderTag] = useState([]);
     const authToken = Cookies.get("access_token")
     const [saveFav, setSaveFav] = useState(false);
+    const [orderSource, setOrderSource] = useState([]);
     const [clearState, setClearState] = useState(false)
     const [SaveFilter, setSaveFilter] = useState(false)
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
+    })
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        if (orderSourceListData && orderSourceListData.length > 0) {
+            const formattedData = orderSourceListData
+                .filter(item => item?.order_source)
+                .map(item => ({
+                    value: item?.order_source,
+                    label: item?.order_source
+                }));
+            setOrderSource(formattedData);
+        } else {
+            setOrderSource([]);
+        }
+    }, [orderSourceListData]);
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
@@ -78,7 +108,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     return `${key}=${formattedDate}`;
                 }
                 else {
-                    const trimmedValue = value.replace(/,+$/, '');
+                    const trimmedValue = value?.replace(/,+$/, '');
                     return `${key}=${trimmedValue}`;
                 }
             })
@@ -89,13 +119,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 validationErrors.favName = "Required";
             }
             setErrors(validationErrors);
-            console.error(validationErrors, "Favorite name cannot be empty!");
             return;
         }
-
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        if (saveFav) {
+        if (SaveFilter) {
             dispatch({
                 type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
                     filter_query: encodedParams,
@@ -107,19 +135,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setFavName("")
     };
 
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: "",
-        order_tag: "",
-        sku: "",
-        sku_match_type: "",
-        pickup_address: ""
-    })
+
 
     useEffect(() => {
         if (activeTab || clearState) {
@@ -142,67 +158,46 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [activeTab, clearState])
 
     const handleChange = (name, value) => {
-        if (name === "start_date" || name === "end_date") {
+        if (["start_date", "end_date"].includes(name)) {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value
             }));
-        }
-        if (name === "status" || name === "order_tag" || name === "pickup_address") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item?.value + ","
-            })
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type", "order_type", "channel_name"].includes(name)) {
+            const temp_data = value.map(item => item?.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
             }));
-        }
-        if (name === "order_source") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item?.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "order_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.value
-            }));
-        }
-        if (name === "courier_partner") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item?.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "payment_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.value
-            }));
-        }
-        if (name === "order_id" || name === "sku") {
+        } else if (name === "order_id" || name === "sku" || name === "product" || name === "min_weight" || name === "max_weight") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
             }));
-        }
-        if (name === "sku_match_type") {
+        } else if (name === "sku_match_type") {
             setFilterParams(prev => ({
                 ...prev,
-                skuType: value
-            }))
+                sku_match_type: value
+            }));
+        }
+        else if (name === "date_filter_by") {
+            setFilterParams(prev => ({
+                ...prev,
+                date_filter_by: value.target.value
+            }));
+        }
+        else if (name === "pickup_address") {
+            const ids = value.map(item => item?.id).join(",");
+            const names = value.map(item => item?.value).join(",");
+            setFilterParams(prev => ({
+                ...prev,
+                pickup_address: names,
+                pickup_address_id: ids
+            }));
         }
     };
+
+    console.log(filterParams, 'sssssss')
 
 
     useEffect(() => {
@@ -221,7 +216,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     setPickupAddresses(temp)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
             }
         };
 
@@ -378,11 +372,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label >Order Source
                                     <Select
-                                        options={SourceOptions}
+                                        options={orderSource}
                                         onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.order_source ? SourceOptions.filter(option => filterParams.order_source.includes(option.value)) : null}
+                                        value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
