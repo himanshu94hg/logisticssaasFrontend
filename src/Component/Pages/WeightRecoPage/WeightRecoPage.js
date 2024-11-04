@@ -96,6 +96,7 @@ const WeightRecoPage = () => {
         setQueryParamTemp({})
         setHandleResetFrom(true)
         setSearchOption(SearchOptions[0])
+        setMostPopular({most_popular_search:""})
     }
 
     const handleChange = (val) => {
