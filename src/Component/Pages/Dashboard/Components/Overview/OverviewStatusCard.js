@@ -10,8 +10,6 @@ const OverviewStatusCard = () => {
 
     const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
 
-    console.log(codDetails, "codDetailscodDetails")
-
     return (
         <>
             <div className="box-shadow shadow-sm p10 status-card-container">

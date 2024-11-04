@@ -23,8 +23,6 @@ async function courierAllocationGetAPI(data) {
 }
 
 async function courierAllocationPostAPI(data) {
-    console.log("GET_COURIER_POST_ALLOCATION ", data);
-
     let listData = axios.request({
         method: "POST",
         url: `${BASE_URL_CORE}${API_URL.GET_COURIER_POST_ALLOCATION}`,
@@ -61,7 +59,6 @@ function* courierAllocationPostAction(action) {
     let { payload,  } = action;
     try {
         let response = yield call(courierAllocationPostAPI, payload);
-        console.log(response, "this is api call")
         if (response) {
             toast.success("Set courier preference successfully!")
             yield put({ type: GET_COURIER_ALLOCATION_POST_DATA, payload: response });
@@ -157,7 +154,6 @@ function* courierAllocationRuleEditAction(action) {
 }
 
 async function courierAllocationRuleEditPostAPI(data) {
-    console.log("All Log Response Data", data.requestData);
     let listData = axios.request({
         method: "POST",
         url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data.id}/`,
@@ -180,7 +176,6 @@ function* courierAllocationRuleEditPostAction(action) {
 }
 
 async function courierAllocationRuleStatusAPI(data) {
-    console.log("All Status Rules", data);
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_STATUS_RULE}?preference_id=${data?.id}&status=${data?.togglestatus}`,

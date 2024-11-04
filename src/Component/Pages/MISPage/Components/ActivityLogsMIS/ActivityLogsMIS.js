@@ -177,9 +177,6 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
             e.preventDefault();
         }
     }
-
-    console.log(activitylog?.length, "selectedRowsselectedRowsselectedRows")
-
     const typeLabelResponsiveStyle = {
         gap: '0px',
         flexDirection: 'column',

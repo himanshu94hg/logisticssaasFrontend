@@ -17,7 +17,6 @@ function* misDownloadAction(action) {
     let { payload,  } = action;
     try {
         let response = yield call(misDownloadApi, payload);
-        console.log(response,"this is response dta")
         if (response.status === 200) {
             yield put({ type: GET_MIS_DOWNLOAD_DATA, payload: response?.data })
         }
@@ -53,7 +52,6 @@ function* misReportBillingAction(action) {
 //MIS_REPORT_ORDERS_ACTION
 async function misReportsOrdersApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-     console.log(queryParams,"queryParams")
     return axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.MIS_REPORT_ORDERS}?${queryParams}`,

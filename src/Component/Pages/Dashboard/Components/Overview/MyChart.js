@@ -68,9 +68,6 @@ class MyChart extends React.Component {
                     },
                 });
 
-                if (stateAllocation) {
-                    console.log(stateAllocation);
-                }
             })
             .catch((error) => {
                 console.error(error);

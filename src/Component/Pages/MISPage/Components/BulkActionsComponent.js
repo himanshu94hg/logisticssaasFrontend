@@ -31,8 +31,6 @@ const BulkActionsComponent = ({
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard);
     const exportAllCard = useSelector(state => state?.exportSectionReducer?.exportAllCard);
 
-    console.log("exportButtonClickexportButtonClickexportButtonClick", exportButtonClick)
-
     const exportFile = () => {
         if (selectedRows.length === 0) {
             toast.error("No rows selected for export.");

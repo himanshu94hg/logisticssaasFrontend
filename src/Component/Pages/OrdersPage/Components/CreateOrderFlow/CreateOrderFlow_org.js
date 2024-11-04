@@ -39,8 +39,6 @@ const CreateOrderFlow = () => {
 
 
     const handleFormSubmit = () => {
-        // Here you can send the formData to your server or perform any necessary actions
-        // For this example, we'll just show a SweetAlert
         Swal.fire({
             icon: 'success',
             title: 'Order Created!',
@@ -49,12 +47,8 @@ const CreateOrderFlow = () => {
                 confirmButton: 'btn main-button', // Add your custom class here
             },
         }).then(() => {
-            // Redirect to another page after clicking OK
             navigation('/Orders');
         });
-        console.log(
-            formData.step1, formData.step2, formData.step3, formData.step4
-        )
         setProgressBarWidth('100%');
     };
 

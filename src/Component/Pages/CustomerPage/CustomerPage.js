@@ -32,9 +32,6 @@ const CustomerPage = () => {
     }
   }, [userData])
 
-  console.log(userData,"DetailsView")
-
-
   useEffect(() => {
     if (location.state?.activeTab) {
       setActiveTab(location.state.activeTab);
@@ -88,8 +85,6 @@ const CustomerPage = () => {
   useEffect(() => {
     dispatch({ type: "SELLER_PROFILE_DATA_ACTION", payload: accountType });
   }, [accountType])
-
-  console.log(accountType, "this is a account type data")
 
 
   return (

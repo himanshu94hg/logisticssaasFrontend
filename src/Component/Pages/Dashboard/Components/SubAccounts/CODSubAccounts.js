@@ -13,7 +13,6 @@ const CodOrdersChartChildOne = ({ data }) => {
             if (screenWidth >= 1720) {
                 setChartWidth(290);
                 setresOffsetX(180);
-                console.log(resOffsetX)
             } else if (screenWidth >= 768) {
                 setChartWidth(265);
                 setresOffsetX(100);
@@ -179,8 +178,6 @@ const CODSubAccounts = ({ labeldata, activeTab }) => {
             try {
                 const response = await globalGetApiCallFunction(urlParams);
                 setData(response)
-                console.log(response, "responseresponse")
-
             } catch (error) {
             }
         };

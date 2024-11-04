@@ -44,7 +44,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                 Authorization: `Bearer ${authToken}`
             }
         }).then(response => {
-            console.log(response, "this is response")
             setscheduledReport(response?.data?.results)
         })
             .catch(error => {

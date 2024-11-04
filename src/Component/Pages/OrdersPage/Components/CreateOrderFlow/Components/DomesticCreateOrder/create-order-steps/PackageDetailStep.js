@@ -41,13 +41,11 @@ export const PackageDetailStep = ({ onPrev, onNext, activeTab, formData, setForm
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
-        console.log("Package Details Data", Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
     };
 
     const handleNext = () => {
         const isValid = handleValidation();
-        console.log("Package Details", isValid)
         if (isValid) {
             onNext();
         }

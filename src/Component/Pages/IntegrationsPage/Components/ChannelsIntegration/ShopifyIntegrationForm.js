@@ -28,12 +28,7 @@ const ShopifyIntegrationForm = () => {
                 dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
                 Cookies.set('redirect_url', redirect_url, { expires: 1 });
                 Cookies.set('nonce', nonce, { expires: 1 });
-
-                console.log("Redirect URL", redirect_url);
-                console.log("Nonce", nonce);
-
                 const finalRedirectUrl = `${redirect_url}&redirect_uri=${encodeURIComponent(window.location.href)}`;
-
                 setTimeout(() => {
                     window.location.href = finalRedirectUrl;
                 }, 2000);

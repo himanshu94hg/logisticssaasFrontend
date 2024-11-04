@@ -37,11 +37,9 @@ export default function Sidebar() {
   return (
     <div
       onMouseEnter={(e) => {
-        console.log("move in");
         setExpanded(true);
       }}
       onMouseLeave={(e) => {
-        console.log(e.target, "leave");
         setExpanded(false);
       }}
     >

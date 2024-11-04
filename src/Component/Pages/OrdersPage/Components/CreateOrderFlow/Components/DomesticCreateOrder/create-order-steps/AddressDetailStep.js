@@ -304,9 +304,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
         }
     }, [activeTab])
 
-
-    console.log(isChecked, "this is a checkd data")
-
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>

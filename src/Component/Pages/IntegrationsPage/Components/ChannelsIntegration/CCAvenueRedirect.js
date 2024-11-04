@@ -8,10 +8,6 @@ const CCAvenueRedirect = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const status = queryParams.get('ccavenustatus');
-
-        console.log('Current URL:', window.location.href); 
-        console.log('Status parameter:', status); 
-
         if (status === 'Success') {
             navigate('/');
             toast.success("Recharge Success! Your balance has been updated.");

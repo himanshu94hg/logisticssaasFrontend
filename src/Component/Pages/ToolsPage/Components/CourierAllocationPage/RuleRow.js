@@ -45,8 +45,6 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
         setConditions(newRows);
     };
 
-    console.log(rows, "dsddddddddddddd")
-
     return (
         <>
             {rows.map((row, index) => (

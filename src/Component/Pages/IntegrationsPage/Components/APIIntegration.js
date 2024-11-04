@@ -30,7 +30,6 @@ const APIIntegration = () => {
 
     const { apiKey } = useSelector(state => state?.integrationReducer)
     const handleSubmit = (e) => {
-        console.log("object")
         e.preventDefault()
         dispatch({ type: "GENERATE_API_KEY_ACTION" })
     }

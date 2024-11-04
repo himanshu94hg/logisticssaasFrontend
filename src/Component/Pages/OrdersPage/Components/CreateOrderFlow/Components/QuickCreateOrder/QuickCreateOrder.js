@@ -192,8 +192,6 @@ const QuickCreateOrder = (activeTab) => {
         setPincodeError(false)
     }, [dataRefresh,activeTab])
 
-    console.log(pincodeError,"pincodeError")
-
     const validatequickFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
@@ -350,7 +348,6 @@ const QuickCreateOrder = (activeTab) => {
         setExitpop(true)
     }
 
-console.log(errors,"this is a from data")
     return (
         <div className="stepper-form-container">
             <div className='w-100'>
