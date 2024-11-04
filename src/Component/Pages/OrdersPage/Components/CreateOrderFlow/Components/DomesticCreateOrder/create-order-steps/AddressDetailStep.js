@@ -407,7 +407,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                 type="text" value={formData.shipping_details.address}
                                 onChange={(e) => handleChangeShiping(e, 'address')}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),-.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
@@ -629,7 +629,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     onChange={(e) => handleChangeBilling(e, 'address')}
                                     maxLength={100}
                                     onKeyPress={(e) => {
-                                        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.-?":{}|<>]*$/;
                                         if (
                                             e.key === ' ' &&
                                             e.target.value.endsWith(' ')
