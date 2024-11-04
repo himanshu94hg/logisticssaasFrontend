@@ -53,6 +53,7 @@ const WeightRecoPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [activeTab, setActiveTab] = useState("Weight Reconciliation");
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
@@ -97,8 +98,9 @@ const WeightRecoPage = () => {
         setSearchOption(SearchOptions[0])
     }
 
-    const handleChange = (SearchOption) => {
-        setSearchOption(SearchOption);
+    const handleChange = (val) => {
+        setSearchOption(val);
+        setsearchType(val.value)
     };
 
     const handleQueryfilter = (value) => {
@@ -125,6 +127,7 @@ const WeightRecoPage = () => {
             page: currentPage,
             q: searchValue,
             page_size: itemsPerPage,
+            search_by:searchType
         }
         const additional_data = queryParamTemp
         const merged_data = { ...temp_data, ...additional_data };
