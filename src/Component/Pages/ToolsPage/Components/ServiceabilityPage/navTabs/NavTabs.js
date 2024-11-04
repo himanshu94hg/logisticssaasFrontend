@@ -12,13 +12,9 @@ export default function NavTabs(props) {
 
   const handleSubmit = () => {
     let sellerData = 3;
-
     const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
-    console.log("Data", response);
-
     if (response.status === 200) {
       const responseData = response.data;
-      console.log('API Response:', responseData);
       Swal.fire({
         icon: 'success',
         title: 'Order Created!',

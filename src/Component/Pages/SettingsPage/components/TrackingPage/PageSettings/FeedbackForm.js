@@ -16,8 +16,6 @@ const FeedbackForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Submit form logic
-        console.log({ rating, remarks });
     };
 
     return (

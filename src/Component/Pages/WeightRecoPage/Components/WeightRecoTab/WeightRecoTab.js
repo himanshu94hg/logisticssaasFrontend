@@ -43,9 +43,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
-    console.log(partnerList, "partnerList")
-
-
     const handleClose = () => setShow(false);
     const handleCloseComment = () => setShowComment(false);
 
@@ -109,8 +106,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         // }
     };
 
-    console.log(selectedRow,"selectedRow")
-
     const handleClickAWB = (orders) => {
         setAwbNo(orders)
         setOrderTracking(true)
@@ -128,8 +123,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
             .catch(err => {
             });
     };
-
-    console.log(weightRecoData, "lllllllllll")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -183,7 +176,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                                                         : row?.order?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
                                                                                             : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                         {row?.order?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}

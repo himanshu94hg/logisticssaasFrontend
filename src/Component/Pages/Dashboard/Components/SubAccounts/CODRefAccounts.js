@@ -8,29 +8,22 @@ const CodOrdersChartChildOne = () => {
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
-            // Adjust the chart width based on screen size
             if (screenWidth >= 1720) {
-                setChartWidth(290); // for larger screens
-                setresOffsetX(180); // for larger screens
-                console.log(resOffsetX)
+                setChartWidth(290); 
+                setresOffsetX(180); 
             } else if (screenWidth >= 768) {
-                setChartWidth(265); // for medium screens
-                setresOffsetX(100); // for medium screens
+                setChartWidth(265); 
+                setresOffsetX(100); 
             } else {
-                setChartWidth(200); // default width for smaller screens
-                setresOffsetX(100); // default width for smaller screens
+                setChartWidth(200); 
+                setresOffsetX(100); 
             }
         };
 
-        // Call the handleResize function on initial load
         handleResize();
-
-        // Add event listener to window resize event
         window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+    }, []); 
 
 
     const [chartData, setChartData] = useState({

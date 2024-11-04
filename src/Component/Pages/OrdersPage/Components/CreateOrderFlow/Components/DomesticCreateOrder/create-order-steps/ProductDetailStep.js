@@ -139,7 +139,6 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Product Details</h3>
-                    {console.log("Product Details:", formData.product_details)}
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}

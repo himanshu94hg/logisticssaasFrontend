@@ -22,7 +22,6 @@ function* getReportSchedulerAction() {
         const response = yield call(getReportSchedulerAPI);
         yield put({ type: GET_REPORT_SCHEDULER_DATA, payload: response });
     } catch (error) {
-        console.log(error)
     }
 }*/
 //GET REPORT SCHEDULER LIST API
@@ -37,7 +36,6 @@ function* getReportSchedulerAction(action) {
     let { payload } = action;
     try {
         let response = yield call(getReportSchedulerAPI, payload);
-        console.log(response,"this is getReportSchedulerAPI dta")
         if (response.status === 200) {
             yield put({ type: GET_REPORT_SCHEDULER_DATA, payload: response?.data })
         }

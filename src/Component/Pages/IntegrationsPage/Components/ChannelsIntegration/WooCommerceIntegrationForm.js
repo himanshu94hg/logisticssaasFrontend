@@ -81,8 +81,6 @@ const WooCommerceIntegrationForm = () => {
         if (!formData.channel_configuration.delivered) {
             newErrors.delivered = 'delivered is required!';
         }
-
-        console.log(newErrors, "this is validate form data")
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -97,8 +95,6 @@ const WooCommerceIntegrationForm = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-
-                console.log('Response:', response);
 
                 if (response.status === 201) {
                     const responseData = response.data;

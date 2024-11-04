@@ -95,7 +95,6 @@ const ShipmentPerformance = () => {
                       </td>
                       {data?.map((weekData, weekIndex) => (
                         <td key={weekData.week}>
-                          {console.log(data, "this is data")}
                           {weekData[counter]?.total}
                         </td>
                       ))}

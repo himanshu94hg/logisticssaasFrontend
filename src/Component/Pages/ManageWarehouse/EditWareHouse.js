@@ -159,10 +159,10 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 valid = false;
                 errors.contact_number1 = 'Enter Contact number!';
             }
-            if (!formData?.rto_details?.email?.trim()) {
-                valid = false;
-                errors.email = 'Enter Email id!';
-            }
+            // if (!formData?.rto_details?.email?.trim()) {
+            //     valid = false;
+            //     errors.email = 'Enter Email id!';
+            // }
             if (!formData?.rto_details?.address?.trim()) {
                 valid = false;
                 errors.address = 'Enter Address details!';
@@ -184,9 +184,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 errors.country1 = 'Enter country name!';
             }
         }
-
         setFormErrors(errors);
-        console.log(errors, "this is errors")
         return valid;
     };
 

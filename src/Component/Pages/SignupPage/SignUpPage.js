@@ -60,12 +60,8 @@ const SignUpPage = () => {
         setTrackOption(e.target.value);
     };
 
-    console.log(numberOfOrders, 'this is user role')
-
     const onInputChange = e => {
         const { value } = e.target;
-        console.log('Input value: ', value);
-
         const re = /^[A-Za-z]+$/;
         if (value === "" || re.test(value)) {
             //   setTxt(value);

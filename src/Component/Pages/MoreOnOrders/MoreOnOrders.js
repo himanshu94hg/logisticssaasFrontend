@@ -256,7 +256,7 @@ const MoreOnOrders = () => {
         if (e.key === "Enter") {
             handleSearch()
         }
-        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),-.?":{}|<>]*$/;
         if (
             e.key === ' ' &&
             e.target.value.endsWith(' ')
@@ -291,7 +291,6 @@ const MoreOnOrders = () => {
 
 
     const searchOptions = [
-        { key: 'info_missing', label: 'Info Missing', tooltip: 'This will show all the orders with missing details' },
         { key: 'COD', label: 'COD', tooltip: 'This will show all the cash on delivery orders' },
         { key: 'prepaid', label: 'Prepaid', tooltip: 'This will show all the prepaid orders' },
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday' },

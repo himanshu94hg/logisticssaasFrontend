@@ -51,7 +51,6 @@ const StoreHippoIntegrationForm = () => {
         if (!formData.channel_configuration.store_url) {
             newErrors.store_url = 'Name or Store URL is required!';
         }
-        console.log(newErrors, "this is validate form data")
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };

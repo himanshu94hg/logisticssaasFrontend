@@ -225,7 +225,6 @@ export default ViewTicketSlider
 
 function Preview({ show, handleClose, previewImage, handelAWSImage }) {
   const isPDF = handelAWSImage && handelAWSImage.endsWith('.pdf');
-  console.log(handelAWSImage, "Pdf")
 
   return (
     <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '670px', overflow: 'hidden' }} centered>

@@ -130,8 +130,6 @@ const DomesticCreateOrder = (activeTab) => {
         }
     };
 
-    console.log(formData,"this is form data")
-
     useEffect(() => {
         if (activeTab) {
             // setStep(1)

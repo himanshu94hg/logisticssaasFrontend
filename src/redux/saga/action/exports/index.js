@@ -153,7 +153,6 @@ function* exportWeightFilesAction(action) {
     try {
         let response = yield call(exportWeightFileAPI, payload);
 
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_WEIGHT_DATA, payload: response?.data })
         }
@@ -180,7 +179,6 @@ function* exportRemitanceFilesAction(action) {
     try {
         let response = yield call(exportRemitanceFileAPI, payload);
 
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_REMITANCE_DATA, payload: response?.data })
         }
@@ -259,7 +257,6 @@ function* exportShipmentFilesAction(action) {
     try {
         let response = yield call(exportShipmentFileAPI, payload);
 
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_SHIPMENT_DATA, payload: response?.data })
         }
@@ -284,8 +281,6 @@ function* exportShipmentAllFilesAction(action) {
     let { payload,  } = action;
     try {
         let response = yield call(exportShipmentAllFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             toast.success(response?.data?.message);
             yield put({ type: GET_EXPORT_SHIPMENT_ALL_DATA, payload: response?.data })

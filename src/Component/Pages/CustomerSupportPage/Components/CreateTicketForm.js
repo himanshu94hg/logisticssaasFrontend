@@ -61,8 +61,6 @@ const CreateTicketForm = (props) => {
 
   const formRef = useRef(null);
 
-  // console.log(params,"params")
-
   useEffect(() => {
     if (escalateAwbNumber !== null) {
       props.setNewTicket(true);

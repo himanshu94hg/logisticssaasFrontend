@@ -73,7 +73,6 @@ const BulkCreateOrder = () => {
         tempAnchor.setAttribute('href', templateUrl);
         tempAnchor.click();
         tempAnchor.remove();
-        console.log("hit")
     };
 
     const handleDownloadError = (fileLink) => {
@@ -83,7 +82,6 @@ const BulkCreateOrder = () => {
         tempAnchor.setAttribute('href', templateUrl);
         tempAnchor.click();
         tempAnchor.remove();
-        console.log("hit")
     };
 
     return (

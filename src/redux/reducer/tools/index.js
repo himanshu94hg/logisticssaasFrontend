@@ -41,7 +41,6 @@ export const toolsSectionReducer = (state = initialState, action) => {
                 reportSchedularData: action?.payload
             };
         case POST_REPORT_SCHEDULER_RESPONSE:
-            console.log(action?.payload,"reportSchedulerRes")
             return {
                 ...state,
                 reportSchedulerRes: action?.payload
@@ -82,7 +81,6 @@ export const toolsSectionReducer = (state = initialState, action) => {
                 courierAllocation: action?.payload
             };
         case GET_COURIER_ALLOCATION_POST_DATA:
-            console.log(action?.payload,"Payload Post Data");
             return {
                 ...state,
                 courierAllocationPostData: action?.payload

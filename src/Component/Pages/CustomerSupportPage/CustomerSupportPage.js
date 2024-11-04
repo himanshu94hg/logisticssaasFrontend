@@ -157,7 +157,6 @@ const CustomerSupportPage = () => {
       newErrors.searchValue = 'Field is required!';
     }
     setErrors(newErrors);
-    console.log(newErrors, "this is new errors")
     return Object.keys(newErrors).length === 0;
   };
 

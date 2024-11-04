@@ -41,15 +41,12 @@ const ClosedTickets = (props) => {
     //     axios
     //         .get('http://dev.shipease.in:8088/order/v1/allorderdetail/') // Replace with your API endpoint
     //         .then(response => {
-    //             console.log('Data is data:', response.data);
     //             setAllOrders(response.data);
     //         })
     //         .catch(error => {
     //             console.error('Error:', error);
     //         });
     // }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {

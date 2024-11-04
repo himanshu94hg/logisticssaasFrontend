@@ -177,9 +177,6 @@ const ShipmentsPage = () => {
         setReset(new Date())
     }
 
-    console.log(SearchOption, "searchType")
-
-
     const handleChange = (option) => {
         setSearchOption(option);
         setsearchType(option.value)
@@ -222,7 +219,7 @@ const ShipmentsPage = () => {
         if (e.key === "Enter") {
             setReset(new Date())
         }
-        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),-.?":{}|<>]*$/;
         if (
             e.key === ' ' &&
             e.target.value.endsWith(' ')

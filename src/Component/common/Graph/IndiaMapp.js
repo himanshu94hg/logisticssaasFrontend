@@ -30,7 +30,6 @@ const IndiaMapp = ({ stateMapData }) => {
           responsive
           regionData={stateData}
           customFill={(geography) => {
-            console.log(geography, "the data is coming the the "); // Debugging log
           }}
           hoverComponent={({ value }) => {
             if (!value) return null;

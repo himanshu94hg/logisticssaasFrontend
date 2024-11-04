@@ -10,6 +10,8 @@ import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-sol
 const InternationalCreateOrders = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
+    const [activeTab, setActiveTab] = useState("All");
+    const [progressBarWidth, setProgressBarWidth] = useState('5%');
     const totalSteps = 5;
     const [formData, setFormData] = useState({
         step1: '',
@@ -19,10 +21,6 @@ const InternationalCreateOrders = () => {
         step5: '',
         sameAsShipping: true,// New step added
     });
-    const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    console.log("&&&&&&&&&&&&", formData)
-
-    const [activeTab, setActiveTab] = useState("All");
 
 
     useEffect(() => {
@@ -36,7 +34,6 @@ const InternationalCreateOrders = () => {
 
     const handleNext = () => {
         setStep(step + 1);
-        console.log(formData.step1)
     };
 
     const handlePrev = () => {
@@ -57,9 +54,6 @@ const InternationalCreateOrders = () => {
 
             if (response.ok) {
                 const responseData = await response.json();
-                // Handle the API response as needed
-                console.log('API Response:', responseData);
-
                 Swal.fire({
                     icon: 'success',
                     title: 'Order Created!',
@@ -68,11 +62,9 @@ const InternationalCreateOrders = () => {
                         confirmButton: 'btn main-button', // Add your custom class here
                     },
                 }).then(() => {
-                    // Redirect to another page after clicking OK
                     navigation('/Orders');
                 });
             } else {
-                // Handle error responses
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
 

@@ -349,7 +349,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     return `${key}=${formattedDate}`;
                 }
                 else {
-                    const trimmedValue = value.replace(/,+$/, '');
+                    const trimmedValue = value?.replace(/,+$/, '');
                     return `${key}=${trimmedValue}`;
                 }
             })

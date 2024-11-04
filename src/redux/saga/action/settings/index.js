@@ -49,7 +49,6 @@ function* deleteWarehouseAction(action) {
 
 // SETTINGS_GET_WAREHOUSE_DETAILS_API
 async function warehouseDetailsApi(data) {
-    console.log(data,"this is a code data")
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_CORE}${API_URL.SETTINGS_EDIT_WAREHOUSE_API}${data}/`,

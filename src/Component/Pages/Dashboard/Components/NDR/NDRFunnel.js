@@ -6,7 +6,6 @@ const NDRFunnel = () => {
   const ndrFunnel = useSelector(state => state?.dashboardNdrReducer?.funnelStatus);
 
   const funnelKeys = Object.keys(ndrFunnel || {});
-  console.log("Funnel Data", funnelKeys);
   const [activeTab, setActiveTab] = useState(funnelKeys.length > 0 ? funnelKeys[0] : null);
 
   const handleTabClick = (tabId) => {

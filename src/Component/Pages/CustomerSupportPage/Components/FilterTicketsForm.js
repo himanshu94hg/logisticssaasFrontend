@@ -97,7 +97,6 @@ const FilterTicketsForm = (props) => {
 
 
   const handleReset = () => {
-    console.log("Reset button clicked");
     setSelectedCategories([]);
     setSelectedStatus('');
     setResolutionDate(null);
