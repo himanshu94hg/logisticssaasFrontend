@@ -123,13 +123,15 @@ const WeightRecoPage = () => {
     }
 
     useEffect(() => {
+        setLoader(true)
         const temp_data = {
             page: currentPage,
             q: searchValue,
             page_size: itemsPerPage,
-            search_by:searchType
+            most_popular_search:mostPopular?.most_popular_search,
+            search_by:searchType,
         }
-        const additional_data = queryParamTemp
+        const additional_data = queryParamTemp;
         const merged_data = { ...temp_data, ...additional_data };
         const fetchData = () => {
             switch (activeTab) {
