@@ -1,24 +1,24 @@
-.business-plan-page::-webkit-scrollbar {
+.business-plan-page-new::-webkit-scrollbar {
     width: 4px;
 }
 
-.business-plan-page::-webkit-scrollbar-track {
+.business-plan-page-new::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
-.business-plan-page::-webkit-scrollbar-thumb {
+.business-plan-page-new::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 6px;
     /* Optional: for rounded corners */
 }
 
-.business-plan-page::-webkit-scrollbar-thumb {
+.business-plan-page-new::-webkit-scrollbar-thumb {
     background: var(--sh-primary-light);
     border-radius: 6px;
     /* Optional: for rounded corners */
 }
 
-.business-plan-page .plans-container {
+.business-plan-page-new .plans-container {
     display: flex;
     /* height: calc(100vh - 310px); */
     height: auto;
@@ -30,7 +30,7 @@
     margin-bottom: 30px;
 }
 
-.business-plan-page .plans-container .plan-item {
+.business-plan-page-new .plans-container .plan-item {
     flex: 1 1;
     width: auto;
     /* background: var(--sh-primary-light); */
@@ -51,7 +51,7 @@
     /* border: 18px solid var(--sh-primary-light);*/
 }
 
-.business-plan-page .plans-container .plan-item .change-plan {
+.business-plan-page-new .plans-container .plan-item .change-plan {
     z-index: 9;
     width: 50%;
     margin-inline: auto;
@@ -67,24 +67,24 @@
     transition: 0.1s;
 }
 
-.business-plan-page .plans-container .plan-item .change-plan.active {
+.business-plan-page-new .plans-container .plan-item .change-plan.active {
     color: #fff;
     background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
 }
 
-.business-plan-page .plans-container .plan-item .change-plan:hover {
+.business-plan-page-new .plans-container .plan-item .change-plan:hover {
     color: #fff;
     background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
     font-weight: 600;
 }
 
-.business-plan-page .plans-container .plan-item .change-plan.downgrade:hover {
+.business-plan-page-new .plans-container .plan-item .change-plan.downgrade:hover {
     color: #fff;
     background: linear-gradient(180deg, #f98a94 0%, #f98a94 0%, #f31429 100%);
     font-weight: 600;
 }
 
-.business-plan-page .plans-container .plan-item-heading {
+.business-plan-page-new .plans-container .plan-item-heading {
     display: flex;
     align-items: center;
     width: 100%;
@@ -99,7 +99,7 @@
     overflow: hidden;
 }
 
-.business-plan-page .plans-container .plan-item-heading::after {
+.business-plan-page-new .plans-container .plan-item-heading::after {
     content: '';
     position: absolute;
     background: var(--sh-primary);
@@ -124,11 +124,11 @@
     }
 }
 
-.business-plan-page .plans-container .plan-item:hover .plan-item-heading::after {
+.business-plan-page-new .plans-container .plan-item:hover .plan-item-heading::after {
     left: -1%;
 }
 
-.business-plan-page .plans-container .plan-item h4 {
+.business-plan-page-new .plans-container .plan-item h4 {
     /* position: absolute; */
     /* top: -10px; */
     /* left: 30%; */
@@ -144,14 +144,14 @@
     gap: 10px;
 }
 
-.business-plan-page .plans-container .plan-item h4 span {
+.business-plan-page-new .plans-container .plan-item h4 span {
     font-size: 12px;
     background: var(--sh-primary-middle);
     padding: 2px 12px;
     border-radius: 1rem;
 }
 
-.business-plan-page .plans-container .plan-tag-line {
+.business-plan-page-new .plans-container .plan-tag-line {
     text-align: end;
     position: absolute;
     right: 0;
@@ -162,7 +162,7 @@
     font-weight: 700;
 }
 
-.business-plan-page .plan-price-container {
+.business-plan-page-new .plan-price-container {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -173,7 +173,7 @@
     /* margin-top: 15px; */
 }
 
-.business-plan-page .plan-price {
+.business-plan-page-new .plan-price {
     font-size: 2.8rem;
     font-weight: 700;
     color: var(--sh-primary);
@@ -184,12 +184,12 @@
     color: #fff;
 }
 
-.business-plan-page .plan-price span {
+.business-plan-page-new .plan-price span {
     font-size: 1rem;
     font-weight: 400;
 }
 
-.business-plan-page .plan-price::before {
+.business-plan-page-new .plan-price::before {
     content: '₹';
     position: absolute;
     top: 0.6rem;
@@ -198,7 +198,7 @@
     font-weight: 400;
 }
 
-.business-plan-page .plans-features {
+.business-plan-page-new .plans-features {
     text-align: start;
     border-radius: 0.5rem;
     /* overflow: hidden; */
@@ -208,11 +208,11 @@
     z-index: 2;
 }
 
-.business-plan-page hr {
+.business-plan-page-new hr {
     margin-block: 0;
 }
 
-.business-plan-page .plans-features p {
+.business-plan-page-new .plans-features p {
     cursor: pointer;
     font-weight: 600;
     width: 100%;
@@ -231,18 +231,18 @@
     padding-inline: 15px;
 }
 
-.business-plan-page .plans-features p.list-heading.active {
+.business-plan-page-new .plans-features p.list-heading.active {
     background: var(--sh-primary-light);
     color: var(--sh-primary);
     font-weight: 600;
 }
 
-.business-plan-page .plans-features p.list-heading .active {
+.business-plan-page-new .plans-features p.list-heading .active {
     transform: rotate(180deg);
     transition: 0.4s ease-out;
 }
 
-.business-plan-page .plans-features ul {
+.business-plan-page-new .plans-features ul {
     list-style: none;
     padding-left: 0;
     margin-bottom: 0;
@@ -255,13 +255,13 @@
     margin-inline: 15px;
 }
 
-.business-plan-page .plans-features ul.active {
+.business-plan-page-new .plans-features ul.active {
     height: fit-content;
     transition: 0.5s;
     margin-block: 10px;
 }
 
-.business-plan-page .plans-features ul li {
+.business-plan-page-new .plans-features ul li {
     display: flex;
     flex-direction: row-reverse;
     width: 100%;
@@ -269,16 +269,16 @@
     align-items: center;
 }
 
-.business-plan-page .plans-features ul li.non-active {
+.business-plan-page-new .plans-features ul li.non-active {
     opacity: 0.2;
     /* text-decoration: line-through; */
 }
 
-.business-plan-page .plans-features ul li span {
+.business-plan-page-new .plans-features ul li span {
     font-weight: 600;
 }
 
-.book-demo-sec {
+.business-plan-page-new .book-demo-sec {
     width: 70%;
     margin-inline: auto;
     background: var(--sh-primary-middle);
@@ -292,7 +292,7 @@
     color: #fff;
 }
 
-.book-demo-sec button {
+.business-plan-page-new .book-demo-sec button {
     background: var(--sh-primary-light);
     color: var(--sh-primary);
     padding: 5px 10px;
@@ -304,11 +304,11 @@
     z-index: 1;
 }
 
-.book-demo-sec button:hover {
+.business-plan-page-new .book-demo-sec button:hover {
     color: #fff;
 }
 
-.book-demo-sec button::after {
+.business-plan-page-new .book-demo-sec button::after {
     position: absolute;
     content: "";
     top: 0;
@@ -321,6 +321,6 @@
     z-index: -1;
 }
 
-.book-demo-sec button:hover::after {
+.business-plan-page-new .book-demo-sec button:hover::after {
     width: 100%;
 }

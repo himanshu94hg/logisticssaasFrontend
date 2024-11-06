@@ -81,6 +81,7 @@ import PageSettings from "./Component/Pages/SettingsPage/components/TrackingPage
 import UserRoleManage from "./Component/Pages/SettingsPage/components/UserRoleManage/UserRoleManage";
 import WhatsAppBots from "./Component/Pages/SettingsPage/components/WhatsAppConfig/WhatsAppBots";
 import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPage/TrackingScript/TrackingScript";
+import BusinessPlanPageNew from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNew";
 
 function App() {
   const location = useLocation()
@@ -194,6 +195,7 @@ function App() {
             <Route path={ViewIntegrationsPattern} element={<ViewIntegrations />} />
             <Route path={LabelCustomizationPattern} element={<LabelCustomization />} />
             <Route path={BusinessPlanPattern} element={<BusinessPlanPage />} />
+            {/* <Route path={BusinessPlanPattern} element={<BusinessPlanPageNew />} /> */}
             <Route path={ReferAndEarnPattern} element={<ReferAndEarnPage />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
