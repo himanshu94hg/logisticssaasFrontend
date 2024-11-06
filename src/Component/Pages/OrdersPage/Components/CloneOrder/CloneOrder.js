@@ -248,7 +248,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
                     warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
-                    order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
+                    order_date: orderDetailsData.order_date && new Date(),
                     order_type: orderStatus === "delivered" ? "Reverse" : orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
                     channel_id: orderDetailsData?.channel_id
