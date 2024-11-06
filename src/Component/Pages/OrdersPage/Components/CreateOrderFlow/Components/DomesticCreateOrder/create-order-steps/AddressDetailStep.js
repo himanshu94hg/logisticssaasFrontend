@@ -351,7 +351,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     className={`input-field ${errors.mobile_number || editErrors?.mobile_number ? 'input-field-error' : ''}`}
                                     type="text"
                                     value={formData.shipping_details.mobile_number}
-                                    onChange={(e) => handleChangeShiping(e, 'mobile_number')}
+                                    onChange={(e) => {
+                                        const numericValue = e.target.value.replace(/\D/g, "");
+                                        handleChangeShiping({ target: { value: numericValue } }, 'mobile_number');
+                                    }}
                                     onBlur={handleMobileNumberValidation}
                                     placeholder='X X X X X X X X X X'
                                     maxLength={10}
@@ -572,7 +575,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                         className={`input-field ${errors.billing_mobile_number || editErrors?.billing_mobile_number ? 'input-field-error' : ''}`}
                                         type="text"
                                         value={formData.billing_details.mobile_number}
-                                        onChange={(e) => handleChangeBilling(e, 'mobile_number')}
+                                        onChange={(e) => {
+                                            const numericValue = e.target.value.replace(/\D/g, "");
+                                            handleChangeBilling({ target: { value: numericValue } }, 'mobile_number');
+                                        }}
                                         onBlur={handleMobileNumberValidation}
                                         placeholder='X X X X X X X X X X'
                                         maxLength={10}
