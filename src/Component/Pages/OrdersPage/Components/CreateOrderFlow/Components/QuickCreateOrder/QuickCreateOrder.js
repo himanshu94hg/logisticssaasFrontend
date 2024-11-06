@@ -36,6 +36,7 @@ const QuickCreateOrder = (activeTab) => {
     const [pincodeError, setPincodeError] = useState(false)
     const [pincodeError1, setPincodeError1] = useState(false)
     const [loader, setLoader] = useState(false)
+    const [CompName, setCompName] = useState("")
 
 
 
@@ -113,7 +114,7 @@ const QuickCreateOrder = (activeTab) => {
     })
 
     useEffect(() => {
-        if (dataRefresh ) {
+        if (dataRefresh) {
             setFormData({
                 order_details: {
                     customer_order_number: '',
@@ -190,9 +191,9 @@ const QuickCreateOrder = (activeTab) => {
         setIsChecked(true)
         setErrors({})
         setPincodeError(false)
-    }, [dataRefresh,activeTab])
+    }, [dataRefresh, activeTab])
 
-    console.log(pincodeError,"pincodeError")
+    console.log(pincodeError, "pincodeError")
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -219,10 +220,10 @@ const QuickCreateOrder = (activeTab) => {
         }
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
-        } 
+        }
         if (pincodeError) {
             newErrors.pincode = 'Please enter valid pincode!';
-        } 
+        }
         else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
             newErrors.pincode = 'Pincode should be 6 digits!';
         }
@@ -231,7 +232,7 @@ const QuickCreateOrder = (activeTab) => {
         }
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Select the Order Type!';
-           
+
         }
         if (formData.dimension_details.weight == 0) {
             newErrors.weight = 'Dead Weight should be greater than 0!';
@@ -274,7 +275,7 @@ const QuickCreateOrder = (activeTab) => {
             }
             if (pincodeError) {
                 newErrors.billing_pincode = 'Please enter valid pincode!';
-            } 
+            }
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -317,6 +318,7 @@ const QuickCreateOrder = (activeTab) => {
                 if (response !== null) {
                     if (response.status === 201) {
                         setSelectedOrderId(response?.data?.id)
+                        setCompName("Quick")
                     } else {
                         toast.error("Something went wrong!")
                     }
@@ -350,7 +352,7 @@ const QuickCreateOrder = (activeTab) => {
         setExitpop(true)
     }
 
-console.log(errors,"this is a from data")
+    console.log(errors, "this is a from data")
     return (
         <div className="stepper-form-container">
             <div className='w-100'>
@@ -412,7 +414,7 @@ console.log(errors,"this is a from data")
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} Exitpop={Exitpop} setExitpop={setExitpop} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
+            <SingleShipPop CompName={CompName} setLoader={setLoader} orderId={selectedOrderId} Exitpop={Exitpop} setExitpop={setExitpop} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
             <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             <div style={{ zIndex: '7' }} className={`backdrop ${!Exitpop && 'd-none'}`}></div>
         </div>

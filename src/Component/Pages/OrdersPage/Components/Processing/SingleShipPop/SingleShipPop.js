@@ -18,7 +18,7 @@ import { customErrorFunction } from '../../../../../../customFunction/errorHandl
 import RatingStars from "../../../../../common/RatingStars/RatingStars";
 
 
-const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
+const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop, CompName }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
@@ -82,7 +82,13 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
     }
 
     const handleClose = () => {
-        setSingleShip(false);
+        if (CompName === "Quick") {
+            setExitpop(true)
+        }
+        else {
+            setSingleShip(false);
+        }
+
     };
 
 
