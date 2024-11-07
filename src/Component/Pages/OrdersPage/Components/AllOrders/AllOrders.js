@@ -1,41 +1,29 @@
+import JSZip from 'jszip';
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
+import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { FaRegCopy } from "react-icons/fa";
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import React, { useState, useEffect, useRef } from 'react';
 import globalDebouncedClick from '../../../../../debounce';
 import SingleShipPopReassign from './SingleShipPopReassign';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { faCircle, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 
 const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus, setEditOrderSection, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
@@ -46,6 +34,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
     const [SingleShip, setSingleShip] = useState(false)
     const [deleteOrderId, setDeleteOrderId] = useState("");
     const [cancelOrderId, setCancelOrderId] = useState("");
+    const [ShowQCStatus, setShowQCStatus] = useState(false)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [copyText, setcopyText] = useState("Tracking Link")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -54,10 +43,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
     const [reassignResponse, setReassignResponse] = useState(null);
     const [cancelOrderStatus, setCancelOrderStatus] = useState("");
     const [SingleShipReassign, setSingleShipReassign] = useState(false)
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
-    const [ShowQCStatus, setShowQCStatus] = useState(false)
+
 
     useEffect(() => {
         if (orderdelete) {
@@ -457,21 +447,15 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
         rowRefs.current.forEach((row, index) => {
             if (row) {
                 const { top, height } = row.getBoundingClientRect();
-                const rowTopRelativeToViewport = top; // Distance from the top of the viewport
+                const rowTopRelativeToViewport = top; 
                 const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
-
-                const viewportRowsCount = Math.floor(viewportHeight / height); // How many rows fit in the viewport
-
-                let position = 'middle'; // Default to middle
-
+                const viewportRowsCount = Math.floor(viewportHeight / height); 
+                let position = 'middle'; 
                 if (rowTopRelativeToViewport < viewportHeight * 0.25) {
-                    // Top 25% of the viewport (top rows)
                     position = 'below';
                 } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
-                    // Bottom 25% of the viewport (bottom rows)
                     position = 'above';
                 }
-
                 updatedPositions[index] = position;
             }
         });
@@ -480,12 +464,12 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
     };
 
     useEffect(() => {
-        updateDropdownPosition(); // Initial positioning
-        window.addEventListener('scroll', updateDropdownPosition); // Add scroll event listener
-        window.addEventListener('resize', updateDropdownPosition); // Update on window resize
+        updateDropdownPosition(); 
+        window.addEventListener('scroll', updateDropdownPosition);
+        window.addEventListener('resize', updateDropdownPosition); 
         return () => {
-            window.removeEventListener('scroll', updateDropdownPosition); // Cleanup
-            window.removeEventListener('resize', updateDropdownPosition); // Cleanup
+            window.removeEventListener('scroll', updateDropdownPosition); 
+            window.removeEventListener('resize', updateDropdownPosition); 
         };
     }, []);
 
@@ -493,7 +477,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
 
     const handleMouseEnter = (index) => {
         setActiveIndex(index);
-        updateDropdownPosition(); // Ensure position is updated on mouse enter
+        updateDropdownPosition(); 
     };
 
     const handleMouseLeave = () => {
@@ -545,18 +529,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
-                                                        {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                            : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                                : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                        : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                            : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                                : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                    : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                        : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                            : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                                : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
-                                                                                                    : <CustomIcon />}
+                                                    {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&

@@ -1,34 +1,22 @@
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
+import {  FaRegCopy } from 'react-icons/fa';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { FaCheckSquare, FaRegCopy, FaTimes } from 'react-icons/fa';
+import ViewDisputeHistory from './ViewDisputeHistory';
+import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
-import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import ViewDisputeHistory from './ViewDisputeHistory';
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
 import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
 
@@ -40,8 +28,10 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const [showComment, setShowComment] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [copyText, setcopyText] = useState("Tracking Link")
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
+
 
     const handleClose = () => setShow(false);
     const handleCloseComment = () => setShowComment(false);
@@ -98,12 +88,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const handleDispute = (row) => {
         setDisputeEscalate(true)
         setSelectedRow(row);
-
-        // const rowString = JSON.stringify(row);
-        // dispatch({ type: "DISPUTE_ACTION", payload: { "ids": rowString } });
-        // if (disputeRecord.status === true) {
-        //     toast.success("Thank you for disputing.")
-        // }
     };
 
     const handleClickAWB = (orders) => {
@@ -164,17 +148,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.order?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.order?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.order?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.order?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.order?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row?.order?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                        : row?.order?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                            : <CustomIcon />}
+                                                    {row?.order?.channel && <img src={channel_list[row?.order?.channel]["image"]} alt="channel" width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                         {row?.order?.other_details?.is_verified &&
