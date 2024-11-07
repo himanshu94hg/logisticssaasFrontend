@@ -1,35 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo, faFilter } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import moment from 'moment';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
-import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import { FaRegCopy } from 'react-icons/fa';
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
-import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
+import SidePanel from './SidePanel/SidePanel';
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png';
 
 const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const [data, setData] = useState([]);
@@ -38,6 +18,8 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [copyText, setcopyText] = useState("Tracking Link")
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+
 
     const handleClose = () => setShow(false);
 
@@ -142,18 +124,7 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.order?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.order?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.order?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.order?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.order?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row?.order?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                        : row?.order?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                            : row?.order?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
-                                                                                                : <CustomIcon />}
+                                                    {row?.order?.channel && <img src={channel_list[row?.order?.channel]["image"]} alt="channel" width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                         {row?.order?.other_details?.is_verified &&

@@ -1,33 +1,21 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import Tooltip from 'react-bootstrap/Tooltip';
+import React, { useState } from 'react';
 import SidePanel from './SidePanel/SidePanel';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll }) => {
     const [backDrop, setBackDrop] = useState(false);
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -102,20 +90,7 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                    : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                        : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                            : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
-
-                                                                                                : <CustomIcon />}
-                                                    {/* &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link> */}
+                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&

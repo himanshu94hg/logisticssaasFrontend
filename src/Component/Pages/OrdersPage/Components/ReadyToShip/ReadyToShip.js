@@ -1,3 +1,4 @@
+import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -6,32 +7,19 @@ import Modal from 'react-bootstrap/Modal';
 import { FaRegCopy } from "react-icons/fa";
 import SingleShipPop from './SingleShipPop';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect, useRef, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { BASE_URL_CORE, BASE_URL_COURIER } from '../../../../../axios/config';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
+import React, { useState, useEffect, useRef, } from 'react';
 import { faCircle, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import { BASE_URL_CORE, BASE_URL_COURIER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import axios from 'axios';
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
 
 
 const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
@@ -50,6 +38,8 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+
 
     useEffect(() => {
         if (moreorderCard?.status) {
@@ -426,18 +416,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row?.channel.toLowerCase() === "api" ? <img src={APIChannelIcon} alt="Manual" width="30" />
-                                                                                        : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                            : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
-                                                                                                : <CustomIcon />}
+                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
