@@ -81,6 +81,7 @@ import PageSettings from "./Component/Pages/SettingsPage/components/TrackingPage
 import UserRoleManage from "./Component/Pages/SettingsPage/components/UserRoleManage/UserRoleManage";
 import WhatsAppBots from "./Component/Pages/SettingsPage/components/WhatsAppConfig/WhatsAppBots";
 import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPage/TrackingScript/TrackingScript";
+import { channelData } from "./Component/common/channellist";
 
 function App() {
   const location = useLocation()
@@ -103,6 +104,15 @@ function App() {
     setTokenExists(!!token);
     setTokenChecked(true);
   }, []);
+  useEffect(() => {
+    const temp_data = channelData.reduce((acc, item) => {
+      acc[item?.channel_name] = {
+        image: item?.image,
+      };
+      return acc;
+    }, {});
+    localStorage.setItem('channel_list', JSON.stringify(temp_data));
+  }, [])
 
   useEffect(() => {
     if (tokenChecked && !tokenExists && window.location.pathname != signUpPattern) {

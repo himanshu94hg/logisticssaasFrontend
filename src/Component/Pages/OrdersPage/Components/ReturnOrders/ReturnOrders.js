@@ -5,29 +5,21 @@ import { FaRegCopy } from "react-icons/fa";
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import EasyComLogo from "../../../../../assets/image/integration/EasyComLogo.png"
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import UnicommerceIcon from "../../../../../assets/image/integration/UnicommerceIcon.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import omsguru from "../../../../../assets/image/logo/OmsGuruIcon.png"
+
 
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [copyText, setcopyText] = useState("Tracking Link")
+    const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+
 
     useEffect(() => {
         if (activeTab || MoreFilters) {
@@ -172,17 +164,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
-                                                        : row?.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
-                                                            : row?.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
-                                                                : row?.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
-                                                                    : row?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
-                                                                        : row?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
-                                                                            : row?.channel.toLowerCase() === "amazon_direct" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.channel.toLowerCase() === "unicommerce" ? <img src={UnicommerceIcon} alt="Manual" width="20" />
-                                                                                    : row?.channel.toLowerCase() === "omsguru" ? <img src={omsguru} alt="Manual" width="30" />
-                                                                                    : row?.channel.toLowerCase() === "easyecom" ? <img src={EasyComLogo} alt="Manual" width="30" />
-                                                                                        : <CustomIcon />}
+                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
