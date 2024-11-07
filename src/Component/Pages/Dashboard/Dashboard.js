@@ -44,6 +44,7 @@ function Dashboard() {
   useEffect(() => {
     if (checkAuthIsValid) {
       clearAllCookies()
+      window.location.reload()
       navigate("/")
     }
   }, [checkAuthIsValid])

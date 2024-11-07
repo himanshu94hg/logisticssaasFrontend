@@ -88,16 +88,16 @@ function App() {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const urlParams = new URLSearchParams(location?.search);
+  const status = urlParams.get('status');
   const [userID, setUserID] = useState("")
   const token = Cookies.get('access_token');
   const [isExpanded, setExpanded] = useState(false);
   const [ZoneMapping, setZoneMapping] = useState(false)
   const [tokenExists, setTokenExists] = useState(false);
-  const [tokenChecked, setTokenChecked] = useState(false);
-  const urlParams = new URLSearchParams(location?.search);
-  const status = urlParams.get('status');
-  const [WalletRecharge, setWalletRecharge] = useState(false)
   const ccavenuestatus = urlParams.get('ccavenuestatus');
+  const [tokenChecked, setTokenChecked] = useState(false);
+  const [WalletRecharge, setWalletRecharge] = useState(false)
 
   useEffect(() => {
     const user_id = Cookies.get('user_id');
@@ -105,6 +105,7 @@ function App() {
     setTokenExists(!!token);
     setTokenChecked(true);
   }, []);
+
   useEffect(() => {
     const temp_data = channelData.reduce((acc, item) => {
       acc[item?.channel_name] = {
@@ -131,7 +132,6 @@ function App() {
   useEffect(() => {
     if (ccavenuestatus === "Success") {
       navigate('/')
-      // toast.success("Recharge Success! Your balance has been updated.")
     }
   }, [ccavenuestatus])
 
