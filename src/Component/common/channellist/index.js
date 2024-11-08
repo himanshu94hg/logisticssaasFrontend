@@ -36,7 +36,7 @@ export const channelData = [
         image: amazon
     },
     {
-        channel_name: "amazondirect",
+        channel_name: "amazon_direct",
         image: amazondirect
     },
     {
