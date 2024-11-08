@@ -9,6 +9,8 @@ import amazondirect from "../../../assets/image/integration/AmazonLogo.png"
 import storehippo from "../../../assets/image/integration/StoreHippoLogo.png"
 import unicommerce from "../../../assets/image/integration/UnicommerceIcon.png"
 import easyecom from "../../../assets/image/integration/EasyComLogoOMSLogo.png"
+import omsguru from "../../../assets/image/logo/OmsGuruIcon.png";
+
 
 export const channelData = [
     {
@@ -54,6 +56,10 @@ export const channelData = [
     {
         channel_name: "easyecom",
         image: easyecom
+    },
+    {
+        channel_name: "omsguru",
+        image: omsguru
     },
 
 ]
