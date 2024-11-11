@@ -236,12 +236,16 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
         }
     };
 
-    const generateManifest = (value) => {
-        dispatch({
-            type: "GENERATE_MANIFEST_ACTION", payload: {
-                order_ids: `${value}`
-            }
-        })
+    const generateManifest = (value,staus) => {
+        if (staus) {
+            toast.error("manifest already generated!")
+        } else {
+            dispatch({
+                type: "GENERATE_MANIFEST_ACTION", payload: {
+                    order_ids: `${value}`
+                }
+            })
+        }
     }
 
     const openCloneSection = (id, status) => {
@@ -447,10 +451,10 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
         rowRefs.current.forEach((row, index) => {
             if (row) {
                 const { top, height } = row.getBoundingClientRect();
-                const rowTopRelativeToViewport = top; 
+                const rowTopRelativeToViewport = top;
                 const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
-                const viewportRowsCount = Math.floor(viewportHeight / height); 
-                let position = 'middle'; 
+                const viewportRowsCount = Math.floor(viewportHeight / height);
+                let position = 'middle';
                 if (rowTopRelativeToViewport < viewportHeight * 0.25) {
                     position = 'below';
                 } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
@@ -464,12 +468,12 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
     };
 
     useEffect(() => {
-        updateDropdownPosition(); 
+        updateDropdownPosition();
         window.addEventListener('scroll', updateDropdownPosition);
-        window.addEventListener('resize', updateDropdownPosition); 
+        window.addEventListener('resize', updateDropdownPosition);
         return () => {
-            window.removeEventListener('scroll', updateDropdownPosition); 
-            window.removeEventListener('resize', updateDropdownPosition); 
+            window.removeEventListener('scroll', updateDropdownPosition);
+            window.removeEventListener('resize', updateDropdownPosition);
         };
     }, []);
 
@@ -477,7 +481,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
 
     const handleMouseEnter = (index) => {
         setActiveIndex(index);
-        updateDropdownPosition(); 
+        updateDropdownPosition();
     };
 
     const handleMouseLeave = () => {
@@ -529,7 +533,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
-                                                    {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                        {row?.channel && <img src={channel_list[row?.channel]["image"]} alt="channel" width="20" />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -730,7 +734,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                                                         </button>
                                                     )}
                                                     {row?.status === 'pickup_requested' && (
-                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => generateManifest(row?.id))}>
+                                                        <button className='btn main-button' style={{ width: '100%' }} onClick={() => globalDebouncedClick(() => generateManifest(row?.id, row?.manifest_status))}>
                                                             Generate Manifest
                                                         </button>
                                                     )}
