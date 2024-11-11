@@ -1,0 +1,326 @@
+.business-plan-page-new::-webkit-scrollbar {
+    width: 4px;
+}
+
+.business-plan-page-new::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.business-plan-page-new::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+    /* Optional: for rounded corners */
+}
+
+.business-plan-page-new::-webkit-scrollbar-thumb {
+    background: var(--sh-primary-light);
+    border-radius: 6px;
+    /* Optional: for rounded corners */
+}
+
+.business-plan-page-new .plans-container {
+    display: flex;
+    /* height: calc(100vh - 310px); */
+    height: auto;
+    justify-content: center;
+    gap: 30px;
+    margin-inline: 3rem;
+    margin-top: 25px;
+    /* height: calc(100% - 191px); */
+    margin-bottom: 30px;
+}
+
+.business-plan-page-new .plans-container .plan-item {
+    flex: 1 1;
+    width: auto;
+    /* background: var(--sh-primary-light); */
+    height: auto;
+    border-radius: 3.5rem 3.5rem 0.5rem 0.5rem;
+    /* border: 1px solid var(--sh-primary); */
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    /* padding: 15px; */
+    box-shadow: 0px 0px 19px 11px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    /* justify-content: space-between; */
+    position: relative;
+    /* max-width: 380px; */
+    /* background: #fff; */
+    /* overflow: hidden; */
+    /* border: 18px solid var(--sh-primary-light);*/
+}
+
+.business-plan-page-new .plans-container .plan-item .change-plan {
+    z-index: 9;
+    width: 50%;
+    margin-inline: auto;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 19px 11px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border: none;
+    /* margin-bottom: 20px; */
+    position: absolute;
+    left: 25%;
+    top: -19px;
+    font-weight: 600;
+    transition: 0.1s;
+}
+
+.business-plan-page-new .plans-container .plan-item .change-plan.active {
+    color: #fff;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+}
+
+.business-plan-page-new .plans-container .plan-item .change-plan:hover {
+    color: #fff;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    font-weight: 600;
+}
+
+.business-plan-page-new .plans-container .plan-item .change-plan.downgrade:hover {
+    color: #fff;
+    background: linear-gradient(180deg, #f98a94 0%, #f98a94 0%, #f31429 100%);
+    font-weight: 600;
+}
+
+.business-plan-page-new .plans-container .plan-item-heading {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    background: #1975c961;
+    padding: 22px;
+    border-radius: 3.5rem 3.5rem 0 0;
+    padding-bottom: 52px;
+    padding-inline: 15px;
+    /* margin-bottom: 14px; */
+    position: relative;
+    overflow: hidden;
+}
+
+.business-plan-page-new .plans-container .plan-item-heading::after {
+    content: '';
+    position: absolute;
+    background: var(--sh-primary);
+    width: 188px;
+    height: 141px;
+    border-radius: 42px 1px 130px 10px;
+    top: 0%;
+    /* left: -100%; */
+    left: -1%;
+    z-index: -1;
+    /* transition: 0.4s; */
+    animation: moveBG 1s;
+}
+
+@keyframes moveBG {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: -1%;
+    }
+}
+
+.business-plan-page-new .plans-container .plan-item:hover .plan-item-heading::after {
+    left: -1%;
+}
+
+.business-plan-page-new .plans-container .plan-item h4 {
+    /* position: absolute; */
+    /* top: -10px; */
+    /* left: 30%; */
+    /* background: var(--sh-primary-light); */
+    /* padding-block: 5px; */
+    font-size: 1.6rem;
+    /* border-radius: 15px; */
+    font-weight: 500;
+    /* width: 40%; */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.business-plan-page-new .plans-container .plan-item h4 span {
+    font-size: 12px;
+    background: var(--sh-primary-middle);
+    padding: 2px 12px;
+    border-radius: 1rem;
+}
+
+.business-plan-page-new .plans-container .plan-tag-line {
+    text-align: end;
+    position: absolute;
+    right: 0;
+    white-space: nowrap;
+    bottom: -20px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.business-plan-page-new .plan-price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    /* gap: 10px; */
+    /* position: relative; */
+    /* justify-content: center; */
+    /* margin-top: 15px; */
+}
+
+.business-plan-page-new .plan-price {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--sh-primary);
+    margin-bottom: 0;
+    /* margin-inline: 14px 40px; */
+    text-align: center;
+    position: relative;
+    color: #fff;
+}
+
+.business-plan-page-new .plan-price span {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.business-plan-page-new .plan-price::before {
+    content: '₹';
+    position: absolute;
+    top: 0.6rem;
+    left: -14px;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.business-plan-page-new .plans-features {
+    text-align: start;
+    border-radius: 0.5rem;
+    /* overflow: hidden; */
+    background: #fff;
+    padding-top: 54px;
+    position: relative;
+    z-index: 2;
+}
+
+.business-plan-page-new hr {
+    margin-block: 0;
+}
+
+.business-plan-page-new .plans-features p {
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    display: flex;
+    margin-block: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    padding-block: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 15px;
+}
+
+.business-plan-page-new .plans-features p.list-heading.active {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    font-weight: 600;
+}
+
+.business-plan-page-new .plans-features p.list-heading .active {
+    transform: rotate(180deg);
+    transition: 0.4s ease-out;
+}
+
+.business-plan-page-new .plans-features ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 0;
+    overflow: hidden;
+    transition: 1s;
+    margin-inline: 15px;
+}
+
+.business-plan-page-new .plans-features ul.active {
+    height: fit-content;
+    transition: 0.5s;
+    margin-block: 10px;
+}
+
+.business-plan-page-new .plans-features ul li {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.business-plan-page-new .plans-features ul li.non-active {
+    opacity: 0.2;
+    /* text-decoration: line-through; */
+}
+
+.business-plan-page-new .plans-features ul li span {
+    font-weight: 600;
+}
+
+.business-plan-page-new .book-demo-sec {
+    width: 70%;
+    margin-inline: auto;
+    background: var(--sh-primary-middle);
+    display: flex;
+    padding-block: 10px;
+    border-radius: 15px;
+    padding-inline: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 50px 40px;
+    color: #fff;
+}
+
+.business-plan-page-new .book-demo-sec button {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    position: relative;
+    border: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.business-plan-page-new .book-demo-sec button:hover {
+    color: #fff;
+}
+
+.business-plan-page-new .book-demo-sec button::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--sh-primary);
+    border-radius: 15px;
+    transition: 0.4s;
+    z-index: -1;
+}
+
+.business-plan-page-new .book-demo-sec button:hover::after {
+    width: 100%;
+}

@@ -81,8 +81,8 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Next Remittance Date:
-                            {codDetails?.next_remit_amount === 0 ? <p>-</p> :
-                                <p> {codDetails != null ? moment(codDetails?.next_remit_date).format("DD MMM YYYY") : "-"}</p>
+                            {codDetails?.next_remit_amount === 0 ? <span>-</span> :
+                                <span> {codDetails != null ? moment(codDetails?.next_remit_date).format("DD MMM YYYY") : "-"}</span>
                             }
                         </p>
                     </div>
