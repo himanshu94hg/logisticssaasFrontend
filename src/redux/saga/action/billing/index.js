@@ -9,9 +9,11 @@ import { ERROR_RESPONSE_DATA } from "../../../constants/error";
 
 
 async function billingFileAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_BILLING_URLW}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_BILLING_URLW}?${queryParams}`,
         data: data
     });
     return listData;

@@ -77,7 +77,7 @@ const BillingPage = () => {
                 break;
             case "Passbook":
                 dispatch({ type: "BILLING_PASSBOOK_COUNTER_DATA_ACTION" });
-                dispatch({ type: "BILLING_DATA_ACTION", payload: { itemsPerPage, currentPage } });
+                dispatch({ type: "BILLING_DATA_ACTION", payload: { page_size: itemsPerPage, page: currentPage } });
                 break;
             case "Credit Receipt":
                 dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION", payload: { itemsPerPage, currentPage } });
@@ -135,10 +135,11 @@ const BillingPage = () => {
                 }
             }
         });
-        dispatch({
-            type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",
-            payload: queryParams,
-        });
+        if (activeTab === "Remittance Logs") {
+            dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: queryParams, });
+        } else {
+            dispatch({ type: "BILLING_DATA_ACTION", payload: queryParams });
+        }
         setMoreFilters(false);
     };
 
