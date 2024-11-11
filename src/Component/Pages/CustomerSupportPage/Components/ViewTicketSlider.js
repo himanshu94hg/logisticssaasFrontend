@@ -9,6 +9,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const [show, setShow] = useState(false);
@@ -154,7 +155,14 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
                 <span
                   className='view-attachment'
                   onClick={() => {
-                    handleShow(allTicket.escalate_image);
+                    if (allTicket?.escalate_image.toLowerCase().endsWith('.pdf')) {
+                      const downloadLink = document.createElement("a");
+                      downloadLink.href = allTicket.escalate_image;
+                      downloadLink.download = "";
+                      downloadLink.click();
+                    } else {
+                      handleShow(allTicket.escalate_image);
+                    }
                   }}
                 >
                   <FontAwesomeIcon icon={faEye} />
