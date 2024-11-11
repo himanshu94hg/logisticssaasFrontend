@@ -17,7 +17,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 
-const ChannelsView = ({ channelData }) => {
+const ChannelsView = ({ channelData,setReset }) => {
     const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -41,8 +41,8 @@ const ChannelsView = ({ channelData }) => {
             });
             if (response.status === 200 || response.status === 201) {
                 // setEmployeeUser(response?.data)
+                setReset(new Date())
                 toast.success("Channel deleted successfully!")
-
             }
 
         } catch (error) {
