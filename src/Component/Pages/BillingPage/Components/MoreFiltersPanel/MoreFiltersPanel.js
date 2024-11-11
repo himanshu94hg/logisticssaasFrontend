@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Cookies from 'js-cookie';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import React, { useEffect, useState } from 'react';
@@ -6,10 +7,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, billingRemitanceExportCard }) => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
+    const token = Cookies.get("access_token")
     const [awbNumbers, setAwbNumbers] = useState('');
     const [courierPartners, setCourierPartners] = useState([]);
     const [SidePanelOption, setSidePanelOption] = useState('Filter');
@@ -115,7 +119,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         }),
     };
 
-    const handleExportClick = () => {
+    const handleExportClick =async () => {
         const awbNumbersString = awbNumbers
             .split(',')
             .map(number => number.trim())
@@ -130,11 +134,39 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
             awb_number: awbNumbersString,
             courier_partner: selectedCourierPartnerKeywords
         };
+        const payload1 = {
+            awb_numbers: awbNumbersString,
+            courier_partners: selectedCourierPartnerKeywords
+        };
 
-        dispatch({
-            type: "BILLING_REMITANCE_EXPORT_DATA_ACTION",
-            payload: payload
-        });
+        if(activeTab==="Remittance Logs"){
+            dispatch({
+                type: "BILLING_REMITANCE_EXPORT_DATA_ACTION",
+                payload: payload
+            });
+        }else{
+            try {
+                const response = await fetch(`${BASE_URL_CORE}/core-api/features/billing/passbook-export-by-awb/`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                  },
+                  body: JSON.stringify(payload1),
+                });
+                if (response.status===200) {
+                  const blob = await response.blob();
+                  const downloadUrl = window.URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.href = downloadUrl;
+                  link.download = "exported_file.xlsx"; 
+                  link.click();
+                  window.URL.revokeObjectURL(downloadUrl);
+                } 
+              } catch (error) {
+                customErrorFunction(error)
+              }
+        }
     };
 
     return (
@@ -195,6 +227,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     />
                                 </div>
                             </div>
+                            {activeTab === "Remittance Logs"&&
                             <div className='filter-row'>
                                 <label>UTR Number
                                     <input
@@ -206,6 +239,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     />
                                 </label>
                             </div>
+                            }
                         </div>
                         <div className='more-filters-footer justify-content-end'>
                             <div className='d-flex'>
@@ -239,7 +273,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                 <hr />
                                 <span>OR</span>
                             </div>
-                            <div className='filter-row'>
+                         <div className='filter-row'>
                                 <label>
                                     Courier Partner(s)
                                     <Select
@@ -252,9 +286,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                         styles={customStyles}
                                     />
                                 </label>
-                            </div>
-                            <div className='d-flex justify-content-end'>
-                                <button className='btn main-button' onClick={handleExportClick}>Export</button>
+                                <div className='d-flex justify-content-end'>
+                                    <button className='btn main-button' onClick={handleExportClick}>Export</button>
+                                </div>
                             </div>
                         </div>
                     </>

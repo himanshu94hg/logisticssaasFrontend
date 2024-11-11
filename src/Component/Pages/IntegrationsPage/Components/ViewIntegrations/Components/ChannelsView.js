@@ -1,23 +1,20 @@
-import { Modal, Button } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
-import shopify from "../../../../../../assets/image/integration/shopify.jpg"
-import WCLogo from '../../../../../../assets/image/integration/WCLogo.png'
-import Magento from '../../../../../../assets/image/integration/magento.png'
-import OpenCart from '../../../../../../assets/image/integration/OpenCart.png'
-import Amazon from '../../../../../../assets/image/integration/AmazonLogo.png'
-import Flipkart from '../../../../../../assets/image/integration/Flipkart.png'
-import Manual from '../../../../../../assets/image/integration/Manual.png'
-import moment from 'moment';
-import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
-import { BASE_URL_CORE } from '../../../../../../axios/config';
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { Modal} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { BASE_URL_CORE } from '../../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import WCLogo from '../../../../../../assets/image/integration/WCLogo.png'
+import Manual from '../../../../../../assets/image/integration/Manual.png'
+import shopify from "../../../../../../assets/image/integration/shopify.jpg"
+import Amazon from '../../../../../../assets/image/integration/AmazonLogo.png'
+import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 
 
-const ChannelsView = ({ channelData }) => {
+const ChannelsView = ({ channelData,setReset }) => {
     const [show, setShow] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -30,8 +27,6 @@ const ChannelsView = ({ channelData }) => {
         setShow(true);
     };
 
-
-
     const handleDelete = async (id) => {
         try {
             const response = await axios.delete(`${BASE_URL_CORE}/core-api/channel/delete-channel/${id}/`, {
@@ -40,9 +35,8 @@ const ChannelsView = ({ channelData }) => {
                 },
             });
             if (response.status === 200 || response.status === 201) {
-                // setEmployeeUser(response?.data)
+                setReset(new Date())
                 toast.success("Channel deleted successfully!")
-
             }
 
         } catch (error) {

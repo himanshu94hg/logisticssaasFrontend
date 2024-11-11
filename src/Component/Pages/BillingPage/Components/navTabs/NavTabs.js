@@ -74,7 +74,7 @@ export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counte
             </div>
           </Nav>
         </Navbar.Collapse>
-        {activeTab === "Remittance Logs" &&
+        {(activeTab === "Remittance Logs"||activeTab === "Passbook" ) &&
           <div className="btn-group">
             <button
               style={{ paddingBlock: '4px' }}

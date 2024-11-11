@@ -23,16 +23,16 @@ const CouriersList = () => {
                             onClick={() => togglePanel(index)}
                             className='first'
                         >
-                            <img src={item?.image} width={"40px"} height={"40px"} alt=""  className='rounded-circle border border-1'/>
+                            <img src={item?.image} width={"40px"} height={"40px"} alt="" className='rounded-circle border border-1' />
                             <span className='ps-2'><strong>{item?.title}</strong></span>
                             {/* <span> Mode: {item?.mode}</span> */}
                         </div>
                         <div className='second'>
                             <ul>
-                                <li>Prepaid Delivery {item?.mps_enabled ? "" : <span>&#10003;</span>}</li>
-                                <li>Cash On Delivery {item?.mps_enabled ? "" : <span>&#10003;</span>}</li>
-                                <li>Pickups {item?.mps_enabled ? "" : <span>&#10003;</span>}</li>
-                                <li>Reverse Pickups {item?.reverse_enabled ? <span>&#10003;</span>:<span>&#10007;</span> }</li>
+                                <li>Prepaid Delivery {<span>&#10003;</span>}</li>
+                                <li>Cash On Delivery {item?.reverse_enabled ? <span>&#10007;</span> : <span>&#10003;</span>}</li>
+                                <li>Pickups  {<span>&#10003;</span>}</li>
+                                <li>Reverse Pickups {item?.reverse_enabled ? <span>&#10003;</span> : <span>&#10007;</span>}</li>
                             </ul>
                         </div>
                     </div>

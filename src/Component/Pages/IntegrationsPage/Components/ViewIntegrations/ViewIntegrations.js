@@ -12,6 +12,7 @@ import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 const ViewIntegrations = () => {
     const location = useLocation()
     const dispatch = useDispatch()
+    const [reset,setReset]=useState(null)
     const [loader, setLoader] = useState(false)
     const [channelData, setChannelData] = useState([]);
     const [activeTab, setActiveTab] = useState("Channel")
@@ -21,7 +22,7 @@ const ViewIntegrations = () => {
         if (activeTab === "Channel") {
             dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
         }
-    }, [, activeTab])
+    }, [activeTab,reset])
 
     useEffect(() => {
         if (channelGetCard?.count > 0) {
@@ -52,7 +53,7 @@ const ViewIntegrations = () => {
 
             <div className='view-integrations-page'>
                 <div className={`${activeTab === "Channel" ? "d-block" : "d-none"}`}>
-                    <ChannelsView channelData={channelData} />
+                    <ChannelsView channelData={channelData} setReset={setReset} />
                 </div>
 
                 <div className={`${activeTab === "OMS" ? "d-block" : "d-none"}`}>

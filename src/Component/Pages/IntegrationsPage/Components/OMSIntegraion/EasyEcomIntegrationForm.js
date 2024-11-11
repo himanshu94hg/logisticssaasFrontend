@@ -10,6 +10,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 const EasyEcomIntegrationForm = () => {
 
     const [copiedText, setCopiedText] = useState('');
+    const [check, setCheck] = useState([true, false, false]);
+
 
     const handleCopy = (text) => {
         setCopiedText(text);
@@ -17,6 +19,12 @@ const EasyEcomIntegrationForm = () => {
             setCopiedText('');
         }, 3000);
     };
+
+
+    const handleCheckboxChange = (index) => {
+        setCheck(prevState => prevState.map((item, i) => (i === index ? !item : item)));
+    };
+
 
     return (
         <>
@@ -90,9 +98,14 @@ const EasyEcomIntegrationForm = () => {
                                     "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
                                     "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
                                     "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
-                                ].map(text => (
+                                ].map((text, index) => (
                                     <label key={text}>
-                                        <input className="input-checkbox mt-1" type="checkbox" />
+                                        <input
+                                            className="input-checkbox mt-1"
+                                            type="checkbox"
+                                            checked={check[index]}
+                                            onChange={() => handleCheckboxChange(index)}
+                                        />
                                         {text}
                                     </label>
                                 ))}

@@ -17,10 +17,15 @@ const EnterPasswordStep = ({ ChangePasswordPop, setChangePasswordPop, setStep, e
             setError('Both fields are required.');
             return;
         }
+        if (newPassword.length < 6) {
+            setError('Password should be at least 6 characters long.');
+            return;
+        }
         if (newPassword !== confirmPassword) {
             setError('Passwords do not match.');
             return;
         }
+       
         const data = {
             username: email,
             password: newPassword,
@@ -57,6 +62,7 @@ const EnterPasswordStep = ({ ChangePasswordPop, setChangePasswordPop, setStep, e
                         <input
                             placeholder='Enter your new Password'
                             className='input-field'
+                               autoComplete="new-password"
                             type="password"
                             value={newPassword}
                             onChange={(e) => {
@@ -70,6 +76,7 @@ const EnterPasswordStep = ({ ChangePasswordPop, setChangePasswordPop, setStep, e
                         <input
                             placeholder='Re-enter your new password'
                             className='input-field'
+                               autoComplete="new-password"
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => {
