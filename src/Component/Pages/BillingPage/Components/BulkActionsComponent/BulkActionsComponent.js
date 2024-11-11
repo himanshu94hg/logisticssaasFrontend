@@ -120,12 +120,14 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
         setLoading(true)
         if (activeTab === "Shipping Charges") {
             dispatch({ type: "EXPORT_SHIPPING_DATA_ACTION", payload: { ids: "" } });
+            setLoading(false)
         }
         else if (activeTab === "Recharge Logs") {
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: { ids: "" } });
         }
         else if (activeTab === "Passbook") {
             dispatch({ type: "EXPORT_PASSBOOK_DATA_ACTION", payload: { ids: "" } });
+            setLoading(false)
         }
         else if (activeTab === "Credit Receipt") {
             dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: { ids: "" } });
