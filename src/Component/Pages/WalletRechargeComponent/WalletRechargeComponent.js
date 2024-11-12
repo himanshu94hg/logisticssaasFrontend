@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
     const [rechargeAmount, setRechargeAmount] = useState('');
-    const [paymentMode, setPaymentMode] = useState('credit_card');
+    const [paymentMode, setPaymentMode] = useState('paypal');
     const [couponCode, setCouponCode] = useState('');
     const [Razorpay, isLoaded] = useRazorpay();
     const token = Cookies.get("access_token")
@@ -263,15 +263,15 @@ const WalletRechargeComponent = (props) => {
                         <label className='d-flex gap-3 my-3 px-3 flex-wrap row-gap-0'>
                             <span className="ws-nowrap" style={{ fontSize: '0.9rem' }}>Payment Mode:</span>
                             <div className='d-flex gap-2'>
-                                <label className='d-flex gap-1 align-items-center'>
-                                    <input
-                                        type="radio"
-                                        value="credit_card"
-                                        checked={paymentMode === 'credit_card'}
-                                        onChange={handlePaymentModeChange}
-                                    />
-                                    <img src={RazorpayImg} alt="Razorpay" height={20} />
-                                </label>
+                                {/*<label className='d-flex gap-1 align-items-center'>*/}
+                                {/*    <input*/}
+                                {/*        type="radio"*/}
+                                {/*        value="credit_card"*/}
+                                {/*        checked={paymentMode === 'credit_card'}*/}
+                                {/*        onChange={handlePaymentModeChange}*/}
+                                {/*    />*/}
+                                {/*    <img src={RazorpayImg} alt="Razorpay" height={20} />*/}
+                                {/*</label>*/}
                                 <label className='d-flex gap-1 align-items-center'>
                                     <input
                                         type="radio"
