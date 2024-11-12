@@ -202,6 +202,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                         className='input-field'
                                         placeholder="Enter Unit Price"
                                         type="text"
+                                        inputMode='numeric'
                                         value={product.unit_price}
                                         onChange={(e) => handleUnitPriceChange(e, index)}
                                         onKeyPress={(e) => {
@@ -217,10 +218,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${(errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]) ? 'input-field-error' : ''}`}
-                                        placeholder='Enter Quantity'
-                                        onInput
-                                        ={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"}
+                                        placeholder="Enter Quantity"
+                                        type="number"
+                                        inputMode="numeric"
+                                        pattern="\d*"
+                                        value={product.quantity}
+                                        onInput={(e) => handlePriceValidation(e.target.value, index)}
+                                        onChange={(e) => handleChange(e, 'quantity', index)}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();
@@ -275,6 +279,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     Tax Rate
                                     <input
                                         type="text"
+                                        inputMode='numeric'
                                         className='input-field'
                                         value={product.tax_rate}
                                         onChange={(e) => handleTaxRateChange(e, index)}
@@ -292,12 +297,14 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     Discount
                                     <input
                                         type="text"
+                                        inputMode='numeric'
                                         className='input-field'
                                         value={product.product_discount}
                                         onChange={(e) => handleChange(e, 'product_discount', index)}
                                         placeholder='Enter Product Discount'
                                         onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
+                                            const allowedCharacters = /[\d.]/;
+                                            if (!allowedCharacters.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                                 e.preventDefault();
                                             }
                                         }}

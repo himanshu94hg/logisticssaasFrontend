@@ -159,7 +159,7 @@ export const PackageDetailStep = ({ onPrev, onNext, activeTab, formData, setForm
                             <span>Invoice Amount (₹) <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.invoice_amount || editErrors?.invoice_amount ? 'input-field-error' : ''}`}
-                                type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
+                                type="text" inputMode='numeric' value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
                                     if (!allowedCharacters.test(e.key)) {
@@ -175,6 +175,7 @@ export const PackageDetailStep = ({ onPrev, onNext, activeTab, formData, setForm
                         <label className='col'>
                             <span>COD Charges (₹) <span className='text-gray'>(Optional)</span></span>
                             <input
+                                inputMode='numeric'
                                 className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
@@ -195,6 +196,7 @@ export const PackageDetailStep = ({ onPrev, onNext, activeTab, formData, setForm
                                     // className='input-field'
                                     className={`input-field ${errors.weight || editErrors?.weight ? 'input-field-error' : ''}`}
                                     style={{ minWidth: '15    0px' }}
+                                    inputMode='numeric'
                                     type="text" value={formData.dimension_details.weight}
                                     onChange={(e) => handleChangeDimension(e, 'weight')}
                                     onKeyPress={(e) => {
