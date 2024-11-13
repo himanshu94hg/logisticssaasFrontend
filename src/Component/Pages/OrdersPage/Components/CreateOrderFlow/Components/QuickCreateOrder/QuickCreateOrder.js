@@ -189,7 +189,7 @@ const QuickCreateOrder = (activeTab) => {
             })
         }
         setIsChecked(true)
-        setErrors({})
+        // setErrors({})
         setPincodeError(false)
     }, [dataRefresh, activeTab])
 
