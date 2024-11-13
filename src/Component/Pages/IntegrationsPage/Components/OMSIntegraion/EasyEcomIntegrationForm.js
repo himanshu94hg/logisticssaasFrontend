@@ -10,7 +10,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 const EasyEcomIntegrationForm = () => {
 
     const [copiedText, setCopiedText] = useState('');
-    const [check, setCheck] = useState([true, false, false]);
+    const [check, setCheck] = useState([true, true, true]);
 
 
     const handleCopy = (text) => {
