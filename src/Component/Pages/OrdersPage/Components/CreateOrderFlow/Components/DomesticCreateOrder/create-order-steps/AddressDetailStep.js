@@ -350,6 +350,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                 <input
                                     className={`input-field ${errors.mobile_number || editErrors?.mobile_number ? 'input-field-error' : ''}`}
                                     type="text"
+                                    inputMode='numeric'
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => {
                                         const numericValue = e.target.value.replace(/\D/g, "");
@@ -454,6 +455,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                             <span>Pincode <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
+                                inputMode='numeric'
                                 className={`input-field ${errors.pincode || editErrors?.pincode ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's Pincode"
                                 value={formData.shipping_details.pincode}
@@ -574,6 +576,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     <input
                                         className={`input-field ${errors.billing_mobile_number || editErrors?.billing_mobile_number ? 'input-field-error' : ''}`}
                                         type="text"
+                                        inputMode='numeric'
                                         value={formData.billing_details.mobile_number}
                                         onChange={(e) => {
                                             const numericValue = e.target.value.replace(/\D/g, "");
@@ -680,6 +683,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                 <span> Pincode <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
+                                    inputMode='numeric'
                                     className={`input-field ${errors.billing_pincode || editErrors?.billing_pincode ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's Pincode"
                                     value={formData.billing_details.pincode}

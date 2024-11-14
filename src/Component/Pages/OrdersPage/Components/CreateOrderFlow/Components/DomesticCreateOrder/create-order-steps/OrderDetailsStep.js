@@ -447,10 +447,18 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                                 type="text"
                                 className='input-field'
                                 value={formData.charge_details.shipping_charges}
-                                onChange={(e) => handleChangeCharge(e, 'shipping_charges')}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const regex = /^\d*\.?\d{0,2}$/;
+                                    if (regex.test(value)) {
+                                      handleChangeCharge(e, 'shipping_charges');
+                                    }
+                                  }}
+                                inputMode="decimal" 
                                 placeholder='Enter Shipping Charges'
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /[\d.]/;
+                                    if (!allowedCharacters.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                         e.preventDefault();
                                     }
                                 }}
@@ -472,12 +480,20 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                             Transaction fee
                             <input
                                 type="text"
+                                inputMode="decimal" 
                                 className='input-field'
                                 value={formData.charge_details.transaction_fee}
-                                onChange={(e) => handleChangeCharge(e, 'transaction_fee')}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const regex = /^\d*\.?\d{0,2}$/;
+                                    if (regex.test(value)) {
+                                      handleChangeCharge(e, 'transaction_fee');
+                                    }
+                                  }}
                                 placeholder='Enter Transaction fee'
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /[\d.]/;
+                                    if (!allowedCharacters.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                         e.preventDefault();
                                     }
                                 }}

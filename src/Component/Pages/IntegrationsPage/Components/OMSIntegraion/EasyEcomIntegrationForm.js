@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import EasyComLogo from '../../../../../assets/image/integration/EasyComLogo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import EasyComLogo from '../../../../../assets/image/integration/EasyComLogo.png';
 
 const EasyEcomIntegrationForm = () => {
 
     const [copiedText, setCopiedText] = useState('');
-    const [check, setCheck] = useState([true, false, false]);
+    const [check, setCheck] = useState([true, true, true]);
 
 
     const handleCopy = (text) => {

@@ -103,6 +103,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>Invoice Amount (₹) <span className='mandatory'>*</span></span>
                             <input
+                                inputMode='numeric'
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
                                 onKeyPress={(e) => {
@@ -120,6 +121,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>COD Charges (₹) <span className='text-gray'>(Optional)</span></span>
                             <input
+                                inputMode='numeric'
                                 className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
@@ -136,7 +138,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                             {/* {errors.weight && <span className="custom-error">{errors.weight}</span>} */}
                             <label>
                                 <input
-                                    // className='input-field'
+                                    inputMode='numeric'
                                     className={`input-field ${errors.cod_charges && 'input-field-error'}`}
                                     style={{ minWidth: '15    0px' }}
                                     type="text" value={formData.dimension_details.weight}
@@ -170,6 +172,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>Length <span className='mandatory'>*</span></span>
                             <input
+                                inputMode='numeric'
                                 className={`input-field ${errors.length && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')}
@@ -190,6 +193,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>Breadth <span className='mandatory'>*</span></span>
                             <input
+                                inputMode='numeric'
                                 className={`input-field ${errors.breadth && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
                                 onKeyPress={(e) => {
@@ -208,6 +212,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>Height <span className='mandatory'>*</span></span>
                             <input
+                                inputMode='numeric'
                                 className={`input-field ${errors.height && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
                                 onKeyPress={(e) => {

@@ -290,8 +290,9 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                     {/* Add more country codes as needed */}
                                 </select>
                                 <input
-                                    className={`input-field ${errors.mobile_number && 'input-field-error'}`}
                                     type="text"
+                                    inputMode='numeric'
+                                    className={`input-field ${errors.mobile_number && 'input-field-error'}`}
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => {
                                         const numericValue = e.target.value.replace(/\D/g, "");
@@ -338,6 +339,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                             <span>Pincode <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
+                                inputMode='numeric'
                                 className={`input-field ${errors.pincode && 'input-field-error'}`}
                                 placeholder="Enter Recipient's Pincode"
                                 value={formData.shipping_details.pincode}
@@ -391,7 +393,8 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 <span> Mobile Number <span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
-                                        className='input-field '
+                                        inputMode='numeric'
+                                        className='input-field'
                                         value={formData.billing_details.contact_code}
                                         onChange={(e) => handleSelectBilling(e, 'contact_code')}
                                         disabled
@@ -434,6 +437,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 <span>Pincode <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
+                                    inputMode='numeric'
                                     className={`input-field ${errors.billing_pincode && 'input-field-error'}`}
                                     placeholder="Enter Recipient's Pincode"
                                     value={formData.billing_details.pincode}

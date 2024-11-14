@@ -119,6 +119,7 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 <label className='col'>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
+                                        inputMode='numeric'
                                         className={`input-field ${errors[`quantity_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"

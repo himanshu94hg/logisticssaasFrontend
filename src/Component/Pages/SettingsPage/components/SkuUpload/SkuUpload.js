@@ -10,18 +10,25 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const SkuUpload = () => {
     const [file, setFile] = useState(null);
-    const [selectAll, setSelectAll] = useState(false)
     const [errors, setErrors] = useState("")
+    const [reset, setReset] = useState(null);
     const [skuData, setSkuData] = useState([]);
     let authToken = Cookies.get("access_token")
+    const [deleteId, setDeleteId] = useState("")
     const [refresh, setRefresh] = useState(null);
     const [errorsAll, setErrorsAll] = useState({})
+    const [totalItems, setTotalItems] = useState("")
     const [actiontype, setActiontype] = useState("")
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectAll, setSelectAll] = useState(false)
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [selectedRows, setSelectedRows] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showImportModal, setShowImportModal] = useState(false);
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     const [skuFormData, setSkuFormData] = useState({
@@ -34,6 +41,8 @@ const SkuUpload = () => {
         height: null,
         brand_name: ""
     })
+
+    const handleDeleteClose = () => setShowDeleteModal(false);
     const handleImportClose = () => setShowImportModal(false);
     const handleImportShow = () => setShowImportModal(true);
 
@@ -89,25 +98,24 @@ const SkuUpload = () => {
     const handleSelectRow = (id) => {
         let updatedSelectedRows = [];
         if (selectedRows.includes(id)) {
-          updatedSelectedRows = selectedRows.filter((rowId) => rowId !== id);
+            updatedSelectedRows = selectedRows.filter((rowId) => rowId !== id);
         } else {
-          updatedSelectedRows = [...selectedRows, id];
+            updatedSelectedRows = [...selectedRows, id];
         }
         setSelectedRows(updatedSelectedRows);
-    
-        setSelectAll(updatedSelectedRows.length === skuData.length);
-      };
-    
-      const handleSelectAll = (e) => {
-        if (e.target.checked) {
-          setSelectAll(true);
-          setSelectedRows(skuData.map((row) => row.id));
-        } else {
-          setSelectedRows([]);
-          setSelectAll(false);
-        }
-      };
 
+        setSelectAll(updatedSelectedRows.length === skuData.length);
+    };
+
+    const handleSelectAll = (e) => {
+        if (e.target.checked) {
+            setSelectAll(true);
+            setSelectedRows(skuData.map((row) => row.id));
+        } else {
+            setSelectedRows([]);
+            setSelectAll(false);
+        }
+    };
 
     const handleImport = async () => {
         const formData = new FormData();
@@ -232,10 +240,15 @@ const SkuUpload = () => {
         }))
     }
 
-    const handleDelete = async (id) => {
+    const handleDeleteShow = async (id) => {
+        setShowDeleteModal(true)
+        setDeleteId(id)
+    };
+
+    const handleDelete = async () => {
         try {
             const payload = {
-                id: [id],
+                id: [deleteId],
                 seller: userData?.id
             };
 
@@ -254,11 +267,12 @@ const SkuUpload = () => {
                 setRefresh(new Date())
                 setSelectAll(false)
                 setSelectedRows([])
+                setShowDeleteModal(false)
             }
         } catch (error) {
             customErrorFunction(error)
         }
-    };
+    }
 
     const handleKeyPress = (e) => {
         const allowedCharacters = /^[0-9\b.]+$/;
@@ -304,6 +318,7 @@ const SkuUpload = () => {
                 );
                 if (response.status === 200) {
                     setSkuData(response?.data?.results)
+                    setTotalItems(response?.data?.count)
                 }
             } catch (error) {
                 customErrorFunction(error);
@@ -378,7 +393,7 @@ const SkuUpload = () => {
                                             <td>
                                                 <div className='d-flex align-items-center gap-3 justify-content-start'>
                                                     <button className='btn p-0 text-sh-primary' onClick={() => handleAddShow("Edit", row?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                                                    <button onClick={() => handleDelete(row?.id)} className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                                    <button onClick={() => handleDeleteShow(row?.id)} className='btn p-0 text-sh-red'><FontAwesomeIcon icon={faTrashCan} /></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -388,6 +403,14 @@ const SkuUpload = () => {
                         </table>
                     </div>
                 </div>
+                <Pagination
+                    setReset={setReset}
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
 
             <Modal className='add-sku-modal' show={showAddModal} onHide={handleAddClose}>
@@ -550,6 +573,24 @@ const SkuUpload = () => {
                     </div>
                 </Modal.Footer>
             </Modal>
+
+            <Modal className='confirmation-modal' show={showDeleteModal} onHide={handleDeleteClose}>
+                <Modal.Header>
+                    <Modal.Title>Confirmation Required</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to Delete the sku ?
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleDeleteClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={handleDelete}>Yes</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
         </section>
     );
 };
