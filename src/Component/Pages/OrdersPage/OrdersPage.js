@@ -276,9 +276,12 @@ const OrdersPage = () => {
         setQueryParamTemp({})
         setReset(new Date())
         setSearchOption(SearchOptions[0])
+        setsearchType(SearchOptions[0].value)
         setSearchStatus(false)
         setMostPopular({ most_popular_search: '' })
     }
+
+    console.log(SearchOption,"SearchOption")
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
