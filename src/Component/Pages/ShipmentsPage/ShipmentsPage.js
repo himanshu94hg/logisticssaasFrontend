@@ -126,7 +126,7 @@ const ShipmentsPage = () => {
                     setLoader(false)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), activeTab, reset, currentPage]);
+    }, [JSON.stringify(queryParamTemp), activeTab, reset, currentPage,]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -173,6 +173,7 @@ const ShipmentsPage = () => {
         pageStatusSet(true);
         setQueryParamTemp({})
         setHandleResetFrom(true)
+        setsearchType(SearchOptions[0].value)
         setSearchOption(SearchOptions[0].value)
         setReset(new Date())
     }
