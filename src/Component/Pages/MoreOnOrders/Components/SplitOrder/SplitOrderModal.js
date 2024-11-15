@@ -9,6 +9,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 
 
 function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
+    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const authToken = Cookies.get("access_token");
     const [warehouseData, setWarehouseData] = useState([]);
@@ -45,6 +46,10 @@ function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
                 warehouse_id: selectedWarehouses[index]
             }))
         };
+        if (!requestData?.split.every(item => item.warehouse_id !== null && item.warehouse_id !== "")) {
+            toast.error("Please ensure all products have a warehouse selected.");
+            return;
+        }
         axios.post(`${BASE_URL_ORDER}/orders-api/orders/split-order/`, requestData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -55,7 +60,7 @@ function SplitOrderModal({ show, handleClose, orderDetails, setSplitStatus }) {
             setSplitStatus(new Date())
             handleClose();
         }).catch(error => {
-            // customErrorFunction(error);
+            customErrorFunction(error);
         });
     };
 
