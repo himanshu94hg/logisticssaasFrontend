@@ -1,34 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { RiFilterLine } from "react-icons/ri";
-import { RxReset } from "react-icons/rx";
-import globalDebouncedClick from "../../../../../debounce";
 import { debounce } from "lodash";
+import { RxReset } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import { RiFilterLine } from "react-icons/ri";
+import React, { useCallback, useState } from "react";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import globalDebouncedClick from "../../../../../debounce";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import "./navTabs.css";
+import { faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
-  const [isOpen, setIsOpen] = useState(false);
   const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
-
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleClick = () => {
     props.setSearchValue('')
@@ -80,7 +62,6 @@ export default function NavTabs(props) {
                   title={item.title}
                 >
                   <div className="navItemsContainer">
-                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
                     {item.title}
                   </div>
                 </Nav.Link>
