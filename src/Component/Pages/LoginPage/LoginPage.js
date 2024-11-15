@@ -63,6 +63,13 @@ const LoginPage = ({ setTokenExists }) => {
         password: password,
       });
       if (response.status === 200) {
+        const userDepartment = response?.data?.user_department;
+
+        if (userDepartment !== 'Seller') {
+          toast.error("Access denied. Only Seller can log in.");
+          setLoaderRing(false);
+          return;
+        }
         toast.success("User Logged in successfully!");
         setLoaderRing(false);
         setTokenExists(true);
