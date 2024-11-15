@@ -222,7 +222,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku_match_type: "",
                 pickup_address: "",
                 pickup_address_id: "",
-                order_type: "",
+                order_type: null,
                 min_weight: '',
                 max_weight: '',
                 date_filter_by: "",
