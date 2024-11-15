@@ -1,38 +1,20 @@
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
-import React, { useEffect, useState } from 'react'
 import pathClearAction from '../../../../../../../../redux/action/pathname/pathClear';
 
-const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, setErrors }) => {
+const OrderDetailsStep = ({ formData, setFormData, errors, }) => {
     const location = useLocation();
     const dispatch = useDispatch();
-    const [orderStaus, setOrderStatus] = useState(false)
-    const { pathName } = useSelector(state => state?.authDataReducer)
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
 
     useEffect(() => {
         if (location.pathname === "/create-order" && location?.state?.orderType === "normalOrder") {
             dispatch(pathClearAction('ddd'))
         }
     }, [location.pathname])
-
-    const validateFormData = () => {
-        const newErrors = {};
-        if (!formData.order_details.customer_order_number) {
-            newErrors.customer_order_number = 'Order Number is required!';
-        }
-        if (!formData.order_details.order_type) {
-            newErrors.order_type = 'Order Type is required!';
-        }
-        if (!formData.order_details.order_date) {
-            newErrors.order_date = 'Order Date is required!';
-        }
-        if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -41,38 +23,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
             order_details: {
                 ...prevData.order_details,
                 [field]: value
-            }
-        }));
-    };
-
-    const handleReSeller = (e, field) => {
-        const value = e.target.value === '' ? null : e.target.value;
-        setFormData(prevData => ({
-            ...prevData,
-            other_details: {
-                ...prevData.other_details,
-                [field]: value
-            }
-        }));
-    };
-
-    const handleChangeReseller = (e, field) => {
-        const info = e.target.value === '' ? null : e.target.value;
-        setFormData(prevData => ({
-            ...prevData,
-            other_details: {
-                ...prevData.other_details,
-                [field]: info
-            }
-        }));
-    };
-    const handleChangeCharge = (e, field) => {
-        const charge = e.target.value === '' ? null : e.target.value;
-        setFormData(prevData => ({
-            ...prevData,
-            charge_details: {
-                ...prevData.charge_details,
-                [field]: charge
             }
         }));
     };
@@ -87,29 +37,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
         });
     };
 
-    const handleDateChange = (date, field) => {
-        setFormData({
-            ...formData,
-            order_details: {
-                ...formData.order_details,
-                [field]: date
-            }
-        });
-    };
-    const handleToggleChange = (field) => {
-        const charValue = formData[field] ? null : "1";
-        setFormData({ ...formData, [field]: charValue });
-    };
-
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
-
-    const onNextClicked = () => {
-        if (validateFormData()) {
-            onNext();
-        }
-    };
     const handleCustomerOrderNumberChange = (e) => {
         const value = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
@@ -156,7 +83,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                                 className={`select-field ${errors.order_type && 'input-field-error'}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
-                                disabled={orderStaus}
                             >
                                 <option value="">Select Order Type</option>
                                 <option value="Forward">Forward</option>
@@ -170,7 +96,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                                 className={`select-field ${errors.payment_type && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleChange(e, 'payment_type')}
-                                disabled={orderStaus}
                             >
                                 <option value="">Select Payment Type</option>
                                 {formData.order_details.order_type === "Reverse" ? (

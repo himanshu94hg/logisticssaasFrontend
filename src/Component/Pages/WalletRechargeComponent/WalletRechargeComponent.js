@@ -1,41 +1,35 @@
-import React, { useCallback, useEffect, useState } from "react";
-import useRazorpay from "react-razorpay";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import './WalletRechargeComponent.css';
-import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
-import RazorpayImg from '../../../assets/image/logo/Razorpay.png';
-import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
-import { useDispatch, useSelector } from 'react-redux';
-import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
 import Cookies from "js-cookie"
-import { BASE_URL_ORDER } from '../../../axios/config';
+import './WalletRechargeComponent.css';
 import { toast } from "react-toastify";
+import useRazorpay from "react-razorpay";
+import { useDispatch, useSelector } from 'react-redux';
+import { BASE_URL_ORDER } from '../../../axios/config';
+import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
+import React, { useCallback, useEffect, useState } from "react";
+import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
+import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
 
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
+    const token = Cookies.get("access_token")
+    const [validate, setValidate] = useState(false)
+    const [couponCode, setCouponCode] = useState('');
     const [rechargeAmount, setRechargeAmount] = useState('');
     const [paymentMode, setPaymentMode] = useState('paypal');
-    const [couponCode, setCouponCode] = useState('');
     const [Razorpay, isLoaded] = useRazorpay();
-    const token = Cookies.get("access_token")
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+    const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
+    const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+    const razorpayKey = configurationCard?.[0]?.razorpay_key;
 
     useEffect(() => {
         if (token) {
             dispatch({ type: "PAYMENT_DATA_ACTION" });
             dispatch({ type: "CONFIGURATION_DATA_ACTION" });
         }
-
-    }, [dispatch]);
-
-    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
-    const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
-    const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
-    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-
-    const razorpayKey = configurationCard?.[0]?.razorpay_key;
-
+    }, [token,dispatch]);
 
     useEffect(() => {
         if (paymentCard !== null && paymentSetCard !== null) {
@@ -63,9 +57,6 @@ const WalletRechargeComponent = (props) => {
         if (event.target.value >= 500) {
             setValidate(false)
         }
-        // else {
-        //     setValidate(true)
-        // }
     };
 
     const handlePaymentModeChange = (event) => {
@@ -87,24 +78,6 @@ const WalletRechargeComponent = (props) => {
         const now = new Date();
         return `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
     };
-
-    const generateOrderIdForPayment = async () => {
-        const createOrderResponse = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/create-recharge_order/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: rechargeAmount }),
-        });
-
-        const orderData = await createOrderResponse.json();
-        if (orderData.success) {
-            return orderData.order_id;
-        }
-    };
-
-
-    const [validate, setValidate] = useState(false)
 
     const handleRecharge = useCallback(async () => {
         const minimumRechargeAmount = userData?.id === 115 ? 1 : 500;
@@ -218,12 +191,6 @@ const WalletRechargeComponent = (props) => {
         <>
             <section className={`wallet-container ${props.WalletRecharge ? 'show' : ''}`}>
                 <div className='wallet-box'>
-                    {/* <button
-                        onClick={() => props.setWalletRecharge(!props.WalletRecharge)}
-                        className='btn close-button'
-                    >
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button> */}
                     <div className='wallet-inner-bg'>
                         <div className='balance-container'>
                             <h4 className='my-3'>Your Wallet</h4>
