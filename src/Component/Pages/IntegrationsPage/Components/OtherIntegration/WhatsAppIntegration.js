@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import HeartIcon from './HeartIcon';
 import TruckIcon from './TruckIcon';
 import { toast } from 'react-toastify';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import PackageMagnifyingIcon from './PackageMagnifyingIcon';
@@ -13,6 +13,9 @@ import TrackYourOrder from '../../../../../assets/image/whatsapp/TrackYourOrder.
 import WhatsAppChatDomestic from '../../../../../assets/image/whatsapp/WhatsAppChatDomestic.png';
 import NDRFlow from '../../../../../assets/image/whatsapp/NDRFlow.png';
 import { useSelector } from 'react-redux';
+import PreviewIcon from './PreviewIcon';
+import InTransit from '../../../../../assets/image/whatsapp/InTransit.png';
+import HandArrowIcon from './HandArrowIcon';
 
 const WhatsAppIntegration = () => {
     const [show, setShow] = useState(false);
@@ -22,10 +25,10 @@ const WhatsAppIntegration = () => {
 
 
     const handleClose = () => setShow(false);
-    const handleShow = () =>{
-        if(userData?.whatsapp_message){
+    const handleShow = () => {
+        if (userData?.whatsapp_message) {
             toast.success("Notification Already activated")
-        }else{
+        } else {
             setShow(!show)
         }
     };
@@ -48,23 +51,23 @@ const WhatsAppIntegration = () => {
     };
 
     const handleHold = async () => {
-      if(userData?.whatsapp_bot){
-        toast.success("Bot Already activated")
-      }else{
-        try {
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp_bot" }, {
-                headers: {
-                    'Authorization': `Bearer ${authToken}`,
-                    'Content-Type': 'application/json'
+        if (userData?.whatsapp_bot) {
+            toast.success("Bot Already activated")
+        } else {
+            try {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/shipease-admin/other-integration/`, { integration_type: "whatsapp_bot" }, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status === 200) {
+                    toast.success(response?.data.message);
                 }
-            });
-            if (response.status === 200) {
-                toast.success(response?.data.message);
+            } catch (error) {
+                customErrorFunction(error);
             }
-        } catch (error) {
-            customErrorFunction(error);
         }
-      }
     };
 
     const renderTabContent = (tab) => {
@@ -109,6 +112,28 @@ const WhatsAppIntegration = () => {
         "NDR Flow": NDRFlow
     };
 
+    const [Preview, setPreview] = useState(false)
+    const [HandArrow, setHandArrow] = useState(true)
+
+
+    const handlePreview = () => {
+        setPreview(!Preview)
+
+    }
+
+    useEffect(() => {
+        if (Preview === true) {
+            setHandArrow(false)
+        }
+        else {
+            setHandArrow(true)
+        }
+    }, [Preview])
+
+    setTimeout(() => {
+        setHandArrow(false)
+    }, 10000);
+
     return (
         <>
             <div className='whatsapp'>
@@ -121,6 +146,14 @@ const WhatsAppIntegration = () => {
                         <p className='mb-0'>Need Help?</p>
                     </div>
                 </section>
+                {
+                    Preview &&
+                    <section className='preview-section'>
+                        <img src={InTransit} alt="" />
+                        <div onClick={handlePreview} className={`backdrop ${!Preview && 'd-none'}`}></div>
+                    </section>
+                }
+
                 <section style={{ overflow: 'hidden' }} className='box-shadow shadow-sm p-3 my-3'>
                     <ul className='whatsapp-benefits'>
                         <li><HeartIcon />Enhance customer satisfaction by providing real-time updates to buyers.</li>
@@ -131,9 +164,14 @@ const WhatsAppIntegration = () => {
                     </ul>
                     <div className='mt-5 d-flex flex-column align-items-center gap-3'>
                         <h5>Keep your buyers informed with live updates that have a <span>93%</span> read rate.</h5>
-                        <p className='font30 py-2'>
+                        <p className='font30 py-2 position-relative'>
                             <span className='text-sh-primary'>&#8377; 0.99</span> <span className='font12 ms-1'>/ message</span>
-                            <button className='btn main-button ms-3' onClick={handleShow}>{userData?.whatsapp_message?"Activated":"Activate Now"}</button>
+                            <button className='btn main-button ms-3' onClick={handleShow}>{userData?.whatsapp_message ? "Activated" : "Activate Now"}</button>
+                            <button title='Click to See Preview' onClick={handlePreview} className='preview-icon-btn ms-3'><PreviewIcon /></button>
+                            {
+                                HandArrow &&
+                                <span className='hand-arrow ms-3'><span className='hand-icon'><HandArrowIcon /></span> Click to see preview</span>
+                            }
                         </p>
                         <p className='font12 pt-2'>
                             <span className='fw-bold'>Note:</span> Customize real-time tracking updates to share with your buyers for just ₹0.99 per status. Get all status updates for only ₹6.93 per order. By default, all statuses will be selected. Prices are exclusive of GST and non-refundable.
@@ -170,7 +208,7 @@ const WhatsAppIntegration = () => {
                                 <div className="additional-features">
                                     {renderTabContent(BotTabs)}
                                     <div>
-                                        <button className='btn main-button float-end' onClick={handleHold}>{userData?.whatsapp_bot?"Activated":"Activate Now"}</button>
+                                        <button className='btn main-button float-end' onClick={handleHold}>{userData?.whatsapp_bot ? "Activated" : "Activate Now"}</button>
                                     </div>
                                 </div>
                             </div>
