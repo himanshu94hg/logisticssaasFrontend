@@ -3,7 +3,6 @@ import moment from 'moment';
 import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import AllTickets from './Components/AllTickets';
 import NavTabs from './Components/navTabs/NavTabs';
 import { BASE_URL_CORE } from '../../../axios/config';
@@ -19,27 +18,25 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const CustomerSupportPage = () => {
-  let navigate = useNavigate();
   const [viewId, setId] = useState('');
   const [reset, setReset] = useState(null)
-  const [allTicket, setAllTicket] = useState([]);
-  const [ticketId, setTicketId] = useState(null);
-  const [NewTicket, setNewTicket] = useState(false);
-  const [FilterTickets, setFilterTickets] = useState(false);
-  const [activeTab, setActiveTab] = useState('allTickets');
-  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
-  const [filterClick, setFilterClick] = useState(false);
   const [status, setStatus] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState("");
-  const [errors, setErrors] = useState({});
-  const [clearTicket, setClearTicket] = useState(false)
-  const [queryParamTemp, setQueryParamTemp] = useState({})
-  const [categoryStatus, setCategoryStatus] = useState(false);
   const [loader, setLoader] = useState(false)
   const authToken = Cookies.get("access_token")
+  const [allTicket, setAllTicket] = useState([]);
+  const [ticketId, setTicketId] = useState(null);
+  const [totalItems, setTotalItems] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [NewTicket, setNewTicket] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [clearTicket, setClearTicket] = useState(false)
+  const [filterClick, setFilterClick] = useState(false);
+  const [queryParamTemp, setQueryParamTemp] = useState({})
+  const [activeTab, setActiveTab] = useState('allTickets');
+  const [FilterTickets, setFilterTickets] = useState(false);
+  const [categoryStatus, setCategoryStatus] = useState(false);
+  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
   const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
@@ -48,16 +45,16 @@ const CustomerSupportPage = () => {
     let url = apiUrl;
     switch (activeTab) {
       case "openTickets":
-        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "inProgressTickets":
-        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "closedTickets":
-        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "allTickets":
-        url += `?page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       default:
         break;
@@ -84,11 +81,11 @@ const CustomerSupportPage = () => {
           customErrorFunction(error)
         });
     }
+  }, [activeTab, reset, currentPage]);
+  //  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
 
 
-  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
-
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate, Severity) => {
+  const handleFormSubmit = (categories, status, resDate, endDt, createdDate, Severity) => {
     const queryParams = new URLSearchParams();
 
     if (categories && categories.value) {
@@ -112,9 +109,7 @@ const CustomerSupportPage = () => {
     if (Severity) {
       queryParams.append('Severity', Severity);
     }
-
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
-
     axios
       .get(apiUrlWithParams, {
         headers: {
@@ -127,7 +122,6 @@ const CustomerSupportPage = () => {
         setTotalItems(response?.data?.count);
       })
       .catch(error => {
-        console.error("API request failed: ", error);
         customErrorFunction(error);
       });
   };
@@ -150,97 +144,15 @@ const CustomerSupportPage = () => {
     setAllTicket(allTicket)
   }, [allTicket])
 
-
-  const validateData = () => {
-    const newErrors = {};
-    if (!searchValue) {
-      newErrors.searchValue = 'Field is required!';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSearch = () => {
-    if (validateData()) {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(response => {
-          setTotalItems(response?.data?.count)
-          setAllTicket(response.data.results);
-        })
-        .catch(error => {
-          customErrorFunction(error)
-        });
-      setQueryParamTemp({
-        q: searchValue
-      })
-      setCurrentPage(1)
-    }
+    setReset(new Date())
+    setCurrentPage(1)
   }
 
   const handleReset = () => {
     setSearchValue("")
     setQueryParamTemp({})
-    if (activeTab === 'allTickets') {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab === "allTickets" ? '' : activeTab}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(response => {
-          setTotalItems(response?.data?.count)
-          setAllTicket(response.data.results);
-        })
-        .catch(error => {
-          customErrorFunction(error)
-        });
-    } else if (activeTab === 'openTickets') {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab === "openTickets" ? '' : activeTab}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(response => {
-          setTotalItems(response?.data?.count)
-          setAllTicket(response.data.results);
-        })
-        .catch(error => {
-          customErrorFunction(error)
-        });
-
-    }
-    else if (activeTab === "closedTickets") {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab === "closedTickets" ? '' : activeTab}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(response => {
-          setTotalItems(response?.data?.count)
-          setAllTicket(response.data.results);
-        })
-        .catch(error => {
-          customErrorFunction(error)
-        });
-
-    } else if (activeTab === "inProgressTickets") {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab === "inProgressTickets" ? '' : activeTab}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-        .then(response => {
-          setTotalItems(response?.data?.count)
-          setAllTicket(response.data.results);
-        })
-        .catch(error => {
-          customErrorFunction(error)
-        });
-    }
-
+    setReset(new Date())
   }
 
   const handleNeedHelpPage = () => {
@@ -261,18 +173,18 @@ const CustomerSupportPage = () => {
         <p className='text-blue fw-700'>Seek assistance by either generating a support ticket or perusing through informative help articles.</p>
         <NavTabs
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          FilterTickets={FilterTickets}
-          setFilterTickets={setFilterTickets}
-          setNewTicket={setNewTicket}
           NewTicket={NewTicket}
           searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          handleSearch={handleSearch}
-          errors={errors}
-          setCategoryStatus={setCategoryStatus}
-          setClearTicket={setClearTicket}
           handleReset={handleReset}
+          handleSearch={handleSearch}
+          setActiveTab={setActiveTab}
+          setNewTicket={setNewTicket}
+          FilterTickets={FilterTickets}
+          setSearchValue={setSearchValue}
+          setCurrentPage={setCurrentPage}
+          setClearTicket={setClearTicket}
+          setFilterTickets={setFilterTickets}
+          setCategoryStatus={setCategoryStatus}
         />
         <div className='row mt-3'>
           {activeTab === "allTickets" &&

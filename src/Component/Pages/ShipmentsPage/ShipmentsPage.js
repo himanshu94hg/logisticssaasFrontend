@@ -65,6 +65,7 @@ const ShipmentsPage = () => {
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
@@ -87,16 +88,16 @@ const ShipmentsPage = () => {
         setLoader(true)
         switch (activeTab) {
             case "Action Required":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}&most_popular_search=${mostPopular.most_popular_search}`;
                 break;
             case "Action Requested":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}&most_popular_search=${mostPopular.most_popular_search}`;
                 break;
             case "RTO":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}&most_popular_search=${mostPopular.most_popular_search}`;
                 break;
             case "Delivered":
-                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}&most_popular_search=${mostPopular.most_popular_search}`;
                 break;
             default:
                 apiUrl = '';
@@ -174,8 +175,9 @@ const ShipmentsPage = () => {
         setQueryParamTemp({})
         setHandleResetFrom(true)
         setsearchType(SearchOptions[0].value)
-        setSearchOption(SearchOptions[0].value)
+        setSearchOption(SearchOptions[0])
         setReset(new Date())
+        setMostPopular({ most_popular_search: '' })
     }
 
     const handleChange = (option) => {
@@ -249,7 +251,6 @@ const ShipmentsPage = () => {
         fetchData();
     }, []);
 
-    const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
 
     const searchOptions = [
         { key: 'one_attempt', label: 'One Attempt', tooltip: 'This will show all the orders with 1 delivery attempt' },

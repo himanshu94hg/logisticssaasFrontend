@@ -126,7 +126,7 @@ const MoreOnOrders = () => {
             const queryString = Object.keys(queryParams)
                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                 .join('&');
-                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}&search_by${searchType}`)
+                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}&search_by=${searchType}`)
             if (decodedURL) {
                 apiUrl += '&' + decodedURL;
             }

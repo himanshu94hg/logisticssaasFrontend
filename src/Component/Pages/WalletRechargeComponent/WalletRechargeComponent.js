@@ -102,7 +102,7 @@ const WalletRechargeComponent = (props) => {
             return orderData.order_id;
         }
     };
-    
+
 
     const [validate, setValidate] = useState(false)
 
@@ -112,7 +112,7 @@ const WalletRechargeComponent = (props) => {
             if (paymentMode === 'credit_card') {
                 try {
                     let orderId = '';
-                    
+
                     const createOrderResponse = await fetch(`${BASE_URL_ORDER}/core-api/seller/api/create-recharge_order/`, {
                         method: 'POST',
                         headers: {
@@ -120,7 +120,7 @@ const WalletRechargeComponent = (props) => {
                         },
                         body: JSON.stringify({ amount: rechargeAmount }),
                     });
-                    
+
                     const orderData = await createOrderResponse.json();
                     if (orderData.status === 'true') {
                         orderId = orderData.order_id;
