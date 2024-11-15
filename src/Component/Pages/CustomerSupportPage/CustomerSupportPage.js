@@ -82,8 +82,10 @@ const CustomerSupportPage = () => {
         });
     }
   }, [activeTab, reset, currentPage]);
+  //  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
 
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate, Severity) => {
+
+  const handleFormSubmit = (categories, status, resDate, endDt, createdDate, Severity) => {
     const queryParams = new URLSearchParams();
 
     if (categories && categories.value) {
@@ -107,9 +109,7 @@ const CustomerSupportPage = () => {
     if (Severity) {
       queryParams.append('Severity', Severity);
     }
-
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
-
     axios
       .get(apiUrlWithParams, {
         headers: {
@@ -122,7 +122,6 @@ const CustomerSupportPage = () => {
         setTotalItems(response?.data?.count);
       })
       .catch(error => {
-        console.error("API request failed: ", error);
         customErrorFunction(error);
       });
   };
