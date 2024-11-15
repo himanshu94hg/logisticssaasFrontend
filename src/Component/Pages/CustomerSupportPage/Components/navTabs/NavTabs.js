@@ -75,6 +75,7 @@ export default function NavTabs(props) {
                   onClick={() => {
                     props.setActiveTab(item.name);
                     props.handleReset();
+                    props.setCurrentPage(1)
                   }}
                   title={item.title}
                 >
@@ -112,7 +113,7 @@ export default function NavTabs(props) {
             <input
               placeholder="Search by Ticket ID || AWB"
               type="search" value={props.searchValue}
-              className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
+              className={`input-field`}
               onChange={(e) => props.setSearchValue(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
@@ -120,8 +121,6 @@ export default function NavTabs(props) {
                 }
               }}
             />
-            {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
-
             <button onClick={() => globalDebouncedClick(() => props.handleSearch())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>
