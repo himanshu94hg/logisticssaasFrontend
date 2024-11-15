@@ -24,6 +24,9 @@ const OrderDetail = () => {
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
+
+    console.log(location, 'sssssss')
+
     useEffect(() => {
         if (params?.slug && location && location?.state?.path != "searchOrderData") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {
@@ -48,7 +51,7 @@ const OrderDetail = () => {
                 "type": "",
                 "subtype": ""
             },
-            "order_id": `${params?.slug}`,
+            "order_id": location?.state?.path === "searchOrderData" ? `${orderDetails?.id}` : `${params?.slug}`,
             "courier": "",
             "awb_number": "",
             "min_awb_assign_date": "",
