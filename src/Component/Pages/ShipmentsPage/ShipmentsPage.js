@@ -150,7 +150,7 @@ const ShipmentsPage = () => {
             setBulkActionShow(false)
             setQueryParamSearch(null);
             setSearchOption(SearchOptions[0])
-        }
+                   }
     }, [activeTab])
 
     const handleSidePanel = () => {
@@ -253,15 +253,15 @@ const ShipmentsPage = () => {
 
 
     const searchOptions = [
-        { key: 'one_attempt', label: 'One Attempt', tooltip: 'This will show all the orders with 1 delivery attempt' },
-        { key: 'two_attempts', label: 'Two Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
-        { key: 'three_attempts', label: 'Three Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
-        { key: 'more_than_three_attempts', label: 'More Than Three Attempts', tooltip: 'This will show all the orders with more than 3 delivery attempts' },
+        { key: '1', label: 'One Attempt', tooltip: 'This will show all the orders with 1 delivery attempt' },
+        { key: '2', label: 'Two Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
+        { key: '3', label: 'Three Attempts', tooltip: 'This will show all the orders with 2 delivery attempts' },
+        { key: '3_plus', label: 'More Than Three Attempts', tooltip: 'This will show all the orders with more than 3 delivery attempts' },
     ];
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} counterData={counterData} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} counterData={counterData}  setMostPopular={setMostPopular}/>
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
