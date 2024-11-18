@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
-import {  FaRegCopy } from 'react-icons/fa';
+import { FaRegCopy } from 'react-icons/fa';
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
@@ -272,7 +272,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {parseFloat(row?.c_weight / 1000).toFixed(2)} kg</p>
+                                                <p>Wt:  {(row?.c_weight)} kg</p>
                                                 <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                             </div>
                                         </td>

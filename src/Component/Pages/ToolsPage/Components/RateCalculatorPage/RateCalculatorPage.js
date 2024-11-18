@@ -265,7 +265,7 @@ const RateCalculatorPage = () => {
       const newChargedWeight = Math.max(weight, volmetric_weight);
       setChargedWeight(newChargedWeight);
     }
-  }, [formData.weight, formData.volmetric_weight]);
+  }, [formData.weight, formData.volmetric_weight,formData]);
 
   const containerStyle = {
     opacity: isChecked ? 0.5 : 1,
@@ -328,6 +328,8 @@ const RateCalculatorPage = () => {
       orderIdApiCAll()
     }
   }
+
+  console.log(formData,"formData")
 
   return (
     <>
