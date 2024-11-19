@@ -20,18 +20,6 @@ const orderTypeOptions = [
     { label: "Reverse", value: "reverse" },
 ]
 
-const CourierPartner = [
-    { label: "Smartr", value: "smartr" },
-    { label: "Ekart", value: "ekart" },
-    { label: "Ekart 5kg", value: "ekart_5kg" },
-    { label: "Bluedart", value: "bluedart" },
-    { label: "Shadowfax", value: "shadowfax" },
-    { label: "Delhivery", value: "delhivery" },
-    { label: "Amazon Swa", value: "amazon_swa" },
-    { label: "Xpressbees", value: "xpressbees" },
-    { label: "Professional", value: "professional" },
-    { label: "Ecom Express", value: "ecom_express" },
-];
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
@@ -45,9 +33,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [orderSource, setOrderSource] = useState([]);
     const [storeName, setStoreName] = useState([]);
     const [clearState, setClearState] = useState(false)
+    const [courierPartners, setCourierPartners] = useState([]);
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const [orderStatusOptions, setOrderStatusOptions] = useState([]);
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
 
     useEffect(() => {
@@ -64,6 +54,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             ])
         }
     }, [activeTab])
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "COURIER_PARTNER_ACTION" });
+        }
+    }, [MoreFilters]);
 
 
     const [filterParams, setFilterParams] = useState({
@@ -82,6 +78,18 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_type: null,
         pickup_address: ""
     })
+
+    useEffect(() => {
+        if (courierPartnerData?.data?.length) {
+            const formattedData = courierPartnerData?.data.map(item => ({
+                value: item?.keyword,
+                label: item?.title
+            }));
+            setCourierPartners(formattedData);
+        } else {
+            setCourierPartners([]);
+        }
+    }, [courierPartnerData])
 
     useEffect(() => {
         if (orderSourceListData && orderSourceListData.length > 0) {
@@ -421,11 +429,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
-                                        options={CourierPartner}
+                                        options={courierPartners}
                                         onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.courier_partner ? CourierPartner.filter(option => filterParams.courier_partner.includes(option.value)) : null}
+                                        value={filterParams.courier_partner ? courierPartners.filter(option => filterParams.courier_partner.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
