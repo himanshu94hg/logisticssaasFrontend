@@ -25,13 +25,13 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
-    { value: 'awb', label: 'AWB' },
-    { value: 'order_id', label: 'Order ID' },
-    { value: 'mobile', label: 'Mobile' },
-    { value: 'email', label: 'Email' },
-    { value: 'name', label: 'Name' },
-    { value: 'sku', label: 'SKU' },
-    { value: 'picup_address', label: 'Pickup Address' },
+    { value: 'awb_number', label: 'AWB' },
+    { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'shipping_detail__mobile_number', label: 'Mobile' },
+    { value: 'shipping_detail__email', label: 'Email' },
+    { value: 'shipping_detail__recipient_name', label: 'Name' },
+    { value: 'shipping_detail__pincode', label: 'Pincode' },
+    { value: 'shipping_detail__city', label: 'City' },
 ];
 
 const WeightRecoPage = () => {
