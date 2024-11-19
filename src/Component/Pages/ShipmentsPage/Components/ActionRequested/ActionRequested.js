@@ -195,7 +195,7 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                                                 />
                                                             }
                                                         </span>
-                                                        <span onClick={() => handleCallingDetails()} className="ms-2"><CallingDetailsIcon /></span>
+                                                        <span onClick={() => handleCallingDetails()} className="ms-2 cursor-pointer"><CallingDetailsIcon /></span>
                                                     </p>
                                                     <p className='ws-nowrap d-flex align-items-center'>
                                                         <CustomTooltip
@@ -328,7 +328,7 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                 </div>
             </section>
 
-            <Modal show={ShowCallDetails} onHide={handleCallingDetails} centered>
+            <Modal show={ShowCallDetails} onHide={handleCallingDetails} centered className="confirmation-modal calling-details">
                 <Modal.Header closeButton>
                     <Modal.Title>Call Details for <b>Order Number</b></Modal.Title>
                 </Modal.Header>
