@@ -11,7 +11,7 @@ const navItems = [
   { name: 'Credit Receipt', title: 'Credit Receipt' },
 ]
 
-export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counterData }) {
+export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counterData,setCurrentPage,setItemsPerPage }) {
 
   const handleSelect = (selectedTab) => {
     setActiveTab(selectedTab);
@@ -36,6 +36,8 @@ export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counte
                     key={item.name}
                     className={`d-none d-lg-block ${activeTab === item.name ? "active" : ""}`}
                     onClick={() => {
+                      setCurrentPage(1);
+                      setItemsPerPage(20) 
                       setActiveTab(item.name);
                     }}
                     title={item.title}

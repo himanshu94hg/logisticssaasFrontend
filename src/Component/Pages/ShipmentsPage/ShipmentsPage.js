@@ -261,7 +261,15 @@ const ShipmentsPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} counterData={counterData}  setMostPopular={setMostPopular}/>
+            <NavTabs
+             activeTab={activeTab} 
+             counterData={counterData}  
+             setActiveTab={setActiveTab} 
+             pageStatusSet={pageStatusSet} 
+             setCurrentPage={setCurrentPage}
+             setMostPopular={setMostPopular}
+             setItemsPerPage={setItemsPerPage}
+             />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

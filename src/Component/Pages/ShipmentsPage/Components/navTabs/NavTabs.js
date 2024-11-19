@@ -30,6 +30,8 @@ export default function NavTabs(props) {
                   key={item.name}
                   className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
                   onClick={() => {
+                    props.setCurrentPage(1)
+                    props.setItemsPerPage(20)
                     props.setActiveTab(item.name);
                     props.setMostPopular({ most_popular_search: '' })
                   }}
