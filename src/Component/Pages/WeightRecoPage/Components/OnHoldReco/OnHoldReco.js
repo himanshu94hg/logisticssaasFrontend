@@ -127,7 +127,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>₹{row.extra_charge + row?.extra_charge_rto ?? 0} </p>
+                                                <p>₹{parseFloat(row.extra_charge) + parseFloat(row?.extra_charge_rto) || 0} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
