@@ -46,7 +46,6 @@ const BillingPage = () => {
         if (activeTab) {
             setSelectAll(false)
             setSelectedRows([]);
-            setCurrentPage(1)
             setBulkActionShow(false);
         }
     }, [activeTab])
@@ -164,7 +163,7 @@ const BillingPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setCurrentPage={setCurrentPage}setItemsPerPage={setItemsPerPage} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
             <div className='billing-page-container'>
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
                     setAwbNo={setAwbNo}

@@ -84,7 +84,6 @@ const MoreOnOrders = () => {
     useEffect(() => {
         setLoader(true)
         if (activeTab) {
-            setCurrentPage(1)
             setSearchValue("");
             setQueryParamTemp({});
             setQueryParamSearch(null);
@@ -301,7 +300,7 @@ const MoreOnOrders = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setMostPopular={setMostPopular} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} setMostPopular={setMostPopular} />
             <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

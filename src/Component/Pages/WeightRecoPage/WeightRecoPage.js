@@ -231,7 +231,7 @@ const WeightRecoPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setCurrentPage={setCurrentPage} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} counterData={counterData} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
