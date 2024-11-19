@@ -1,0 +1,8 @@
+.confirmation-modal.calling-details .modal-dialog {
+    max-width: 500px;
+    margin-top: unset;
+}
+
+.confirmation-modal.calling-details .modal-body {
+    padding-inline: 10px;
+}

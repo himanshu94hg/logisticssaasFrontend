@@ -23,6 +23,7 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import CustomTooltip from '../../common/CustomTooltip/CustomTooltip';
+import './ShipmentsPage.css'
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
