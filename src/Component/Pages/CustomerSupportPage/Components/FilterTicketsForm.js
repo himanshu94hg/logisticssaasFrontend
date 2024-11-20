@@ -34,6 +34,13 @@ const FilterTicketsForm = (props) => {
   const [severty, setSeverty] = useState([]);
   const [statusData, setStatusData] = useState([]);
   const authToken = Cookies.get("access_token")
+  const [filterData, setFilterData] = useState({
+    sub_category: "",
+    status: "",
+    resolution_due_by: "",
+    last_updated: "",
+    Severity: "",
+  })
 
 
   useEffect(() => {

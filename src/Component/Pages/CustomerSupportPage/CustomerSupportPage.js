@@ -82,6 +82,9 @@ const CustomerSupportPage = () => {
         });
     }
   }, [activeTab, reset, currentPage]);
+
+  console.log(allTicket,"allTicket")
+
   //  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
 
 
@@ -109,6 +112,9 @@ const CustomerSupportPage = () => {
     if (Severity) {
       queryParams.append('Severity', Severity);
     }
+
+    console.log(queryParams.toString(),"queryParams")
+
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
       .get(apiUrlWithParams, {
