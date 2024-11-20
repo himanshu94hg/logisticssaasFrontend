@@ -441,7 +441,13 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
                         </section>
                         <div className='d-flex align-items-center gap-3 ms-3 mt-3'>
                             <button className='btn main-button ms-3 mt-3' onClick={() => handleClone()}>{orderStatus === "delivered" ? "Reverse" : "Clone"}</button>
-                            {formData?.order_details?.order_type === "Reverse" && <p className='mb-0 '><ErrorIcon /> Reverse order can only be prepaid!</p>}
+                            {/* {formData?.order_details?.order_type === "Reverse" && <p className='mt-1 '><ErrorIcon /> Reverse order can only be prepaid!</p>} */}
+                            {formData?.order_details?.order_type === "Reverse" && (
+                                <div className="d-flex align-items-center gap-2 mt-3">
+                                    <ErrorIcon />
+                                    <p className="mb-0">Reverse order can only be prepaid!</p>
+                                </div>
+                            )}
                         </div>
                     </section>
                 </section>
