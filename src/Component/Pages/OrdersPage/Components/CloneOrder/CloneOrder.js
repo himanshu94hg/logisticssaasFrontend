@@ -236,6 +236,8 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
         }
     }, [orderId])
 
+    console.log(formData, 'sssssssssss')
+
     useEffect(() => {
         if (orderDetailsData) {
             const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
@@ -247,7 +249,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
                     is_mps: orderDetailsData?.is_mps,
                     warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderTagIds,
-                    payment_type: orderDetailsData?.payment_type,
+                    payment_type: orderStatus === "delivered" ? "Prepaid" : orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(),
                     order_type: orderStatus === "delivered" ? "Reverse" : orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
@@ -437,7 +439,16 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
                                 </div>
                             )}
                         </section>
-                        <button className='btn main-button ms-3 mt-3' onClick={() => handleClone()}>{ orderStatus === "delivered" ?"Reverse":"Clone"}</button>
+                        <div className='d-flex align-items-center gap-3 ms-3 mt-3'>
+                            <button className='btn main-button ms-3 mt-3' onClick={() => handleClone()}>{orderStatus === "delivered" ? "Reverse" : "Clone"}</button>
+                            {/* {formData?.order_details?.order_type === "Reverse" && <p className='mt-1 '><ErrorIcon /> Reverse order can only be prepaid!</p>} */}
+                            {formData?.order_details?.order_type === "Reverse" && (
+                                <div className="d-flex align-items-center gap-2 mt-3">
+                                    <ErrorIcon />
+                                    <p className="mb-0">Reverse order can only be prepaid!</p>
+                                </div>
+                            )}
+                        </div>
                     </section>
                 </section>
             </section>
