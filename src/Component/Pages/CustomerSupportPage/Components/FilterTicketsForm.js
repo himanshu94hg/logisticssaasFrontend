@@ -3,11 +3,9 @@ import Cookies from 'js-cookie';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import React, { useState, useEffect } from 'react';
+import { BASE_URL_CORE } from '../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { BASE_URL_CORE } from '../../../../axios/config';
-
-
 
 const StatusOptions = [
   { value: 'All', label: 'All' },
@@ -24,35 +22,33 @@ const SeverityOptions = [
 ];
 
 const FilterTicketsForm = (props) => {
-  const [subcatList, setSubcategory] = useState([]);
-  const [endDate, setEndDate] = useState();
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [resolutionDate, setResolutionDate] = useState();
-  const [createdDate, setCreatedDate] = useState();
-  const [selectedSeverity, setSelectedSeverity] = useState('');
   const [severty, setSeverty] = useState([]);
-  const [statusData, setStatusData] = useState([]);
+  const [endDate, setEndDate] = useState(null);
   const authToken = Cookies.get("access_token")
+  const [statusData, setStatusData] = useState([]);
+  const [subcatList, setSubcategory] = useState([]);
   const [filterData, setFilterData] = useState({
-    sub_category: "",
-    status: "",
-    resolution_due_by: "",
-    last_updated: "",
-    Severity: "",
+    sub_category: null,
+    status: null,
+    created: null,
+    resolution_due_by: null,
+    last_updated: null,
+    Severity: null,
   })
 
-
   useEffect(() => {
-    if (props?.clearTicket) {
-      setSelectedCategories([]);
-      setSelectedStatus('');
-      setResolutionDate(null);
-      setEndDate(null);
-      setCreatedDate(null)
+    if (props.reset || endDate) {
+      setFilterData({
+        sub_category: "",
+        status: "",
+        created: "",
+        resolution_due_by: "",
+        last_updated: "",
+        Severity: "",
+      })
     }
-    props?.setClearTicket(false)
-  }, [props?.clearTicket])
+  }, [props.reset, endDate])
+
 
   useEffect(() => {
     if (props.filterClick) {
@@ -72,44 +68,19 @@ const FilterTicketsForm = (props) => {
     }
   }, [props.filterClick]);
 
-  const handleChange = (selectedOption) => {
-    setSelectedCategories(selectedOption);
+  const handleChange = (e, name) => {
+    setFilterData((prev) => ({
+      ...prev,
+      [name]: e
+    }))
   };
-
-  const handleStatusChange = (selectedOption) => {
-    setSelectedStatus(selectedOption);
-  };
-
-  const handleSeverityChange = (selectedOption) => {
-    setSelectedSeverity(selectedOption);
-  };
-
-  const handleCreatedChange = (date) => {
-    setCreatedDate(date);
-  };
-  const handleResolutionDateChange = (date) => {
-    setResolutionDate(date);
-  };
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
-
 
   const handleApply = () => {
-    const severityValue = selectedSeverity ? selectedSeverity.value : '';
-    const statusValue = selectedStatus ? selectedStatus.value : '';
-    props.handleFormSubmit(selectedCategories, statusValue, resolutionDate, endDate, "filter", createdDate, severityValue);
+    props.handleFormSubmit(filterData)
   };
 
-
-
   const handleReset = () => {
-    setSelectedCategories([]);
-    setSelectedStatus('');
-    setResolutionDate(null);
-    setEndDate(null);
-    setCreatedDate(null);
-    setSelectedSeverity('');
+    setEndDate(new Date())
   };
 
   useEffect(() => {
@@ -117,8 +88,6 @@ const FilterTicketsForm = (props) => {
       setStatusData((prev) => [...prev, { label: item.label, value: item.value }]);
     });
   }, []);
-
-
 
   useEffect(() => {
     SeverityOptions.forEach((item) => {
@@ -141,25 +110,25 @@ const FilterTicketsForm = (props) => {
       <div className='ticket-filter-inputs'>
         <Select
           options={subcatList}
-          onChange={handleChange}
-          value={selectedCategories}
           placeholder='Choose a Subcategory'
+          onChange={(e) => handleChange(e.value, "sub_category")}
+          value={subcatList.find(option => option.value === filterData?.sub_category) || null}
         />
 
         <Select
-          options={statusData}
-          onChange={handleStatusChange}
-          value={selectedStatus}
-          placeholder='Select Status'
           isClearable={true}
+          options={statusData}
+          placeholder='Select Status'
+          onChange={(e) => handleChange(e.value, "status")}
+          value={statusData.find(option => option.value === filterData?.status) || null}
         />
 
         <Select
           options={severty}
-          value={selectedSeverity}
-          onChange={handleSeverityChange}
-          placeholder='Select Severity'
           isClearable={true}
+          placeholder='Select Severity'
+          onChange={(e) => handleChange(e.value, "Severity")}
+          value={severty.find(option => option.value === filterData?.Severity) || null}
         />
       </div>
 
@@ -171,15 +140,14 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
-              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              selected={createdDate}
-              onChange={handleCreatedChange}
-              dateFormat='dd MMMM, yyyy'
-              className='input-field'
-              maxDate={new Date()}
-              strictParsing={true}
-              onKeyDown={(e) => handleKeyDown(e)}
               isClearable
+              maxDate={new Date()}
+              className='input-field'
+              dateFormat='dd MMMM, yyyy'
+              selected={filterData?.created}
+              onKeyDown={(e) => handleKeyDown(e)}
+              onChange={(e) => handleChange(e, "created")}
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
             />
           </div>
         </div>
@@ -188,15 +156,15 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
-              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              selected={resolutionDate}
-              onChange={handleResolutionDateChange}
-              dateFormat='dd MMMM, yyyy'
-              className='input-field'
+              isClearable
               maxDate={new Date()}
               strictParsing={true}
+              className='input-field'
+              dateFormat='dd MMMM, yyyy'
               onKeyDown={(e) => handleKeyDown(e)}
-              isClearable
+              selected={filterData?.resolution_due_by}
+              onChange={(e) => handleChange(e, "resolution_due_by")}
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
             />
           </div>
         </div>
@@ -205,15 +173,15 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
-              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              selected={endDate}
-              onChange={handleEndDateChange}
-              dateFormat='dd MMMM, yyyy'
-              className='input-field'
+              isClearable
               maxDate={new Date()}
               strictParsing={true}
+              className='input-field'
+              dateFormat='dd MMMM, yyyy'
+              selected={filterData?.last_updated}
               onKeyDown={(e) => handleKeyDown(e)}
-              isClearable
+              onChange={(e) => handleChange(e, "last_updated")}
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
             />
           </div>
         </div>
