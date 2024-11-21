@@ -97,7 +97,7 @@ const WeightRecoPage = () => {
         setHandleResetFrom(true)
         setsearchType(SearchOptions[0].value)
         setSearchOption(SearchOptions[0])
-        setMostPopular({most_popular_search:""})
+        setMostPopular({ most_popular_search: "" })
     }
 
     const handleChange = (val) => {
@@ -130,8 +130,8 @@ const WeightRecoPage = () => {
             page: currentPage,
             q: searchValue,
             page_size: itemsPerPage,
-            most_popular_search:mostPopular?.most_popular_search,
-            search_by:searchType,
+            most_popular_search: mostPopular?.most_popular_search,
+            search_by: searchType,
         }
         const additional_data = queryParamTemp;
         const merged_data = { ...temp_data, ...additional_data };
@@ -363,9 +363,11 @@ const WeightRecoPage = () => {
                 />
                 {BulkActionShow && (
                     <BulkActionsComponent
+                        setLoader={setLoader}
                         activeTab={activeTab}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 )
                 }
