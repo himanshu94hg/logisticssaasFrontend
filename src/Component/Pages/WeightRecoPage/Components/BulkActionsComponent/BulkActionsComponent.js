@@ -4,13 +4,14 @@ import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Comp
 import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
 import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,setLoader, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportWeightCard)
 
     const handleExport = () => {
         setExportButtonClick(true);
+        setLoader(true)
         const requestData = {
             "order_tab": {
                 "type": activeTab,
@@ -43,6 +44,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
 
     useEffect(() => {
         if (exportButtonClick) {
+            setLoader(false)
+            setSelectedRows([])
+            setBulkActionShow(false)
             var FileSaver = require('file-saver');
             var blob = new Blob([exportCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
