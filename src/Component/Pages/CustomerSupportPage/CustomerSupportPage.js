@@ -24,21 +24,17 @@ const CustomerSupportPage = () => {
   const [loader, setLoader] = useState(false)
   const authToken = Cookies.get("access_token")
   const [allTicket, setAllTicket] = useState([]);
-  const [ticketId, setTicketId] = useState(null);
   const [totalItems, setTotalItems] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [NewTicket, setNewTicket] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(20);
-  const [clearTicket, setClearTicket] = useState(false)
-  const [filterClick, setFilterClick] = useState(false);
   const [queryParamTemp, setQueryParamTemp] = useState({})
   const [activeTab, setActiveTab] = useState('allTickets');
   const [FilterTickets, setFilterTickets] = useState(false);
   const [categoryStatus, setCategoryStatus] = useState(false);
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
-  const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
 
   useEffect(() => {
@@ -76,56 +72,30 @@ const CustomerSupportPage = () => {
         .then(response => {
           setAllTicket(response?.data?.results);
           setTotalItems(response?.data?.count);
+          setFilterTickets(false);
         })
         .catch(error => {
           customErrorFunction(error)
         });
     }
-  }, [activeTab, reset, currentPage]);
-  //  }, [activeTab, status, currentPage, ticketStatus, reset, queryParamTemp]);
+  }, [activeTab, reset, currentPage, JSON.stringify(queryParamTemp)]);
 
 
-  const handleFormSubmit = (categories, status, resDate, endDt, createdDate, Severity) => {
-    const queryParams = new URLSearchParams();
 
-    if (categories && categories.value) {
-      queryParams.append('sub_category', categories.value);
-    }
-    if (status) {
-      queryParams.append('status', status);
-    }
-    if (resDate) {
-      const formattedResDate = moment(resDate).isValid() ? moment(resDate).format("YYYY-MM-DD") : null;
-      if (formattedResDate) queryParams.append('resolution_due_by', formattedResDate);
-    }
-    if (endDt) {
-      const formattedEndDt = moment(endDt).isValid() ? moment(endDt).format("YYYY-MM-DD") : null;
-      if (formattedEndDt) queryParams.append('last_updated', formattedEndDt);
-    }
-    if (createdDate) {
-      const formattedCreatedDate = moment(createdDate).isValid() ? moment(createdDate).format("YYYY-MM-DD") : null;
-      if (formattedCreatedDate) queryParams.append('created_at', formattedCreatedDate);
-    }
-    if (Severity) {
-      queryParams.append('Severity', Severity);
-    }
-    const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
-    axios
-      .get(apiUrlWithParams, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      })
-      .then(response => {
-        setAllTicket(response?.data?.results);
-        setFilterTickets(false);
-        setTotalItems(response?.data?.count);
-      })
-      .catch(error => {
-        customErrorFunction(error);
-      });
+  const handleFormSubmit = (data) => {
+    const formatDate = (date) => {
+      return date ? moment(date).format("YYYY-MM-DD") : "";
+    };
+
+    const formattedData = {
+      ...data,
+      created: formatDate(data.created),
+      resolution_due_by: formatDate(data.resolution_due_by),
+      last_updated: formatDate(data.last_updated),
+    };
+
+    setQueryParamTemp(formattedData);
   };
-
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
   };
@@ -182,18 +152,17 @@ const CustomerSupportPage = () => {
           FilterTickets={FilterTickets}
           setSearchValue={setSearchValue}
           setCurrentPage={setCurrentPage}
-          setClearTicket={setClearTicket}
           setFilterTickets={setFilterTickets}
           setCategoryStatus={setCategoryStatus}
         />
         <div className='row mt-3'>
           {activeTab === "allTickets" &&
-            <AllTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+            <AllTickets activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
 
           }
           {
             (activeTab === "openTickets" || activeTab === "closedTickets" || activeTab === "inProgressTickets") &&
-            <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+            <InProgressTickets activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
           }
         </div>
         <Pagination
@@ -207,14 +176,14 @@ const CustomerSupportPage = () => {
       </div>
 
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
+        <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets);}}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} clearTicket={clearTicket} setClearTicket={setClearTicket} />
+        <FilterTicketsForm reset={reset} handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
       </div>
 
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>

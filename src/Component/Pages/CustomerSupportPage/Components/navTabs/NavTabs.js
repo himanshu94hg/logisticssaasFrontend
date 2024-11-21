@@ -14,16 +14,7 @@ export default function NavTabs(props) {
 
   const handleClick = () => {
     props.setSearchValue('')
-    props.setClearTicket(true)
     props.handleReset();
-  }
-
-  const debouncedHandleClick = useCallback(
-    debounce((param) => handleClick(param), 1000),
-    []
-  );
-  const handlereset = () => {
-    debouncedHandleClick();
   }
 
   const navItems = [
@@ -56,7 +47,7 @@ export default function NavTabs(props) {
                   className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
                   onClick={() => {
                     props.setActiveTab(item.name);
-                    props.handleReset();
+                    // props.handleReset();
                     props.setCurrentPage(1)
                   }}
                   title={item.title}
@@ -114,7 +105,7 @@ export default function NavTabs(props) {
             <div className="nav-actions-list">
               <ul>
                 <li onClick={() => props.setFilterTickets(!props.FilterTickets)}><RiFilterLine /> More Filters</li>
-                <li onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</li>
+                <li onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</li>
                 <li onClick={() => { props.setNewTicket(!props.NewTicket); props.setCategoryStatus(true) }}><FontAwesomeIcon icon={faPlus} /> New Ticket</li>
               </ul>
             </div>
@@ -129,7 +120,7 @@ export default function NavTabs(props) {
               className="btn main-button-outline">
               <RiFilterLine /> More Filters
             </button>
-            <button className='btn main-button-outline' onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
+            <button className='btn main-button-outline' onClick={() => handleClick()}><RxReset className='align-text-bottom' /> Reset</button>
             <button
               onClick={() => { props.setNewTicket(!props.NewTicket); props.setCategoryStatus(true) }}
               className="btn main-button">
