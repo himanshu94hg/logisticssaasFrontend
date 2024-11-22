@@ -151,7 +151,7 @@ const ShipmentsPage = () => {
             setBulkActionShow(false)
             setQueryParamSearch(null);
             setSearchOption(SearchOptions[0])
-                   }
+        }
     }, [activeTab])
 
     const handleSidePanel = () => {
@@ -263,14 +263,14 @@ const ShipmentsPage = () => {
     return (
         <>
             <NavTabs
-             activeTab={activeTab} 
-             counterData={counterData}  
-             setActiveTab={setActiveTab} 
-             pageStatusSet={pageStatusSet} 
-             setCurrentPage={setCurrentPage}
-             setMostPopular={setMostPopular}
-             setItemsPerPage={setItemsPerPage}
-             />
+                activeTab={activeTab}
+                counterData={counterData}
+                setActiveTab={setActiveTab}
+                pageStatusSet={pageStatusSet}
+                setCurrentPage={setCurrentPage}
+                setMostPopular={setMostPopular}
+                setItemsPerPage={setItemsPerPage}
+            />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -331,7 +331,7 @@ const ShipmentsPage = () => {
                                     triggerComponent={
                                         <span
                                             className={mostPopular.most_popular_search === key ? 'active' : ''}
-                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()); setCurrentPage(1) }}
                                         >
                                             {label}
                                         </span>

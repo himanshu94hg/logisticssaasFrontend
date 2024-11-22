@@ -136,7 +136,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         };
         const payload1 = {
             awb_numbers: awbNumbersString,
-            courier_partners: selectedCourierPartnerKeywords
+            courier_partners: selectedCourierPartnerKeywords,
+          
         };
 
         if(activeTab==="Remittance Logs"){
