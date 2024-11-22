@@ -134,6 +134,11 @@ const BillingPage = () => {
                 }
             }
         });
+        // page:1,
+        // page_size:20
+        queryParams.page=currentPage;
+        queryParams.page_size=itemsPerPage
+
         if (activeTab === "Remittance Logs") {
             dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: queryParams, });
         } else {

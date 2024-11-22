@@ -422,7 +422,7 @@ const OrdersPage = () => {
                                     triggerComponent={
                                         <span
                                             className={mostPopular.most_popular_search === key ? 'active' : ''}
-                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()) }}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date());setCurrentPage(1) }}
                                         >
                                             {label}
                                         </span>
