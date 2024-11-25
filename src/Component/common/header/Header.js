@@ -143,10 +143,10 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    if (userData?.id !== undefined) {
+    if (userData?.id !== undefined && ShowNotification) {
       fetchData()
     }
-  }, [userData, refresh, viewAll])
+  }, [userData, refresh, ShowNotification, viewAll])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,8 +163,10 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    fetchData()
-  }, [impRefresh])
+    if (ShowNotification) {
+      fetchData()
+    }
+  }, [impRefresh, ShowNotification])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -181,8 +183,10 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
         customErrorFunction(error);
       }
     }
-    fetchData()
-  }, [impRefresh])
+    if (ShowNotification) {
+      fetchData()
+    }
+  }, [impRefresh, ShowNotification])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -202,7 +206,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     if (userData?.id != null) {
       fetchData()
     }
-  }, [userData, refresh,impRefresh])
+  }, [userData, refresh, impRefresh])
 
   useEffect(() => {
     if (NotificationCount?.unread_notifications_count > 0) {
@@ -213,6 +217,8 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       return () => clearInterval(interval);
     }
   }, [NotificationCount?.unread_notifications_count]);
+
+  console.log(ShowNotification, "ShowNotification")
 
   return (
     <>
