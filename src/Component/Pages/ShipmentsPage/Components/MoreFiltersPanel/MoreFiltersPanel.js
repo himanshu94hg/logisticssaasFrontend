@@ -19,7 +19,7 @@ const OrderStatus = [
     { label: "Delivered", value: "delivered" },
     { label: "Picked Up", value: "picked_up" },
     { label: "In Transit", value: "in_transit" },
-    { label: "Out of Delivery", value: "out_for_delivery" },
+    { label: "Out For Delivery", value: "out_for_delivery" },
     { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
     { label: "RTO In Transit", value: "rto_in_transit" },
