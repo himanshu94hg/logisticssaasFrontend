@@ -23,6 +23,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         start_date: "",
         end_date: "",
         utr_number: "",
+        awb_number: ""
     });
 
     useEffect(() => {
@@ -119,7 +120,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         }),
     };
 
-    const handleExportClick =async () => {
+    const handleExportClick = async () => {
         const awbNumbersString = awbNumbers
             .split(',')
             .map(number => number.trim())
@@ -137,36 +138,36 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         const payload1 = {
             awb_numbers: awbNumbersString,
             courier_partners: selectedCourierPartnerKeywords,
-          
+
         };
 
-        if(activeTab==="Remittance Logs"){
+        if (activeTab === "Remittance Logs") {
             dispatch({
                 type: "BILLING_REMITANCE_EXPORT_DATA_ACTION",
                 payload: payload
             });
-        }else{
+        } else {
             try {
                 const response = await fetch(`${BASE_URL_CORE}/core-api/features/billing/passbook-export-by-awb/`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                  },
-                  body: JSON.stringify(payload1),
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(payload1),
                 });
-                if (response.status===200) {
-                  const blob = await response.blob();
-                  const downloadUrl = window.URL.createObjectURL(blob);
-                  const link = document.createElement("a");
-                  link.href = downloadUrl;
-                  link.download = "exported_file.xlsx"; 
-                  link.click();
-                  window.URL.revokeObjectURL(downloadUrl);
-                } 
-              } catch (error) {
+                if (response.status === 200) {
+                    const blob = await response.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = downloadUrl;
+                    link.download = "exported_file.xlsx";
+                    link.click();
+                    window.URL.revokeObjectURL(downloadUrl);
+                }
+            } catch (error) {
                 customErrorFunction(error)
-              }
+            }
         }
     };
 
@@ -228,20 +229,35 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     />
                                 </div>
                             </div>
-                            {activeTab === "Remittance Logs"&&
-                            <div className='filter-row'>
-                                <label>UTR Number
-                                    <input
-                                        className='input-field'
-                                        type="text"
-                                        value={filterParams?.utr_number}
-                                        onChange={e => handleChange("utr_number", e.target.value)}
-                                        placeholder="Enter UTR Number"
-                                    />
-                                </label>
-                            </div>
+                            {activeTab === "Passbook" && <>
+                                <div className='filter-row'>
+                                    <label>Awb Number
+                                        <input
+                                            className='input-field'
+                                            type="text"
+                                            value={filterParams?.awb_number}
+                                            onChange={e => handleChange("awb_number", e.target.value)}
+                                            placeholder="Enter AWB Number"
+                                        />
+                                    </label>
+                                </div>
+                            </>}
+                            {activeTab === "Remittance Logs" &&
+                                <div className='filter-row'>
+                                    <label>UTR Number
+                                        <input
+                                            className='input-field'
+                                            type="text"
+                                            value={filterParams?.utr_number}
+                                            onChange={e => handleChange("utr_number", e.target.value)}
+                                            placeholder="Enter UTR Number"
+                                        />
+                                    </label>
+                                </div>
                             }
                         </div>
+
+
                         <div className='more-filters-footer justify-content-end'>
                             <div className='d-flex'>
                                 <button className='btn cancel-button' type="button" onClick={handleReset}>
@@ -274,7 +290,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                 <hr />
                                 <span>OR</span>
                             </div>
-                         <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label>
                                     Courier Partner(s)
                                     <Select
