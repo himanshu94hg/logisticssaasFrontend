@@ -164,9 +164,17 @@ const ManageSubAccount = () => {
                   <td>
                     <div className='d-flex flex-column'>
                       <p>{account?.seller?.email}</p>
-                      <CopyToClipboard text={account.password} onCopy={() => handleCopy(account?.password, index)}>
+                      {/* <CopyToClipboard text={account.password} onCopy={() => handleCopy(account?.password, index)}>
                         <button title='Click to Copy Password' className='btn copy-password'>
                           {(index === ds && copiedText === account?.password) ? 'Password Copied!' : 'Copy Password'}
+                        </button>
+                      </CopyToClipboard> */}
+                      <CopyToClipboard
+                        text="Ship@123$"
+                        onCopy={() => handleCopy("Ship@123$", index)}
+                      >
+                        <button title="Click to Copy Password" className="btn copy-password">
+                          {(index === ds && copiedText === "Ship@123$") ? "Password Copied!" : "Copy Password"}
                         </button>
                       </CopyToClipboard>
                     </div>
@@ -195,11 +203,20 @@ const ManageSubAccount = () => {
                   </td>
                   <td><IoWalletOutline className='font20 fw-bold' style={{ verticalAlign: '-4px' }} /> &#x20b9;{account?.seller?.balance}</td>
                   <td>
-                    <CopyToClipboard text={account.apiKey} onCopy={() => handleCopy(account.apiKey, index)}>
+                    {/* <CopyToClipboard text={account.apiKey} onCopy={() => handleCopy(account.apiKey, index)}>
                       <button title='Click to Copy API Key' className='btn copy-key'>
                         {(index === ds && copiedText === account.apiKey) ? 'Key Copied!' : 'Copy Key'}
                       </button>
+                    </CopyToClipboard> */}
+                    <CopyToClipboard
+                      text="null"
+                      onCopy={() => handleCopy("null", index)}
+                    >
+                      <button title="Click to Copy API Key" className="btn copy-key">
+                        {(index === ds && copiedText === "") ? "Key Copied!" : "Copy Key"}
+                      </button>
                     </CopyToClipboard>
+
                   </td>
                   <td>
                     <Form.Check
