@@ -23,7 +23,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         start_date: "",
         end_date: "",
         utr_number: "",
-        awb_number: ""
+        awb_numbers: ""
     });
 
     useEffect(() => {
@@ -235,8 +235,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                         <input
                                             className='input-field'
                                             type="text"
-                                            value={filterParams?.awb_number}
-                                            onChange={e => handleChange("awb_number", e.target.value)}
+                                            value={filterParams?.awb_numbers}
+                                            onChange={e => handleChange("awb_numbers", e.target.value)}
                                             placeholder="Enter AWB Number"
                                         />
                                     </label>
