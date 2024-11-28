@@ -31,7 +31,7 @@ const RTODashboard = ({ activeTab }) => {
       <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           {/* <RTOOrderDetails /> */}
-          <TopRTOPincodes />
+          <TopRTOPincodes screenWidthData={screenWidthData}/>
         </Col>
         <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <RTOStatus />

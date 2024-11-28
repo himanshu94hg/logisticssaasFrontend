@@ -10,7 +10,7 @@ import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, billingRemitanceExportCard }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, reset, MoreFilters, setMoreFilters, handleMoreFilter, billingRemitanceExportCard }) => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const token = Cookies.get("access_token")
@@ -27,15 +27,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
     });
 
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab ||reset) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
                 utr_number: "",
+                awb_numbers: ''
             });
             setErrors({});
         }
-    }, [activeTab]);
+    }, [activeTab,reset]);
 
     useEffect(() => {
         dispatch({ type: "COURIER_PARTNER_ACTION" });
@@ -98,6 +99,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
             start_date: null,
             end_date: null,
             utr_number: "",
+            awb_numbers: ''
         });
         setErrors({});
     };

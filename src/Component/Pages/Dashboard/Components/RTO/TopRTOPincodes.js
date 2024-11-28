@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-const TopRTOPincodes = () => {
+const TopRTOPincodes = ({ screenWidthData }) => {
   const { rtoTop } = useSelector(state => state?.dashboardRtoReducer)
   const sortedPincodes = rtoTop?.sort((a, b) => b.rto_count - a.rto_count);
   const top15Pincodes = sortedPincodes.slice(0, 15);
@@ -12,7 +12,7 @@ const TopRTOPincodes = () => {
 
 
   useEffect(() => {
-    if(rtoTop){
+    if (rtoTop) {
       const filtered = rtoTop?.filter(
         (item) =>
           item?.shipping_detail__pincode?.includes(searchTerm) ||
@@ -29,6 +29,7 @@ const TopRTOPincodes = () => {
     setSearchTerm(term);
   };
   
+
   return (
     <>
       <div className="box-shadow shadow-sm p10 top-rto-pincodes">
@@ -50,19 +51,19 @@ const TopRTOPincodes = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Pin Code</th>
-                  <th>City</th>
-                  <th>State</th>
-                  <th>RTO Count</th>
+                  <th style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>Pin Code</th>
+                  <th style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>City</th>
+                  <th style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>State</th>
+                  <th style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>RTO Count</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredData?.map((item, index) => (
                   <tr key={index} className={`bg-${index % 2 === 0 ? 'red' : 'green'}-light text-${index % 2 === 0 ? 'red' : 'green'}`}>
-                    <td>{item?.shipping_detail__pincode}</td>
-                    <td className='text-capitalize'>{item?.shipping_detail__city}</td>
-                    <td className='text-capitalize'>{item?.shipping_detail__state}</td>
-                    <td>{item?.rto_count}</td>
+                    <td style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>{item?.shipping_detail__pincode}</td>
+                    <td style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }} className='text-capitalize'>{item?.shipping_detail__city}</td>
+                    <td style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }} className='text-capitalize'>{item?.shipping_detail__state}</td>
+                    <td style={{ fontSize: screenWidthData < 1200 ? "10px" : "inherit" }}>{item?.rto_count}</td>
                   </tr>
                 ))}
               </tbody>

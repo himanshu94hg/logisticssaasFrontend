@@ -136,8 +136,8 @@ const BillingPage = () => {
         });
         // page:1,
         // page_size:20
-        queryParams.page=currentPage;
-        queryParams.page_size=itemsPerPage
+        queryParams.page = currentPage;
+        queryParams.page_size = itemsPerPage
 
         if (activeTab === "Remittance Logs") {
             dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: queryParams, });
@@ -168,7 +168,8 @@ const BillingPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setCurrentPage={setCurrentPage}setItemsPerPage={setItemsPerPage} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
+            <NavTabs setReset={setReset} activeTab={activeTab} setActiveTab={setActiveTab} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
+
             <div className='billing-page-container'>
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
                     setAwbNo={setAwbNo}
@@ -245,6 +246,7 @@ const BillingPage = () => {
                 )}
             </div>
             <MoreFiltersPanel
+                reset={reset}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 MoreFilters={MoreFilters}

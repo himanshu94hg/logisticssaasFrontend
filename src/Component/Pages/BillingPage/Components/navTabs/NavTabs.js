@@ -11,7 +11,7 @@ const navItems = [
   { name: 'Credit Receipt', title: 'Credit Receipt' },
 ]
 
-export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counterData,setCurrentPage,setItemsPerPage }) {
+export default function NavTabs({ activeTab, setReset, setActiveTab, setMoreFilters, counterData, setCurrentPage, setItemsPerPage }) {
 
   const handleSelect = (selectedTab) => {
     setActiveTab(selectedTab);
@@ -37,7 +37,7 @@ export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counte
                     className={`d-none d-lg-block ${activeTab === item.name ? "active" : ""}`}
                     onClick={() => {
                       setCurrentPage(1);
-                      setItemsPerPage(20) 
+                      setItemsPerPage(20)
                       setActiveTab(item.name);
                     }}
                     title={item.title}
@@ -76,7 +76,7 @@ export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counte
             </div>
           </Nav>
         </Navbar.Collapse>
-        {(activeTab === "Remittance Logs"||activeTab === "Passbook" ) &&
+        {(activeTab === "Remittance Logs" || activeTab === "Passbook") &&
           <div className="btn-group">
             <button
               style={{ paddingBlock: '4px' }}
@@ -100,6 +100,14 @@ export default function NavTabs({ activeTab, setActiveTab, setMoreFilters,counte
             </ul>
           </div>
         }
+        <button
+          type="button"
+          className="btn main-button"
+          style={{ paddingBlock: '4px' }}
+          onClick={() => setReset(new Date())}
+        >
+          Reset
+        </button>
       </Navbar>
     </>
   );
