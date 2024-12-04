@@ -21,7 +21,6 @@ const orderTypeOptions = [
 ]
 
 
-
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
@@ -39,6 +38,22 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        channel_name: "",
+        order_id: "",
+        product: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        order_type: null,
+        pickup_address: ""
+    })
 
     useEffect(() => {
         if (activeTab === "Reassign Order") {
@@ -60,24 +75,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             dispatch({ type: "COURIER_PARTNER_ACTION" });
         }
     }, [MoreFilters]);
-
-
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        channel_name: "",
-        order_id: "",
-        product: "",
-        order_tag: "",
-        sku: "",
-        sku_match_type: "",
-        order_type: null,
-        pickup_address: ""
-    })
+   
 
     useEffect(() => {
         if (courierPartnerData?.data?.length) {
@@ -433,7 +431,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.courier_partner ? courierPartners.filter(option => filterParams.courier_partner.includes(option.value)) : null}
+                                        value={courierPartners.filter(option => filterParams.courier_partner.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>
