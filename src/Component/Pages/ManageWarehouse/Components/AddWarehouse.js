@@ -173,8 +173,12 @@ const AddWarehouse = () => {
         setWareHouseData((prev) => ({
             ...prev,
             [name]: value,
-            rto_details: SameRTO
-                ? {
+
+        }));
+        if (!SameRTO) {
+            setWareHouseData((prev) => ({
+                ...prev,
+                rto_details: {
                     warehouse_name: prev.warehouse_name,
                     contact_person_name: prev.contact_name,
                     contact_number: prev.contact_number,
@@ -187,8 +191,8 @@ const AddWarehouse = () => {
                     state: prev.state,
                     country: "India"
                 }
-                : prev.rto_details
-        }));
+            }))
+        }
     };
 
     const handleChangeRto = async (event) => {
@@ -272,44 +276,6 @@ const AddWarehouse = () => {
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
     };
-
-    useEffect(() => {
-        if (!SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "" && warehouseData.warehouse_name !== "") {
-            setWareHouseData((prev) => ({
-                ...prev,
-                rto_details: {
-                    warehouse_name: prev.warehouse_name,
-                    contact_person_name: prev.contact_name,
-                    contact_number: prev.contact_number,
-                    alternate_number: "",
-                    email: prev.support_email,
-                    address: prev.address_line1 + "," + prev.address_line2,
-                    landmark: prev.city,
-                    pincode: prev.pincode,
-                    city: prev.city,
-                    state: prev.state,
-                    country: "India"
-                }
-            }));
-        } else {
-            setWareHouseData((prev) => ({
-                ...prev,
-                rto_details: {
-                    warehouse_name: "",
-                    contact_person_name: "",
-                    contact_number: "",
-                    alternate_number: "",
-                    email: "",
-                    address: "",
-                    landmark: "",
-                    pincode: "",
-                    city: "",
-                    state: "",
-                    country: "India"
-                }
-            }));
-        }
-    }, [SameRTO, warehouseData.pincode, warehouseData.city, warehouseData.state])
 
     const handleReset = () => {
         setErrors({})
@@ -410,7 +376,7 @@ const AddWarehouse = () => {
                                         name="contact_number"
                                         placeholder='XXXXXXXXXX'
                                         value={warehouseData.contact_number}
-                                        maxLength={10}  
+                                        maxLength={10}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();

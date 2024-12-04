@@ -218,8 +218,6 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     }
   }, [NotificationCount?.unread_notifications_count]);
 
-  console.log(ShowNotification, "ShowNotification")
-
   return (
     <>
       <Navbar
