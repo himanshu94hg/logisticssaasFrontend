@@ -102,7 +102,7 @@ export default function NavTabs({ activeTab, setReset, setActiveTab, setMoreFilt
         }
         <button
           type="button"
-          className="btn main-button"
+          className="btn main-button-outline"
           style={{ paddingBlock: '4px' }}
           onClick={() => setReset(new Date())}
         >
