@@ -61,7 +61,7 @@ async function saveFavouriteOrderAPI(data) {
     });
 }
 function* saveFavouriteOrdersAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(saveFavouriteOrderAPI, payload);
         if (response.status === 201) {
@@ -83,7 +83,7 @@ async function saveFavListApi(data) {
     });
 }
 function* saveFavListAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(saveFavListApi, payload);
         if (response.status === 200) {
@@ -103,9 +103,10 @@ async function bulkShipOrderAPI(data) {
     });
 }
 function* bulkShipOrdersAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(bulkShipOrderAPI, payload);
+        console.log(response, 'yyyyyyyyy')
         if (response.status === 200) {
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
             yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
@@ -120,10 +121,13 @@ function* bulkShipOrdersAction(action) {
             } else {
                 toast.success(`${shippedCount} out of ${payload?.order_ids?.length} Orders Shipped Successfully.`);
             }
+        } else {
+            yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
+            toast.success(response?.data?.message)
         }
     } catch (error) {
         customErrorFunction(error);
-        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }
 
@@ -135,7 +139,7 @@ async function bulkGetOrdersTagApi(data) {
     });
 }
 function* bulkGetOrdersTagAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(bulkGetOrdersTagApi, payload);
         if (response.status === 200) {
@@ -203,7 +207,7 @@ async function GetOrdersSourceApi(data) {
     });
 }
 function* GetOrdersSourceApiAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(GetOrdersSourceApi, payload);
         if (response.status === 200) {
@@ -223,7 +227,7 @@ async function GetOrdersDataApi(data) {
     });
 }
 function* GetOrdersDataAction(action) {
-    let { payload,  } = action;
+    let { payload, } = action;
     try {
         let response = yield call(GetOrdersDataApi, payload);
         if (response.status === 200) {
