@@ -15,6 +15,7 @@ import StateSplitDashboard from '../Components/Overview/StateSplitDashboard';
 import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import CourierWiseDashboard from '../Components/Overview/CourierWiseDashboard';
 import PopularCustomerDashboard from '../Components/Overview/PopularCustomerDashboard';
+import TicketsChart from '../Components/Overview/TicketsChart.js';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
@@ -57,6 +58,7 @@ const Overview = ({ activeTab }) => {
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <RevenueDashboard />
         <CourierWiseDashboard />
+        <TicketsChart />
         <PopularCustomerDashboard />
       </Col>
     </Row>
