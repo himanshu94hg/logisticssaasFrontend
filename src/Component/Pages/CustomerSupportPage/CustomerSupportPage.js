@@ -129,6 +129,28 @@ const CustomerSupportPage = () => {
     window.open('https://www.shipease.in/support', '_blank');
   };
 
+  const [counterData, setCounterData] = useState(null)
+  const [counterReset, setCounterReset] = useState(null)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/escallation-counter/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            if (response?.status === 200) {
+                setCounterData(response.data);
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    };
+    fetchData();
+}, [counterReset]);
+
   return (
     <>
       <div className='support-page position-relative'>
@@ -143,6 +165,7 @@ const CustomerSupportPage = () => {
         <p className='text-blue fw-700'>Seek assistance by either generating a support ticket or perusing through informative help articles.</p>
         <NavTabs
           activeTab={activeTab}
+          counterData={counterData}
           NewTicket={NewTicket}
           searchValue={searchValue}
           handleReset={handleReset}
@@ -157,12 +180,12 @@ const CustomerSupportPage = () => {
         />
         <div className='row mt-3'>
           {activeTab === "allTickets" &&
-            <AllTickets activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+            <AllTickets setCounterReset={setCounterReset} activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
 
           }
           {
             (activeTab === "openTickets" || activeTab === "closedTickets" || activeTab === "inProgressTickets") &&
-            <InProgressTickets activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+            <InProgressTickets setCounterReset={setCounterReset}  activeTab={activeTab} allTicket={allTicket}  setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
           }
         </div>
         <Pagination

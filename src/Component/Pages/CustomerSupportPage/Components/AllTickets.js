@@ -10,7 +10,7 @@ import { capatlize } from '../../../../customFunction/functionLogic';
 import CustomTooltip from '../../../common/CustomTooltip/CustomTooltip';
 import { FaRegCopy } from 'react-icons/fa';
 
-const AllTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonClick }) => {
+const AllTickets = ({ setViewTicketInfo, setCounterReset,allTicket, activeTab, handleViewButtonClick }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -40,6 +40,7 @@ const AllTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonC
     };
 
     const handleCloseOpenTicket = (id, status) => {
+        setCounterReset(new Date())
         dispatch({
             type: "UPDATE_TICKET_STATUS_ACTION", payload: {
                 status: status,

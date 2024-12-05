@@ -106,7 +106,6 @@ function* bulkShipOrdersAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(bulkShipOrderAPI, payload);
-        console.log(response, 'yyyyyyyyy')
         if (response.status === 200) {
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
             yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })

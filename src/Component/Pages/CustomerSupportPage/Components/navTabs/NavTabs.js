@@ -51,9 +51,15 @@ export default function NavTabs(props) {
                     props.setCurrentPage(1)
                   }}
                   title={item.title}
+
                 >
                   <div className="navItemsContainer">
-                    {item.title}
+                    {item.title}<span className="tab-counter">
+                      {item.name === "allTickets" && props?.counterData?.all}
+                      {item.name === "openTickets" && props?.counterData?.open}
+                      {item.name === "inProgressTickets" && props?.counterData?.progress}
+                      {item.name === "closedTickets" && props?.counterData?.closed}
+                    </span>
                   </div>
                 </Nav.Link>
               ))
