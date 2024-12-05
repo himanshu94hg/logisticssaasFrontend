@@ -512,7 +512,7 @@
     position: fixed;
 }
 
-#ndr-chart .apexcharts-legend-text{
+#ndr-chart .apexcharts-legend-text {
     text-transform: lowercase;
 }
 
@@ -525,6 +525,10 @@
 #ndr-chart>div>div>svg>foreignObject {
     height: 400px;
 } */
+
+.tickets-chart .apexcharts-datalabels.apexcharts-hidden-element-shown {
+    opacity: 0;
+}
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
