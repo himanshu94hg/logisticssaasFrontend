@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./courierwiseCard.css";
 import Chart from 'react-apexcharts';
+import { BASE_URL_CORE } from "../../../../../axios/config";
+import axios from "axios";
+import Cookies from 'js-cookie';
+
 
 function TicketsChart() {
+  const authToken = Cookies.get("access_token")
 
   // useEffect(() => {
   //   const style = document.createElement('style');
@@ -60,31 +65,75 @@ function TicketsChart() {
   });
 
   const [series, setSeries] = useState([
-    {
-      name: 'Open Tickets',
-      type: 'bar', // Bar for Open Tickets
-      data: [30, 40, 35, 50],
-      dataLabels: {
-        enabled: false, // Disable data labels for this series
-      },
-    },
-    {
-      name: 'Closed Tickets',
-      type: 'bar', // Bar for Closed Tickets
-      data: [20, 30, 25, 45],
-      dataLabels: {
-        enabled: false, // Disable data labels for this series
-      },
-    },
-    {
-      name: 'Closed Within TAT',
-      type: 'line', // Line for Closed Within TAT
-      data: [10, 15, 12, 20],
-      dataLabels: {
-        enabled: true, // Enable data labels for this series
-      },
-    },
+    // {
+    //   name: 'Open Tickets',
+    //   type: 'bar',
+    //   data: [30, 40, 35, 50],
+    //   dataLabels: {
+    //     enabled: false, 
+    //   },
+    // },
+    // {
+    //   name: 'Closed Tickets',
+    //   type: 'bar', 
+    //   data: [20, 30, 25, 45],
+    //   dataLabels: {
+    //     enabled: false, 
+    //   },
+    // },
+    // {
+    //   name: 'Closed Within TAT',
+    //   type: 'line', 
+    //   data: [10, 15, 12, 20],
+    //   dataLabels: {
+    //     enabled: true, 
+    //   },
+    // },
   ]);
+
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/escallation-dashboard/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const mappedData = [
+          {
+            name: "Open Tickets",
+            type: "bar",
+            data: response?.data.open_tickets.length > 0 ? response?.data.open_tickets : [0],
+            dataLabels: {
+              enabled: false,
+            },
+          },
+          {
+            name: "Closed Tickets",
+            type: "bar",
+            data: response?.data.closed_tickets.length > 0 ? response?.data.closed_tickets : [0],
+            dataLabels: {
+              enabled: false,
+            },
+          },
+          {
+            name: "Closed Within TAT",
+            type: "line",
+            data: response?.data.closed_within_tat.length > 0 ? response?.data.closed_within_tat : [0],
+            dataLabels: {
+              enabled: true,
+            },
+          },
+        ];
+        setSeries(mappedData);
+      } catch (err) {
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(data,series,'kkkkkkkk')
 
   return (
     <div className="box-shadow shadow-sm p10 tickets-chart">
