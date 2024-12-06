@@ -9,20 +9,6 @@ import Cookies from 'js-cookie';
 function TicketsChart() {
   const authToken = Cookies.get("access_token")
 
-  // useEffect(() => {
-  //   const style = document.createElement('style');
-  //   style.type = 'text/css';
-  //   style.innerHTML = `
-  //     .apexcharts-bar-series .apexcharts-datalabels {
-  //       display: none !important;
-  //     }
-  //   `;
-  //   document.head.appendChild(style);
-  //   return () => {
-  //     document.head.removeChild(style); // Cleanup when the component unmounts
-  //   };
-  // }, []);
-
   const [chartOptions, setChartOptions] = useState({
     chart: {
       type: 'line', // Mixed chart type
@@ -133,11 +119,10 @@ function TicketsChart() {
 
     fetchData();
   }, []);
-  console.log(data,series,'kkkkkkkk')
 
   return (
     <div className="box-shadow shadow-sm p10 tickets-chart">
-      <h4 className="title">Tickets Chart</h4>
+      <h4 className="title"> Support  </h4>
       <div>
         <Chart options={chartOptions} series={series} height={350} />
       </div>
