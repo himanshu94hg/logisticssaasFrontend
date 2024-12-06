@@ -296,36 +296,46 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
 
     const downloadManifest = async () => {
         setLoader(true)
-        try {
-            const payload = { order_ids: selectedRows.join(',') };
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/shipping/generate-manifest/`, payload, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-                responseType: 'blob',
-            }
-            );
-            if (response.status == 200) {
-                setLoader(false)
-                setSelectedRows([])
-                setBulkActionShow(false)
-                const contentDisposition = response.headers['content-disposition'];
-                const fileName = contentDisposition
-                    ? contentDisposition.split('filename=')[1]?.replace(/"/g, '')
-                    : 'manifest.pdf';
-                const blob = new Blob([response.data], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-                window.URL.revokeObjectURL(link.href);
-            }
-        } catch (err) {
+        const valuesToCheck = ["pending", "cancelled"];
+        const atLeastOneExists = valuesToCheck.some(value => bulkAwb.includes(value));
+        if (atLeastOneExists) {
+            toast.error(" Oops... You can not select Pending or Cancelled Orders!")
             setLoader(false)
             setSelectedRows([])
             setBulkActionShow(false)
-            customErrorFunction(err)
+        } else {
+            try {
+                const payload = { order_ids: selectedRows.join(',') };
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/shipping/generate-manifest/`, payload, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                    responseType: 'blob',
+                }
+                );
+                if (response.status == 200) {
+                    setLoader(false)
+                    setSelectedRows([])
+                    setBulkActionShow(false)
+                    const contentDisposition = response.headers['content-disposition'];
+                    const fileName = contentDisposition
+                        ? contentDisposition.split('filename=')[1]?.replace(/"/g, '')
+                        : 'manifest.pdf';
+                    const blob = new Blob([response.data], { type: 'application/pdf' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                    window.URL.revokeObjectURL(link.href);
+                }
+            } catch (err) {
+                setLoader(false)
+                setSelectedRows([])
+                setBulkActionShow(false)
+                customErrorFunction(err)
+            }
         }
+
     };
 
 
@@ -346,6 +356,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
+                                    <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
