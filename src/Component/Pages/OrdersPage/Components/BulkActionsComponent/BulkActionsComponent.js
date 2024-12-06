@@ -17,11 +17,17 @@ import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems, searchType, searchValue }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState(false)
+    const authToken = Cookies.get("access_token")
     const [shipShow, setShipShow] = useState(false);
     const [actionType, setActionType] = useState("");
     const [actionName, setActionName] = useState("");
@@ -288,6 +294,41 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     }
 
 
+    const downloadManifest = async () => {
+        setLoader(true)
+        try {
+            const payload = { order_ids: selectedRows.join(',') };
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/shipping/generate-manifest/`, payload, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+                responseType: 'blob',
+            }
+            );
+            if (response.status == 200) {
+                setLoader(false)
+                setSelectedRows([])
+                setBulkActionShow(false)
+                const contentDisposition = response.headers['content-disposition'];
+                const fileName = contentDisposition
+                    ? contentDisposition.split('filename=')[1]?.replace(/"/g, '')
+                    : 'manifest.pdf';
+                const blob = new Blob([response.data], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+            }
+        } catch (err) {
+            setLoader(false)
+            setSelectedRows([])
+            setBulkActionShow(false)
+            customErrorFunction(err)
+        }
+    };
+
+
     return (
         <>
             {selectedRows?.length > 0 && (
@@ -350,7 +391,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             {activeTab === "Pickup" && (
                                 <>
                                     <li onClick={() => handelBulkModalShow("generate-manifest")}><ExportIcon /><span>Generate Manifest</span></li>
-                                    {/* <li onClick={() => handelBulkModalShow("generate-manifest9")}><ExportIcon /><span>Download Manifest</span></li> */}
+                                    <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>

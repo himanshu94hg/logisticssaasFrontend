@@ -25,8 +25,6 @@ const OrderDetail = () => {
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 
-    console.log(location, 'sssssss')
-
     useEffect(() => {
         if (params?.slug && location && location?.state?.path != "searchOrderData") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {

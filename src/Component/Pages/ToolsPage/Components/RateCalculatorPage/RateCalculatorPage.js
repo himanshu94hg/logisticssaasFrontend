@@ -329,8 +329,6 @@ const RateCalculatorPage = () => {
     }
   }
 
-  console.log(formData,"formData")
-
   return (
     <>
       <div className='rate-calc-page'>

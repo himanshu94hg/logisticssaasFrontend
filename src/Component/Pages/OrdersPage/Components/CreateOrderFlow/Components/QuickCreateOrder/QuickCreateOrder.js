@@ -189,11 +189,9 @@ const QuickCreateOrder = (activeTab) => {
             })
         }
         setIsChecked(true)
-        // setErrors({})
         setPincodeError(false)
     }, [dataRefresh, activeTab])
 
-    console.log(pincodeError, "pincodeError")
 
     const validatequickFormData = () => {
         const newErrors = {};

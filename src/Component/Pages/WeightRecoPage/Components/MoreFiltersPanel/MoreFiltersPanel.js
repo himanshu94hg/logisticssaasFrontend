@@ -197,8 +197,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     };
 
-    console.log(filterParams, 'sssssss')
-
 
     useEffect(() => {
         const fetchData = async () => {

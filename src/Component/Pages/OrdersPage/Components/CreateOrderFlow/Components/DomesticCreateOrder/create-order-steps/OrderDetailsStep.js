@@ -245,8 +245,6 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
     }, [activeTab])
 
 
-    console.log(formData.order_details.payment_type,"llllllllll")
-
     return (
         <>
             {/* Order Details Section */}

@@ -78,7 +78,6 @@ function* exportShippingFilesAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(exportShippingFileAPI, payload);
-        console.log(response, "response")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_SHIPPING_DATA, payload: response?.data })
             toast.success("Data Export Successfully!");
