@@ -12,6 +12,10 @@ import { weightGreater } from '../../../../../customFunction/functionLogic'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import VerifiedOrderIcon from "../../../../common/Icons/VerifiedOrderIcon";
 import CallingDetailsIcon from "../../../../common/Icons/CallingDetailsIcon";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
+import Cookies from 'js-cookie';
+import { BASE_URL_COURIER } from "../../../../../axios/config";
+import axios from "axios";
 
 
 const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
@@ -148,15 +152,27 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
     }
 
     const [ShowCallDetails, setShowCallDetails] = useState(null)
+    const authToken = Cookies.get("access_token")
+    const [callData, setCallData] = useState([])
 
-    const handleCallingDetails = () => {
+    const handleCallingDetails = async (id) => {
         setShowCallDetails(!ShowCallDetails)
+        try {
+            if (id != null) {
+                const response = await axios.get(`${BASE_URL_COURIER}/courier-api/master/ndr-calling/?awb_number=${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                setCallData(response?.data)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+
     }
 
-    const recordings = [
-        { id: 1, fileName: "call1.mp3", date: "2024-11-15" },
-        { id: 2, fileName: "call2.mp3", date: "2024-11-16" },
-    ];
+
 
     return (
         <>
@@ -210,7 +226,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                                 />
                                                             }
                                                         </span>
-                                                        <span onClick={() => handleCallingDetails()} className="ms-2 cursor-pointer"><CallingDetailsIcon /></span>
+                                                        <span onClick={() => handleCallingDetails(row?.awb_number)} className="ms-2 cursor-pointer"><CallingDetailsIcon /></span>
                                                     </p>
                                                     <p className='ws-nowrap d-flex align-items-center'>
                                                         <CustomTooltip
@@ -344,7 +360,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                     <Modal.Title>Call Details for <b>Order Number</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Table striped bordered hover>
+                    {callData?.length > 0 ? <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -354,14 +370,14 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                             </tr>
                         </thead>
                         <tbody>
-                            {recordings.map((recording) => (
-                                <tr key={recording.id}>
-                                    <td>{recording.id}</td>
-                                    <td>{recording.fileName}</td>
-                                    <td>{recording.date}</td>
+                            {callData?.map((row, index) => (
+                                <tr key={row.id}>
+                                    <td>{row.id}</td>
+                                    <td>callrec{index + 1}</td>
+                                    {`${moment(row?.call_start_time).format('DD MMM YYYY')} || ${moment(row?.call_start_time).format('h:mm A')}`}
                                     <td>
                                         <a
-                                            href={`/downloads/${recording.fileName}`}
+                                            href={row.recording_path}
                                             download
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -372,7 +388,7 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                 </tr>
                             ))}
                         </tbody>
-                    </Table>
+                    </Table> : "No Recordings found"}
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="btn main-button" onClick={handleCallingDetails}>

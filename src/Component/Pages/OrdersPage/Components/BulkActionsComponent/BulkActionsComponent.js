@@ -350,6 +350,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             {activeTab === "Pickup" && (
                                 <>
                                     <li onClick={() => handelBulkModalShow("generate-manifest")}><ExportIcon /><span>Generate Manifest</span></li>
+                                    {/* <li onClick={() => handelBulkModalShow("generate-manifest9")}><ExportIcon /><span>Download Manifest</span></li> */}
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
