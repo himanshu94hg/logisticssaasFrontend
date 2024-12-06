@@ -100,14 +100,17 @@ export default function NavTabs({ activeTab, setReset, setActiveTab, setMoreFilt
             </ul>
           </div>
         }
-        <button
-          type="button"
-          className="btn main-button-outline"
-          style={{ paddingBlock: '4px' }}
-          onClick={() => setReset(new Date())}
-        >
-          Reset
-        </button>
+        {(activeTab === "Remittance Logs" || activeTab === "Passbook")
+          &&
+          <button
+            type="button"
+            className="btn main-button-outline"
+            style={{ paddingBlock: '4px' }}
+            onClick={() => setReset(new Date())}
+          >
+            Reset
+          </button>
+        }
       </Navbar>
     </>
   );
