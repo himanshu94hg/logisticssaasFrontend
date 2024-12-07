@@ -167,7 +167,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
                 >
                   <FontAwesomeIcon icon={faEye} />
                 </span>
-                {allTicket && allTicket?.escalate_image && (
+                {allTicket && allTicket?.escalate_image && /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(allTicket?.escalate_image) && (
                   <a href={allTicket.escalate_image} download>
                     <AiOutlineDownload />
                   </a>

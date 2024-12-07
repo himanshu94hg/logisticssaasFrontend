@@ -217,7 +217,7 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} setStatus={setStatus} status={status} categoryStatus={categoryStatus} setCategoryStatus={setCategoryStatus} />
+          <CreateTicketForm setReset={setReset} setCounterReset={setCounterReset}  setNewTicket={setNewTicket} NewTicket={NewTicket} setStatus={setStatus} status={status} categoryStatus={categoryStatus} setCategoryStatus={setCategoryStatus} />
         </section>
       </div>
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>
