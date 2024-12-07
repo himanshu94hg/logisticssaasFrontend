@@ -236,7 +236,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId, orderSta
         }
     }, [orderId])
 
-    console.log(formData, 'sssssssssss')
 
     useEffect(() => {
         if (orderDetailsData) {

@@ -281,7 +281,6 @@ const OrdersPage = () => {
         setMostPopular({ most_popular_search: '' })
     }
 
-    console.log(SearchOption,"SearchOption")
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})

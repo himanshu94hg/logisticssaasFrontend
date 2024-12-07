@@ -142,6 +142,8 @@ const CreateTicketForm = (props) => {
           });
           if (response.status === 201) {
             toast.success("Ticket created successfully");
+            props.setReset(new Date())
+            props.setCounterReset(new Date())
             setTicketData({
               category: null,
               sub_category: null,
@@ -196,7 +198,6 @@ const CreateTicketForm = (props) => {
         }
       }
     ).then(response => {
-      console.warn(response, "Response");
       setAwbStatus(false);
     }).catch(error => {
       setAwbErrorMessage(error?.response?.data?.detail);
@@ -272,6 +273,8 @@ const CreateTicketForm = (props) => {
             },
           });
           if (response.status === 201) {
+            props.setReset(new Date())
+            props.setCounterReset(new Date())
             toast.success("Ticket created successfully");
             setTicketData({
               category: null,
