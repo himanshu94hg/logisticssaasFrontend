@@ -188,7 +188,7 @@ const OrderDetail = () => {
                                     <ul className='od-list'>
                                         <li><span>Channel:</span><span>{orderDetails?.channel}</span></li>
                                         <li><span>Payment:</span><span>{orderDetails?.payment_type}</span></li>
-                                        <li><span>Pickup Address:</span>
+                                        <li><span>Seller Address:</span>
                                             {orderDetails?.order_type === "Reverse" ?
                                                 <>
                                                     {orderDetails?.shipping_detail?.address}, {orderDetails?.shipping_detail?.city}, {orderDetails?.shipping_detail?.state}, ({orderDetails?.shipping_detail?.pincode})
@@ -231,7 +231,7 @@ const OrderDetail = () => {
                                         <li><span>Name:</span><span>{orderDetails?.shipping_detail?.recipient_name}</span></li>
                                         <li><span>Contact No.:</span><span>{orderDetails?.shipping_detail?.mobile_number}</span></li>
                                         <li><span>Email:</span><span>{orderDetails?.shipping_detail?.email ? orderDetails?.shipping_detail?.email : "NA"}</span></li>
-                                        <li><span>Address:</span>
+                                        <li><span>Customer Address:</span>
                                             {orderDetails?.order_type === "Reverse" ?
                                                 <>
                                                     {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
