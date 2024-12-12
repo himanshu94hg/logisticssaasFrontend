@@ -305,10 +305,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, reset, MoreFilters, setMoreFil
                                         styles={customStyles}
                                     />
                                 </label>
+                            </div>
                                 <div className='d-flex justify-content-end'>
                                     <button className='btn main-button' onClick={handleExportClick}>Export</button>
                                 </div>
-                            </div>
                         </div>
                     </>
                 }

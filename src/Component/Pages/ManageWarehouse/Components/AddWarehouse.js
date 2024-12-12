@@ -11,7 +11,7 @@ import { BASE_URL_CORE } from '../../../../axios/config';
 import { manageWarehousesPattern } from '../../../../Routes';
 import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const AddWarehouse = () => {
@@ -275,6 +275,22 @@ const AddWarehouse = () => {
 
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
+        setWareHouseData((prev) => ({
+            ...prev,
+            rto_details: {
+                warehouse_name: "",
+                contact_person_name: "",
+                contact_number: "",
+                alternate_number: "",
+                email: "",
+                address: "",
+                landmark: "",
+                pincode: "",
+                city: "",
+                state: "",
+                country: "India"
+            }
+        }))
     };
 
     const handleReset = () => {
