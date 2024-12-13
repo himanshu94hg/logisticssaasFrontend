@@ -228,7 +228,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, setOrderStatus,
                 })
             });
             if (response?.status === 200) {
-                toast.success("Generate Pickup successfully")
+                toast.success("Pickup Generated successfully")
                 setRateRef(new Date())
             }
         } catch (error) {
