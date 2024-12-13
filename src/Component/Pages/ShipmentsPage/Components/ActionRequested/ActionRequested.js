@@ -142,7 +142,6 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
 
     const handleCallingDetails = async (id) => {
         setShowCallDetails(!ShowCallDetails)
-        setShowCallDetails(!ShowCallDetails)
         try {
             if (id != null) {
                 const response = await axios.get(`${BASE_URL_COURIER}/courier-api/master/ndr-calling/?awb_number=${id}`, {
