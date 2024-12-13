@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Modal } from 'react-bootstrap';
+import { Modal,Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 import NoData from '../../../../common/noData';
@@ -10,6 +10,11 @@ import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from "../../../../common/Icons/VerifiedOrderIcon";
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import { BASE_URL_COURIER } from "../../../../../axios/config";
+import axios from "axios";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
+import CallingDetailsIcon from "../../../../common/Icons/CallingDetailsIcon";
+import Cookies from 'js-cookie';
 
 
 const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
@@ -128,76 +133,100 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
     };
 
 
+    const [ShowCallDetails, setShowCallDetails] = useState(null)
+    const [callData, setCallData] = useState([])
+    const authToken = Cookies.get("access_token")
+    const handleCallingDetails = async (id) => {
+        setShowCallDetails(!ShowCallDetails)
+
+        try {
+            if (id != null) {
+                const response = await axios.get(`${BASE_URL_COURIER}/courier-api/master/ndr-calling/?awb_number=${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                setCallData(response?.data)
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
+
+
     return (
-        <section className='position-relative'>
-            <div className="position-relative">
-                <div className='table-container'>
-                    <table className=" w-100">
-                        <thead className="sticky-header">
-                            <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
-                                </th>
-                                <th>Order Details </th>
-                                <th>NDR Attempt</th>
-                                <th>Package Details</th>
-                                <th>Customer details</th>
-                                <th>Tracking Detail</th>
-                                <th>Status</th>
-                                {/* <th>Action</th> */}
-                            </tr>
-                            <tr className="blank-row"><td></td></tr>
-                        </thead>
-                        <tbody>
-                            {allShipment?.map((row, index) => (
-                                <React.Fragment key={row?.id}>
-                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                    <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {/* Date detail */}
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
-                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
-                                                        {row?.other_details?.is_verified &&
-                                                            <CustomTooltip
-                                                                triggerComponent={<VerifiedOrderIcon />}
-                                                                tooltipComponent='Verified'
-                                                                addClassName='verified-hover'
-                                                            />
+        <>
+            <section className='position-relative'>
+                <div className="position-relative">
+                    <div className='table-container'>
+                        <table className=" w-100">
+                            <thead className="sticky-header">
+                                <tr className="table-row box-shadow">
+                                    <th style={{ width: '1%' }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                        />
+                                    </th>
+                                    <th>Order Details </th>
+                                    <th>NDR Attempt</th>
+                                    <th>Package Details</th>
+                                    <th>Customer details</th>
+                                    <th>Tracking Detail</th>
+                                    <th>Status</th>
+                                    {/* <th>Action</th> */}
+                                </tr>
+                                <tr className="blank-row"><td></td></tr>
+                            </thead>
+                            <tbody>
+                                {allShipment?.map((row, index) => (
+                                    <React.Fragment key={row?.id}>
+                                        {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                        <tr className='table-row box-shadow'>
+                                            <td className='checkbox-cell'>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedRows.includes(row?.id)}
+                                                    onChange={() => handleSelectRow(row?.id)}
+                                                />
+                                            </td>
+                                            <td>
+                                                {/* Date detail */}
+                                                <div className='cell-inside-box'>
+                                                    <p className=''>
+                                                        {row?.channel && <img src={channel_list[row?.channel]["image"]} alt="channel" width="20" />}
+                                                        <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                            <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
+                                                            {row?.other_details?.is_verified &&
+                                                                <CustomTooltip
+                                                                    triggerComponent={<VerifiedOrderIcon />}
+                                                                    tooltipComponent='Verified'
+                                                                    addClassName='verified-hover'
+                                                                />
+                                                            }
+                                                        </span>
+                                                        <span onClick={() => handleCallingDetails(row?.awb_number)} className="ms-2 cursor-pointer"><CallingDetailsIcon /></span>
+
+                                                    </p>
+                                                    <p className='ws-nowrap d-flex align-items-center'>
+                                                        <CustomTooltip
+                                                            triggerComponent={
+                                                                <img
+                                                                    src={ForwardIcon}
+                                                                    className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                    alt="Forward/Reverse"
+                                                                    width={24}
+                                                                />
+                                                            }
+                                                            tooltipComponent={<>{row?.order_type}</>}
+                                                            addClassName='verified-hover'
+                                                        />
+                                                        <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        {row?.is_mps === true &&
+                                                            <span className="mps-flag">MPS</span>
                                                         }
-                                                    </span>
-                                                </p>
-                                                <p className='ws-nowrap d-flex align-items-center'>
-                                                    <CustomTooltip
-                                                        triggerComponent={
-                                                            <img
-                                                                src={ForwardIcon}
-                                                                className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
-                                                                alt="Forward/Reverse"
-                                                                width={24}
-                                                            />
-                                                        }
-                                                        tooltipComponent={<>{row?.order_type}</>}
-                                                        addClassName='verified-hover'
-                                                    />
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    {row?.is_mps === true &&
-                                                        <span className="mps-flag">MPS</span>
-                                                    }
-                                                    {/* {
+                                                        {/* {
                                                         row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
@@ -214,87 +243,128 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                                             }
                                                         />
                                                     } */}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* NDR Reason*/}
-                                            <div className='cell-inside-box'>
-                                                <p><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
-                                                    <InfoIcon onClick={() => handleShow(row)} />
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)}kg
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.order_products.map((product, index) => (
-                                                                <React.Fragment key={index}>
-                                                                    <strong>Product:</strong> {product.product_name}<br />
-                                                                    <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {product.quantity}<br />
-                                                                </React.Fragment>
-                                                            ))}
-                                                        </span>
-                                                    </span>
-                                                    <br />
-                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
-
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* customer detail */}
-                                            <div className='cell-inside-box'>
-                                                <p>{row?.shipping_detail?.recipient_name}</p>
-                                                <p>{row?.shipping_detail?.mobile_number ?? null}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} title='Partner' />}
-                                                <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
-                                                        {row?.awb_number}
-                                                    </p>
-                                                    <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
-                                                <CustomTooltip
-                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
-                                                    tooltipComponent={copyText}
-                                                    addClassName='copytext-tooltip'
-                                                />
-                                            </div>
-                                        </td>
-                                        <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row?.status?.split("_").join(" ")}</p>
-                                        </td>
-                                    </tr>
-                                </React.Fragment>
+                                            </td>
+                                            <td>
+                                                {/* NDR Reason*/}
+                                                <div className='cell-inside-box'>
+                                                    <p><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
+                                                        <InfoIcon onClick={() => handleShow(row)} />
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {/* package  details */}
+                                                <div className='cell-inside-box'>
+                                                    <p className='width-eclipse'>{row?.order_products.product_name}</p>
+                                                    <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)}kg
+                                                        <span className='details-on-hover ms-2 align-middle'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.order_products.map((product, index) => (
+                                                                    <React.Fragment key={index}>
+                                                                        <strong>Product:</strong> {product.product_name}<br />
+                                                                        <strong>SKU:</strong> {product.sku}<br />
+                                                                        <strong>Qt.:</strong> {product.quantity}<br />
+                                                                    </React.Fragment>
+                                                                ))}
+                                                            </span>
+                                                        </span>
+                                                        <br />
+                                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {/* customer detail */}
+                                                <div className='cell-inside-box'>
+                                                    <p>{row?.shipping_detail?.recipient_name}</p>
+                                                    <p>{row?.shipping_detail?.mobile_number ?? null}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className='cell-inside-box shipping-details'>
+                                                    {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} title='Partner' />}
+                                                    <div>
+                                                        <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.awb_number)}>
+                                                            {row?.awb_number}
+                                                        </p>
+                                                        <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
+                                                            {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
+                                                        </p>
+                                                    </div>
+                                                    <CustomTooltip
+                                                        triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                        tooltipComponent={copyText}
+                                                        addClassName='copytext-tooltip'
+                                                    />
+                                                </div>
+                                            </td>
+                                            <td className='align-middle status-box'>
+                                                <p className='order-Status-box'>{row?.status?.split("_").join(" ")}</p>
+                                            </td>
+                                        </tr>
+                                    </React.Fragment>
+                                ))}
+                            </tbody>
+                        </table>
+                        {allShipment?.length === 0 && <NoData />}
+                    </div>
+                    <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                    <Preview show={show} handleClose={handleClose} selectedData={selectedData} />
+                </div>
+            </section >
+            <Modal show={ShowCallDetails} onHide={handleCallingDetails} centered className="confirmation-modal calling-details">
+                <Modal.Header closeButton>
+                    <Modal.Title>Call Details for <b>Order Number</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {callData?.length > 0 ? <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>File Name</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {callData?.map((row, index) => (
+                                <tr key={row.id}>
+                                    <td>{row.id}</td>
+                                    <td>callrec{index + 1}</td>
+                                    {`${moment(row?.call_start_time).format('DD MMM YYYY')} || ${moment(row?.call_start_time).format('h:mm A')}`}
+                                    <td>
+                                        <a
+                                            href={row.recording_path}
+                                            download
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
                             ))}
                         </tbody>
-                    </table>
-                    {allShipment?.length === 0 && <NoData />}
-                </div>
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-                <Preview show={show} handleClose={handleClose} selectedData={selectedData} />
-
-            </div>
-        </section >
+                    </Table> : "No Recordings found"}
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn main-button" onClick={handleCallingDetails}>
+                        Close
+                    </button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 };
 
