@@ -285,7 +285,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                     })
                 });
                 if (response?.status === 200) {
-                    toast.success("Generate Pickup successfully")
+                    toast.success("Pickup Generated successfully")
                     setPickupStatus(new Date())
                     setLoader(false)
                 }
