@@ -210,6 +210,11 @@ export const BusinessPlanRoutes = () => {
     return generatePath(BusinessPlanPattern);
 };
 
+export const BusinessPlanPatternNew = "/business-plan-new";
+export const BusinessPlanRoutesNew = () => {
+    return generatePath(BusinessPlanPatternNew);
+};
+
 export const LabelCustomizationPattern = "/label-customize";
 export const LabelCustomizationRoutes = () => {
     return generatePath(LabelCustomizationPattern);
