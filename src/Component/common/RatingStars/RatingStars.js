@@ -9,11 +9,11 @@ const RatingStars = ({ rating, maxRating = 5 }) => {
 
     return (
         <div className="rating-stars">
-            {[...Array(fullStars)].map((_, i) => (
+            {[...Array(fullStars)]?.map((_, i) => (
                 <FaStar key={i} color="#ffc107" />
             ))}
             {hasHalfStar && <FaStarHalfAlt color="#ffc107" />}
-            {[...Array(emptyStars)].map((_, i) => (
+            {[...Array(emptyStars)]?.map((_, i) => (
                 <FaRegStar key={i} color="#ffc107" />
             ))}
         </div>

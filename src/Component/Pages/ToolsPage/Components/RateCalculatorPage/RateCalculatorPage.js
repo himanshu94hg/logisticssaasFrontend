@@ -265,7 +265,7 @@ const RateCalculatorPage = () => {
       const newChargedWeight = Math.max(weight, volmetric_weight);
       setChargedWeight(newChargedWeight);
     }
-  }, [formData.weight, formData.volmetric_weight,formData]);
+  }, [formData.weight, formData.volmetric_weight, formData]);
 
   const containerStyle = {
     opacity: isChecked ? 0.5 : 1,
@@ -581,19 +581,19 @@ const RateCalculatorPage = () => {
                         <tbody>
                           <tr>
                             <td>Pickup Performance</td>
-                            <td><RatingStars rating={4.5} /></td>
+                            <td><RatingStars rating={item?.partner_keyword && partnerList[item?.partner_keyword]["pickup_rating"]} /></td>
                           </tr>
                           <tr>
                             <td>Delivery Performance</td>
-                            <td><RatingStars rating={4.5} /></td>
+                            <td><RatingStars rating={item?.partner_keyword && partnerList[item?.partner_keyword]["delivery_rating"]} /></td>
                           </tr>
                           <tr>
                             <td>NDR Performance</td>
-                            <td><RatingStars rating={4.5} /></td>
+                            <td><RatingStars rating={item?.partner_keyword && partnerList[item?.partner_keyword]["ndr_rating"]} /></td>
                           </tr>
                           <tr>
                             <td>RTO Performance</td>
-                            <td><RatingStars rating={4.5} /></td>
+                            <td><RatingStars rating={item?.partner_keyword && partnerList[item?.partner_keyword]["rto_rating"]} /></td>
                           </tr>
                         </tbody>
                       </table>

@@ -147,7 +147,11 @@ function App() {
           const temp_data = response.data.reduce((acc, item) => {
             acc[item?.keyword] = {
               image: item?.image,
-              title: item?.title
+              title: item?.title,
+              ndr_rating:item?.ndr_rating,
+              rto_rating:item?.rto_rating,
+              pickup_rating:item?.pickup_rating,
+              delivery_rating:item?.delivery_rating,
             };
             return acc;
           }, {});
