@@ -139,9 +139,9 @@ const ReportsMIS = ({ activeTab }) => {
                 }
             })
         } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
-            if(secondSelectedOption.value==="active"){
+            if (secondSelectedOption.value === "active") {
                 toast.info("functionality is not live")
-            }else{
+            } else {
                 dispatch({
                     type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
                         sub_type: secondSelectedOption?.value || 'all_ndr',
@@ -284,6 +284,7 @@ const ReportsMIS = ({ activeTab }) => {
                                 showIcon
                                 icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                 maxDate={new Date()}
+                                placeholderText="Click to select a date"
                                 selected={startDate}
                                 dateFormat='dd MMMM, yyyy'
                                 className='input-field'
@@ -299,6 +300,7 @@ const ReportsMIS = ({ activeTab }) => {
                             To Date
                             <DatePicker
                                 showIcon
+                                placeholderText="Click to select a date"
                                 icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                 selected={endDate}
                                 maxDate={new Date()}

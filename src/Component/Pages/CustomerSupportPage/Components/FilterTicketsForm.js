@@ -140,6 +140,7 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
+              placeholderText="Click to select a date"
               isClearable
               maxDate={new Date()}
               className='input-field'
@@ -156,6 +157,7 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
+              placeholderText="Click to select a date"
               isClearable
               maxDate={new Date()}
               strictParsing={true}
@@ -173,6 +175,7 @@ const FilterTicketsForm = (props) => {
           <div className='date-picker-container'>
             <DatePicker
               showIcon
+              placeholderText="Click to select a date"
               isClearable
               maxDate={new Date()}
               strictParsing={true}
