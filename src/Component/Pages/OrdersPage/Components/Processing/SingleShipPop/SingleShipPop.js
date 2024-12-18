@@ -92,7 +92,6 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
     };
 
 
-
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
@@ -124,24 +123,24 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                                 </div>
                             </div>
                             <div className='d-flex align-items-center gap-2 ship-ratings'>
-                                {console.log(partnerList[option?.partner_keyword],'oooooooooooooooooo')}
                                 <table className='performance-rating'>
                                     <tbody>
                                         <tr>
                                             <td>Pickup Performance</td>
-                                            <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["pickup_rating"]} /></td>
+                                            <td><RatingStars rating={4.5} />
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Delivery Performance</td>
-                                            <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["delivery_rating"]} /></td>
+                                            <td><RatingStars rating={3} /></td>
                                         </tr>
                                         <tr>
                                             <td>NDR Performance</td>
-                                            <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["ndr_rating"]} /></td>
+                                            <td><RatingStars rating={3.5} /></td>
                                         </tr>
                                         <tr>
                                             <td>RTO Performance</td>
-                                            <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["rto_rating"]} /></td>
+                                            <td><RatingStars rating={4} /></td>
                                         </tr>
                                     </tbody>
                                 </table>
