@@ -89,19 +89,19 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
                                 <tbody>
                                     <tr>
                                         <td>Pickup Performance</td>
-                                        <td><RatingStars rating={4.5} /></td>
+                                        <td><RatingStars rating={option?.pickup_rating} /></td>
                                     </tr>
                                     <tr>
                                         <td>Delivery Performance</td>
-                                        <td><RatingStars rating={4} /></td>
+                                        <td><RatingStars rating={option?.delivery_rating} /></td>
                                     </tr>
                                     <tr>
                                         <td>NDR Performance</td>
-                                        <td><RatingStars rating={3.5} /></td>
+                                        <td><RatingStars rating={option?.ndr_rating} /></td>
                                     </tr>
                                     <tr>
                                         <td>RTO Performance</td>
-                                        <td><RatingStars rating={5} /></td>
+                                        <td><RatingStars rating={option?.rto_rating} /></td>
                                     </tr>
                                 </tbody>
                             </table>

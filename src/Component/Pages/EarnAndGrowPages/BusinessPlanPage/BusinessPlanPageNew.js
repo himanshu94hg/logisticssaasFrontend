@@ -151,7 +151,7 @@ const BusinessPlanPageNew = () => {
                     </div>
                     <div className='plan-item'>
                         <div className='plan-item-heading'>
-                            <h4> <span>{data[1]?.title}</span></h4>
+                            <h4>{data[1]?.title}</h4>
                             <div className='plan-price-container'>
                                 <p className='plan-price'>{data[1]?.price}<span> per month</span></p>
                                 <p className='plan-tag-line'>{data[1]?.description}</p>
@@ -259,9 +259,9 @@ const BusinessPlanPageNew = () => {
                         <div className='plans-features'>
                             <button className={`btn change-plan downgrade ${data[2]?.is_active ? "active" : ""}`}>Upgrade</button>
                             <ul className='active my-3'>
-                                <li><span>₹20.34/0.5 kg</span> Shipping Rates</li>
-                                <li><span>1 month</span> Minimum Signup Period</li>
-                                <li><span>30+</span> Courier Partners</li>
+                                <li><span>₹{data[2]?.rates} kg</span> Shipping Rates</li>
+                                <li><span>{data[2]?.period} month</span> Minimum Signup Period</li>
+                                <li><span>{data[2]?.partners}+</span> Courier Partners</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(0)} className={`list-heading ${ActiveHeading === 0 && 'active'}`}>Order & Order Management <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>

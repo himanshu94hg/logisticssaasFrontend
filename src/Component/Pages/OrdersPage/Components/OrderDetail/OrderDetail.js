@@ -306,10 +306,10 @@ const OrderDetail = () => {
                                                 <p className='text-end'>
                                                     {orderDetails?.payment_type === "COD" ?
                                                         <span>
-                                                            ₹ {parseFloat(orderDetails?.invoice_amount || 0)?.toFixed(2)}
+                                                            ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)}
                                                         </span> :
                                                         <span>
-                                                            ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)?.toFixed(2)}
+                                                            ₹ {(orderDetails?.invoice_amount || 0)?.toFixed(2)}
                                                         </span>
                                                     }
                                                 </p>
