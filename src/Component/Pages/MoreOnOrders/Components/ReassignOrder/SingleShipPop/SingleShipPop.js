@@ -80,19 +80,19 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partn
                                 <tbody>
                                     <tr>
                                         <td>Pickup Performance</td>
-                                        <td><RatingStars rating={4.5} /></td>
+                                        <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["pickup_rating"]} /></td>
                                     </tr>
                                     <tr>
                                         <td>Delivery Performance</td>
-                                        <td><RatingStars rating={4.5} /></td>
+                                        <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["delivery_rating"]} /></td>
                                     </tr>
                                     <tr>
                                         <td>NDR Performance</td>
-                                        <td><RatingStars rating={4.5} /></td>
+                                        <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["ndr_rating"]} /></td>
                                     </tr>
                                     <tr>
                                         <td>RTO Performance</td>
-                                        <td><RatingStars rating={4.5} /></td>
+                                        <td><RatingStars rating={option?.partner_keyword && partnerList[option?.partner_keyword]["rto_rating"]} /></td>
                                     </tr>
                                 </tbody>
                             </table>
