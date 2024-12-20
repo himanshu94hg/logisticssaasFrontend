@@ -113,7 +113,6 @@ const BusinessPlanPageNew = () => {
                                                 {item?.status ? <li><ListIcon /> International Shipping</li> : <li className='non-active'><ListCrossIcon /> Order Verification</li>}
                                             </>
                                         ))}
-                                        {/*  <li><span className='me-2'>5</span> Multiple Pickup Address</li> */}
                                     </ul>
                                 </div>
                             ))}
@@ -155,7 +154,6 @@ const BusinessPlanPageNew = () => {
                                                 {item?.status ? <li><ListIcon /> International Shipping</li> : <li className='non-active'><ListCrossIcon /> Order Verification</li>}
                                             </>
                                         ))}
-                                        {/*  <li><span className='me-2'>5</span> Multiple Pickup Address</li> */}
                                     </ul>
                                 </div>
                             ))}
