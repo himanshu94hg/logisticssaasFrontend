@@ -308,7 +308,7 @@ const SkuUpload = () => {
         const fetchSku = async () => {
             try {
                 const response = await axios.get(
-                    `${BASE_URL_CORE}/core-api/features/service/import-sku/`,
+                    `${BASE_URL_CORE}/core-api/features/service/import-sku/?page=${currentPage}&page_size=${itemsPerPage}`,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data',
@@ -325,7 +325,7 @@ const SkuUpload = () => {
             }
         };
         fetchSku();
-    }, [refresh]);
+    }, [refresh,currentPage,itemsPerPage]);
 
     useEffect(() => {
         if (userData) {
@@ -362,7 +362,6 @@ const SkuUpload = () => {
                                             />
                                         </div>
                                     </th>
-                                    <th>S.no.</th>
                                     <th>SKU</th>
                                     <th>Product Name</th>
                                     <th>Brand Name</th>
@@ -384,7 +383,6 @@ const SkuUpload = () => {
                                                     onChange={() => handleSelectRow(row.id)}
                                                 />
                                             </td>
-                                            <td>{index + 1}</td>
                                             <td>{row?.sku}</td>
                                             <td>{row?.product_name}</td>
                                             <td>{row?.brand_name}</td>
