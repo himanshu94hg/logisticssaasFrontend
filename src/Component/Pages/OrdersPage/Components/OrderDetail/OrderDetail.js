@@ -306,7 +306,7 @@ const OrderDetail = () => {
                                                 <p className='text-end'>
                                                     {(orderDetails?.payment_type === "COD" && orderDetails?.other_details?.collectable_amount != null && orderDetails?.other_details?.collectable_amount != "") ?
                                                         <span>
-                                                            ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)}
+                                                            ₹ {orderDetails?.other_details?.collectable_amount || 0}
                                                         </span> :
                                                         <span>
                                                             ₹ {(orderDetails?.invoice_amount || 0)}
