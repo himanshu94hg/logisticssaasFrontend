@@ -69,22 +69,20 @@ const BusinessPlanPageNew = () => {
                                     <ul className={`${ActiveHeading === index && 'active'}`}>
                                         {item?.features?.map((item) => (
                                             <>
-                                                {item?.status ? <li><ListIcon /> International Shipping</li> : <li className='non-active'><ListCrossIcon /> Order Verification</li>}
+                                                {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
                                             </>
                                         ))}
                                         {/*  <li><span className='me-2'>5</span> Multiple Pickup Address</li> */}
                                     </ul>
+                                    <hr />
                                 </div>
                             ))}
-                            <hr />
                             <ul className='active mt-5'>
-                                <li><ListIcon /> WhatsApp notification</li>
-                                <li><ListIcon /> WhatsApp Bots</li>
-                                <li><ListIcon /> Free Shipping</li>
-                                <li><ListIcon /> Refer and Earn</li>
-                                <li className='non-active'><ListCrossIcon /> Trackinng Script</li>
-                                <li><ListIcon /> Webhook</li>
-                                <li className='non-active'><ListCrossIcon /> Business Health Dashoard</li>
+                                {data[0]?.features?.map((item, index) => (
+                                    <>
+                                        {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
+                                    </>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -110,22 +108,20 @@ const BusinessPlanPageNew = () => {
                                     <ul className={`${ActiveHeading === index && 'active'}`}>
                                         {item?.features?.map((item) => (
                                             <>
-                                                {item?.status ? <li><ListIcon /> International Shipping</li> : <li className='non-active'><ListCrossIcon /> Order Verification</li>}
+                                                {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
+
                                             </>
                                         ))}
                                     </ul>
+                                    <hr />
                                 </div>
                             ))}
-
-                            <hr />
                             <ul className='active mt-5'>
-                                <li><ListIcon /> WhatsApp notification</li>
-                                <li><ListIcon /> WhatsApp Bots</li>
-                                <li className='non-active'><ListCrossIcon /> Free Shipping</li>
-                                <li><ListIcon /> Refer and Earn</li>
-                                <li className='non-active'><ListCrossIcon /> Trackinng Script</li>
-                                <li><ListIcon /> Webhook</li>
-                                <li className='non-active'><ListCrossIcon /> Business Health Dashoard</li>
+                                {data[1]?.features?.map((item, index) => (
+                                    <>
+                                        {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
+                                    </>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -151,21 +147,20 @@ const BusinessPlanPageNew = () => {
                                     <ul className={`${ActiveHeading === index && 'active'}`}>
                                         {item?.features?.map((item) => (
                                             <>
-                                                {item?.status ? <li><ListIcon /> International Shipping</li> : <li className='non-active'><ListCrossIcon /> Order Verification</li>}
+                                                {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
                                             </>
                                         ))}
                                     </ul>
+                                    <hr />
                                 </div>
                             ))}
-                            <hr />
+
                             <ul className='active mt-5'>
-                                <li><ListIcon /> WhatsApp notification</li>
-                                <li><ListIcon /> WhatsApp Bots</li>
-                                <li><ListIcon /> Free Shipping</li>
-                                <li><ListIcon /> Refer and Earn</li>
-                                <li><ListIcon /> Trackinng Script</li>
-                                <li><ListIcon /> Webhook</li>
-                                <li><ListIcon /> Business Health Dashoard</li>
+                                {data[2]?.features?.map((item, index) => (
+                                    <>
+                                        {item?.status ? <li><ListIcon />{item?.name}</li> : <li className='non-active'><ListCrossIcon />{item?.name}</li>}
+                                    </>
+                                ))}
                             </ul>
                         </div>
                     </div>
