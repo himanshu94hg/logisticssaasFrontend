@@ -301,15 +301,15 @@ const OrderDetail = () => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Collectable Amount </td>
+                                            <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}> {orderDetails?.payment_type === "COD" ? "Collectable Amount" : "Invoice amount"} </td>
                                             <td style={{ width: '20%', paddingBottom: '20px' }}>
                                                 <p className='text-end'>
-                                                    {orderDetails?.payment_type === "COD" ?
+                                                    {(orderDetails?.payment_type === "COD" && orderDetails?.other_details?.collectable_amount != null && orderDetails?.other_details?.collectable_amount != "") ?
                                                         <span>
-                                                            ₹ {parseFloat(orderDetails?.other_details?.collectable_amount || 0)}
+                                                            ₹ {orderDetails?.other_details?.collectable_amount || 0}
                                                         </span> :
                                                         <span>
-                                                            ₹ {(orderDetails?.invoice_amount || 0)?.toFixed(2)}
+                                                            ₹ {(orderDetails?.invoice_amount || 0)}
                                                         </span>
                                                     }
                                                 </p>
