@@ -61,22 +61,7 @@ const BusinessPlanPageNew = () => {
                                     {planIndex === 2 && <button className="btn change-plan">Upgrade</button>}
                                 </>
                             }
-                            {/* {(plan.current_plan && planIndex == 1) ?
-                                <button className="btn change-plan active">Current Plan</button>
-                                :
-                                <>
-                                    {planIndex === 0 && <button className="btn change-plan">Downgrade</button>}
-                                    {planIndex === 2 && <button className="btn change-plan">Upgrade</button>}
-                                </>
-                            }
-                            {(plan.current_plan && planIndex == 2) ?
-                                <button className="btn change-plan active">Current Plan</button>
-                                :
-                                <>
-                                    {planIndex === 0 && <button className="btn change-plan">Downgrade</button>}
-                                    {planIndex === 1 && <button className="btn change-plan">Downgrade</button>}
-                                </>
-                            } */}
+                           
                             <ul className='active my-3'>
                                 <li><span>₹{plan.rates || 0} Per/kg</span> Shipping Rates</li>
                                 <li><span>{plan.period} {plan.period == 0 ? "" : <>{plan.period > 1 ? "Months" : "Month"}</>}</span> Minimum Signup Period</li>
