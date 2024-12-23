@@ -83,6 +83,7 @@ import WhatsAppBots from "./Component/Pages/SettingsPage/components/WhatsAppConf
 import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPage/TrackingScript/TrackingScript";
 import BusinessPlanPageNew from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNew";
 import { channelData } from "./Component/common/channellist";
+import BusinessPlanPageNewBackup from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNewBackup";
 
 function App() {
   const location = useLocation()
@@ -148,10 +149,10 @@ function App() {
             acc[item?.keyword] = {
               image: item?.image,
               title: item?.title,
-              ndr_rating:item?.ndr_rating,
-              rto_rating:item?.rto_rating,
-              pickup_rating:item?.pickup_rating,
-              delivery_rating:item?.delivery_rating,
+              ndr_rating: item?.ndr_rating,
+              rto_rating: item?.rto_rating,
+              pickup_rating: item?.pickup_rating,
+              delivery_rating: item?.delivery_rating,
             };
             return acc;
           }, {});
@@ -210,6 +211,7 @@ function App() {
             <Route path={LabelCustomizationPattern} element={<LabelCustomization />} />
             <Route path={BusinessPlanPattern} element={<BusinessPlanPage />} />
             <Route path={BusinessPlanPatternNew} element={<BusinessPlanPageNew />} />
+            <Route path="/backup" element={<BusinessPlanPageNewBackup />} />
             <Route path={ReferAndEarnPattern} element={<ReferAndEarnPage />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />

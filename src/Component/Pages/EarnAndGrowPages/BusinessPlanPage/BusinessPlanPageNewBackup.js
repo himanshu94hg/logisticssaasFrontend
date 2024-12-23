@@ -1,39 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './BusinessPlanPageNew.css'
 import ListIcon from './ListIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
 import ListCrossIcon from './ListCrossIcon'
-import axios from 'axios'
-import { BASE_URL_CORE } from '../../../../axios/config'
-import { customErrorFunction } from '../../../../customFunction/errorHandling'
-import Cookies from "js-cookie";
 
 const BusinessPlanPageNew = () => {
-    const token = Cookies.get('access_token');
     const [ActiveHeading, setActiveHeading] = useState(null)
-    const [data, setData] = useState([])
-
-
-    useEffect(() => {
-        if (token) {
-            const fetchData = async () => {
-                try {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/subscriptions/`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    if (response.status === 200) {
-                        setData(response?.data)
-                    }
-                } catch (error) {
-                    customErrorFunction(error)
-                }
-            };
-            fetchData();
-        }
-    }, [token]);
 
     const handleActiveHeading = (num) => {
         if (ActiveHeading === num) {
@@ -42,8 +15,6 @@ const BusinessPlanPageNew = () => {
             setActiveHeading(num)
         }
     }
-
-    console.log(data[0], "ssssssssssssssssss")
     return (
         <>
             <section className='business-plan-page-new'>
@@ -52,18 +23,18 @@ const BusinessPlanPageNew = () => {
                 <div className='plans-container'>
                     <div className='plan-item'>
                         <div className='plan-item-heading'>
-                            <h4>{data[0]?.title}</h4>
+                            <h4>Standard</h4>
                             <div className='plan-price-container'>
-                                <p className='plan-price'>{data[0]?.price}<span> per month</span></p>
-                                <p className='plan-tag-line'>{data[0]?.description}.</p>
+                                <p className='plan-price'>200<span> per month</span></p>
+                                <p className='plan-tag-line'>Unlock advanced features and receive priority support.</p>
                             </div>
                         </div>
                         <div className='plans-features'>
-                            <button className={`btn change-plan downgrade ${data[0]?.is_active ? "active" : ""}`}>Downgrade</button>
+                            <button className='btn change-plan downgrade'>Downgrade</button>
                             <ul className='active my-3'>
-                                <li><span>₹{data[0]?.rates || 0}  Per/kg</span> Shipping Rates</li>
-                                <li><span>{data[0]?.period} month</span> Minimum Signup Period</li>
-                                <li><span>{data[0]?.partners}+</span> Courier Partners</li>
+                                <li><span>₹26.27/0.5 kg</span> Shipping Rates</li>
+                                <li><span>0 month</span> Minimum Signup Period</li>
+                                <li><span>20+</span> Courier Partners</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(0)} className={`list-heading ${ActiveHeading === 0 && 'active'}`}>Order & Order Management <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
@@ -151,18 +122,18 @@ const BusinessPlanPageNew = () => {
                     </div>
                     <div className='plan-item'>
                         <div className='plan-item-heading'>
-                            <h4> <span>{data[1]?.title}</span></h4>
+                            <h4>Pro <span>Most Popular</span></h4>
                             <div className='plan-price-container'>
-                                <p className='plan-price'>{data[1]?.price}<span> per month</span></p>
-                                <p className='plan-tag-line'>{data[1]?.description}</p>
+                                <p className='plan-price'>400<span> per month</span></p>
+                                <p className='plan-tag-line'>Access premium tools and team colaboration options</p>
                             </div>
                         </div>
                         <div className='plans-features'>
-                            <button className={`btn change-plan  ${data[1]?.is_active ? "active" : ""}`}>Current Plan</button>
+                            <button className='btn change-plan active'>Current Plan</button>
                             <ul className='active my-3'>
-                                <li><span>₹{data[1]?.rates} Per kg</span> Shipping Rates</li>
-                                <li><span>{data[1]?.period} months</span> Minimum Signup Period</li>
-                                <li><span>{data[1]?.partners}+</span> Courier Partners</li>
+                                <li><span>₹23.88/0.5 kg</span> Shipping Rates</li>
+                                <li><span>2 months</span> Minimum Signup Period</li>
+                                <li><span>30+</span> Courier Partners</li>
                             </ul>
                             <hr />
                             <p onClick={() => handleActiveHeading(0)} className={`list-heading ${ActiveHeading === 0 && 'active'}`}>Order & Order Management <FontAwesomeIcon className={`${ActiveHeading === 0 && 'active'}`} icon={faChevronDown} /></p>
@@ -250,14 +221,14 @@ const BusinessPlanPageNew = () => {
                     </div>
                     <div className='plan-item'>
                         <div className='plan-item-heading'>
-                            <h4>{data[2]?.title}</h4>
+                            <h4>Pro Plus</h4>
                             <div className='plan-price-container'>
-                                <p className='plan-price'>{data[2]?.price}<span> per month</span></p>
-                                <p className='plan-tag-line'>{data[2]?.description}.</p>
+                                <p className='plan-price'>600<span> per month</span></p>
+                                <p className='plan-tag-line'>Customizable solutions for large shipping and dedicated support.</p>
                             </div>
                         </div>
                         <div className='plans-features'>
-                            <button className={`btn change-plan downgrade ${data[2]?.is_active ? "active" : ""}`}>Upgrade</button>
+                            <button className='btn change-plan'>Upgrade</button>
                             <ul className='active my-3'>
                                 <li><span>₹20.34/0.5 kg</span> Shipping Rates</li>
                                 <li><span>1 month</span> Minimum Signup Period</li>
