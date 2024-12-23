@@ -116,7 +116,6 @@ const AccountInfo = ({ activeTab, accountType }) => {
     });
     setErrors(newErrors);
 
-    
     if (isValid) {
       try {
         for (const account of accounts) {
@@ -127,10 +126,8 @@ const AccountInfo = ({ activeTab, accountType }) => {
           formData.append('ifsc_code', account.ifscCode);
           formData.append('bank_branch', account.branchName);
           formData.append('cheque_image', account.chequeImage);
-          formData.append('id', account.id);
-          
-          console.log(isValid,"jjjjjjjjjj",account.id)
-          if (account.id) {
+
+          if (!account.id) {
             globalDebouncedClick(() => handleClickSubmit(formData))
           }
         }
@@ -141,7 +138,7 @@ const AccountInfo = ({ activeTab, accountType }) => {
   };
 
   const addAnotherAccount = () => {
-  setAccounts((prevAccounts) => [
+    setAccounts((prevAccounts) => [
       ...prevAccounts,
       {
         accountHolderName: '',
