@@ -77,7 +77,7 @@ const BusinessPlanPageNew = () => {
                                 <button className={`btn change-plan ${plan.current_plan ? "active" : ""}`} onClick={() => hanldeShow(plan.id, plan.current_plan)}>{plan.button_label}</button>
                                 <ul className='active my-3'>
                                     <li><span>₹{plan.rates || 0} Per/kg</span> Shipping Rates</li>
-                                    <li><span>{plan.period} {plan.period == 0 ? "" : <>{plan.period > 1 ? "Months" : "Month"}</>}</span> Minimum Signup Period</li>
+                                    <li><span>{plan.period} {plan.period == 0 ? "" : <>{plan.period > 1 ? "Day" : "Day"}</>}</span> Minimum Signup Period</li>
                                     <li><span>{plan.partners}{plan.partners > 1 && "+"}</span> Courier Partners</li>
                                     <li><span>{plan.warehouse_create}</span> Multiple Pickup Address</li>
                                     <li><span>{plan.sales_channel}</span> Sales Channel Integration</li>
