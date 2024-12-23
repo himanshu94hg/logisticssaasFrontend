@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { globalGetApiCallFunction } from "../../../../../customFunction/apicall";
 import { BASE_URL_ORDER } from "../../../../../axios/config";
+import { globalGetApiCallFunction } from "../../../../../customFunction/apicall";
 
 const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
     const orderEndPoint = BASE_URL_ORDER
-
-    const courierPartner = [
-        { counter_itme: 'Booked', one: 'X (Y%)' },
-        { counter_itme: 'NDR', one: 'X (Y%)' },
-        { counter_itme: 'RTO', one: 'X (Y%)' },
-        { counter_itme: 'Delivered', one: 'X (Y%)' },
-    ]
-
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState('0');
 
@@ -19,13 +11,12 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
         setSelectedOption(event.target.value);
     };
 
-
     useEffect(() => {
         let urlParams = `${orderEndPoint}/orders-api/dashboard/performance-sub-account/?sub_account_id=${selectedOption}`;
         const fetchData = async () => {
             try {
                 const response = await globalGetApiCallFunction(urlParams);
-                setData(response)
+                setData(response?.data)
             } catch (error) {
             }
         };
@@ -34,6 +25,13 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
         }
     }, [selectedOption]);
 
+
+    const data1 = [
+        { status: "Booked", week1: 1, week2: 8, week3: 1, week4: 8, week5: 1 },
+        { status: "NDR", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+        { status: "RTO", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+        { status: "Delivered", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+    ];
 
     return (
         <>
@@ -55,21 +53,23 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
                     <table className="custom-table w-100">
                         <thead>
                             <tr>
-                                <th scope="col">{selectedOption}</th>
-                                {data?.labels?.map((item)=>
-                                <th scope="col">{item}</th>
-                                )}
+                                <th scope="col">Status</th>
+                                <th scope="col">Week 1</th>
+                                <th scope="col">Week 2</th>
+                                <th scope="col">Week 3</th>
+                                <th scope="col">Week 4</th>
+                                <th scope="col">Week 5</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {courierPartner.map((item, index) => (
+                            {data1.map((item, index) => (
                                 <tr className="text-nowrap" key={index}>
-                                    <td>{item?.counter_itme}</td>
-                                    <td>{item?.one}</td>
-                                    <td>{item?.one}</td>
-                                    <td>{item?.one}</td>
-                                    <td>{item?.one}</td>
-                                    <td>{item?.one}</td>
+                                    <td>{item?.status}</td>
+                                    <td>{item?.week1}</td>
+                                    <td>{item?.week2}</td>
+                                    <td>{item?.week3}</td>
+                                    <td>{item?.week4}</td>
+                                    <td>{item?.week5}</td>
                                 </tr>
                             ))}
                         </tbody>

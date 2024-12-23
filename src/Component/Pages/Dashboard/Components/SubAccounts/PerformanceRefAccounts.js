@@ -3,10 +3,10 @@ import React, { useState } from "react";
 const PerformanceRefAccounts = () => {
 
     const courierPartner = [
-        { counter_itme: 'Booked', one: 'X (Y%)' },
-        { counter_itme: 'NDR', one: 'X (Y%)' },
-        { counter_itme: 'RTO', one: 'X (Y%)' },
-        { counter_itme: 'Delivered', one: 'X (Y%)' },
+        { counter_itme: 'Booked', one: '0' },
+        { counter_itme: 'NDR', one: '0' },
+        { counter_itme: 'RTO', one: '0' },
+        { counter_itme: 'Delivered', one: '0' },
     ]
 
     const [selectedOption, setSelectedOption] = useState('Child One');
