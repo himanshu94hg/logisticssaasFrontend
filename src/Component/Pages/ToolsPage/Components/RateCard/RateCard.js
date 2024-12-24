@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ShippingRates from './ShippingRates'
 import NavTabs from './NavTabs/NavTabs';
-import VASRates from './VASRates';
+import VASRates from './VASRates/VASRates';
 
 const RateCard = () => {
     const [activeTab, setActiveTab] = useState("Shipping Rates");
@@ -15,7 +15,9 @@ const RateCard = () => {
             }
             {
                 activeTab === "VAS Rates" &&
-                <VASRates />
+                <>
+                    <VASRates />
+                </>
             }
         </>
     )
