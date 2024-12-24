@@ -1,0 +1,97 @@
+.vas-rate-page {
+    background: #fff;
+    padding: 1rem;
+    height: calc(100vh - 167px);
+    overflow: auto;
+    border-radius: 0.5rem;
+}
+
+.vas-card-container {
+    min-width: 195px;
+    flex: 1 1;
+    min-height: 340px;
+    background: #c5dcf1;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* color: white; */
+    transition: 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    /* transform: scale(1.04) rotate(-1deg); */
+}
+
+.card-svg {
+    height: 30%;
+    position: absolute;
+    transition: 0.2s ease-in-out;
+    z-index: 1;
+}
+
+.card-text-box {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.2s ease-in-out;
+    z-index: 2;
+    opacity: 1;
+}
+
+.card-text-box>.card-title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.card-text-box>.card-price {
+    font-size: 16px;
+}
+
+.card-text-box>.card-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    visibility: hidden;
+}
+
+/* 
+.vas-card-container:hover>.card-text-box {
+    opacity: 1;
+} */
+
+.vas-card-container:hover>.card-svg {
+    height: 65%;
+    filter: blur(7px);
+    animation: card-floating 3s infinite;
+}
+
+.vas-cards-grid {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+@keyframes card-floating {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* 
+.vas-card-container:hover {
+    transform: scale(1.04) rotate(-1deg);
+} */

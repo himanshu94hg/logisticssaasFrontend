@@ -36,7 +36,6 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
                 VAS Rates
               </div>
             </Nav.Link>
