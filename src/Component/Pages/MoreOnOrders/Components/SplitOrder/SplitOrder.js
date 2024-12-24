@@ -12,6 +12,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import { useSelector } from 'react-redux';
 
 
 const SplitOrder = ({ orders, setSplitStatus }) => {
@@ -20,6 +21,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
     const [orderDetails, setOrderDetails] = useState(null);
     const handleClose = () => setShow(false);
     const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
 
     const handleSubmit = () => {
@@ -65,7 +67,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                    {row?.channel && <img src={channel_list[row?.channel]["image"]} alt="channel" width="20" />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
@@ -192,7 +194,11 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button' onClick={() => handleShow(row)}>Split Order</button>
+                                                <button className={`btn main-button ${planStatusData?.split_shipment ? "" : "feature-disabled"}`} onClick={() => {
+                                                    if (planStatusData?.split_shipment) {
+                                                        handleShow(row)
+                                                    }
+                                                }}>Split Order</button>
                                                 <div className='action-options'>
                                                 </div>
                                             </div>

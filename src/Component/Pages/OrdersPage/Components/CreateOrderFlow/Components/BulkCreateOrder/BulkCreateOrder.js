@@ -16,8 +16,9 @@ const BulkCreateOrder = () => {
     const authToken = Cookies.get("access_token");
     const [bulkOrders, setBulkOrders] = useState([]);
     const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
+    const { planStatusData } = useSelector(state => state?.authDataReducer)
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-    
+
     const handleFileUpload = async (event) => {
         setLoader(true)
         const formData = new FormData();
@@ -95,8 +96,19 @@ const BulkCreateOrder = () => {
                     <p>Download the sample file and replace its data with your order data. Make sure all mandatory fields are filled. Save the file and upload it back.</p>
                 </section>
                 <section className='inputs-container mx-auto mb-3 bulk-import-input'>
-                    <div className='mid-text-container'>
-                        <input key={inputKey} type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
+                    <div className='mid-text-container' style={{ opacity: planStatusData?.bulk_order_upload_processing ? 1 : 0.5, }}>
+                        <input
+                            key={inputKey}
+                            type="file"
+                            accept=".xlsx,.csv"
+                            onChange={() => {
+                                if (planStatusData?.bulk_order_upload_processing) {
+                                    handleFileUpload()
+                                }
+                            }}
+                            className={planStatusData?.bulk_order_upload_processing ? '' : 'feature-disabled'}
+
+                        />
                         <LuUploadCloud className='font30 mb-3' />
                         <p>Drag And Drop to upload the file here.</p>
                         <p className='bo-or-text'>OR</p>

@@ -949,3 +949,8 @@ img {
   border: 1px solid red;
   border-radius: 5px;
 }
+
+.feature-disabled{
+  pointer-events: none;
+  opacity: 0.5;
+}

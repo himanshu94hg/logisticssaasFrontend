@@ -13,7 +13,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
-    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
 
     const bulkDeleted = () => {
         dispatch({
@@ -112,7 +112,11 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
                         <ul className='ba-actions d-flex'>
                             {activeTab === "Merge Order" && <>
                                 <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
-                                <li onClick={() => handleMergeOrders()}><MergeIcon /><span>Merge</span></li>
+                                <li className={planStatusData?.merge_shipment ? '' : 'feature-disabled'} onClick={() => {
+                                    if (planStatusData?.merge_shipment) {
+                                        handleMergeOrders()
+                                    }
+                                }}><MergeIcon /><span>Merge</span></li>
                             </>}
                             {activeTab === "Reassign Order" &&
                                 <>

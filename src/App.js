@@ -84,6 +84,7 @@ import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPa
 import BusinessPlanPageNew from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNew";
 import { channelData } from "./Component/common/channellist";
 import BusinessPlanPageNewBackup from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNewBackup";
+import planAction from "./redux/action/plan";
 
 function App() {
   const location = useLocation()
@@ -157,6 +158,26 @@ function App() {
             return acc;
           }, {});
           localStorage.setItem('partnerList', JSON.stringify(temp_data));
+        } catch (error) {
+          customErrorFunction(error)
+        }
+      };
+      fetchData();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/entitlements/`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          if (response?.status === 200) {
+            dispatch(planAction(response?.data))
+          }
         } catch (error) {
           customErrorFunction(error)
         }
