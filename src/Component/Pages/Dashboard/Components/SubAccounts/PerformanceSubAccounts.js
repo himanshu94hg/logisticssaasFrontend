@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BASE_URL_ORDER } from "../../../../../axios/config";
 import { globalGetApiCallFunction } from "../../../../../customFunction/apicall";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
     const orderEndPoint = BASE_URL_ORDER
-    const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState('0');
+    const [data, setData] = useState([
+        { status: "Booked", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+        { status: "NDR", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+        { status: "RTO", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+        { status: "Delivered", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
+    ]);
 
     const handleSelectChange = (event) => {
         setSelectedOption(event.target.value);
@@ -16,8 +22,9 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
         const fetchData = async () => {
             try {
                 const response = await globalGetApiCallFunction(urlParams);
-                setData(response?.data)
+                setData(response)
             } catch (error) {
+                customErrorFunction(error)
             }
         };
         if (activeTab === "Sub Accounts") {
@@ -25,13 +32,6 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
         }
     }, [selectedOption]);
 
-
-    const data1 = [
-        { status: "Booked", week1: 1, week2: 8, week3: 1, week4: 8, week5: 1 },
-        { status: "NDR", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
-        { status: "RTO", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
-        { status: "Delivered", week1: 0, week2: 0, week3: 0, week4: 0, week5: 0 },
-    ];
 
     return (
         <>
@@ -62,7 +62,7 @@ const PerformanceSubAccounts = ({ labeldata, activeTab }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data1.map((item, index) => (
+                            {data?.map((item, index) => (
                                 <tr className="text-nowrap" key={index}>
                                     <td>{item?.status}</td>
                                     <td>{item?.week1}</td>
