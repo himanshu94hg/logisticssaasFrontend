@@ -67,7 +67,7 @@ const BusinessPlanPageNew = () => {
                     return (
                         <div key={planIndex} className='plan-item'>
                             <div className='plan-item-heading'>
-                                <h4>{plan.title}</h4>
+                                <h4>{plan.title} {plan?.is_most_popular && <span>Most Popular</span>}</h4>
                                 <div className='plan-price-container'>
                                     <p className='plan-price'>{plan.price}<span> per month</span></p>
                                     <p className='plan-tag-line'>{plan.description}</p>
