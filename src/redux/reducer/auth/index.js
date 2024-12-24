@@ -1,4 +1,4 @@
-import { CHECK_AUTH_DATA, LOGIN_DATA, PATHCLEAR_ACTION, PATHNAME_ACTION, SCREEN_WIDTH_DATA, SIGN_UP_DATA, ZONE_MAPPING_PATH_ACTION } from "../../constants/auth";
+import { CHECK_AUTH_DATA, LOGIN_DATA, PATHCLEAR_ACTION, PATHNAME_ACTION, SCREEN_WIDTH_DATA, SIGN_UP_DATA, SUBSCRIPTION_STATUS_DATA, ZONE_MAPPING_PATH_ACTION } from "../../constants/auth";
 
 const initialState = {
     checkAuth: null,
@@ -6,7 +6,8 @@ const initialState = {
     pathName: null,
     zonePathName: null,
     screenWidthData:null,
-    checkAuthIsValid:""
+    checkAuthIsValid:"",
+    planStatusData:null
 };
 
 export const authDataReducer = (state = initialState, action) => {
@@ -45,6 +46,11 @@ export const authDataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 checkAuthIsValid: action?.payload
+            };
+        case SUBSCRIPTION_STATUS_DATA:
+            return {
+                ...state,
+                planStatusData: action?.payload
             };
         default:
             return state

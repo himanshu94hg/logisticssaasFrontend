@@ -36,11 +36,15 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
     const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
+
+
+    console.log(planStatusData, "planStatusData")
 
     const addTag = () => {
         setaddTagShow(true)
@@ -352,7 +356,17 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             {activeTab === "All" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.order_verification) {
+                                                handelBulkModalShow("mark-verified");
+                                            }
+                                        }}
+                                        className={planStatusData?.order_verification ? '' : 'feature-disabled'}
+                                    >
+                                        <VerifiedIcon />
+                                        <span>Mark as verified</span>
+                                    </li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
@@ -362,26 +376,31 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
-                            {activeTab === "Unprocessable" && (
-                                <>
-                                    <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
-                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
-                                    <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
-                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
-                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
-                                </>
-                            )}
+
                             {activeTab === "Processing" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.order_verification) {
+                                                handelBulkModalShow("mark-verified");
+                                            }
+                                        }}
+                                        className={planStatusData?.order_verification ? '' : 'feature-disabled'}
+                                    >
+                                        <VerifiedIcon />
+                                        <span>Mark as verified</span>
+                                    </li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
-                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
+                                    <li onClick={() => {
+                                        if (planStatusData?.product_weight_freeze) {
+                                            bulkDimesionDetailUpdate();
+                                        }
+                                    }}
+                                        className={planStatusData?.product_weight_freeze ? '' : 'feature-disabled'}
+                                    ><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
                                     <li onClick={() => handelBulkModalShow("bulk-ship")}><ShippingIcon /><span>Ship</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}>

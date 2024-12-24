@@ -20,7 +20,7 @@ export default function NavTabs(props) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Domestic");
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+  const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
   const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
 
@@ -123,7 +123,7 @@ export default function NavTabs(props) {
                   </div>
                   <div
                     title="Disabled"
-                    className={`option`}
+                    className={`option ${planStatusData?.international_shipping ? "" : "feature-disabled"}`}
                   >
                     International <br />(Will be activated on Request)
                   </div>
@@ -139,7 +139,11 @@ export default function NavTabs(props) {
                 >
                   <AiOutlineImport className="align-text-bottom" /> Import
                 </button>
-                <button className="btn main-button-outline" onClick={handleSubmit}><IoMdSync /> Sync</button>
+                <button className={`btn main-button-outline ${planStatusData?.autosync_channel_orders ? '' : 'feature-disabled'}`} onClick={() => {
+                  if (planStatusData?.autosync_channel_orders) {
+                    handleSubmit()
+                  }
+                }}><IoMdSync /> Sync</button>
                 <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
               </div>
             }

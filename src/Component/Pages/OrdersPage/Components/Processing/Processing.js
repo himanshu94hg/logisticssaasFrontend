@@ -32,6 +32,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
 
     useEffect(() => {
@@ -187,8 +188,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 const { top, height } = row.getBoundingClientRect();
                 const rowTopRelativeToViewport = top;
                 const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
-                const viewportRowsCount = Math.floor(viewportHeight / height); 
-                let position = 'middle'; 
+                const viewportRowsCount = Math.floor(viewportHeight / height);
+                let position = 'middle';
                 if (rowTopRelativeToViewport < viewportHeight * 0.25) {
                     position = 'below';
                 } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
@@ -266,7 +267,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
-                                                    {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                        {row?.channel && <img src={channel_list[row?.channel]["image"]} alt="channel" width="20" />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -461,7 +462,10 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
                                                                     <li className="action-hr"></li>
                                                                     <li>Call Buyer</li>
-                                                                    <li onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}>Mark As Verified</li>
+                                                                    <li
+                                                                        onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}
+                                                                        className={planStatusData?.order_verification ? '' : 'feature-disabled'}
+                                                                    >Mark As Verified</li>
                                                                     <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
                                                                     <li className="action-hr"></li>
                                                                     <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>

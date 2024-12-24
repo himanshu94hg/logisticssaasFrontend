@@ -83,6 +83,7 @@ import WhatsAppBots from "./Component/Pages/SettingsPage/components/WhatsAppConf
 import TrackingScript from "./Component/Pages/SettingsPage/components/TrackingPage/TrackingScript/TrackingScript";
 import BusinessPlanPageNew from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNew";
 import { channelData } from "./Component/common/channellist";
+import planAction from "./redux/action/plan";
 
 function App() {
   const location = useLocation()
@@ -148,14 +149,34 @@ function App() {
             acc[item?.keyword] = {
               image: item?.image,
               title: item?.title,
-              ndr_rating:item?.ndr_rating,
-              rto_rating:item?.rto_rating,
-              pickup_rating:item?.pickup_rating,
-              delivery_rating:item?.delivery_rating,
+              ndr_rating: item?.ndr_rating,
+              rto_rating: item?.rto_rating,
+              pickup_rating: item?.pickup_rating,
+              delivery_rating: item?.delivery_rating,
             };
             return acc;
           }, {});
           localStorage.setItem('partnerList', JSON.stringify(temp_data));
+        } catch (error) {
+          customErrorFunction(error)
+        }
+      };
+      fetchData();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/entitlements/`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          if (response?.status === 200) {
+            dispatch(planAction(response?.data))
+          }
         } catch (error) {
           customErrorFunction(error)
         }
