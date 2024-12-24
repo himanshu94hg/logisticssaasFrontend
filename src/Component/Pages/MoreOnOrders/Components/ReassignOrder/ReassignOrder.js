@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaRegCopy } from "react-icons/fa";
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
@@ -14,6 +14,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 
 const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setLoader, setBulkActionShow, setAwbNo, setOrderTracking }) => {
@@ -191,7 +192,15 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                    {row?.channel && (
+                                                        <img
+                                                            src={channel_list[row?.channel]?.channel_name === row?.channel
+                                                                ? channel_list[row?.channel]?.image || customImg
+                                                                : customImg}
+                                                            alt="channel"
+                                                            width="20"
+                                                        />
+                                                    )}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
