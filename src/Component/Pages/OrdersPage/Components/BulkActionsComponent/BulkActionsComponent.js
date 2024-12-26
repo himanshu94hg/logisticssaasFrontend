@@ -420,7 +420,18 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             )}
                             {activeTab === "Pickup" && (
                                 <>
-                                    <li onClick={() => handelBulkModalShow("generate-manifest")}><ExportIcon /><span>Generate Manifest</span></li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.bulk_shipping_manifests) {
+                                                handelBulkModalShow("generate-manifest")
+                                            }
+                                        }}
+                                        className={planStatusData?.bulk_shipping_manifests ? '' : 'feature-disabled'}
+                                    >
+                                        <ExportIcon />
+                                        <span>Generate Manifest</span>
+                                    </li>
+
                                     <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
