@@ -38,6 +38,7 @@ const ShippingRates = () => {
 
         return filteredData?.map((item, index) => (
             <React.Fragment key={item?.partner + index}>
+                <tr className='blank-row' key={`empty-${item?.partner}-${index}`}><td></td></tr>
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3} className=''>
                         <img
@@ -72,7 +73,6 @@ const ShippingRates = () => {
                     <td>₹ {(isChecked ? (item?.rto_charge_d * 1.18).toFixed(2) : item?.rto_charge_d)}</td>
                     <td>₹ {(isChecked ? (item?.rto_charge_e * 1.18).toFixed(2) : item?.rto_charge_e)}</td>
                 </tr>
-                <tr className='blank-row' key={`empty-${item?.partner}-${index}`}><td></td></tr>
             </React.Fragment>
         ));
     };
@@ -81,7 +81,7 @@ const ShippingRates = () => {
         <>
             <section className='position-relative rate-card-page'>
                 <div className="position-relative">
-                    <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                    <div className="box-shadow shadow-sm p7 mb-3 filter-container align-items-center">
                         <div className="search-container d-flex gap-2">
                             <label>
                                 <Select
@@ -117,7 +117,7 @@ const ShippingRates = () => {
                                     <th style={{ width: '10%' }}>COD Charges </th>
                                     <th style={{ width: '10%' }}>COD <br /> Maintenance</th>
                                 </tr>
-                                <tr className="blank-row"><td></td></tr>
+                                {/* <tr className="blank-row"><td></td></tr> */}
                             </thead>
                             <tbody>
                                 {renderRows(ratingCardData)}
