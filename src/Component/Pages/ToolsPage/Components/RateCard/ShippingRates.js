@@ -81,7 +81,7 @@ const ShippingRates = () => {
         <>
             <section className='position-relative rate-card-page'>
                 <div className="position-relative">
-                    <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                    <div className="box-shadow shadow-sm p7 mb-3 filter-container align-items-center">
                         <div className="search-container d-flex gap-2">
                             <label>
                                 <Select
