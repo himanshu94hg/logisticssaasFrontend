@@ -13,6 +13,7 @@ import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
 import RatingStars from '../../../../common/RatingStars/RatingStars';
+import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
 
 
 const RateCalculatorPage = () => {
@@ -34,6 +35,7 @@ const RateCalculatorPage = () => {
   const [invoiceField, setInvoiceField] = useState(false);
   const partnerList = JSON.parse(localStorage.getItem('partnerList'));
   const { zonePathName } = useSelector(state => state?.authDataReducer)
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
   const { sellerData, reportSchedulerRes, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
 
   const [formData, setFormData] = useState({
@@ -329,9 +331,11 @@ const RateCalculatorPage = () => {
     }
   }
 
+
   return (
     <>
       <div className='rate-calc-page'>
+        {!planStatusData?.rate_calculator && <NonActiveService />}
         <div ref={sellerDataRef}>
           <section className='box-shadow shadow-sm p10 rate-des'>
             <h4>Rate Calculator</h4>
@@ -554,7 +558,11 @@ const RateCalculatorPage = () => {
               </div>
               <div className='d-flex w-100 justify-content-end mt-4'>
                 <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
-                <button onClick={() => globalDebouncedClick(() => handleSubmit())} type='button' className="ms-2 btn main-button">Calculate</button>
+                <button onClick={() => globalDebouncedClick(() => {
+                  if (planStatusData?.rate_calculator) {
+                    handleSubmit()
+                  }
+                })} type='button' className="ms-2 btn main-button">Calculate</button>
               </div>
             </form>
           </section>
