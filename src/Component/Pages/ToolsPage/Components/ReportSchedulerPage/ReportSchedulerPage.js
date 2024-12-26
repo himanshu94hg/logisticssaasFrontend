@@ -180,7 +180,7 @@ const ReportSchedulerPage = () => {
           }} className='btn main-button'>Schedule Reports</button>
         </div>
 
-        <div className='rs-page-container'>
+        <div className='rs-page-container mt-3'>
           <div className='table-container'>
             <table className="w-100">
               <thead className="sticky-header">

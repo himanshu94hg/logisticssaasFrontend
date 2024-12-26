@@ -18,6 +18,7 @@ import ShippingCharges from './Components/ShippingCharges/ShippingCharges';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import NonActiveService from '../Dashboard/Components/NonActiveService/NonActiveService';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -166,84 +167,89 @@ const BillingPage = () => {
         fetchData();
     }, []);
 
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
+
     return (
         <>
-            <NavTabs setReset={setReset} activeTab={activeTab} setActiveTab={setActiveTab} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
 
-            <div className='billing-page-container'>
-                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
-                    setAwbNo={setAwbNo}
-                    selectAll={selectAll}
-                    partnerList={partnerList}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setOrderTracking={setOrderTracking}
-                    setBulkActionShow={setBulkActionShow}
-                    selectedOrderRows={selectedOrderRows}
-                    setSelectedOrderRows={setSelectedOrderRows}
-                    billingShippingCounterCard={billingShippingCounterCard} />}
+            <div className='position-relative'>
+                {!planStatusData?.billing_management && <NonActiveService />}
+                <NavTabs setReset={setReset} activeTab={activeTab} setActiveTab={setActiveTab} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} counterData={counterData} />
+                <div className='billing-page-container mt-3'>
+                    {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
+                        setAwbNo={setAwbNo}
+                        selectAll={selectAll}
+                        partnerList={partnerList}
+                        setSelectAll={setSelectAll}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
+                        setBulkActionShow={setBulkActionShow}
+                        selectedOrderRows={selectedOrderRows}
+                        setSelectedOrderRows={setSelectedOrderRows}
+                        billingShippingCounterCard={billingShippingCounterCard} />}
 
-                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
-                    selectAll={selectAll}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} />}
+                    {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow} />}
 
-                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
-                    selectAll={selectAll}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow}
-                    billingRechargeCounterCard={billingRechargeCounterCard} />}
-
-                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
-                    selectAll={selectAll}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} />}
-
-                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
-                    setAwbNo={setAwbNo}
-                    selectAll={selectAll}
-                    partnerList={partnerList}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setOrderTracking={setOrderTracking}
-                    setBulkActionShow={setBulkActionShow}
-                    billingPassbookCounterCard={billingPassbookCounterCard} />}
-
-                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
-                    selectAll={selectAll}
-                    setSelectAll={setSelectAll}
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} />}
-
-                <Pagination
-                    setReset={setReset}
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    setCurrentPage={setCurrentPage}
-                />
-                {BulkActionShow && (
-                    <BulkActionsComponent
-                        activeTab={activeTab}
+                    {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
+                        selectAll={selectAll}
                         setSelectAll={setSelectAll}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        selectedOrderRows={selectedOrderRows}
-                        setSelectedOrderRows={setSelectedOrderRows}
+                        billingRechargeCounterCard={billingRechargeCounterCard} />}
 
+                    {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow} />}
+
+                    {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
+                        setAwbNo={setAwbNo}
+                        selectAll={selectAll}
+                        partnerList={partnerList}
+                        setSelectAll={setSelectAll}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
+                        setBulkActionShow={setBulkActionShow}
+                        billingPassbookCounterCard={billingPassbookCounterCard} />}
+
+                    {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow} />}
+
+                    <Pagination
+                        setReset={setReset}
+                        totalItems={totalItems}
+                        currentPage={currentPage}
+                        itemsPerPage={itemsPerPage}
+                        setItemsPerPage={setItemsPerPage}
+                        setCurrentPage={setCurrentPage}
                     />
-                )}
+                    {BulkActionShow && (
+                        <BulkActionsComponent
+                            activeTab={activeTab}
+                            setSelectAll={setSelectAll}
+                            selectedRows={selectedRows}
+                            setSelectedRows={setSelectedRows}
+                            setBulkActionShow={setBulkActionShow}
+                            selectedOrderRows={selectedOrderRows}
+                            setSelectedOrderRows={setSelectedOrderRows}
+
+                        />
+                    )}
+                </div>
             </div>
             <MoreFiltersPanel
                 reset={reset}
