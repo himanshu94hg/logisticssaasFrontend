@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import React, { useEffect, useState } from 'react'
 
 const TopStatusChart = () => {
-
     const [chartHeight, setChartHeight] = useState(380);
 
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
-            // Adjust the chart width based on screen size
             if (screenWidth >= 1694) {
-                setChartHeight(220); // for larger screens
+                setChartHeight(220);
             } else if (screenWidth >= 768) {
-                setChartHeight(265); // for medium screens
+                setChartHeight(265);
             } else {
-                setChartHeight(200); // default width for smaller screens
+                setChartHeight(200);
             }
         };
-
-        // Call the handleResize function on initial load
         handleResize();
-
-        // Add event listener to window resize event
         window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
-
+    }, []);
 
     const statusData = [
         { status: 'Pending', count: 120 },
@@ -40,7 +31,7 @@ const TopStatusChart = () => {
     const options = {
         chart: {
             type: 'bar',
-            height: 220 // Adjust the height here
+            height: 220
         },
         plotOptions: {
             bar: {
@@ -81,7 +72,7 @@ const TopStatusChart = () => {
                 }
             }
         },
-        colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
+        colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] 
     };
 
     const seriesData = [{

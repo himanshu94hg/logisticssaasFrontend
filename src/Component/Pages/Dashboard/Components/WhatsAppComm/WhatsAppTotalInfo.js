@@ -7,12 +7,10 @@ import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRe
 import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";
 import NdrDeliveredIcon from "../../../../common/Icons/InfoCardsIcons/NdrDeliveredIcon";
 
-function WhatsAppTotalInfo() {
+function WhatsAppTotalInfo({ totalMessage }) {
   const [totalNdr, setTotalNdr] = useState(null);
   const [actionRequested, setActionRequested] = useState(null);
-  const [actionReq, setActionreq] = useState(null);
   const [ndrdeleverd, setndrDeleverd] = useState(null);
-
   return (
     <>
       <div className="grid gap-3">
@@ -27,7 +25,7 @@ function WhatsAppTotalInfo() {
                       <NdrIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Orders</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count || 0}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -52,7 +50,7 @@ function WhatsAppTotalInfo() {
                       <ActionRequiredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Message Sent</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{totalMessage?.total_message}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
