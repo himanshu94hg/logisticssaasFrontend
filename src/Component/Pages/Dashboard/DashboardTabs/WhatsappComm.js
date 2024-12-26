@@ -1,35 +1,67 @@
-import React from 'react'
+import axios from 'axios'
+import Cookies from "js-cookie"
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import SuccessByZone from '../Components/NDR/SuccessByZone'
-import NDRStatus from '../Components/NDR/NDRStatus'
-import NDRReasonSplit from '../Components/NDR/NDRReasonSplit'
-import SuccessbyCourier from '../Components/NDR/SuccessbyCourier'
-import NDRtoDeliveryAttempt from '../Components/NDR/NDRtoDeliveryAttempt'
-import SellerBuyerResponse from '../Components/NDR/SellerBuyerResponse'
-import NDRResponse from '../Components/NDR/NDRResponse'
-import NDRFunnel from '../Components/NDR/NDRFunnel'
-import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
-import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
-import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
-import WhatsAppCreateOrder from '../Components/WhatsAppComm/WhatsAppCreateOrder'
-import OrdersConfirmed from '../Components/WhatsAppComm/OrdersConfirmed'
 import WhatsAppNDR from '../Components/WhatsAppComm/WhatsAppNDR'
-import CodToPrepaidConversion from '../Components/WhatsAppComm/CodToPrepaidConversion'
+import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
+import OrdersConfirmed from '../Components/WhatsAppComm/OrdersConfirmed'
 import AbundantChecking from '../Components/WhatsAppComm/AbundantChecking'
-import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
+import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
+import WhatsAppCreateOrder from '../Components/WhatsAppComm/WhatsAppCreateOrder'
+import CodToPrepaidConversion from '../Components/WhatsAppComm/CodToPrepaidConversion'
+import { BASE_URL_CORE } from '../../../../axios/config'
 
-const WhatsappComm = () => {
+const WhatsappComm = ({ activeTab }) => {
+  const token = Cookies.get('access_token');
+  const [totalMessage, setTotalMessage] = useState(null)
+
+  useEffect(() => {
+    if (activeTab === "Whatsapp Comm") {
+      const fetchAllData = async () => {
+        try {
+          const urls = [
+            `${BASE_URL_CORE}/core-api/seller/whatsapp-total-count/`,
+            `${BASE_URL_CORE}/core-api/seller/ndr-bot-count/`,
+            `${BASE_URL_CORE}/core-api/seller/create-order-bot-count/`,
+            `${BASE_URL_CORE}/core-api/seller/whatsapp-message-count/`,
+          ];
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          const results = await Promise.allSettled(
+            urls.map((url) =>
+              axios.get(url, { headers })
+            )
+          );
+          results.forEach((result, index) => {
+            if (result.status === "fulfilled") {
+              if (index == 0) {
+                setTotalMessage(result?.value?.data)
+              }
+            }
+          });
+        } catch (error) {
+
+        }
+      };
+
+      fetchAllData();
+    }
+  }, [activeTab]);
+
   return (
     <>
       <div className='position-relative'>
-        <NonActiveService />
+        {/* <NonActiveService /> */}
         <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <MostViewedStatus />
             <WhatsAppCreateOrder />
           </Col>
           <Col className="col-6 cardsSpace">
-            <WhatsAppTotalInfo />
+            <WhatsAppTotalInfo totalMessage={totalMessage} />
             <WhatsAppNDR />
           </Col>
           <Col className="col-3 cardsSpace">
