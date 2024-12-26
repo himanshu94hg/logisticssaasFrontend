@@ -20,6 +20,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -187,8 +188,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 const { top, height } = row.getBoundingClientRect();
                 const rowTopRelativeToViewport = top;
                 const rowBottomRelativeToViewport = rowTopRelativeToViewport + height;
-                const viewportRowsCount = Math.floor(viewportHeight / height); 
-                let position = 'middle'; 
+                const viewportRowsCount = Math.floor(viewportHeight / height);
+                let position = 'middle';
                 if (rowTopRelativeToViewport < viewportHeight * 0.25) {
                     position = 'below';
                 } else if (rowBottomRelativeToViewport > viewportHeight * 0.75) {
@@ -266,7 +267,15 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
-                                                    {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                        {row?.channel && (
+                                                            <img
+                                                                src={channel_list[row?.channel]?.channel_name === row?.channel
+                                                                    ? channel_list[row?.channel]?.image || customImg
+                                                                    : customImg}
+                                                                alt="channel"
+                                                                width="20"
+                                                            />
+                                                        )}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&

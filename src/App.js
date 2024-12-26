@@ -110,6 +110,7 @@ function App() {
     const temp_data = channelData.reduce((acc, item) => {
       acc[item?.channel_name] = {
         image: item?.image,
+        channel_name:item.channel_name
       };
       return acc;
     }, {});

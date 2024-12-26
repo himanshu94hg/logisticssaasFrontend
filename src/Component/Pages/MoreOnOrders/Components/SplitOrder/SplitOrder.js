@@ -12,6 +12,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 
 const SplitOrder = ({ orders, setSplitStatus }) => {
@@ -35,7 +36,7 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
     };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative'> 
             <div className="position-relative">
                 <div className='table-container'>
                     <table className="w-100">
@@ -65,7 +66,15 @@ const SplitOrder = ({ orders, setSplitStatus }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.channel&& <img src={channel_list[row?.channel]["image"]} alt="channel"  width="20" />}
+                                                    {row?.channel && (
+                                                        <img
+                                                            src={channel_list[row?.channel]?.channel_name === row?.channel
+                                                                ? channel_list[row?.channel]?.image || customImg
+                                                                : customImg}
+                                                            alt="channel"
+                                                            width="20"
+                                                        />
+                                                    )}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
