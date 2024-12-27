@@ -53,7 +53,7 @@ function Dashboard() {
 
 
   return (
-    <>s
+    <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       {/* overview */}
       <div className={`${activeTab === "Overview" ? "d-block" : "d-none"}`}>
