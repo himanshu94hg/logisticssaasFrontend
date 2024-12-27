@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react'
 import '../IntegrationsPage.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { FaRegCopy } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react'
 import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 import CustomTooltip from '../../../common/CustomTooltip/CustomTooltip';
-import { FaRegCopy } from 'react-icons/fa';
+import NonActiveService from '../../Dashboard/Components/NonActiveService/NonActiveService';
 
 const APIIntegration = () => {
     const dispatch = useDispatch()
     const [loader, setLoader] = useState(false)
+    const { apiKey } = useSelector(state => state?.integrationReducer)
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
     useEffect(() => {
         setLoader(true)
@@ -16,22 +19,12 @@ const APIIntegration = () => {
             setLoader(false)
         }, 230);
     }, [])
-    const data = [
-        { title: 'Shopify', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
-        { title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
-        { title: 'Magento', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
-        { title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
-        { title: 'Amazon', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
-        { title: 'Amazon Direct', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
-        { title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
-        { title: 'Manual', imageUrl: 'https://www.shipease.in/public/assets/images/channel/manual.jpg' }
-        // Add more data as needed
-    ];
 
-    const { apiKey } = useSelector(state => state?.integrationReducer)
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch({ type: "GENERATE_API_KEY_ACTION" })
+        if (planStatusData?.api_access) {
+            dispatch({ type: "GENERATE_API_KEY_ACTION" })
+        }
     }
 
     useEffect(() => {
@@ -53,7 +46,8 @@ const APIIntegration = () => {
 
     return (
         <>
-            <div className="box-shadow shadow-sm p10">
+            <div className="box-shadow shadow-sm p10 position-relative">
+                {!planStatusData?.api_access && <NonActiveService />}
                 <h4 className="h4 mb-4">Shipease API</h4>
                 <div className="row mt-3">
                     <div className="col-sm-12">
