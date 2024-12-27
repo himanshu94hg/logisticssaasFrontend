@@ -337,9 +337,9 @@ const ManageWarehouse = () => {
           {
             screenWidthData > 991 &&
             <div className='button-container'>
-              <button className={`btn main-button-outline me-2 ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} onClick={() => { if (planStatusData?.enable_pickup_address) { handleShow() } }} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
+              <button className={`btn main-button-outline me-2 ${planStatusData?.enable_pickup_address ? "" : "feature-disabled"}`} onClick={() => { if (planStatusData?.enable_pickup_address) { handleShow() } }} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
               <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25} /> Export</button>
-              <button className={`btn main-button ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} onClick={() => { if (planStatusData?.enable_pickup_address) { navigate('/add-pickup-address') } }}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
+              <button className={`btn main-button ${planStatusData?.enable_pickup_address ? "" : "feature-disabled"}`} onClick={() => { if (planStatusData?.enable_pickup_address) { navigate('/add-pickup-address') } }}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
             </div>
           }
 
@@ -350,9 +350,9 @@ const ManageWarehouse = () => {
               </div>
               <div className="nav-actions-list">
                 <ul>
-                  <li onClick={() => { if (planStatusData?.enable_pickup_address) { handleShow() } }}><AiOutlineCloudUpload className={`align-text-bottom ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} /> Import</li>
+                  <li onClick={() => { if (planStatusData?.enable_pickup_address) { handleShow() } }}><AiOutlineCloudUpload className={`align-text-bottom ${planStatusData?.enable_pickup_address ? "" : "feature-disabled"}`} /> Import</li>
                   <li onClick={handleExport}><AiOutlineCloudDownload className='align-text-bottom' /> Export</li>
-                  <li onClick={() => { if (planStatusData?.enable_pickup_address) { navigate('/add-pickup-address') } }} className={`${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} ><FontAwesomeIcon icon={faPlus} /> Add Warehouse</li>
+                  <li onClick={() => { if (planStatusData?.enable_pickup_address) { navigate('/add-pickup-address') } }} className={`${planStatusData?.enable_pickup_address ? "" : "feature-disabled"}`} ><FontAwesomeIcon icon={faPlus} /> Add Warehouse</li>
                 </ul>
               </div>
             </div>
