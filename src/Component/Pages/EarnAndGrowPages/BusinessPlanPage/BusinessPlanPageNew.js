@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 import Modal from 'react-bootstrap/Modal';
+import { toast } from 'react-toastify';
 
 
 
@@ -19,6 +20,7 @@ const BusinessPlanPageNew = () => {
     const [plans, setPlans] = useState([]);
     const handleClose = () => setShow(false);
     const [show, setShow] = useState(false);
+    const [planId, setPlanId] = useState(null);
 
     useEffect(() => {
         const fetchPlans = async () => {
@@ -46,16 +48,34 @@ const BusinessPlanPageNew = () => {
 
 
     const hanldeShow = (id, planType) => {
-
-        console.log(id, 'llllllllllll')
+        setPlanId(id)
         if (!planType) {
             setShow(true)
         }
     }
 
-    const handleSubmit = () => {
-        setShow(false)
-    }
+    const handleSubmit = async () => {
+        setShow(false);
+        if (planId !== null) {
+            try {
+                const payload = { plan_id: planId };
+                const response = await axios.post(
+                    `${BASE_URL_CORE}/core-api/seller/purchase-plan/`,
+                    payload, 
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+    
+                if (response.status === 200) {
+                    toast.success("Plan purchased successfully!");
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+        }
+    };
+  
 
 
     return (
