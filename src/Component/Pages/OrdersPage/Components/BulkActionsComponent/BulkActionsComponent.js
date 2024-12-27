@@ -411,8 +411,30 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             {activeTab === "Ready to Ship" && (
                                 <>
                                     <li onClick={() => handelBulkModalShow("generate-pickup")}><ShippingIcon /><span>Generate Pickup</span></li>
-                                    <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
-                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.label_invoices_creation) {
+                                                generateLabel()
+                                            }
+                                        }}
+                                        className={planStatusData?.label_invoices_creation ? '' : 'feature-disabled'}
+                                    >
+                                        <LabelIcon />
+                                        <span>Label</span>
+                                    </li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.label_invoices_creation) {
+                                                generateInvoice()
+                                            }
+                                        }}
+                                        className={planStatusData?.label_invoices_creation ? '' : 'feature-disabled'}
+                                    >
+                                        <InvoiceIcon />
+                                        <span>Invoice</span>
+                                    </li>
+                                    {/* <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
+                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li> */}
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
@@ -433,8 +455,28 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                     </li>
 
                                     <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
-                                    <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
-                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.label_invoices_creation) {
+                                                generateLabel()
+                                            }
+                                        }}
+                                        className={planStatusData?.label_invoices_creation ? '' : 'feature-disabled'}
+                                    >
+                                        <LabelIcon />
+                                        <span>Label</span>
+                                    </li>
+                                    <li
+                                        onClick={() => {
+                                            if (planStatusData?.label_invoices_creation) {
+                                                generateInvoice()
+                                            }
+                                        }}
+                                        className={planStatusData?.label_invoices_creation ? '' : 'feature-disabled'}
+                                    >
+                                        <InvoiceIcon />
+                                        <span>Invoice</span>
+                                    </li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
