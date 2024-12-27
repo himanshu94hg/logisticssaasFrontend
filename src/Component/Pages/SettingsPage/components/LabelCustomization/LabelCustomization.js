@@ -9,6 +9,8 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import React, { useState, useCallback, useEffect } from 'react';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { toast } from 'react-toastify';
+import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
+import { useSelector } from 'react-redux';
 
 
 const LabelCustomization = () => {
@@ -47,7 +49,7 @@ const LabelCustomization = () => {
         product_price_visibility: false
     });
 
-    const [acc, setAcc] = useState(false)
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
 
     const handleToggleChange = useCallback((key) => {
@@ -201,7 +203,8 @@ const LabelCustomization = () => {
     }, [customizationData])
 
     return (
-        <section className='label-customize-page'>
+        <section className='label-customize-page position-relative'>
+            {!planStatusData?.label_customization && <NonActiveService />}
             <Row>
                 <Col className="col-3">
                     <div className='lc-section-column'>
@@ -374,7 +377,11 @@ const LabelCustomization = () => {
                         <LabelData items={items} setItems={setItems} />
                         <div className='d-flex justify-content-between align-items-center w-100'>
                             <p className='text-sh-red font12'>**Order ID must be 20 characters or less</p>
-                            <button className='btn main-button' onClick={handleSubmit}>Save Customization</button>
+                            <button className='btn main-button' onClick={() => {
+                                if (planStatusData?.label_customization) {
+                                    handleSubmit()
+                                }
+                            }}>Save Customization</button>
                         </div>
                     </div>
                 </Col>

@@ -12,14 +12,18 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import axios from 'axios';
 import { faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
+import { useSelector } from 'react-redux';
 
 const ManageSubAccount = () => {
   const [ds, setDs] = useState(null)
   let authToken = Cookies.get("access_token")
+  const [refresh, setRefresh] = useState(null);
   const [copiedText, setCopiedText] = useState('');
   const [AddAccount, setAddAccount] = useState(false);
   const [subAccounts, setSubAccounts] = useState([]);
-  const [refresh, setRefresh] = useState(null);
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
+
 
   const handleAddAccount = () => {
     setAddAccount(!AddAccount);
@@ -134,10 +138,16 @@ const ManageSubAccount = () => {
   }
 
   return (
-    <section className='manage-sub-accounts'>
+    <section className='manage-sub-accounts position-relative'>
+      {!planStatusData?.multiple_user_login_role_management && <NonActiveService />}
       <div className='d-flex justify-content-between align-items-center'>
         <h4 className='mt-3 mb-2'>Manage Sub Accounts</h4>
-        <Button onClick={handleAddAccount} className='btn main-button'>Add Sub Account</Button>
+        <Button onClick={() => {
+          if (planStatusData?.multiple_user_login_role_management) {
+            handleAddAccount()
+          }
+        }
+        } className='btn main-button'>Add Sub Account</Button>
       </div>
 
       <div className='table-container'>
@@ -305,7 +315,7 @@ const ManageSubAccount = () => {
           </div>
         </Modal.Footer>
       </Modal>
-    </section>
+    </section >
   );
 }
 

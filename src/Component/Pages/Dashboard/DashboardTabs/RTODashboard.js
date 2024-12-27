@@ -10,9 +10,12 @@ import TopRTOCity from '../Components/RTO/TopRTOCity'
 import TopRTOCourier from '../Components/RTO/TopRTOCourier'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 import { useSelector } from 'react-redux'
+import NonActiveService from '../Components/NonActiveService/NonActiveService'
 
 const RTODashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
+  const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
+  
   useEffect(() => {
     const token = Cookies.get('token');
     if (activeTab === "RTO") {
@@ -24,14 +27,14 @@ const RTODashboard = ({ activeTab }) => {
     }
   }, [activeTab, dispatch])
 
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   return (
     <>
-      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'} position-relative`}>
+        {!planStatusData?.analytics_dashboard && <NonActiveService />}
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           {/* <RTOOrderDetails /> */}
-          <TopRTOPincodes screenWidthData={screenWidthData}/>
+          <TopRTOPincodes screenWidthData={screenWidthData} />
         </Col>
         <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <RTOStatus />

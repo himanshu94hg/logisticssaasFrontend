@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import { Skeleton } from 'antd';  // Importing Skeleton
 import RatingStars from '../../../common/RatingStars/RatingStars';
+import NonActiveService from '../Components/NonActiveService/NonActiveService';
 
 const CourierDashboard = ({ activeTab }) => {
   const dispatch = useDispatch();
   const [openIndex, setOpenIndex] = useState(0);
   const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+  const { planStatusData } = useSelector(state => state?.authDataReducer)
   const { courierData } = useSelector(state => state?.dashboardCourierReducer);
 
   useEffect(() => {
@@ -28,7 +30,8 @@ const CourierDashboard = ({ activeTab }) => {
 
   return (
     <>
-      <section className='courier-dashboard'>
+      <section className='courier-dashboard position-relative'>
+      {!planStatusData?.analytics_dashboard && <NonActiveService />}
         <div className="accordion">
           {courierData ? (
             courierData.map((item, index) => (

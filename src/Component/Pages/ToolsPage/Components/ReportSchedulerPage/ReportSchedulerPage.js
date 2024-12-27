@@ -8,6 +8,7 @@ import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/dist/style.css';
 import Select from 'react-select';
 import Pagination from '../../../../common/Pagination/Pagination';
+import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
 
 const ReportSchedulerPage = () => {
   const dispatch = useDispatch()
@@ -15,9 +16,13 @@ const ReportSchedulerPage = () => {
   const [emails, setEmails] = useState([]);
   const [reports, setReports] = useState([]);
   const [focused, setFocused] = useState(false);
+  const [totalItems, setTotalItems] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [dataForLast, setdataForLast] = useState(null);
-  const [NewScheduler, setNewScheduler] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null);
+  const [NewScheduler, setNewScheduler] = useState(false)
+  const [reportSchedular, setReportSchedular] = useState([]);
   const [reportData, setReportData] = useState({
     report_title: "",
     recipients: "",
@@ -26,12 +31,8 @@ const ReportSchedulerPage = () => {
     order_status: "Forward",
     order_sub_status: "Forward"
   });
-  const { reportSchedularData, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
-  const [totalItems, setTotalItems] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(20);
-  const [reportSchedular, setReportSchedular] = useState([]);
-
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
+  const { reportSchedularData, } = useSelector(state => state?.toolsSectionReducer)
 
   const reportType = [
     { value: 'Order', label: 'Order' },
@@ -168,90 +169,97 @@ const ReportSchedulerPage = () => {
 
   return (
     <>
-      <div className='d-flex justify-content-between align-items-center'>
-        <h4>Scheduled Reports</h4>
-        <button onClick={() => setNewScheduler(!NewScheduler)} className='btn main-button'>Schedule Reports</button>
-      </div>
-
-      <div className='rs-page-container'>
-        <div className='table-container'>
-          <table className="w-100">
-            <thead className="sticky-header">
-              <tr className="table-row box-shadow">
-                <th>Report Title</th>
-                <th>Report Type</th>
-                <th>Status</th>
-                <th>Recipients</th>
-                <th>Report Recurrence</th>
-                <th>Order Type</th>
-                <th>Order status</th>
-                <th>Order Sub Status</th>
-                <th>Actions</th>
-              </tr>
-              <tr className="blank-row"><td></td></tr>
-            </thead>
-            <tbody>
-              {reportSchedular?.map(report => (
-                <React.Fragment key={report.id}>
-                  <tr className='table-row box-shadow'>
-                    <td>{report.report_title}</td>
-                    <td>{report.report_type}</td>
-                    <td>
-                      {/* Toggle switch for status */}
-                      <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          checked={report.enabled}
-                          onChange={() => {
-                            // Handle toggle status
-                            const updatedReports = reportSchedular?.map(rep => {
-                              if (rep.id === report.id) {
-                                return { ...rep, status: !rep.status };
-                              }
-                              return rep;
-                            });
-                            setReportSchedular(updatedReports);
-                          }}
-                        />
-                      </div>
-                    </td>
-                    <td>{report.recipients}</td>
-                    <td>{report.recurrence}</td>
-                    <td>{report.order_type}</td>
-                    <td>{report.order_status}</td>
-                    <td>{report.order_sub_status}</td>
-                    <td className='align-middle'>
-                      <div className='d-flex align-items-center gap-3'>
-                        <button className='btn edit-btn'>
-                          <FontAwesomeIcon icon={faPenToSquare} />
-                        </button>
-                        <button
-                          className='btn delete-btn'
-                          onClick={() => handleDelete(report.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="blank-row"><td></td></tr>
-                </React.Fragment>
-              ))}
-            </tbody>
-
-          </table>
+      <div className='position-relative'>
+        {!planStatusData?.report_schedular && <NonActiveService />}
+        <div className='d-flex justify-content-between align-items-center'>
+          <h4>Scheduled Reports</h4>
+          <button onClick={() => {
+            if (planStatusData?.report_schedular) {
+              setNewScheduler(!NewScheduler)
+            }
+          }} className='btn main-button'>Schedule Reports</button>
         </div>
-        <Pagination
-          setReset={setReset}
-          totalItems={totalItems}
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </div>
 
+        <div className='rs-page-container mt-3'>
+          <div className='table-container'>
+            <table className="w-100">
+              <thead className="sticky-header">
+                <tr className="table-row box-shadow">
+                  <th>Report Title</th>
+                  <th>Report Type</th>
+                  <th>Status</th>
+                  <th>Recipients</th>
+                  <th>Report Recurrence</th>
+                  <th>Order Type</th>
+                  <th>Order status</th>
+                  <th>Order Sub Status</th>
+                  <th>Actions</th>
+                </tr>
+                <tr className="blank-row"><td></td></tr>
+              </thead>
+              <tbody>
+                {reportSchedular?.map(report => (
+                  <React.Fragment key={report.id}>
+                    <tr className='table-row box-shadow'>
+                      <td>{report.report_title}</td>
+                      <td>{report.report_type}</td>
+                      <td>
+                        {/* Toggle switch for status */}
+                        <div className="form-check form-switch">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={report.enabled}
+                            onChange={() => {
+                              // Handle toggle status
+                              const updatedReports = reportSchedular?.map(rep => {
+                                if (rep.id === report.id) {
+                                  return { ...rep, status: !rep.status };
+                                }
+                                return rep;
+                              });
+                              setReportSchedular(updatedReports);
+                            }}
+                          />
+                        </div>
+                      </td>
+                      <td>{report.recipients}</td>
+                      <td>{report.recurrence}</td>
+                      <td>{report.order_type}</td>
+                      <td>{report.order_status}</td>
+                      <td>{report.order_sub_status}</td>
+                      <td className='align-middle'>
+                        <div className='d-flex align-items-center gap-3'>
+                          <button className='btn edit-btn'>
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                          </button>
+                          <button
+                            className='btn delete-btn'
+                            onClick={() => handleDelete(report.id)}
+                          >
+                            <FontAwesomeIcon icon={faTrashCan} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr className="blank-row"><td></td></tr>
+                  </React.Fragment>
+                ))}
+              </tbody>
+
+            </table>
+          </div>
+          <Pagination
+            setReset={setReset}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+
+      </div>
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />

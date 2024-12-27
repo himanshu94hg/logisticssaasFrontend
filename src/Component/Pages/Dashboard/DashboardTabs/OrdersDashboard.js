@@ -14,12 +14,13 @@ import WarehouseInformation from '../Components/Orders/WarehouseInformation'
 import DomesticInternational from '../Components/Orders/DomesticInternational'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 import { useSelector } from 'react-redux'
+import NonActiveService from '../Components/NonActiveService/NonActiveService'
 
 
 const OrdersDashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
 
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+  const { screenWidthData,planStatusData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     if (activeTab === "Orders") {
@@ -40,7 +41,8 @@ const OrdersDashboard = ({ activeTab }) => {
 
   return (
     <>
-      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'} position-relative`}>
+      {!planStatusData?.analytics_dashboard && <NonActiveService />}
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <ChannelByOrder />
           <OrderDetails />

@@ -11,6 +11,8 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { getFileData, uploadImageData } from '../../../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 import ProductCustomization from './ProductCustomization';
+import { useSelector } from 'react-redux';
+import NonActiveService from '../../../../Dashboard/Components/NonActiveService/NonActiveService';
 
 const PageSettings = () => {
     const [errors, setErrors] = useState({})
@@ -58,7 +60,7 @@ const PageSettings = () => {
         const { name } = e.target;
         const file = e.target.files[0];
         const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-        if (name === "logo_file" || name === "banner_desktop" || name === "banner_mobile"|| name==="image_url") {
+        if (name === "logo_file" || name === "banner_desktop" || name === "banner_mobile" || name === "image_url") {
             try {
                 const responseData = await getFileData(`brandedTracking/${e.target.files[0].name.replace(/\s/g, "")}`);
                 const awsUrl = responseData.data.url.url
@@ -210,8 +212,11 @@ const PageSettings = () => {
         }
     }, [settings.show_logo, settings.show_banner, settings.show_menu, settings.show_footer])
 
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
+
     return (
-        <div className="page-settings-container box-shadow shadow-sm p10">
+        <div className="page-settings-container box-shadow shadow-sm p10 position-relative">
+            {!planStatusData?.custom_branding_page_with_nps && <NonActiveService />}
             <h4 className='mb-2'>Customize Your Tracking Page</h4>
             <div className='page-settings-main'>
                 <div className='tracking-form-container'>
@@ -378,7 +383,11 @@ const PageSettings = () => {
 
                     {/* Save Button */}
                     <div className="save-button-container">
-                        <button className='btn main-button' onClick={handleSave}>Save Settings</button>
+                        <button className='btn main-button' onClick={() => {
+                            if (planStatusData?.custom_branding_page_with_nps) {
+                                handleSave()
+                            }
+                        }}>Save Settings</button>
                     </div>
                 </div>
 
