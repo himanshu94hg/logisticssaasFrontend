@@ -11,10 +11,13 @@ import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
 import WhatsAppCreateOrder from '../Components/WhatsAppComm/WhatsAppCreateOrder'
 import CodToPrepaidConversion from '../Components/WhatsAppComm/CodToPrepaidConversion'
 import { BASE_URL_CORE } from '../../../../axios/config'
+import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { useSelector } from 'react-redux'
 
 const WhatsappComm = ({ activeTab }) => {
   const token = Cookies.get('access_token');
   const [totalMessage, setTotalMessage] = useState(null)
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
 
   useEffect(() => {
     if (activeTab === "Whatsapp Comm") {
@@ -51,10 +54,11 @@ const WhatsappComm = ({ activeTab }) => {
     }
   }, [activeTab]);
 
+
   return (
     <>
       <div className='position-relative'>
-        {/* <NonActiveService /> */}
+        {!planStatusData?.whatsapp_notification && <NonActiveService />}
         <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <MostViewedStatus />

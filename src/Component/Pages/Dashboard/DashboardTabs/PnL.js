@@ -8,12 +8,15 @@ import BestSalesProducts from '../Components/PnL/BestSalesProducts'
 import TopVendorsStats from '../Components/PnL/TopVendorsStats'
 import RtoCountStats from '../Components/PnL/RtoCountStats'
 import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { useSelector } from 'react-redux'
 
 const PnL = () => {
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
+
   return (
     <>
       <div className='position-relative'>
-        <NonActiveService />
+      {!planStatusData?.business_health_dashoard && <NonActiveService />}
         <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <TotalProfitAndLoss />

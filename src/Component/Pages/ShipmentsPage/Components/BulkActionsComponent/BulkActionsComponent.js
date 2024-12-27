@@ -9,11 +9,11 @@ import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Compone
 import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
 // import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, queryParamTemp, setSelectAll, setBulkActionShow,searchType,searchValue }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, queryParamTemp, setSelectAll, setBulkActionShow, searchType, searchValue }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const { exportCard,  exportShipmentCard, exportShipmentAllCard } = useSelector(state => state?.exportSectionReducer)
+    const { exportCard, exportShipmentCard, exportShipmentAllCard } = useSelector(state => state?.exportSectionReducer)
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -127,6 +127,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
         }
     }, [exportShipmentAllCard]);
 
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
+
     return (
         <>
             {selectedRows.length > 0 && (
@@ -137,7 +139,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
-                            <li><IvrIcon /><span>IVR</span></li>
+                            <li className={planStatusData?.ndr_rto_management ? '' : 'feature-disabled'}><IvrIcon /><span>IVR</span></li>
                             {(activeTab !== "Delivered" || activeTab !== "RTO") && (
                                 <>
                                     {activeTab === "Action Required" && (

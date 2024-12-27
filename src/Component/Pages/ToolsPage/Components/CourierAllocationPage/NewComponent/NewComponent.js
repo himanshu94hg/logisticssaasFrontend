@@ -13,6 +13,8 @@ import { customErrorFunction } from '../../../../../../customFunction/errorHandl
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import '../CourierAllocationPage.css';
 import LoaderScreen from '../../../../../LoaderScreen/LoaderScreen';
+import { useSelector } from 'react-redux';
+import NonActiveService from '../../../../Dashboard/Components/NonActiveService/NonActiveService';
 
 const DROPPABLE_IDS = {
     POOL: '0',
@@ -166,116 +168,124 @@ const NewComponent = () => {
 
         setAllocatedData(uniqueCombined);
     }, [sequenceOne, sequenceTwo]);
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            <section className={`courier-preference box-shadow shadow-sm p10 ${activeTab === TABS.COURIER_PREFERENCES ? 'd-block' : 'd-none'}`}>
-                <div className='courier-preference-list'>
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId={DROPPABLE_IDS.POOL}>
-                            {(provided) => (
-                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
-                                        <h2 className='mb-0'>Pool</h2>
+            <div className='position-relative'>
+                {(!planStatusData?.courier_selection && activeTab === TABS.COURIER_PREFERENCES) && <NonActiveService />}
+                <section className={`courier-preference box-shadow shadow-sm p10  ${activeTab === TABS.COURIER_PREFERENCES ? 'd-block' : 'd-none'}`}>
+                    <div className='courier-preference-list'>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId={DROPPABLE_IDS.POOL}>
+                                {(provided) => (
+                                    <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
+                                        <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
+                                            <h2 className='mb-0'>Pool</h2>
+                                        </div>
+                                        <div className='couriers-list'>
+                                            {pool.map((courier, index) => (
+                                                <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className="courier"
+                                                        >
+                                                            <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
                                     </div>
-                                    <div className='couriers-list'>
-                                        {pool.map((courier, index) => (
-                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                                {(provided) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        className="courier"
-                                                    >
-                                                        <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        ))}
+                                )}
+                            </Droppable>
+                            <Droppable droppableId={DROPPABLE_IDS.B2C}>
+                                {(provided) => (
+                                    <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
+                                        <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
+                                            <h2 className='mb-0'>B2C</h2>
+                                            <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceOne, setSequenceOne)}>Remove All</button>
+                                        </div>
+                                        <div className='couriers-list'>
+                                            {sequenceOne.map((courier, index) => (
+                                                <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className="courier"
+                                                        >
+                                                            <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                        </div>
                                         {provided.placeholder}
                                     </div>
-                                </div>
-                            )}
-                        </Droppable>
-                        <Droppable droppableId={DROPPABLE_IDS.B2C}>
-                            {(provided) => (
-                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
-                                        <h2 className='mb-0'>B2C</h2>
-                                        <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceOne, setSequenceOne)}>Remove All</button>
+                                )}
+                            </Droppable>
+                            <Droppable droppableId={DROPPABLE_IDS.B2B}>
+                                {(provided) => (
+                                    <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
+                                        <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
+                                            <h2 className='mb-0'>B2B</h2>
+                                            <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceTwo, setSequenceTwo)}>Remove All</button>
+                                        </div>
+                                        <div className='couriers-list'>
+                                            {sequenceTwo.map((courier, index) => (
+                                                <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className="courier"
+                                                        >
+                                                            <span><DragIcon /></span><img src={courier.image} alt="" /> {courier.title}
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                        </div>
+                                        {provided.placeholder}
                                     </div>
-                                    <div className='couriers-list'>
-                                        {sequenceOne.map((courier, index) => (
-                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                                {(provided) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        className="courier"
-                                                    >
-                                                        <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        ))}
-                                    </div>
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                        <Droppable droppableId={DROPPABLE_IDS.B2B}>
-                            {(provided) => (
-                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
-                                        <h2 className='mb-0'>B2B</h2>
-                                        <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceTwo, setSequenceTwo)}>Remove All</button>
-                                    </div>
-                                    <div className='couriers-list'>
-                                        {sequenceTwo.map((courier, index) => (
-                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                                {(provided) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        className="courier"
-                                                    >
-                                                        <span><DragIcon /></span><img src={courier.image} alt="" /> {courier.title}
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        ))}
-                                    </div>
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </DragDropContext>
-                </div>
-                <div className='cp-or-line'>
-                    <hr />
-                    <span>OR</span>
-                </div>
-                <div className='default-sorting-section'>
-                    <label className='d-flex gap-3 align-items-center'>
-                        Sort by default sorting options:
-                        <select className='select-field'>
-                            <option value="">Select</option>
-                            <option value="">Sort as Cheapest</option>
-                            <option value="">Sort as Fastest</option>
-                        </select>
-                    </label>
-                    <div>
-                        <button className='btn main-button' onClick={handleSubmit}>Save Courier Preference</button>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
                     </div>
-                </div>
-            </section>
-            <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === TABS.SET_PREFERENCE_RULES ? 'd-block' : 'd-none'}`}>
-                <SetPreferenceRules activeTab={activeTab} />
-            </section>
+                    <div className='cp-or-line'>
+                        <hr />
+                        <span>OR</span>
+                    </div>
+                    <div className='default-sorting-section'>
+                        <label className='d-flex gap-3 align-items-center'>
+                            Sort by default sorting options:
+                            <select className='select-field'>
+                                <option value="">Select</option>
+                                <option value="">Sort as Cheapest</option>
+                                <option value="">Sort as Fastest</option>
+                            </select>
+                        </label>
+                        <div>
+                            <button className='btn main-button' onClick={handleSubmit}>Save Courier Preference</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div className='position-relative'>
+                {(!planStatusData?.advanced_courier_rule && activeTab === TABS.SET_PREFERENCE_RULES) && <NonActiveService />}
+                <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === TABS.SET_PREFERENCE_RULES ? 'd-block' : 'd-none'}`}>
+                    <SetPreferenceRules activeTab={activeTab} />
+                </section>
+            </div>
             <LoaderScreen loading={loader} />
         </>
     );

@@ -46,33 +46,35 @@ const APIIntegration = () => {
 
     return (
         <>
-            <div className="box-shadow shadow-sm p10 position-relative">
+            <div className='position-relative'>
                 {!planStatusData?.api_access && <NonActiveService />}
-                <h4 className="h4 mb-4">Shipease API</h4>
-                <div className="row mt-3">
-                    <div className="col-sm-12">
-                        <p><b>Expand and automate your online business with Shipease API Key.</b></p>
-                        <div className="d-flex">
-                            <h6 className="mb-3">Your API Key: <span className="text-muted">{apiKey}</span></h6>
-                            <div className='ms-2'>
-                                <CustomTooltip
-                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(apiKey)}><FaRegCopy /></button>}
-                                    tooltipComponent={copyText}
-                                    addClassName='copytext-tooltip'
-                                />
+                <div className="box-shadow shadow-sm p10">
+                    <h4 className="h4 mb-4">Shipease API</h4>
+                    <div className="row mt-3">
+                        <div className="col-sm-12">
+                            <p><b>Expand and automate your online business with Shipease API Key.</b></p>
+                            <div className="d-flex">
+                                <h6 className="mb-3">Your API Key: <span className="text-muted">{apiKey}</span></h6>
+                                <div className='ms-2'>
+                                    <CustomTooltip
+                                        triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(apiKey)}><FaRegCopy /></button>}
+                                        tooltipComponent={copyText}
+                                        addClassName='copytext-tooltip'
+                                    />
+                                </div>
                             </div>
+                            <form onSubmit={handleSubmit}>
+                                <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />
+                                <button type="submit" name="generate" value="generate" className="btn main-button" >Generate API Key</button>
+                            </form>
                         </div>
-                        <form onSubmit={handleSubmit}>
-                            <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />
-                            <button type="submit" name="generate" value="generate" className="btn main-button" >Generate API Key</button>
-                        </form>
-                    </div>
-                    <div className="col-sm-12 mt-3">
-                        API Documentation: <a href="https://documenter.getpostman.com/view/14597142/2sA3e2eUo1" target="_blank&quot;" className="text-info">Click Here</a>
+                        <div className="col-sm-12 mt-3">
+                            API Documentation: <a href="https://documenter.getpostman.com/view/14597142/2sA3e2eUo1" target="_blank&quot;" className="text-info">Click Here</a>
+                        </div>
                     </div>
                 </div>
+                <LoaderScreen loading={loader} />
             </div>
-            <LoaderScreen loading={loader} />
         </>
     )
 }

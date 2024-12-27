@@ -13,6 +13,7 @@ import { globalGetApiCallFunction } from '../../../../customFunction/apicall'
 import { customErrorFunction } from '../../../../customFunction/errorHandling'
 import axios from 'axios'
 import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux'
 
 
 const SubAccounts = ({ activeTab }) => {
@@ -21,6 +22,7 @@ const SubAccounts = ({ activeTab }) => {
   const [cardCounter, setCounter] = useState(null)
   const [labeldata, setLabelData] = useState([])
   const [subAccountCount, setSubAccountCount] = useState(null)
+  const { planStatusData } = useSelector(state => state?.authDataReducer);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +72,7 @@ const SubAccounts = ({ activeTab }) => {
   return (
     <>
       <div className='position-relative'>
-        {subAccountCount === 0 && <NonActiveService />}
+        {!planStatusData?.multiple_user_login_role_management && <NonActiveService />}
         <Row className='cardsSpace position-relative z-2'>
           <Col className='col-12'>
             <Row>
