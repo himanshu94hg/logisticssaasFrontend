@@ -9,21 +9,20 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Pagination from '../../../../common/Pagination/Pagination';
 import NoData from '../../../../common/noData';
+import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
 
 const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
-    const [selectAll, setSelectAll] = useState(false);
-    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [activitylog, setActivitylog] = useState([]);
     const [reset, setReset] = useState(null)
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectAll, setSelectAll] = useState(false);
+    const [endDate, setEndDate] = useState(new Date());
+    const [activitylog, setActivitylog] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState(20);
-    const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
-
+    const [startDate, setStartDate] = useState(new Date());
+    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
     const { activitiesLog } = useSelector(state => state?.misSectionReducer)
 
     const TypeOptions = [
@@ -129,10 +128,10 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
         }
     };
 
-    const handleSubmit =  (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
-             dispatch({
+            dispatch({
                 type: "MIS_ACTIVITIES_LOG_ACTION",
                 payload: {
                     from_date: "2023-04-09",
@@ -177,14 +176,11 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
             e.preventDefault();
         }
     }
-    const typeLabelResponsiveStyle = {
-        gap: '0px',
-        flexDirection: 'column',
-        alignItems: 'start'
-    }
+
 
     return (
         <section className='position-relative reports-mis'>
+            {!planStatusData?.reporting && <NonActiveService />}
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
