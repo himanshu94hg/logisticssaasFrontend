@@ -9,10 +9,12 @@ import Flipkart from '../../../../../assets/image/integration/Flipkart.png'
 import StoreHippo from '../../../../../assets/image/integration/StoreHippo.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import { useSelector } from 'react-redux';
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
     const [loader, setLoader] = useState(false)
+    const { planStatusData } = useSelector(state => state?.authDataReducer)
 
     useEffect(() => {
         setLoader(true)
@@ -44,7 +46,7 @@ const ChannelsIntegration = () => {
         // { child: 'manual-integration', title: 'Manual', imageUrl: Manual }
         // Add more data as needed
     ];
-
+    // enable_sales_channel
     return (
         <>
             <div className=' integration-container mb-3'>
@@ -60,7 +62,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
+                                <button onClick={() => { if (planStatusData?.enable_sales_channel) { navigate(`/${item.child}-integration`) } }} className={`btn main-button ${planStatusData?.enable_sales_channel ? "" : "feature-disabled"}`}>Integrate</button>
                             </div>
                         </div>
                     ))}
@@ -76,7 +78,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
+                                <button onClick={() => { if (planStatusData?.enable_sales_channel) { navigate(`/${item.child}-integration`) } }} className={`btn main-button ${planStatusData?.enable_sales_channel ? "" : "feature-disabled"}`}>Integrate</button>
                             </div>
                         </div>
                     ))}
@@ -93,7 +95,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
+                                <button onClick={() => { if (planStatusData?.enable_sales_channel) { navigate(`/${item.child}-integration`) } }} className={`btn main-button ${planStatusData?.enable_sales_channel ? "" : "feature-disabled"}`}>Integrate</button>
                             </div>
                         </div>
                     ))}

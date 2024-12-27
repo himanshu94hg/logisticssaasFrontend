@@ -170,17 +170,17 @@ const ManageWarehouse = () => {
   const navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
   const [show, setShow] = useState(false);
-  const [initialData, setInitialData] = useState([])
-  const [searchQuery, setSearchQuery] = useState('');
-  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
+  const [loader, setLoader] = useState(false)
   const authToken = Cookies.get("access_token");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [initialData, setInitialData] = useState([])
   const [wareHouseId, setWareHouseId] = useState(null);
-  const [editWarehouse, setEditWarehouse] = useState(false);
   const [bulkReset, setBulkReset] = useState(new Date())
   const [selectedFile, setSelectedFile] = useState(null);
   const [ValidateShow, setValidateShow] = useState(false)
-  const [loader, setLoader] = useState(false)
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+  const [editWarehouse, setEditWarehouse] = useState(false);
+  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
+  const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -305,6 +305,9 @@ const ManageWarehouse = () => {
 
   }, [])
 
+  // className={planStatusData?.label_invoices_creation ? '' : 'feature-disabled'}
+
+
   return (
     <>
       <div className="position-relative manage-warehouse">
@@ -334,9 +337,9 @@ const ManageWarehouse = () => {
           {
             screenWidthData > 991 &&
             <div className='button-container'>
-              <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
+              <button className={`btn main-button-outline me-2 ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} onClick={() => {if(planStatusData?.enable_pickup_address) { handleShow()}}} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
               <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25} /> Export</button>
-              <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
+              <button className={`btn main-button ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} onClick={() => { if (planStatusData?.enable_pickup_address) { navigate('/add-pickup-address') } }}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
             </div>
           }
 
@@ -347,7 +350,7 @@ const ManageWarehouse = () => {
               </div>
               <div className="nav-actions-list">
                 <ul>
-                  <li onClick={handleShow}><AiOutlineCloudUpload className='align-text-bottom' /> Import</li>
+                  <li onClick={() => { if (planStatusData?.enable_pickup_address) { handleShow() } }}><AiOutlineCloudUpload className={`align-text-bottom ${planStatusData?.enable_pickup_address ? "feature-disabled" : ""}`} /> Import</li>
                   <li onClick={handleExport}><AiOutlineCloudDownload className='align-text-bottom' /> Export</li>
                   <li onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</li>
                 </ul>
