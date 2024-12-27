@@ -2,6 +2,7 @@ import moment from "moment";
 import { Modal, Table } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { FaRegCopy } from "react-icons/fa";
+import { FiDownload } from "react-icons/fi";
 import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -250,7 +251,22 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                                                             tooltipComponent={<>{row?.order_type}</>}
                                                             addClassName='verified-hover'
                                                         />
-                                                        <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        <CustomTooltip
+                                                            triggerComponent={
+                                                                <span className='ms-2'>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('h:mm A')}`}</span>
+                                                            }
+                                                            tooltipComponent={
+                                                                <span>
+                                                                    {
+                                                                        row?.awb_assigned_date &&
+                                                                        <span><strong>Booked Date:</strong>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('hh:mm A')}`}</span>
+                                                                    }
+                                                                    <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                    <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                                </span>
+                                                            }
+                                                            addClassName='order-related-dates'
+                                                        />
                                                         {row?.is_mps === true &&
                                                             <span className="mps-flag">MPS</span>
                                                         }
@@ -369,35 +385,44 @@ const ActionRequired = ({ selectAll, setSelectAll, shipmentCard, selectedRows, s
                     <Modal.Title>Call Details for <b>Order Number</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {callData?.length > 0 ? <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>File Name</th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {callData?.map((row, index) => (
-                                <tr key={row.id}>
-                                    <td>{row.id}</td>
-                                    <td>callrec{index + 1}</td>
-                                    {`${moment(row?.call_start_time).format('DD MMM YYYY')} || ${moment(row?.call_start_time).format('h:mm A')}`}
-                                    <td>
-                                        <a
-                                            href={row.recording_path}
-                                            download
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Download
-                                        </a>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table> : "No Recordings found"}
+                    <div style={{ minHeight: '200px' }}>
+                        {callData?.length > 0 ?
+                            <table className=" w-100">
+                                <thead>
+                                    <tr className="table-row">
+                                        <th>ID</th>
+                                        <th>File Name</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {callData?.map((row, index) => (
+                                        <React.Fragment key={row.id}>
+                                            <tr className="blank-row"></tr>
+                                            <tr className="table-row box-shadow">
+                                                <td>{row.id}</td>
+                                                <td>callrec{index + 1}</td>
+                                                <td>
+                                                    {`${moment(row?.call_start_time).format('DD MMM YYYY')} || ${moment(row?.call_start_time).format('h:mm A')}`}
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        href={row.recording_path}
+                                                        download
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        <FiDownload className="text-sh-primary" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </React.Fragment>
+                                    ))}
+                                </tbody>
+                            </table>
+                            : "No Recordings found"}
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <button className="btn main-button" onClick={handleCallingDetails}>

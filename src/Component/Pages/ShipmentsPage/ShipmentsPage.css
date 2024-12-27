@@ -6,3 +6,24 @@
 .confirmation-modal.calling-details .modal-body {
     padding-inline: 10px;
 }
+
+.confirmation-modal.calling-details .modal-body table td,
+.confirmation-modal.calling-details .modal-body table th {
+    text-align: start;
+}
+
+.confirmation-modal.calling-details .modal-body table th {
+    padding-bottom: 10px;
+}
+
+.confirmation-modal.calling-details .modal-body table th {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.confirmation-modal.calling-details .modal-body table .blank-row {
+    height: 10px;
+}
+
+.confirmation-modal.calling-details .modal-footer {
+    justify-content: end;
+}
