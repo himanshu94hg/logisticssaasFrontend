@@ -2,30 +2,30 @@ import axios from 'axios';
 import Cookies from "js-cookie";
 import ListIcon from './ListIcon';
 import './BusinessPlanPageNew.css';
+import { toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
+import { useDispatch } from 'react-redux';
 import ListCrossIcon from './ListCrossIcon';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
-import Modal from 'react-bootstrap/Modal';
-import { toast } from 'react-toastify';
-
-
 
 
 const BusinessPlanPageNew = () => {
-    const token = Cookies.get('access_token');
-    const [activeHeading, setActiveHeading] = useState(null);
+    const dispatch = useDispatch()
     const [plans, setPlans] = useState([]);
-    const handleClose = () => setShow(false);
     const [show, setShow] = useState(false);
-    const [planId, setPlanId] = useState(null);
+    const handleClose = () => setShow(false);
+    const token = Cookies.get('access_token');
+    const [planId, setPlanId] = useState("");
+    const [refresh, setRefresh] = useState(null);
+    const [activeHeading, setActiveHeading] = useState(null);
 
     useEffect(() => {
         const fetchPlans = async () => {
             if (!token) return;
-
             try {
                 const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/subscriptions/`, {
                     headers: { Authorization: `Bearer ${token}` },
@@ -38,44 +38,48 @@ const BusinessPlanPageNew = () => {
                 customErrorFunction(error);
             }
         };
-
         fetchPlans();
-    }, [token]);
+    }, [token, refresh]);
 
     const toggleActiveHeading = (index) => {
         setActiveHeading((prev) => (prev === index ? null : index));
     };
 
+    const [planType, setPlanType] = useState('')
 
-    const hanldeShow = (id, planType) => {
+    const hanldeShow = (id, isPlan, planTy) => {
         setPlanId(id)
-        if (!planType) {
+        setPlanType(planTy)
+        if (!isPlan) {
             setShow(true)
         }
     }
 
     const handleSubmit = async () => {
         setShow(false);
-        if (planId !== null) {
+        if (planType !== "Downgrade" && planId !== null) {
             try {
                 const payload = { plan_id: planId };
                 const response = await axios.post(
                     `${BASE_URL_CORE}/core-api/seller/purchase-plan/`,
-                    payload, 
+                    payload,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
                 );
-    
+
                 if (response.status === 200) {
                     toast.success("Plan purchased successfully!");
+                    dispatch({ type: "PAYMENT_DATA_ACTION" });
+                    setRefresh(new Date())
                 }
             } catch (error) {
                 customErrorFunction(error);
             }
+        } else {
+            toast.error("Can't update plan")
         }
     };
-  
 
 
     return (
@@ -94,7 +98,7 @@ const BusinessPlanPageNew = () => {
                                 </div>
                             </div>
                             <div className='plans-features'>
-                                <button className={`btn change-plan ${plan.current_plan ? "active" : ""}`} onClick={() => hanldeShow(plan.id, plan.current_plan)}>{plan.button_label}</button>
+                                <button className={`btn change-plan ${plan.current_plan ? "active" : ""}`} onClick={() => hanldeShow(plan.id, plan.current_plan, plan.button_label)}>{plan.button_label}</button>
                                 <ul className='active my-3'>
                                     <li><span>₹{plan.rates || 0} Per/kg</span> Shipping Rates</li>
                                     <li><span>{plan.period} {plan.period == 0 ? "" : <>{plan.period > 1 ? "Day" : "Day"}</>}</span> Minimum Signup Period</li>
