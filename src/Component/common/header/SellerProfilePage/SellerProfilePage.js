@@ -6,10 +6,12 @@ import sellerProfileImage from '../../../../assets/image/sellerProfileImage.svg'
 import { FaRegCopy } from "react-icons/fa";
 import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { useSelector } from 'react-redux'
 
 const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
     const textRef = useRef(null);
     const [copyText, setcopyText] = useState("Click to copy")
+    const { planStatusData } = useSelector(state => state?.authDataReducer);
 
     const handleCopy = () => {
         if (textRef.current) {
@@ -122,15 +124,15 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                         </div>
                         <div className='sp-data-field'>
                             <span>Kam Name:</span>
-                            Customer Support
+                            {planStatusData?.dedicated_key_account_manager_for_tiers ? "Customer Support" : "XXXXXXXXXXX"}
                         </div>
                         <div className='sp-data-field'>
                             <span>Kam Email:</span>
-                            ops@shipease.in
+                            {planStatusData?.dedicated_key_account_manager_for_tiers ? "ops@shipease.in " : "XXXXXXXXXXX"}
                         </div>
                         <div className='sp-data-field'>
                             <span>Kam Phone No:</span>
-                            NA
+                            {planStatusData?.dedicated_key_account_manager_for_tiers ? "8989898989 " : "XXXXXXXXX"}
                         </div>
                     </div>
                 </div>
