@@ -16,11 +16,12 @@ import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import CourierWiseDashboard from '../Components/Overview/CourierWiseDashboard';
 import PopularCustomerDashboard from '../Components/Overview/PopularCustomerDashboard';
 import TicketsChart from '../Components/Overview/TicketsChart.js';
+import NonActiveService from '../Components/NonActiveService/NonActiveService.js';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
   let authToken = Cookies.get("access_token")
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+  const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     if (activeTab === "Overview" && authToken) {
@@ -42,7 +43,9 @@ const Overview = ({ activeTab }) => {
 
 
   return (
-    <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
+    <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'} position-relative`}>
+      {!planStatusData?.analytics_dashboard && <NonActiveService />}
+
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <TotalShipment />
         <DeliveryPerformance />
