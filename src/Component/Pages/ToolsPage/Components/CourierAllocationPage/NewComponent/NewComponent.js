@@ -174,13 +174,13 @@ const NewComponent = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='position-relative'>
-                {(!planStatusData?.courier_selection && activeTab === TABS.COURIER_PREFERENCES) && <NonActiveService />}
+                {/* {(!planStatusData?.courier_selection && activeTab === TABS.COURIER_PREFERENCES) && <NonActiveService />} */}
                 <section className={`courier-preference box-shadow shadow-sm p10  ${activeTab === TABS.COURIER_PREFERENCES ? 'd-block' : 'd-none'}`}>
                     <div className='courier-preference-list'>
                         <DragDropContext onDragEnd={onDragEnd} >
                             <Droppable droppableId={DROPPABLE_IDS.POOL}>
                                 {(provided) => (
-                                    <div className={`Weight-slab ${planStatusData?.courier_priority?"":"feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className={`Weight-slab ${planStatusData?.courier_selection ? "" : "feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
                                         <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
                                             <h2 className='mb-0'>Pool</h2>
                                         </div>
@@ -206,7 +206,7 @@ const NewComponent = () => {
                             </Droppable>
                             <Droppable droppableId={DROPPABLE_IDS.B2C}>
                                 {(provided) => (
-                                    <div className={`Weight-slab ${planStatusData?.courier_priority?"":"feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className={`Weight-slab ${planStatusData?.courier_selection ? "" : "feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
                                         <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
                                             <h2 className='mb-0'>B2C</h2>
                                             <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceOne, setSequenceOne)}>Remove All</button>
@@ -233,7 +233,7 @@ const NewComponent = () => {
                             </Droppable>
                             <Droppable droppableId={DROPPABLE_IDS.B2B}>
                                 {(provided) => (
-                                    <div className={`Weight-slab ${planStatusData?.courier_priority?"":"feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className={`Weight-slab ${planStatusData?.courier_selection ? "" : "feature-disabled"}`} ref={provided.innerRef} {...provided.droppableProps}>
                                         <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
                                             <h2 className='mb-0'>B2B</h2>
                                             <button className='btn main-button-outline' onClick={() => removeAllFromSequence(sequenceTwo, setSequenceTwo)}>Remove All</button>
@@ -264,8 +264,8 @@ const NewComponent = () => {
                         <hr />
                         <span>OR</span>
                     </div>
-                    <div className='default-sorting-section'>
-                        <label className='d-flex gap-3 align-items-center'>
+                    <div className={`default-sorting-section`}>
+                        <label className={`d-flex gap-3 align-items-center ${planStatusData?.courier_priority ? "" : "feature-disabled"}`}>
                             Sort by default sorting options:
                             <select className='select-field'>
                                 <option value="">Select</option>
