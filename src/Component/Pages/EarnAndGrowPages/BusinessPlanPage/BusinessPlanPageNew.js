@@ -93,15 +93,15 @@ const BusinessPlanPageNew = () => {
                             <div className='plan-item-heading'>
                                 <h4>{plan.title} {plan?.is_most_popular && <span>Most Popular</span>}</h4>
                                 <div className='plan-price-container'>
-                                    <p className='plan-price'>{plan.price}<span> per month</span></p>
+                                    <p className={`${plan.price == "Free" ? "plan-price1" : "plan-price"}`}>{plan.price}<span>{plan.price !== "Free" && "per month"} </span></p>
                                     <p className='plan-tag-line'>{plan.description}</p>
                                 </div>
                             </div>
                             <div className='plans-features'>
                                 <button className={`btn change-plan ${plan.current_plan ? "active" : ""}`} onClick={() => hanldeShow(plan.id, plan.current_plan, plan.button_label)}>{plan.button_label}</button>
                                 <ul className='active my-3'>
-                                    <li><span>₹{plan.rates || 0} Per/kg</span> Shipping Rates</li>
-                                    <li><span>{plan.period} {plan.period == 0 ? "" : <>{plan.period > 1 ? "Day" : "Day"}</>}</span> Minimum Signup Period</li>
+                                    <li><span>₹{plan.rates || 0} per/kg</span> Shipping Rates</li>
+                                    <li><span>{plan.period} {plan.period == 0 || plan.period == "Unlimited" ? "" : <>{plan.period > 1 ? "Days" : "Day"}</>}</span> Minimum Signup Period</li>
                                     <li><span>{plan.partners}{plan.partners > 1 && "+"}</span> Courier Partners</li>
                                     <li><span>{plan.warehouse_create}</span> Multiple Pickup Address</li>
                                     <li><span>{plan.sales_channel}</span> Sales Channel Integration</li>

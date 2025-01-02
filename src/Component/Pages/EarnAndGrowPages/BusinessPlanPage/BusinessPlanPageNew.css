@@ -173,7 +173,7 @@
     /* margin-top: 15px; */
 }
 
-.business-plan-page-new .plan-price {
+.business-plan-page-new .plan-price,.business-plan-page-new .plan-price1 {
     font-size: 2.8rem;
     font-weight: 700;
     color: var(--sh-primary);
@@ -184,7 +184,7 @@
     color: #fff;
 }
 
-.business-plan-page-new .plan-price span {
+.business-plan-page-new .plan-price span,.business-plan-page-new .plan-price span {
     font-size: 1rem;
     font-weight: 400;
 }
@@ -196,6 +196,9 @@
     left: -14px;
     font-size: 1.2rem;
     font-weight: 400;
+}
+.business-plan-page-new .plan-price1::before {
+   
 }
 
 .business-plan-page-new .plans-features {
