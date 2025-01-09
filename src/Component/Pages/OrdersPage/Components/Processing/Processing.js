@@ -549,7 +549,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                     <form>
                         <label htmlFor="">
                             <span>Help Description</span>
-                            <input className="input-field" type="text" />
+                            <textarea className="input-field" />
                         </label>
                         <label htmlFor="">
                             <span>Label</span>
@@ -561,7 +561,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                         </label>
                         <label htmlFor="">
                             <span>Attachement</span>
-                            <input className="form-control input-field ms-2" type="file" />
+                            <input className="form-control input-field" type="file" />
                         </label>
                     </form>
                 </Modal.Body>

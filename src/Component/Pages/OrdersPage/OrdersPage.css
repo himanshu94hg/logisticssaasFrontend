@@ -809,8 +809,17 @@ ul.order-label-list li {
 }
 
 .confirmation-modal.add-qc-modal form label * {
-  flex: 1 1;
+  /* flex: 1 1; */
   text-align: left;
+}
+
+.confirmation-modal.add-qc-modal form label span {
+  flex-basis: 35%;
+}
+
+.confirmation-modal.add-qc-modal form label textarea,
+.confirmation-modal.add-qc-modal form label input {
+  flex-basis: 65%;
 }
 
 @media screen and (max-width:1366px) {
