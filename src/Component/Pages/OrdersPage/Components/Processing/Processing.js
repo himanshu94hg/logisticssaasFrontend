@@ -224,6 +224,16 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         setDropdownPosition({})
     };
 
+    const [AddQCOrder, setAddQCOrder] = useState("")
+
+    const handleAddQC = (id) => {
+        setAddQCOrder(id)
+    }
+
+    const handleCloseAddQC = () => {
+        setAddQCOrder("")
+    }
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -473,6 +483,11 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     <li onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}>Mark As Verified</li>
                                                                     <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
                                                                     <li className="action-hr"></li>
+                                                                    {
+                                                                        row?.order_type === "Reverse" &&
+                                                                        <li onClick={() => handleAddQC(row.id)}>Add QC Information</li>
+                                                                    }
+                                                                    <li></li>
                                                                     <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
                                                                     <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
                                                                 </ul>
@@ -515,7 +530,52 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 </Modal.Footer>
             </Modal>
 
-        </section >
+
+            <Modal
+                show={AddQCOrder}
+                onHide={handleCloseAddQC}
+                keyboard={false}
+                className='confirmation-modal add-qc-modal'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        <div>
+                            <p>Add QC Information for Order</p>
+                            <h2>#{AddQCOrder}</h2>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form>
+                        <label htmlFor="">
+                            <span>Help Description</span>
+                            <input className="input-field" type="text" />
+                        </label>
+                        <label htmlFor="">
+                            <span>Label</span>
+                            <input className="input-field" type="text" />
+                        </label>
+                        <label htmlFor="">
+                            <span>Value To Check</span>
+                            <input className="input-field" type="text" />
+                        </label>
+                        <label htmlFor="">
+                            <span>Attachement</span>
+                            <input className="form-control input-field ms-2" type="file" />
+                        </label>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2 mt-4'>
+                        <button className="btn cancel-button" onClick={handleCloseAddQC}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={makeApiCall}>Continue</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
+        </section>
     );
 })
 
