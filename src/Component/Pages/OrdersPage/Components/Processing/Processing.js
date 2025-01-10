@@ -21,19 +21,36 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import customImg from "../../../../../assets/image/integration/Manual.png"
+import { getFileData, uploadImageData } from "../../../../../awsUploadFile";
+import { awsAccessKey } from "../../../../../config";
+import { toast } from "react-toastify";
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
+    const rowRefs = useRef([]);
+    const [error, setError] = useState("");
     const [show, setShow] = useState(false);
     let authToken = Cookies.get("access_token")
+    const [AddQCOrder, setAddQCOrder] = useState("")
     const [actionType, setActionType] = useState({});
     const [SingleShip, setSingleShip] = useState(false)
+    const [activeIndex, setActiveIndex] = useState(null);
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const [dropdownPosition, setDropdownPosition] = useState({});
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const channel_list = JSON.parse(localStorage.getItem('channel_list'));
     const { planStatusData } = useSelector(state => state?.authDataReducer);
+    const [qcData, setQcData] = useState({
+        image: [],
+        order_id:"",
+        qc_label: "",
+        description: "",
+        value_to_check: ""
+    });
+
 
 
     useEffect(() => {
@@ -174,9 +191,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
     }
 
 
-    const [dropdownPosition, setDropdownPosition] = useState({});
-    const [activeIndex, setActiveIndex] = useState(null);
-    const rowRefs = useRef([]);
 
     rowRefs.current = [];
 
@@ -224,6 +238,91 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         setActiveIndex(null);
         setDropdownPosition({})
     };
+
+
+
+    const handleAddQC = (id) => {
+        setAddQCOrder(id)
+        setQcData((prev)=>({...prev,order_id:id}))
+    }
+
+    const handleCloseAddQC = () => {
+        setAddQCOrder("")
+        setError("");
+        setQcData({
+            description: "",
+            qc_label: "",
+            value_to_check: "",
+            image: []
+        })
+    }
+
+    const makeQcApi = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/api/reverse-with-qc-order-update/`, qcData, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            }
+            );
+
+            if (response?.status === 200) {
+                toast.success("Qc info add successfully!")
+                setAddQCOrder("")
+                setError("");
+                setQcData({
+                    description: "",
+                    qc_label: "",
+                    value_to_check: "",
+                    image: []
+                })
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    }
+
+    const handleQc = async (e) => {
+        const { name, value, type, files } = e.target;
+        if (type === "file") {
+            const fileInput = e.target;
+            const newFiles = Array.from(files);
+            const invalidFiles = newFiles.filter((file) => !allowedTypes.includes(file.type));
+            if (invalidFiles.length > 0) {
+                setError("JPG/JPEG/PNG file are allowed.");
+                fileInput.value = "";
+                return;
+            }
+            setError("");
+            try {
+                const responseData = await getFileData(`qc-data/${e.target.files[0].name.replace(/\s/g, "")}`);
+                const awsUrl = responseData.data.url.url
+                const formData = new FormData();
+                formData.append('key', responseData.data.url.fields.key);
+                formData.append('file', e.target.files[0]);
+                formData.append('AWSAccessKeyId', awsAccessKey);
+                formData.append('policy', responseData.data.url.fields.policy);
+                formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+                const additionalData = await uploadImageData(awsUrl, formData);
+                if (additionalData?.status === 204) {
+                    const imageUrl = `${responseData?.data?.url?.url}qc-data/${e.target.files[0]?.name.replace(/\s/g, "")}`;
+                    setQcData((prevData) => ({
+                        ...prevData,
+                        image: [...prevData.image, imageUrl],
+                    }));
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        } else {
+            setQcData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+
+        }
+    };
+
 
     return (
         <section className='position-relative'>
@@ -477,6 +576,11 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     >Mark As Verified</li>
                                                                     <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
                                                                     <li className="action-hr"></li>
+                                                                    {
+                                                                        row?.order_type === "Reverse" &&
+                                                                        <li onClick={() => handleAddQC(row.id)}>Add QC Information</li>
+                                                                    }
+                                                                    <li></li>
                                                                     <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
                                                                     <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
                                                                 </ul>
@@ -519,7 +623,54 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 </Modal.Footer>
             </Modal>
 
-        </section >
+
+            <Modal
+                show={AddQCOrder}
+                onHide={handleCloseAddQC}
+                keyboard={false}
+                className='confirmation-modal add-qc-modal'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        <div>
+                            <p>Add QC Information for Order</p>
+                            <h2>#{AddQCOrder}</h2>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form>
+                        <label htmlFor="">
+                            <span>Help Description</span>
+                            <textarea className="input-field" name="description" onChange={handleQc} />
+                        </label>
+                        <label htmlFor="">
+                            <span>Label</span>
+                            <input className="input-field" name="qc_label" type="text" onChange={handleQc} />
+                        </label>
+                        <label htmlFor="">
+                            <span>Value To Check</span>
+                            <input className="input-field" type="text" name="value_to_check" onChange={handleQc} />
+                        </label>
+                        <label htmlFor="" className="mb-2">
+                            <span>Attachement</span>
+                            <input className="form-control input-field" name="image" type="file" onChange={handleQc} />
+                        </label>
+                    </form>
+                    {error && <p className="d-flex justify-content-end" style={{ color: "red", fontSize: 12 }}>{error}</p>}
+                    {qcData?.image?.map((item, index) => <span style={{ fontSize: 12 }} className="bg-success text-white me-2 p-1 rounded">file{index}</span>)}
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2 mt-4'>
+                        <button className="btn cancel-button" onClick={handleCloseAddQC}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={makeQcApi}>Continue</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
+        </section>
     );
 })
 
