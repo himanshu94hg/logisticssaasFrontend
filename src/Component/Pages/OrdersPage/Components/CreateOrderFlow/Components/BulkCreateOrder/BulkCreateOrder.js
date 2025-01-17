@@ -101,9 +101,9 @@ const BulkCreateOrder = () => {
                             key={inputKey}
                             type="file"
                             accept=".xlsx,.csv"
-                            onChange={() => {
+                            onChange={(event) => {
                                 if (planStatusData?.bulk_order_upload_processing) {
-                                    handleFileUpload()
+                                    handleFileUpload(event)
                                 }
                             }}
                             className={planStatusData?.bulk_order_upload_processing ? '' : 'feature-disabled'}
