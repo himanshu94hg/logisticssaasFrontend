@@ -64,6 +64,7 @@
     border-radius: 25px;
     min-height: 50px;
     min-width: 50px;
+    max-width: 200px;
 }
 
 .sp-image-container button {

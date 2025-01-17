@@ -115,6 +115,8 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     setExpanded(!isExpanded)
   }
 
+  const [logoRefresh, setlogoRefresh] = useState(null)
+
   useEffect(() => {
     setTemp(prev => ({
       ...prev,
@@ -123,9 +125,13 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     }));
   }, [paymentCard, paymentSetCard]);
 
+  // useEffect(() => {
+  //   dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
+  // }, [])
+
   useEffect(() => {
     dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
-  }, [])
+  }, [logoRefresh])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -355,7 +361,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       {/* Edit Profile section */}
       {ViewProfile}
 
-      <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
+      <SellerProfilePage setlogoRefresh={setlogoRefresh} userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
       <ShowNotificationPanel
         alerts={alerts}
         viewAll={viewAll}
