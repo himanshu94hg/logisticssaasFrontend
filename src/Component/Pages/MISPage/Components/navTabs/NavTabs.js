@@ -152,7 +152,7 @@ export default function NavTabs(props) {
               </NavDropdown>
             </div>
           </Nav>
-          <button className='btn main-button' onClick={handleShow}>Download 1.0 Report</button>
+          {/* <button className='btn main-button' onClick={handleShow}>Download 1.0 Report</button> */}
         </Navbar.Collapse>
       </Navbar>
 
