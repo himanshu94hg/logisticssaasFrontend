@@ -339,13 +339,13 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
 
-                  <NavDropdown.Item
+                  {/* <NavDropdown.Item
                     eventKey="4.4"
                     onClick={() => handleSwitch()}
                   >
                     <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
+                  </NavDropdown.Item> 
+                  <NavDropdown.Divider />*/}
                   <NavDropdown.Item
                     eventKey="4.3"
                     onClick={() => handleLogout()}
