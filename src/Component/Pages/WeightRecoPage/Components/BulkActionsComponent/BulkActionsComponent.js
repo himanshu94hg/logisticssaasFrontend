@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
 import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
+import Modal from 'react-bootstrap/Modal';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,setLoader, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, setLoader, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportWeightCard)
@@ -54,6 +55,12 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,setLoad
         }
     }, [exportCard]);
 
+    const [remarkPop, setremarkPop] = useState(false)
+
+    const HandleRemarkPop = () => {
+        setremarkPop(!remarkPop)
+    }
+
     return (
         <>
             {selectedRows.length > 0 && (
@@ -66,22 +73,22 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,setLoad
                         <ul className='ba-actions'>
                             {activeTab === "Weight Reconciliation" &&
                                 <>
-                                    {/* <li><AcceptIcon size={24} /><span>Accept</span></li> */}
-                                    {/* <li><BulkDisputeIcon size={24} /><span>Dispute</span></li> */}
+                                    <li onClick={() => HandleRemarkPop()}><AcceptIcon size={24} /><span>Accept All</span></li>
+                                    <li onClick={() => HandleRemarkPop()}><BulkDisputeIcon size={24} /><span>Raise Dispute</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
                             {activeTab === "Settled Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
                             {activeTab === "On-Hold Reconciliation" &&
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    {/* <li><ExportIcon /><span>Export All</span></li> */}
+                                    <li><ExportIcon /><span>Export All</span></li>
                                 </>
                             }
                         </ul>
@@ -89,6 +96,32 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,setLoad
                     </div>
                 </section>
             )}
+
+            <Modal
+                show={remarkPop}
+                onHide={HandleRemarkPop}
+                keyboard={false}
+                className='confirmation-modal remark-popup'
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to update all?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <label>
+                        Remarks
+                        <textarea className='input-field' type="text" />
+                    </label>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={HandleRemarkPop}>
+                            No, cancel!
+                        </button>
+                        <button className="btn main-button" onClick={HandleRemarkPop}>Yes, update All!</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+
         </>
     )
 }
