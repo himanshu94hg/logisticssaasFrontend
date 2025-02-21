@@ -189,13 +189,14 @@ const OrderDetail = () => {
                                         <li><span>Channel:</span><span>{orderDetails?.channel}</span></li>
                                         <li><span>Payment:</span><span>{orderDetails?.payment_type}</span></li>
                                         <li><span>Seller Address:</span>
-                                            {orderDetails?.order_type === "Reverse" ?
+                                            {/* {orderDetails?.order_type === "Reverse" ?
                                                 <>
                                                     {orderDetails?.shipping_detail?.address}, {orderDetails?.shipping_detail?.city}, {orderDetails?.shipping_detail?.state}, ({orderDetails?.shipping_detail?.pincode})
-                                                </> : <span>
-                                                    {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
-                                                </span>
-                                            }
+                                                </> : */}
+                                            <span>
+                                                {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
+                                            </span>
+                                            {/* } */}
 
                                         </li>
                                         <li><span>AWB:</span><span>{orderDetails?.awb_number}</span></li>
@@ -232,13 +233,13 @@ const OrderDetail = () => {
                                         <li><span>Contact No.:</span><span>{orderDetails?.shipping_detail?.mobile_number}</span></li>
                                         <li><span>Email:</span><span>{orderDetails?.shipping_detail?.email ? orderDetails?.shipping_detail?.email : "NA"}</span></li>
                                         <li><span>Customer Address:</span>
-                                            {orderDetails?.order_type === "Reverse" ?
+                                            {/* {orderDetails?.order_type === "Reverse" ?
                                                 <>
                                                     {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
                                                 </>
-                                                :
-                                                <span>{orderDetails?.shipping_detail?.address}, {orderDetails?.shipping_detail?.city}, {orderDetails?.shipping_detail?.state}, ({orderDetails?.shipping_detail?.pincode})</span>
-                                            }
+                                                : */}
+                                            <span>{orderDetails?.shipping_detail?.address}, {orderDetails?.shipping_detail?.city}, {orderDetails?.shipping_detail?.state}, ({orderDetails?.shipping_detail?.pincode})</span>
+                                            {/* } */}
                                         </li>
                                     </ul>
                                 </div>
