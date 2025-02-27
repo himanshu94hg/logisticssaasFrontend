@@ -318,10 +318,16 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
                 <NavDropdown
                   title={
-                    // screenWidthData > 991 &&
-                    <span className="user-image-icon">
-                      <UserImageIcon />
-                    </span>
+                    <>
+                      {userData?.company_logo ?
+                        <span className="user-image">
+                          <img src={userData?.company_logo} alt="" />
+                        </span> :
+                        <span className="user-image-icon">
+                          <UserImageIcon />
+                        </span>
+                      }
+                    </>
                   }
                   id="basic-nav-dropdown"
                   className="user-image-container"

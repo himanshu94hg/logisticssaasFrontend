@@ -376,6 +376,20 @@
   border-radius: 50%;
 }
 
+.user-image-container a span.user-image {
+  overflow: hidden;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-image-container a span.user-image img {
+  width: 98%;
+}
+
 .dropdown-item.active,
 .dropdown-item:active {
   background-color: transparent;
