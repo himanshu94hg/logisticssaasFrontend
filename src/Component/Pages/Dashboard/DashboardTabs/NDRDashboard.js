@@ -13,12 +13,16 @@ import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 import { useSelector } from 'react-redux'
 import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { getDateRangeDashboard } from '../../../../customFunction/getDateRangeDashboard'
 
 const NDRDashboard = ({ activeTab }) => {
   const dispatch = useDispatch();
 
   const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
 
+  const dateRange = useSelector((state) => state.dateRange);
+
+  const dateRangeDashboard = getDateRangeDashboard(dateRange);
 
   useEffect(() => {
     if (activeTab === "NDR") {
@@ -32,7 +36,7 @@ const NDRDashboard = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_NDR_REASON_SPLIT_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_NDR_BUYER_ACTION", payload: dateRangeDashboard })
     }
-  }, [activeTab])
+  }, [activeTab, dateRangeDashboard])
 
   return (
     <>
