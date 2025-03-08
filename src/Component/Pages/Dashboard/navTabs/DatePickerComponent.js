@@ -6,6 +6,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { addDays } from "date-fns";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 
 const DatePickerComponent = () => {
   const dispatch = useDispatch();
@@ -119,17 +120,20 @@ const DatePickerComponent = () => {
       <button
         onClick={() => setShowCalendar(!showCalendar)}
         style={{
-          padding: "8px 15px",
-          border: "1px solid #ccc",
+          padding: "5px 7px",
+          border: "1px solid #1975C9",
           borderRadius: "5px",
           cursor: "pointer",
           backgroundColor: "#fff",
-          fontSize: "14px",
+          fontSize: "1rem",
         }}
       >
-        {selectedRange === "Custom Date"
-          ? `${applyDate.startDate.toLocaleDateString()} - ${applyDate.endDate.toLocaleDateString()}`
-          : selectedRange}
+        {["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "This Month", "Last Month", "Last 6 Months"].includes(selectedRange)
+          ? selectedRange
+          : `${moment(applyDate.startDate).format("DD MMM YY")} - ${moment(applyDate.endDate).format("DD MMM YY")}`
+        }
+
+        {console.log(selectedRange, "kajsdbjaksbdkjad")}
       </button>
 
       {/* Dropdown Menu */}
@@ -144,7 +148,8 @@ const DatePickerComponent = () => {
             borderRadius: "5px",
             zIndex: 1000,
             padding: "10px",
-            width: "250px",
+            width: "160px",
+            // fontSize: '1rem'
           }}
         >
           {/* Predefined Ranges */}
@@ -154,11 +159,11 @@ const DatePickerComponent = () => {
                 key={index}
                 onClick={() => handlePredefinedRangeClick(range)}
                 style={{
-                  padding: "8px",
+                  padding: "5px 7px",
                   cursor: "pointer",
                   borderRadius: "5px",
                   backgroundColor: selectedRange === range ? "#f0f0f0" : "transparent",
-                  marginBottom: "5px",
+                  // marginBottom: "5px",
                 }}
               >
                 {range}
@@ -173,8 +178,8 @@ const DatePickerComponent = () => {
         <div
           style={{
             position: "absolute",
-            top: "110%",
-            right: '246px',
+            top: "46%",
+            right: '159px',
             backgroundColor: "#fff",
             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
             borderRadius: "5px",
@@ -189,18 +194,12 @@ const DatePickerComponent = () => {
             moveRangeOnFirstSelection={false}
             months={2}
             direction="horizontal"
-            rangeColors={["#3d91ff"]}
+            rangeColors={["#1975C9"]}
           />
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "-20px" }}>
             <button
               onClick={handleDateApply}
-              style={{
-                padding: "5px 10px",
-                borderRadius: "5px",
-                cursor: "pointer",
-                border: "1px solid #ccc",
-                backgroundColor: "#ddd",
-              }}
+              className="btn main-button"
             >
               Apply
             </button>

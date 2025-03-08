@@ -532,10 +532,15 @@
 
 .dashboard-datepicker {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 6px;
+    right: 15px;
     z-index: 9;
 }
+
+.dashboard-datepicker .rdrDateRangePickerWrapper>.rdrDefinedRangesWrapper {
+    display: none;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
