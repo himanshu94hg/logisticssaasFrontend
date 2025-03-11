@@ -62,6 +62,10 @@ const WeightRecoPage = () => {
     const [mostPopular, setMostPopular] = useState({ most_popular_search: "" })
     const { weightData, holdData, setteledData } = useSelector(state => state?.weightRecoReducer);
 
+    const [DisputeEscalate, setDisputeEscalate] = useState(false);
+    const [RaiseBulk, setRaiseBulk] = useState(false)
+
+
     const handleSidePanel = () => {
         setMoreFilters(true);
         setBackDrop(true)
@@ -295,7 +299,7 @@ const WeightRecoPage = () => {
                                     triggerComponent={
                                         <span
                                             className={mostPopular.most_popular_search === key ? 'active' : ''}
-                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date());setCurrentPage(1) }}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()); setCurrentPage(1) }}
                                         >
                                             {label}
                                         </span>
@@ -331,6 +335,10 @@ const WeightRecoPage = () => {
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
                         setBulkActionShow={setBulkActionShow}
+                        DisputeEscalate={DisputeEscalate}
+                        setDisputeEscalate={setDisputeEscalate}
+                        RaiseBulk={RaiseBulk}
+                        setRaiseBulk={setRaiseBulk}
                     />
                 </div>
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
@@ -368,6 +376,11 @@ const WeightRecoPage = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
+                        DisputeEscalate={DisputeEscalate}
+                        setDisputeEscalate={setDisputeEscalate}
+                        RaiseBulk={RaiseBulk}
+                        setRaiseBulk={setRaiseBulk}
+                        setReset={setReset}
                     />
                 )
                 }

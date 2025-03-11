@@ -50,7 +50,7 @@ function WhatsAppTotalInfo({ totalMessage }) {
                       <ActionRequiredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Message Sent</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{totalMessage?.total_message}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{totalMessage?.total_message || 0}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -75,7 +75,7 @@ function WhatsAppTotalInfo({ totalMessage }) {
                       <ActionRequestedIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Message read rate</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count || 0}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -100,7 +100,7 @@ function WhatsAppTotalInfo({ totalMessage }) {
                       <NdrDeliveredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Queries resolved</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count || 0}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />

@@ -20,9 +20,8 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import AcceptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/AcceptIcon';
 import BulkDisputeIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/BulkDisputeIcon';
 
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList, DisputeEscalate, setDisputeEscalate, RaiseBulk, setRaiseBulk }) => {
     const dispatch = useDispatch();
-    const [DisputeEscalate, setDisputeEscalate] = useState(false);
     const [show, setShow] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [showComment, setShowComment] = useState(false);
@@ -323,7 +322,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                     </table>
                     {weightRecoData?.length === 0 && <NoData />}
                 </div>
-                <ViewDisputeHistory DisputeEscalate={DisputeEscalate} setDisputeEscalate={setDisputeEscalate} selectedRow={selectedRow} />
+                <ViewDisputeHistory RaiseBulk={RaiseBulk} setRaiseBulk={setRaiseBulk} DisputeEscalate={DisputeEscalate} setDisputeEscalate={setDisputeEscalate} selectedRows={selectedRows} selectedRow={selectedRow} />
                 <div onClick={() => setDisputeEscalate(false)} className={`backdrop ${!DisputeEscalate && 'd-none'}`}></div>
 
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />

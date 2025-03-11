@@ -12,7 +12,7 @@ import { getFileData, uploadImageData } from '../../../../../awsUploadFile';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }) => {
+const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate, RaiseBulk, setRaiseBulk, selectedRows }) => {
     const dispatch = useDispatch();
     const [reset, setReset] = useState(null)
     let authToken = Cookies.get("access_token")
@@ -23,7 +23,16 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
         ids: "",
         remark: "",
         images: "",
+        bulk_action: RaiseBulk,
     })
+    useEffect(() => {
+        console.log(formData, 'formData')
+        // console.log(selectedRows.join(','), 'selectedRows')
+        if (!DisputeEscalate) {
+            setRaiseBulk(false)
+        }
+    }, [RaiseBulk])
+
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
 
     useEffect(() => {
@@ -36,34 +45,57 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
     }, [imageInputs])
 
     useEffect(() => {
-        if (DisputeEscalate && selectedRow) {
-            dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
+        if (!RaiseBulk) {
+            if (DisputeEscalate && selectedRow) {
+                dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
+            }
+        }
+        else {
+            setAddRemarks(true)
         }
     }, [DisputeEscalate, selectedRow, dispatch, reset]);
-
 
     useEffect(() => {
         setFormData((prev) => ({
             ...prev,
             images: '',
-            remark: ''
+            remark: '',
+            bulk_action: RaiseBulk,
         }))
     }, [DisputeEscalate])
 
-
     useEffect(() => {
-        if (selectedRow?.id) {
+        if (RaiseBulk) {
+            const test = `${selectedRows.join(', ')}`
             setFormData((prev) => ({
                 ...prev,
-                ids: `${selectedRow?.id}`
+                ids: test,
             }))
         }
-    }, [selectedRow])
+        else {
+            if (selectedRow?.id) {
+                setFormData((prev) => ({
+                    ...prev,
+                    ids: `${selectedRow?.id}`
+                }))
+            }
+        }
+    }, [selectedRow, selectedRows, RaiseBulk])
 
-    const handleAddRemarks = () => {
-        setAddRemarks(!AddRemarks)
-        setRemarkText("");
-        setImageInputs([{ id: Date.now(), file: null }]);
+    const handleAddRemarks = (type) => {
+        if (type === "cancel") {
+            if (!RaiseBulk) {
+                setAddRemarks(!AddRemarks)
+            }
+        }
+        if (type === "add") {
+            setAddRemarks(!AddRemarks)
+        }
+        else {
+            setDisputeEscalate(false)
+            setRemarkText("");
+            setImageInputs([{ id: Date.now(), file: null }]);
+        }
     }
 
     const handleAddImageInput = () => {
@@ -114,9 +146,11 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                 setFormData((prev) => ({
                     ...prev,
                     images: '',
-                    remark: ''
+                    remark: '',
+                    bulk_action: RaiseBulk,
                 }))
-                toast.success("Courier blocking request submitted successfully!")
+                toast.success("Dispute Raised successfully!")
+                setRaiseBulk(false)
             }
         } catch (error) {
             customErrorFunction(error)
@@ -135,23 +169,30 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                         <p>You can view all remarks or add your new remarks.</p>
                     </div>
                     <div>
-                        <button onClick={handleAddRemarks} className='btn main-button'>
-                            {
-                                AddRemarks ? 'Cancel' : 'Add Remarks'
-                            }
-                        </button>
+                        {
+                            !RaiseBulk &&
+                            <button onClick={(type) => handleAddRemarks(AddRemarks ? "cancel" : "add")} className='btn main-button'>
+                                {
+                                    AddRemarks ? 'Cancel' : 'Add Remarks'
+                                }
+                            </button>
+                        }
                     </div>
                 </div>
                 <div className='panel-body'>
                     <div className='d-flex w-100 justify-content-between align-items-center my-3'>
-                        <div>
-                            <p>Charged Weight: {(selectedRow?.c_weight / 1000).toFixed(2)} kg</p>
-                            <p>Charged Dimensions (cm): {selectedRow?.c_length} x {selectedRow?.c_breadth} x {selectedRow?.c_height}</p>
-                        </div>
-                        <div>
-                            <p>Dispute Date: {moment(selectedRow?.created_at).format("DD MMM YYYY")}</p>
-                            <p>Status: <span className='dispute-status'>{selectedRow?.status}</span></p>
-                        </div>
+                        {!RaiseBulk &&
+                            <>
+                                <div>
+                                    <p>Charged Weight: {(selectedRow?.c_weight / 1000).toFixed(2)} kg</p>
+                                    <p>Charged Dimensions (cm): {selectedRow?.c_length} x {selectedRow?.c_breadth} x {selectedRow?.c_height}</p>
+                                </div>
+                                <div>
+                                    <p>Dispute Date: {moment(selectedRow?.created_at).format("DD MMM YYYY")}</p>
+                                    <p>Status: <span className='dispute-status'>{selectedRow?.status}</span></p>
+                                </div>
+                            </>
+                        }
                     </div>
                     <div className='flip-flex'>
                         <div className={`table-container ${AddRemarks && 'hide-content'}`}>
@@ -220,7 +261,7 @@ const ViewDisputeHistory = ({ DisputeEscalate, selectedRow, setDisputeEscalate }
                             <div>
                             </div>
                             <div className='d-flex align-items-center justify-content-between w-100'>
-                                <button onClick={handleAddRemarks} className='btn cancel-button'>Cancel</button>
+                                <button onClick={(type) => handleAddRemarks("cancel")} className='btn cancel-button'>Cancel</button>
                                 <button onClick={handleRemarkSubmit} className='btn main-button'>Submit</button>
                             </div>
                         </div>
