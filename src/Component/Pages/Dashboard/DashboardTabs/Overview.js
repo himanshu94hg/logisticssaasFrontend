@@ -6,7 +6,7 @@ import { Col, Row } from 'react-bootstrap';
 import TotalShipment from '../Components/Overview/TotalShipment';
 import ShipmentGraph from '../Components/Overview/ShipmentGraph.js';
 import RevenueDashboard from '../Components/Overview/RevenueDashboard';
-import { dateRangeDashboard } from '../../../../customFunction/dateRange';
+// import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import TotalInfoDashboard from '../Components/Overview/TotalInfoDashboard';
 import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 import TopSellingDashboard from '../Components/Overview/TopSellingDashboard';
@@ -17,11 +17,17 @@ import CourierWiseDashboard from '../Components/Overview/CourierWiseDashboard';
 import PopularCustomerDashboard from '../Components/Overview/PopularCustomerDashboard';
 import TicketsChart from '../Components/Overview/TicketsChart.js';
 import NonActiveService from '../Components/NonActiveService/NonActiveService.js';
+import { getDateRangeDashboard } from '../../../../customFunction/getDateRangeDashboard/index.js';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
   let authToken = Cookies.get("access_token")
   const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
+
+  const dateRange = useSelector((state) => state.dateRange);
+
+  const dateRangeDashboard = getDateRangeDashboard(dateRange);
+
 
   useEffect(() => {
     if (activeTab === "Overview" && authToken) {
@@ -39,7 +45,7 @@ const Overview = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION", payload: dateRangeDashboard })
     }
-  }, [activeTab, dispatch])
+  }, [activeTab, dispatch, dateRangeDashboard, authToken])
 
 
   return (

@@ -31,7 +31,8 @@ function TotalShipment() {
       ndr: "#F31429",
       out_for_delivery: "#1975C9",
       picked_up: "#A020F0",
-      shipped: "#0F3C5B"
+      shipped: "#0F3C5B",
+      rto_orders: "#0F3C5B"
     };
     return colorScale;
   };
@@ -226,11 +227,38 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+
+
+                  {/* RTO */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">RTO</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.rto_orders} {percentage(shimpmetCard?.rto_orders, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.rto_orders}%`,
+                          backgroundColor: colorScale.rto_orders,
+                        }}
+                        aria-valuenow={shimpmetCard?.rto_orders}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+
+
+
                 </div>
               </div>
             </div>
           </div>
-        ) }
+        )}
       </div>
     </>
   );

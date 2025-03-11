@@ -11,11 +11,15 @@ import TopRTOCourier from '../Components/RTO/TopRTOCourier'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 import { useSelector } from 'react-redux'
 import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { getDateRangeDashboard } from '../../../../customFunction/getDateRangeDashboard'
 
 const RTODashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
   const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
-  
+  const dateRange = useSelector((state) => state.dateRange);
+
+  const dateRangeDashboard = getDateRangeDashboard(dateRange);
+
   useEffect(() => {
     const token = Cookies.get('token');
     if (activeTab === "RTO") {
@@ -25,7 +29,7 @@ const RTODashboard = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_RTO_TOP_COURIER_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_RTO_STATUS_ACTION", payload: dateRangeDashboard })
     }
-  }, [activeTab, dispatch])
+  }, [activeTab, dispatch, dateRangeDashboard])
 
 
   return (

@@ -530,6 +530,18 @@
     opacity: 0;
 }
 
+.dashboard-datepicker {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    z-index: 2;
+}
+
+.dashboard-datepicker .rdrDateRangePickerWrapper>.rdrDefinedRangesWrapper {
+    display: none;
+}
+
+
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
         width: 100%;

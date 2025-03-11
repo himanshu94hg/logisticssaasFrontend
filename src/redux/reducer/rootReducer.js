@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import { authDataReducer } from "./auth";
-import { toolsSectionReducer } from "./tools"; 
+import { toolsSectionReducer } from "./tools";
 import { billingSectionReducer } from "./billing";
-import { shipmentSectionReducer } from "./shipment";  
-import { dashboardOverviewReducer } from "./dashboard/overview"; 
+import { shipmentSectionReducer } from "./shipment";
+import { dashboardOverviewReducer } from "./dashboard/overview";
 import { dashboardOrderReducer } from "./dashboard/orders";
 import { dashboardShipmentReducer } from "./dashboard/shipment";
 import { paymentSectionReducer } from "./payment";
@@ -20,8 +20,10 @@ import { misSectionReducer } from "./mis";
 import { settingsSectionReducer } from "./settings";
 import { channelSectionReducer } from "./channel";
 import { errorLoaderReducer } from "./error";
+import { dateRangeReducer } from "./dateRangeReducer";
 
 export const rootReducer = combineReducers({
+    dateRange: dateRangeReducer,
     authDataReducer,
     toolsSectionReducer,
     billingSectionReducer,

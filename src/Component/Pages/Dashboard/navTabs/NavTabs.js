@@ -2,6 +2,8 @@ import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import "./navTabs.css";
+import DatePickerComponent from "./DatePickerComponent";
+import { useSelector } from "react-redux";
 
 const navItems = [
   { name: "Overview", title: "Overview" },
@@ -24,6 +26,8 @@ export default function NavTabs(props) {
 
   const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
 
+  const dateRange = useSelector((state) => state.dateRange);
+  console.log(dateRange.startDate, dateRange.endDate, "daterangedaterangedaterange");
 
   return (
     <Navbar className="w-100 box-shadow shadow-sm p7" variant="light" id="shipEaseNavTabs">
@@ -63,6 +67,9 @@ export default function NavTabs(props) {
                 </NavDropdown.Item>
               ))}
             </NavDropdown>
+          </div>
+          <div className="dashboard-datepicker">
+            <DatePickerComponent />
           </div>
         </Nav>
       </Navbar.Collapse>

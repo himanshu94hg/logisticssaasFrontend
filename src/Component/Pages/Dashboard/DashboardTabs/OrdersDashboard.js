@@ -15,12 +15,16 @@ import DomesticInternational from '../Components/Orders/DomesticInternational'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 import { useSelector } from 'react-redux'
 import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { getDateRangeDashboard } from '../../../../customFunction/getDateRangeDashboard'
 
 
 const OrdersDashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
 
-  const { screenWidthData,planStatusData } = useSelector(state => state?.authDataReducer)
+  const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
+  const dateRange = useSelector((state) => state.dateRange);
+
+  const dateRangeDashboard = getDateRangeDashboard(dateRange);
 
   useEffect(() => {
     if (activeTab === "Orders") {
@@ -36,13 +40,13 @@ const OrdersDashboard = ({ activeTab }) => {
       dispatch({ type: 'DASHBOARD_ORDERS_POPULAR_LOCATION_ACTION', payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_INTVSDOM_ACTION', payload: dateRangeDashboard })
     }
-  }, [activeTab])
+  }, [activeTab, dateRangeDashboard])
 
 
   return (
     <>
       <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'} position-relative`}>
-      {!planStatusData?.analytics_dashboard && <NonActiveService />}
+        {!planStatusData?.analytics_dashboard && <NonActiveService />}
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <ChannelByOrder />
           <OrderDetails />

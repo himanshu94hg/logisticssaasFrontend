@@ -10,10 +10,15 @@ import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 import { useSelector } from 'react-redux'
 import NonActiveService from '../Components/NonActiveService/NonActiveService'
+import { getDateRangeDashboard } from '../../../../customFunction/getDateRangeDashboard'
 
 const ShipmentDashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
   const { screenWidthData, planStatusData } = useSelector(state => state?.authDataReducer)
+
+  const dateRange = useSelector((state) => state.dateRange);
+
+  const dateRangeDashboard = getDateRangeDashboard(dateRange);
 
 
   useEffect(() => {
@@ -24,7 +29,7 @@ const ShipmentDashboard = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION", payload: dateRangeDashboard })
     }
-  }, [activeTab])
+  }, [activeTab, dateRangeDashboard])
 
   return (
     <>
