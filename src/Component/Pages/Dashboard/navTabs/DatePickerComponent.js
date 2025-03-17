@@ -68,6 +68,12 @@ const DatePickerComponent = () => {
 
     if (range === "Custom Date") {
       setShowCalendar(true);
+      const customRange = {
+        startDate: applyDate.startDate,
+        endDate: applyDate.endDate,
+        key: "selection",
+      };
+      setState([customRange]);
     } else {
       setShowCalendar(false);
       const newRange = {
@@ -192,11 +198,12 @@ const DatePickerComponent = () => {
             onChange={handleDateChange}
             showSelectionPreview={true}
             moveRangeOnFirstSelection={false}
-            months={2}
-            direction="horizontal"
+            months={1}
+            direction="vertical"
+            scroll={{ enabled: true }}
             rangeColors={["#1975C9"]}
           />
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "-20px" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "-20px", position: 'relative', zIndex: '9' }}>
             <button
               onClick={handleDateApply}
               className="btn main-button"
