@@ -222,12 +222,22 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                         type="number"
                                         inputMode="numeric"
                                         pattern="\d*"
+                                        min="1"
                                         value={product.quantity}
                                         onInput={(e) => handlePriceValidation(e.target.value, index)}
                                         onChange={(e) => handleChange(e, 'quantity', index)}
                                         onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
-                                                e.preventDefault();
+                                            if (!/\d/.test(e.key) || (e.target.value.length === 0 && e.key === '0')) {
+                                                e.preventDefault(); // Prevent non-numeric input and leading zero
+                                            }
+                                        }}
+                                        onPaste={(e) => {
+                                            e.preventDefault(); // Prevent invalid pasting
+                                            let pasteData = e.clipboardData.getData('text');
+                                            pasteData = pasteData.replace(/\D/g, ''); // Remove non-numeric characters
+                                            pasteData = pasteData.replace(/^0+/, ''); // Remove leading zeros
+                                            if (pasteData) {
+                                                handleChange({ target: { name: 'quantity', value: pasteData } }, 'quantity', index);
                                             }
                                         }}
                                     />
