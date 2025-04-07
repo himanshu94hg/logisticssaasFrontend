@@ -80,6 +80,15 @@ const SignUpPage = () => {
         }),
     };
 
+    const handleNavigateLogin = () => {
+        if (UserRole) {
+            navigate("/")
+        }
+        else {
+            navigate("/login")
+        }
+    }
+
     return (
         <>
             <section className='signup-section'>
@@ -291,7 +300,7 @@ const SignUpPage = () => {
                                         </label>
                                     </div>
                                     <button type="submit" className="btn main-button">Sign Up</button>
-                                    <p className='signup-text text-center m-0'>Already a member? <button type='button' className='btn p-0' href="#" onClick={() => navigate(loginPattern)}>Login</button></p>
+                                    <p className='signup-text text-center m-0'>Already a member? <button type='button' className='btn p-0' href="#" onClick={handleNavigateLogin}>Login</button></p>
                                 </form>
                             }
                             {
