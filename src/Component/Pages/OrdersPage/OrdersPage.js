@@ -110,7 +110,7 @@ const OrdersPage = () => {
             setSearchStatus(false)
             setBulkActionShow(false)
             setSearchOption(SearchOptions[0])
-            
+
         }
     }, [activeTab])
 
@@ -331,7 +331,7 @@ const OrdersPage = () => {
             }
         };
         fetchData();
-    }, [orderCancelled, orderClone, orderdelete,pickupStatus]);
+    }, [orderCancelled, orderClone, orderdelete, pickupStatus]);
 
 
     const searchOptions = [
@@ -344,6 +344,7 @@ const OrdersPage = () => {
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
         { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
         { key: 'last_month', label: 'Last Month', tooltip: 'This will show all the orders from the last month', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
+        { key: 'redundent_order', label: 'Redundent Order', tooltip: 'This will show all the Redundant Orders', tabs: ['Processing'] },
     ];
 
 
@@ -414,14 +415,14 @@ const OrdersPage = () => {
                     <p className='popular-search'>
                         Looking for:
                         {searchOptions
-                            .filter(option => option.tabs.includes(activeTab)) 
+                            .filter(option => option.tabs.includes(activeTab))
                             .map(({ key, label, tooltip }) => (
                                 <CustomTooltip
                                     key={key}
                                     triggerComponent={
                                         <span
                                             className={mostPopular.most_popular_search === key ? 'active' : ''}
-                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date());setCurrentPage(1) }}
+                                            onClick={() => { setMostPopular({ most_popular_search: key }); setReset(new Date()); setCurrentPage(1) }}
                                         >
                                             {label}
                                         </span>
@@ -622,7 +623,7 @@ const OrdersPage = () => {
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
-            <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} orderStatus={orderStatus} setOrderStatus={setOrderStatus}/>
+            <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} orderStatus={orderStatus} setOrderStatus={setOrderStatus} />
 
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
