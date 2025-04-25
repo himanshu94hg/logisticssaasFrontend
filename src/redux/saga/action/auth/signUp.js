@@ -25,7 +25,11 @@ function* signUpAction(action) {
         else {
         }
     } catch (error) {
-        customErrorFunction(error)
+        if (error.response?.data?.detail) {
+            toast.error(error?.response?.data?.detail);
+        } else {
+            customErrorFunction(error);
+        }
     }
 }
 
