@@ -344,9 +344,8 @@ const OrdersPage = () => {
         { key: 'yesterday', label: 'Yesterday', tooltip: 'This will show all the orders from yesterday', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
         { key: 'one_week', label: 'Last Week', tooltip: 'This will show all the orders from the last week', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
         { key: 'last_month', label: 'Last Month', tooltip: 'This will show all the orders from the last month', tabs: ['All', 'Processing', 'Ready to Ship', 'Pickup', 'Returns'] },
-        { key: 'redundent_order', label: 'Redundant Order', tooltip: 'This will show all the Redundant Orders', tabs: ['Processing'] },
+        { key: 'redundent_order', label: 'Duplicate Orders', tooltip: 'This will show all the Redundant Orders', tabs: ['Processing'] },
     ];
-
 
     return (
         <>
