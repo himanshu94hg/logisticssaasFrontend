@@ -25,8 +25,14 @@ function* signUpAction(action) {
         else {
         }
     } catch (error) {
-        if (error.response?.data?.detail) {
-            toast.error(error?.response?.data?.detail);
+        const data = error.response?.data;
+
+        if (data) {
+            const message = typeof data === "string"
+                ? data
+                : Object.values(data)[0]; // e.g. "Contact Number must be 10 digits."
+
+            toast.error(Array.isArray(message) ? message[0] : message);
         } else {
             customErrorFunction(error);
         }

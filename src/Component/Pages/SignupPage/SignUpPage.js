@@ -75,7 +75,7 @@ const SignUpPage = () => {
     const customStyles = {
         menuList: (provided) => ({
             ...provided,
-            maxHeight: '100px',
+            maxHeight: '150px',
             overflowY: 'auto',
         }),
     };
@@ -295,6 +295,7 @@ const SignUpPage = () => {
                                                 options={options}
                                                 placeholder='How many orders do you ship in a month?'
                                                 styles={customStyles}
+                                                menuPlacement="top"
                                             />
                                             {/* <i className={`${numberOfOrders == null || numberOfOrders === "" ? '' : 'd-none'}`}>How many orders do you ship in a month ?</i> */}
                                         </label>
