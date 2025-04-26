@@ -183,8 +183,8 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '10%' }}>Manifest Id</th>
-                                <th style={{ width: '12.5%' }}>Created</th>
+                                <th style={{ width: '10%' }}>Manifest ID</th>
+                                <th style={{ width: '12.5%' }}>Created On</th>
                                 <th style={{ width: '12%' }}>Created By</th>
                                 <th style={{ width: '14%' }}>Courier</th>
                                 <th style={{ width: '16%' }}>Number of Order(s)</th>

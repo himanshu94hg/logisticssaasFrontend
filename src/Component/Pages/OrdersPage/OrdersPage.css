@@ -822,6 +822,50 @@ ul.order-label-list li {
   flex-basis: 65%;
 }
 
+.cell-inside-box img.rto-risk {
+  /* border-bottom: 1px dashed #F31429; */
+  /* color: #F31429; */
+  width: 30px;
+  height: auto;
+}
+
+.cell-inside-box .rto-risk-tooltip {
+  width: auto;
+  white-space: nowrap;
+  display: flex;
+  left: 23px;
+  bottom: -22px;
+  height: auto;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  text-align: start;
+}
+
+
+.cell-inside-box .rto-risk-tooltip>span {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
+}
+
+.cell-inside-box .rto-risk-tooltip [data-b] {
+  font-size: 1rem;
+  margin-inline: 5px;
+}
+
+.cell-inside-box .rto-risk-tooltip .risk-low {
+  color: #FECD1A;
+  font-size: 1rem;
+}
+
+.cell-inside-box .rto-risk-tooltip .risk-high {
+  color: #F31429;
+  font-size: 1rem;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;

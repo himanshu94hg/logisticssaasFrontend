@@ -141,7 +141,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                     </div>
                                 </th>
                                 <th style={{ width: '26%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '12.5%' }}>Customer Details</th>
                                 <th style={{ width: '20%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>

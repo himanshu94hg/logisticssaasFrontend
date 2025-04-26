@@ -13,7 +13,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
@@ -21,9 +21,11 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import customImg from "../../../../../assets/image/integration/Manual.png"
+import RiskScale from "../../../../../assets/image/RiskScale.png"
 import { getFileData, uploadImageData } from "../../../../../awsUploadFile";
 import { awsAccessKey } from "../../../../../config";
 import { toast } from "react-toastify";
+import RtoRiskIcon from "../../../../common/Icons/RtoRiskIcon";
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -45,7 +47,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
     const { planStatusData } = useSelector(state => state?.authDataReducer);
     const [qcData, setQcData] = useState({
         image: [],
-        order_id:"",
+        order_id: "",
         qc_label: "",
         description: "",
         value_to_check: ""
@@ -243,7 +245,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
 
     const handleAddQC = (id) => {
         setAddQCOrder(id)
-        setQcData((prev)=>({...prev,order_id:id}))
+        setQcData((prev) => ({ ...prev, order_id: id }))
     }
 
     const handleCloseAddQC = () => {
@@ -323,6 +325,52 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         }
     };
 
+    const [RtoData, setRtoData] = useState(null);
+
+    useEffect(() => {
+        const fetchRtoPincodeData = async () => {
+            try {
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setFullYear(endDate.getFullYear() - 1);
+                // startDate.setMonth(endDate.getMonth() - 1)
+
+                const formatDate = (date) => {
+                    return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+                };
+
+                const response = await axios.get("https://app.shipease.in/orders-api/dashboard/rto/rto-pincode/", {
+                    params: {
+                        start_date: formatDate(startDate),
+                        end_date: formatDate(endDate),
+                    },
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+
+                setRtoData(response.data);
+            } catch (err) {
+                console.error("API fetch error:", err);
+                // setError("Failed to load data");
+            } finally {
+                // setLoading(false);
+            }
+        };
+
+        fetchRtoPincodeData();
+    }, []);
+
+    console.log(RtoData, "RtoData")
+
+    const rtoLookup = useMemo(() => {
+        const result = {};
+        RtoData?.forEach(item => {
+            const key = Object.keys(item)[0];
+            result[key] = item[key];
+        });
+        return result;
+    }, [RtoData]);
 
     return (
         <section className='position-relative'>
@@ -341,8 +389,8 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                     </div>
                                 </th>
                                 <th style={{ width: '16.5%' }}>Order Details</th>
-                                <th style={{ width: '15.5%' }}>Customer details</th>
-                                <th style={{ width: '12.5%' }}>Product details</th>
+                                <th style={{ width: '15.5%' }}>Customer Details</th>
+                                <th style={{ width: '12.5%' }}>Product Details</th>
                                 <th style={{ width: '15.5%' }}>Package Details</th>
                                 <th style={{ width: '8.5%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
@@ -353,245 +401,265 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                         </thead>
                         <tbody>
                             {orders?.length ? <>
-                                {Array.isArray(orders) && orders?.map((row, index) => (
-                                    <React.Fragment key={row?.id}>
-                                        {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                        <tr className='table-row box-shadow'>
-                                            <td className='checkbox-cell'>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedRows?.includes(row?.id)}
-                                                    onChange={() => handleSelectRow(row?.id, row?.awb_number)}
-                                                />
-                                            </td>
-                                            <td>
-                                                <div className='cell-inside-box'>
-                                                    <p className=''>
-                                                        {row?.channel && (
-                                                            <img
-                                                                src={channel_list[row?.channel]?.channel_name === row?.channel
-                                                                    ? channel_list[row?.channel]?.image || customImg
-                                                                    : customImg}
-                                                                alt="channel"
-                                                                width="20"
-                                                            />
-                                                        )}
-                                                        <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                            <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
-                                                            {row?.other_details?.is_verified &&
-                                                                <CustomTooltip
-                                                                    triggerComponent={<VerifiedOrderIcon />}
-                                                                    tooltipComponent='Verified'
-                                                                    addClassName='verified-hover'
-                                                                />
-                                                            }
-                                                        </span>
-                                                    </p>
-                                                    <p className='ws-nowrap d-flex align-items-center'>
-                                                        <CustomTooltip
-                                                            triggerComponent={
+                                {Array.isArray(orders) && orders?.map((row, index) => {
+                                    const rtoInfo = rtoLookup[row?.shipping_detail?.pincode];
+                                    const rtoRiskage = (rtoInfo?.rto / rtoInfo?.total) * 100;
+                                    return (
+                                        <React.Fragment key={row?.id}>
+                                            {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                            <tr className='table-row box-shadow'>
+                                                <td className='checkbox-cell'>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedRows?.includes(row?.id)}
+                                                        onChange={() => handleSelectRow(row?.id, row?.awb_number)}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <div className='cell-inside-box'>
+                                                        <p className=''>
+                                                            {row?.channel && (
                                                                 <img
-                                                                    src={ForwardIcon}
-                                                                    className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
-                                                                    alt="Forward/Reverse"
-                                                                    width={24}
+                                                                    src={channel_list[row?.channel]?.channel_name === row?.channel
+                                                                        ? channel_list[row?.channel]?.image || customImg
+                                                                        : customImg}
+                                                                    alt="channel"
+                                                                    width="20"
+                                                                />
+                                                            )}
+                                                            <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                                <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row?.customer_order_number}</Link>
+                                                                {row?.other_details?.is_verified &&
+                                                                    <CustomTooltip
+                                                                        triggerComponent={<VerifiedOrderIcon />}
+                                                                        tooltipComponent='Verified'
+                                                                        addClassName='verified-hover'
+                                                                    />
+                                                                }
+                                                            </span>
+                                                        </p>
+                                                        <p className='ws-nowrap d-flex align-items-center'>
+                                                            <CustomTooltip
+                                                                triggerComponent={
+                                                                    <img
+                                                                        src={ForwardIcon}
+                                                                        className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                        alt="Forward/Reverse"
+                                                                        width={24}
+                                                                    />
+                                                                }
+                                                                tooltipComponent={<>{row?.order_type}</>}
+                                                                addClassName='verified-hover'
+                                                            />
+                                                            <CustomTooltip
+                                                                triggerComponent={
+                                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                }
+                                                                tooltipComponent={
+                                                                    <span>
+                                                                        <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                                        <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                                    </span>
+                                                                }
+                                                                addClassName='order-related-dates'
+                                                            />
+                                                            {row?.is_mps === true &&
+                                                                <span className="mps-flag">MPS</span>
+                                                            }
+                                                            {
+                                                                row?.order_tag.length > 0 && <CustomTooltip
+                                                                    triggerComponent={<span className='ms-1'>
+                                                                        <OrderTagsIcon />
+                                                                    </span>}
+                                                                    tooltipComponent={
+                                                                        <div className='Labels-pool'>
+                                                                            {row?.order_tag?.map((item) => {
+                                                                                return (
+                                                                                    <div className="label-button-container active">
+                                                                                        <button className='label-button'>
+                                                                                            <FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}
+                                                                                        </button>
+                                                                                    </div>
+                                                                                )
+                                                                            })}
+                                                                        </div>
+                                                                    }
                                                                 />
                                                             }
-                                                            tooltipComponent={<>{row?.order_type}</>}
-                                                            addClassName='verified-hover'
-                                                        />
-                                                        <CustomTooltip
-                                                            triggerComponent={
-                                                                <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {/* customer detail */}
+                                                    <div className='cell-inside-box'>
+                                                        <p className="d-flex align-items-end gap-2">
+                                                            <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
+                                                            {rtoInfo &&
+                                                                <>
+                                                                    <CustomTooltip
+                                                                        triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
+                                                                        // triggerComponent={<RtoRiskIcon />}
+                                                                        tooltipComponent={
+                                                                            <span>
+                                                                                <span>RTO Risk: {(rtoInfo.rto < 2 || rtoRiskage < 50) ? <b className="risk-low">Low</b> : <b className="risk-high">High</b>}</span>
+                                                                                <span>RTO Orders: <b data-b>{rtoInfo.rto}</b> || Total Orders: <b data-b>{rtoInfo.total}</b></span>
+                                                                            </span>
+                                                                        }
+                                                                        addClassName='rto-risk-tooltip'
+                                                                    />
+
+                                                                </>
                                                             }
-                                                            tooltipComponent={
-                                                                <span>
-                                                                    <span><strong>Order Date:</strong>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('hh:mm A')}`}</span>
-                                                                    <span><strong>Created At:</strong>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('hh:mm A')}`}</span>
+                                                        </p>
+                                                        <p>
+                                                            {row?.shipping_detail?.mobile_number ?
+                                                                row?.shipping_detail?.mobile_number :
+                                                                <span className="missing-info-text">Contact Missing</span>
+                                                            }
+                                                            <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    <>
+                                                                        <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
+                                                                        <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                        <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
+                                                                        <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
+                                                                        <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
+                                                                    </>
                                                                 </span>
-                                                            }
-                                                            addClassName='order-related-dates'
-                                                        />
-                                                        {row?.is_mps === true &&
-                                                            <span className="mps-flag">MPS</span>
-                                                        }
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="cell-inside-box">
+                                                        <p className="d-flex align-items-center gap-2">
+                                                            <p className="width-eclipse">{row?.order_products[0]?.product_name || <span className="missing-info-text">Product Name Missing</span>}</p>
+                                                            <span className={`details-on-hover ms-2 ${row?.order_products.some((product) => !product.product_name || !product.sku) && 'missing-address'}`}>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.order_products?.map((product, index) => (
+                                                                        <React.Fragment key={index}>
+                                                                            <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Product Name Missing</span>}<br />
+                                                                            <strong>SKU:</strong> {product.sku || <span className="missing-info-text">SKU Missing</span>}<br />
+                                                                            <strong>Qt.:</strong> {product.quantity}<br />
+                                                                            <hr />
+                                                                        </React.Fragment>
+                                                                    ))}
+                                                                </span>
+                                                            </span>
+                                                        </p>
+                                                        <p className="d-flex align-items-center gap-2">
+                                                            <div>Qt.<span> {row?.order_products[0]?.quantity}</span></div>||
+                                                            <div className="d-flex align-items-center gap-1">SKU: <span data-truncate-name>{row?.order_products[0]?.sku || <span className="missing-info-text">SKU Missing</span>}</span></div>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className='cell-inside-box'>
+                                                        <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
+                                                            <br />
+                                                            LBH(cm): {(row?.dimension_detail?.length || row?.dimension_detail?.breadth || row?.dimension_detail?.height) ? <span>{row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span> : <span className="missing-info-text">Dimension Missing</span>}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className='cell-inside-box'>
+                                                        <p>
+                                                            {row?.invoice_amount != null ? (
+                                                                Number(row.invoice_amount) === 0 ? (
+                                                                    <span className="missing-info-text">Amount is Zero</span>
+                                                                ) : (
+                                                                    <span>&#x20B9; {row.invoice_amount}</span>
+                                                                )
+                                                            ) : (
+                                                                <span className="missing-info-text">Invoice Amount Missing</span>
+                                                            )}
+                                                        </p>
+
+                                                        <p className='order-Status-box mt-1'>{row?.payment_type}</p>
+                                                    </div>
+                                                </td>
+                                                <td className='align-middle'>
+                                                    <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                         {
-                                                            row?.order_tag.length > 0 && <CustomTooltip
-                                                                triggerComponent={<span className='ms-1'>
-                                                                    <OrderTagsIcon />
-                                                                </span>}
-                                                                tooltipComponent={
-                                                                    <div className='Labels-pool'>
-                                                                        {row?.order_tag?.map((item) => {
-                                                                            return (
-                                                                                <div className="label-button-container active">
-                                                                                    <button className='label-button'>
-                                                                                        <FontAwesomeIcon icon={faCircle} className='me-2' />{item?.name}
-                                                                                    </button>
-                                                                                </div>
-                                                                            )
-                                                                        })}
-                                                                    </div>
-                                                                }
+                                                            row?.order_type === "Forward" ?
+                                                                <p>
+                                                                    {row?.pickup_details?.p_warehouse_name}
+                                                                    <span className='details-on-hover ms-2'>
+                                                                        <InfoIcon />
+                                                                        <span style={{ width: '250px' }}>
+                                                                            <b>Address:</b> {row?.pickup_details?.p_address_line1}<br />
+                                                                            <b>Landmark:</b> {row?.pickup_details?.p_address_line2}<br />
+                                                                            <b>City:</b> {row?.pickup_details?.p_city}<br />
+                                                                            <b>State:</b> {row?.pickup_details?.p_state}<br />
+                                                                            <b>Pincode:</b> {row?.pickup_details?.p_pincode}
+                                                                        </span>
+                                                                    </span>
+                                                                </p> : <p>{row?.shipping_detail?.recipient_name}
+                                                                    <span className='details-on-hover ms-2'>
+                                                                        <InfoIcon />
+                                                                        <span style={{ width: '250px' }}>
+                                                                            <b>Address:</b> {row?.shipping_detail?.address}<br />
+                                                                            <b>Landmark:</b>{row?.shipping_detail?.landmark}<br />
+                                                                            <b>City:</b> {row?.shipping_detail?.city}<br />
+                                                                            <b>State:</b> {row?.shipping_detail?.state}<br />
+                                                                            <b>Pincode:</b> {row?.shipping_detail?.pincode}
+                                                                        </span>
+                                                                    </span>
+                                                                </p>
+                                                        }
+                                                        {row?.other_details?.channel_name &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<p className="order-Status-box mt-1">{row?.other_details?.channel_name}</p>}
+                                                                tooltipComponent={"Store Name"}
+                                                                addClassName='store-name-info'
                                                             />
                                                         }
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {/* customer detail */}
-                                                <div className='cell-inside-box'>
-                                                    <p>
-                                                        <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
-                                                    </p>
-                                                    <p>
-                                                        {row?.shipping_detail?.mobile_number ?
-                                                            row?.shipping_detail?.mobile_number :
-                                                            <span className="missing-info-text">Contact Missing</span>
-                                                        }
-                                                        <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                <>
-                                                                    <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
-                                                                    <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
-                                                                    <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
-                                                                    <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
-                                                                    <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
-                                                                </>
-                                                            </span>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="cell-inside-box">
-                                                    <p className="d-flex align-items-center gap-2">
-                                                        <p className="width-eclipse">{row?.order_products[0]?.product_name || <span className="missing-info-text">Product Name Missing</span>}</p>
-                                                        <span className={`details-on-hover ms-2 ${row?.order_products.some((product) => !product.product_name || !product.sku) && 'missing-address'}`}>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.order_products?.map((product, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                        <strong>Product:</strong> {product.product_name || <span className="missing-info-text">Product Name Missing</span>}<br />
-                                                                        <strong>SKU:</strong> {product.sku || <span className="missing-info-text">SKU Missing</span>}<br />
-                                                                        <strong>Qt.:</strong> {product.quantity}<br />
-                                                                        <hr />
-                                                                    </React.Fragment>
-                                                                ))}
-                                                            </span>
-                                                        </span>
-                                                    </p>
-                                                    <p className="d-flex align-items-center gap-2">
-                                                        <div>Qt.<span> {row?.order_products[0]?.quantity}</span></div>||
-                                                        <div className="d-flex align-items-center gap-1">SKU: <span data-truncate-name>{row?.order_products[0]?.sku || <span className="missing-info-text">SKU Missing</span>}</span></div>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className='cell-inside-box'>
-                                                    <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
-                                                        <br />
-                                                        LBH(cm): {(row?.dimension_detail?.length || row?.dimension_detail?.breadth || row?.dimension_detail?.height) ? <span>{row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span> : <span className="missing-info-text">Dimension Missing</span>}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className='cell-inside-box'>
-                                                    <p>
-                                                        {row?.invoice_amount != null ? (
-                                                            Number(row.invoice_amount) === 0 ? (
-                                                                <span className="missing-info-text">Amount is Zero</span>
-                                                            ) : (
-                                                                <span>&#x20B9; {row.invoice_amount}</span>
-                                                            )
-                                                        ) : (
-                                                            <span className="missing-info-text">Invoice Amount Missing</span>
-                                                        )}
-                                                    </p>
-
-                                                    <p className='order-Status-box mt-1'>{row?.payment_type}</p>
-                                                </div>
-                                            </td>
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                    {
-                                                        row?.order_type === "Forward" ?
-                                                            <p>
-                                                                {row?.pickup_details?.p_warehouse_name}
-                                                                <span className='details-on-hover ms-2'>
-                                                                    <InfoIcon />
-                                                                    <span style={{ width: '250px' }}>
-                                                                        <b>Address:</b> {row?.pickup_details?.p_address_line1}<br />
-                                                                        <b>Landmark:</b> {row?.pickup_details?.p_address_line2}<br />
-                                                                        <b>City:</b> {row?.pickup_details?.p_city}<br />
-                                                                        <b>State:</b> {row?.pickup_details?.p_state}<br />
-                                                                        <b>Pincode:</b> {row?.pickup_details?.p_pincode}
-                                                                    </span>
-                                                                </span>
-                                                            </p> : <p>{row?.shipping_detail?.recipient_name}
-                                                                <span className='details-on-hover ms-2'>
-                                                                    <InfoIcon />
-                                                                    <span style={{ width: '250px' }}>
-                                                                        <b>Address:</b> {row?.shipping_detail?.address}<br />
-                                                                        <b>Landmark:</b>{row?.shipping_detail?.landmark}<br />
-                                                                        <b>City:</b> {row?.shipping_detail?.city}<br />
-                                                                        <b>State:</b> {row?.shipping_detail?.state}<br />
-                                                                        <b>Pincode:</b> {row?.shipping_detail?.pincode}
-                                                                    </span>
-                                                                </span>
-                                                            </p>
-                                                    }
-                                                    {row?.other_details?.channel_name &&
-                                                        <CustomTooltip
-                                                            triggerComponent={<p className="order-Status-box mt-1">{row?.other_details?.channel_name}</p>}
-                                                            tooltipComponent={"Store Name"}
-                                                            addClassName='store-name-info'
-                                                        />
-                                                    }
-                                                </div>
-                                            </td>
-                                            <td className='align-middle status-box'>
-                                                <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                                <div className='d-flex align-items-center gap-3'>
-                                                    <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
-                                                    <div ref={(el) => (rowRefs.current[index] = el)}
-                                                        onMouseEnter={() => handleMouseEnter(index)}
-                                                        onMouseLeave={handleMouseLeave} className="action-options">
-                                                        <div className="threedots-img">
-                                                            <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                        </div>
-                                                        {activeIndex === index && (
-                                                            <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
-                                                                <ul>
-                                                                    <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
-                                                                    <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
-                                                                    <li className="action-hr"></li>
-                                                                    <li>Call Buyer</li>
-                                                                    <li
-                                                                        onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}
-                                                                        className={planStatusData?.order_verification ? '' : 'feature-disabled'}
-                                                                    >Mark As Verified</li>
-                                                                    <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
-                                                                    <li className="action-hr"></li>
-                                                                    {
-                                                                        row?.order_type === "Reverse" &&
-                                                                        <li onClick={() => handleAddQC(row.id)}>Add QC Information</li>
-                                                                    }
-                                                                    <li></li>
-                                                                    <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
-                                                                    <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
-                                                                </ul>
-                                                            </div>
-                                                        )}
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </React.Fragment>
-                                ))}
+                                                </td>
+                                                <td className='align-middle status-box'>
+                                                    <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                    <div className='d-flex align-items-center gap-3'>
+                                                        <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
+                                                        <div ref={(el) => (rowRefs.current[index] = el)}
+                                                            onMouseEnter={() => handleMouseEnter(index)}
+                                                            onMouseLeave={handleMouseLeave} className="action-options">
+                                                            <div className="threedots-img">
+                                                                <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                            </div>
+                                                            {activeIndex === index && (
+                                                                <div className={`action-list processing ${dropdownPosition[index] || ''}`}>
+                                                                    <ul>
+                                                                        <li onClick={() => openEditingSection(row.id)}>Edit Order</li>
+                                                                        <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
+                                                                        <li className="action-hr"></li>
+                                                                        <li>Call Buyer</li>
+                                                                        <li
+                                                                            onClick={() => globalDebouncedClick(() => handleShow(row.id, "mark-verify"))}
+                                                                            className={planStatusData?.order_verification ? '' : 'feature-disabled'}
+                                                                        >Mark As Verified</li>
+                                                                        <li onClick={() => openCloneSection(row.id)}>Clone Order</li>
+                                                                        <li className="action-hr"></li>
+                                                                        {
+                                                                            row?.order_type === "Reverse" &&
+                                                                            <li onClick={() => handleAddQC(row.id)}>Add QC Information</li>
+                                                                        }
+                                                                        <li></li>
+                                                                        <li onClick={() => handleShow(row.id, "cancel")}>Cancel Order</li>
+                                                                        <li onClick={() => handleShow(row.id, "delete")}>Delete Order</li>
+                                                                    </ul>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </React.Fragment>
+                                    )
+                                })}
                             </> : <tr></tr>}
                         </tbody>
                     </table>

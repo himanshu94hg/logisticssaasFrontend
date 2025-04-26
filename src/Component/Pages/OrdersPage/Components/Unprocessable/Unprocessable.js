@@ -115,8 +115,8 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                     </div>
                                 </th>
                                 <th style={{ width: '16.5%' }}>Order Details</th>
-                                <th style={{ width: '15.5%' }}>Customer details</th>
-                                <th style={{ width: '12.5%' }}>Product details</th>
+                                <th style={{ width: '15.5%' }}>Customer Details</th>
+                                <th style={{ width: '12.5%' }}>Product Details</th>
                                 <th style={{ width: '15.5%' }}>Package Details</th>
                                 <th style={{ width: '8.5%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
