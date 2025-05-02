@@ -822,6 +822,14 @@ ul.order-label-list li {
   flex-basis: 65%;
 }
 
+.cell-inside-box .rto-predictor {
+  display: flex;
+  gap: 0px;
+  justify-content: space-between;
+  align-items: center;
+  width: 152px;
+}
+
 .cell-inside-box img.rto-risk {
   /* border-bottom: 1px dashed #F31429; */
   /* color: #F31429; */
@@ -833,8 +841,8 @@ ul.order-label-list li {
   width: auto;
   white-space: nowrap;
   display: flex;
-  left: 23px;
-  bottom: -22px;
+  left: 58px;
+  bottom: -24px;
   height: auto;
   min-height: 50px;
   align-items: center;
@@ -856,12 +864,17 @@ ul.order-label-list li {
   margin-inline: 5px;
 }
 
-.cell-inside-box .rto-risk-tooltip .risk-low {
+.cell-inside-box .rto-risk-tooltip .risk-Low {
   color: #FECD1A;
   font-size: 1rem;
 }
 
-.cell-inside-box .rto-risk-tooltip .risk-high {
+.cell-inside-box .rto-risk-tooltip .risk-Medium {
+  color: orange;
+  font-size: 1rem;
+}
+
+.cell-inside-box .rto-risk-tooltip .risk-High {
   color: #F31429;
   font-size: 1rem;
 }

@@ -26,6 +26,7 @@ import { getFileData, uploadImageData } from "../../../../../awsUploadFile";
 import { awsAccessKey } from "../../../../../config";
 import { toast } from "react-toastify";
 import RtoRiskIcon from "../../../../common/Icons/RtoRiskIcon";
+import RiskGauge from "./RiskGauge";
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -492,16 +493,16 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                 <td>
                                                     {/* customer detail */}
                                                     <div className='cell-inside-box'>
-                                                        <p className="d-flex align-items-end gap-2">
+                                                        <p className="rto-predictor">
                                                             <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
                                                             {rtoInfo &&
                                                                 <>
                                                                     <CustomTooltip
-                                                                        triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
-                                                                        // triggerComponent={<RtoRiskIcon />}
+                                                                        // triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
+                                                                        triggerComponent={<RiskGauge riskLevel={rtoInfo.risk} />}
                                                                         tooltipComponent={
                                                                             <span>
-                                                                                <span>RTO Risk: {(rtoInfo.rto < 2 || rtoRiskage < 50) ? <b className="risk-low">Low</b> : <b className="risk-high">High</b>}</span>
+                                                                                <span>RTO Risk: <b className={`risk-${rtoInfo.risk}`}>{rtoInfo.risk}</b></span>
                                                                                 <span>RTO Orders: <b data-b>{rtoInfo.rto}</b> || Total Orders: <b data-b>{rtoInfo.total}</b></span>
                                                                             </span>
                                                                         }
