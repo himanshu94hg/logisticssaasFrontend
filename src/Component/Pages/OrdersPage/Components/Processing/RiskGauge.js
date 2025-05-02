@@ -10,19 +10,19 @@ const RiskGauge = ({ riskLevel }) => {
   switch (riskLevel) {
     case 'Low':
       percent = 0.2; // 20% for Low risk
-      colors = ['#FFDD00', '#FFDD00', '#FF5F5F']; // Blue to Yellow to Red
+      colors = ['yellow', 'orange', 'red']; // Blue to Yellow to Red
       break;
     case 'Medium':
       percent = 0.5; // 50% for Medium risk
-      colors = ['#FFDD00', '#FFDD00', '#FF5F5F']; // Blue to Yellow to Red
+      colors = ['yellow', 'orange', 'red']; // Blue to Yellow to Red
       break;
     case 'High':
       percent = 0.8; // 80% for High risk
-      colors = ['#FFDD00', '#FFDD00', '#FF5F5F']; // Blue to Yellow to Red
+      colors = ['yellow', 'orange', 'red']; // Blue to Yellow to Red
       break;
     default:
       percent = 0.0; // Default to 0 if invalid
-      colors = ['#FFDD00', '#FFDD00', '#FF5F5F']; // Blue to Yellow to Red
+      colors = ['yellow', 'orange', 'red']; // Blue to Yellow to Red
   }
 
   return (

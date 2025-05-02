@@ -404,7 +404,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                             {orders?.length ? <>
                                 {Array.isArray(orders) && orders?.map((row, index) => {
                                     const rtoInfo = rtoLookup[row?.shipping_detail?.pincode];
-                                    const rtoRiskage = (rtoInfo?.rto / rtoInfo?.total) * 100;
                                     return (
                                         <React.Fragment key={row?.id}>
                                             {index > 0 && <tr className="blank-row"><td></td></tr>}
@@ -495,15 +494,15 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     <div className='cell-inside-box'>
                                                         <p className="rto-predictor">
                                                             <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
-                                                            {rtoInfo &&
+                                                            {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
                                                                 <>
                                                                     <CustomTooltip
                                                                         // triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
-                                                                        triggerComponent={<RiskGauge riskLevel={rtoInfo.risk} />}
+                                                                        triggerComponent={<RiskGauge riskLevel={rtoInfo?.risk} />}
                                                                         tooltipComponent={
                                                                             <span>
-                                                                                <span>RTO Risk: <b className={`risk-${rtoInfo.risk}`}>{rtoInfo.risk}</b></span>
-                                                                                <span>RTO Orders: <b data-b>{rtoInfo.rto}</b> || Total Orders: <b data-b>{rtoInfo.total}</b></span>
+                                                                                <span>RTO Risk: <b className={`risk-${rtoInfo?.risk}`}>{rtoInfo?.risk}</b></span>
+                                                                                <span>RTO Orders: <b data-b>{rtoInfo?.rto}</b> || Total Orders: <b data-b>{rtoInfo?.total}</b></span>
                                                                             </span>
                                                                         }
                                                                         addClassName='rto-risk-tooltip'
