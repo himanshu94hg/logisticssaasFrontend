@@ -1,6 +1,6 @@
 .single-ship-container {
-    width: 80vw;
-    height: 80vh;
+    width: 80%;
+    height: 80%;
     overflow-y: clip;
     background-color: var(--sh-primary-light);
     position: fixed;
@@ -12,7 +12,7 @@
 }
 
 .single-ship-container.open {
-    right: 8%;
+    right: 10%;
 }
 
 .single-ship-container p {
@@ -26,7 +26,7 @@
 .ss-container-main {
     overflow-y: auto;
     height: 100%;
-    padding-bottom: 30px;
+    padding-bottom: 120px;
     display: flex;
     flex-direction: column;
 }
@@ -210,4 +210,106 @@ table.performance-rating tr td {
     justify-content: space-between;
     height: 100%;
     padding: 15px;
+}
+
+.tab-ui {
+    position: absolute;
+    bottom: -169px;
+    left: 50%;
+    width: 400px;
+    height: 291px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 11px;
+    background: #c5dcf199;
+    transform: translateX(-50%);
+}
+
+.tab-ui>div {
+    position: relative;
+    width: 300px;
+    height: 100px;
+    /* Half-circle height */
+}
+
+.tab-ui>div button:hover,
+.tab-ui>div button:focus,
+.tab-ui>div button.active,
+.tab-ui>div button {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    color: var(--sh-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background: #fff;
+    border: 2px solid var(--sh-primary);
+}
+
+.tab-ui>div button:active {
+    background: #fff !important;
+}
+
+.tab-ui>div button.active:focus,
+.tab-ui>div button.active {
+    background: var(--sh-primary);
+    color: #fff;
+    /* border: 2px solid #fff; */
+    -webkit-box-shadow: 3px 4px 5px 0px rgba(98 158 213/ 1);
+    -moz-box-shadow: 3px 4px 5px 0px rgba(98 158 213/ 1);
+    box-shadow: 3px 4px 5px 0px rgba(98 158 213/ 1);
+}
+
+
+/* Button Positions for Semicircle */
+.tab-ui>div button:nth-of-type(1) {
+    /* top: 0; */
+    /* left: 50%; */
+    transform: translateX(207%) translateY(0%);
+}
+
+/* Top center */
+
+.tab-ui>div button:nth-of-type(2) {
+    /* top: 40px; */
+    /* left: 10%; */
+    transform: translateX(62%) translateY(67%);
+}
+
+/* Bottom-left curve */
+
+.tab-ui>div button:nth-of-type(3) {
+    /* top: 40px;
+    left: 70%; */
+    transform: translateX(348%) translateY(67%);
+}
+
+.no-courier {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: larger;
+    width: 95%;
+    height: 90%;
+    background: #fff;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    padding-bottom: 45px;
+    padding-inline: 20px;
+    text-align: center;
+}
+
+.no-courier-image {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
 }

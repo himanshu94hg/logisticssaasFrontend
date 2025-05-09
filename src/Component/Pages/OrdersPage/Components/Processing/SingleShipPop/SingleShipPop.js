@@ -7,7 +7,7 @@ import PieChart from './PieChart';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 import RatingStars from "../../../../../common/RatingStars/RatingStars";
+import NoCourier from '../../../../../../assets/image/NoCourier.png'
 
 
 const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop, CompName }) => {
@@ -91,6 +92,31 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
 
     };
 
+    const [shippingType, setShippingType] = useState("b2c"); // Default to a key
+    const [buttons, setButtons] = useState({
+        b2c: "B2C",
+        hyperlocal: "Hyper local",
+        b2b: "B2B"
+    });
+
+    const handleSelect = (selectedIndex) => {
+        const selectedKey = Object.keys(buttons)[selectedIndex]; // Get key by index
+        const selectedValue = buttons[selectedKey]; // Get corresponding value
+
+        const newOrder = {
+            [selectedKey]: selectedValue, // Keep the same order but update
+            ...Object.fromEntries(Object.entries(buttons).filter(([key]) => key !== selectedKey)) // Filter out selected key
+        };
+
+        setButtons(newOrder); // Update buttons (if needed)
+        setShippingType(selectedKey); // Set shippingType as the selected key
+    };
+
+    useEffect(() => {
+        console.log(shippingType, "shippingType")
+    }, [shippingType])
+
+    const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
 
 
     return (
@@ -111,62 +137,82 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                     }
                 </div>
                 <div className='ss-container-main'>
-                    {shipingResponse && shipingResponse.map((option, index) => (
-                        <div className='ship-container-row box-shadow shadow-sm' key={index}>
-                            <div className='d-flex gap-2'>
-                                <div className='img-container'>
-                                    {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner' />}
+                    {filteredOptions?.length > 0 ? (
+                        filteredOptions.map((option, index) => (
+                            <div className='ship-container-row box-shadow shadow-sm' key={index}>
+                                <div className='d-flex gap-2'>
+                                    <div className='img-container'>
+                                        {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner' />}
+                                    </div>
+                                    <div className='d-flex flex-column justify-content-center'>
+                                        <p className='fw-bold fs-large'>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
+                                        <p>{"Delivering Excellence, Every Mile"}</p>
+                                        <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
+                                    </div>
                                 </div>
-                                <div className='d-flex flex-column justify-content-center'>
-                                    <p className='fw-bold fs-large'>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
-                                    <p>{"Delivering Excellence, Every Mile"}</p>
-                                    <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
+                                <div className='d-flex align-items-center gap-2 ship-ratings'>
+                                    <table className='performance-rating'>
+                                        <tbody>
+                                            <tr>
+                                                <td>Pickup Performance</td>
+                                                <td><RatingStars rating={option?.pickup_rating} /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Delivery Performance</td>
+                                                <td><RatingStars rating={option?.delivery_rating} /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>NDR Performance</td>
+                                                <td><RatingStars rating={option?.ndr_rating} /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>RTO Performance</td>
+                                                <td><RatingStars rating={option?.rto_rating} /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div className="chart-container">
+                                        <PieChart rating={4} />
+                                        <p>Overall Rating</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='d-flex align-items-center gap-2 ship-ratings'>
-                                <table className='performance-rating'>
-                                    <tbody>
-                                        <tr>
-                                            <td>Pickup Performance</td>
-                                            <td><RatingStars rating={option?.pickup_rating} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Delivery Performance</td>
-                                            <td><RatingStars rating={option?.delivery_rating} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>NDR Performance</td>
-                                            <td><RatingStars rating={option?.ndr_rating} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>RTO Performance</td>
-                                            <td><RatingStars rating={option?.rto_rating} /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div className="chart-container">
-                                    <PieChart rating={4} />
-                                    <p>Overall Rating</p>
+                                <div className='ss-shipment-charges'>
+                                    <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
+                                        <span>Freight Charges: <strong>₹ {(option?.rate).toFixed(2)}</strong></span><br />
+                                        <span>+ COD Charges: <strong>₹ {(option?.cod_charge).toFixed(2)}</strong></span><br />
+                                        <span>+ Early COD Charges: <strong>₹ {(option?.early_cod_charge).toFixed(2)}</strong></span><br />
+                                    </p>
                                 </div>
-                            </div>
-                            <div className='ss-shipment-charges'>
-                                <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
-                                    <span>Freight Charges: <strong>₹ {(option?.rate).toFixed(2)}</strong></span><br />
-                                    <span>+ COD Charges: <strong>₹ {(option?.cod_charge).toFixed(2)}</strong></span><br />
-                                    <span>+ Early COD Charges: <strong>₹ {(option?.early_cod_charge).toFixed(2)}</strong></span><br />
-                                </p>
-                            </div>
-                            <div className='d-flex flex-column gap-2 align-items-end'>
-                                <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId, option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
-                                <p><span>EDD: <strong>{option?.estimate_days} days</strong></span></p>
-                            </div>
-                            {option?.is_recommended &&
-                                <span className="recommended"></span>
-                            }
+                                <div className='d-flex flex-column gap-2 align-items-end'>
+                                    <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId, option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
+                                    <p><span>EDD: <strong>{option?.estimate_days} days</strong></span></p>
+                                </div>
+                                {option?.is_recommended &&
+                                    <span className="recommended"></span>
+                                }
 
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-courier">
+                            <img src={NoCourier} className="no-courier-image" alt="No Courier Available" />
+                            <p>No shipping options available for selected type.</p>
                         </div>
-                    ))}
+                    )}
                 </div>
+                <section className="tab-ui">
+                    <div>
+                        {Object.entries(buttons).map(([key, label], index) => (
+                            <button
+                                key={key}
+                                className={`btn ${shippingType === key ? "active" : ""}`} // Set active based on shippingType (key)
+                                onClick={() => handleSelect(index)}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </section>
             </section>
             <section className={`quick-ship-exit ${Exitpop && 'open'}`}>
                 <div className='confirmation-header'>
@@ -183,6 +229,8 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                     </div>
                 </div>
             </section>
+
+
         </>
     );
 }
