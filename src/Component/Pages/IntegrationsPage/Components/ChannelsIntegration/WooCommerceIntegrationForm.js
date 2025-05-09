@@ -6,19 +6,19 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import Logo from '../../../../../assets/image/integration/woocommerceLogo.png';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const WooCommerceIntegrationForm = () => {
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const navigation = useNavigate();
     const [errors, setErrors] = useState({});
     const hardcodedToken = Cookies.get("access_token");
     const [selectedDate, setSelectedDate] = useState(null);
     const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-    
+
     const [formData, setFormData] = useState({
         seller_id: userData?.id,
         channel: {
@@ -154,7 +154,7 @@ const WooCommerceIntegrationForm = () => {
                 </section>
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
-                        <h4>Instruction to integrate Shopify to ShipEase</h4>
+                        <h4>Instruction to integrate Woo Commerce to ShipEase</h4>
                         <ul className='timeline mb-3'>
                             {[
                                 "Login to Woo-Commerce Admin Panel.",
