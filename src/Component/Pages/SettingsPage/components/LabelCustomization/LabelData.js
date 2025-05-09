@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/logo/logo.svg';
 import BarcodeImage from '../../../../../assets/image/barcode.png'
+import AwbBarcodeImage from '../../../../../assets/image/testBarcode.png'
 
 const LabelData = ({ items, setItems }) => {
     const renderSection = () => {
@@ -71,7 +72,7 @@ const LabelData = ({ items, setItems }) => {
                                                 <b>Delhivery</b>
                                                 {items.awb_barcode_visibility && (
                                                     <img
-                                                        src="https://www.shipease.in/barcode/test.php?code=12345678923430"
+                                                        src={AwbBarcodeImage}
                                                         style={{ height: 60, margin: 10, maxWidth: 160 }}
                                                     />
                                                 )}
