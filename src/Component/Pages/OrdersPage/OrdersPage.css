@@ -826,7 +826,7 @@ ul.order-label-list li {
   display: flex;
   gap: 0px;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   width: 152px;
 }
 
@@ -847,7 +847,7 @@ ul.order-label-list li {
   min-height: 50px;
   align-items: center;
   justify-content: center;
-  padding: 5px 10px;
+  padding: 5px 18px;
   text-align: start;
 }
 
@@ -856,7 +856,7 @@ ul.order-label-list li {
   display: inline-flex;
   flex-direction: column;
   align-items: start;
-  gap: 5px;
+  gap: 0px;
 }
 
 .cell-inside-box .rto-risk-tooltip [data-b] {
@@ -865,17 +865,17 @@ ul.order-label-list li {
 }
 
 .cell-inside-box .rto-risk-tooltip .risk-Low {
-  color: #FECD1A;
+  color: rgb(0, 128, 0);
   font-size: 1rem;
 }
 
 .cell-inside-box .rto-risk-tooltip .risk-Medium {
-  color: orange;
+  color: #caa500;
   font-size: 1rem;
 }
 
 .cell-inside-box .rto-risk-tooltip .risk-High {
-  color: #F31429;
+  color: #ff0000;
   font-size: 1rem;
 }
 

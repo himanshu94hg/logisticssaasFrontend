@@ -502,7 +502,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                         tooltipComponent={
                                                                             <span>
                                                                                 <span>RTO Risk: <b className={`risk-${rtoInfo?.risk}`}>{rtoInfo?.risk}</b></span>
-                                                                                <span>RTO Orders: <b data-b>{rtoInfo?.rto}</b> || Total Orders: <b data-b>{rtoInfo?.total}</b></span>
+                                                                                <span>RTO Score: <b data-b>{((rtoInfo?.rto / rtoInfo?.total) * 100).toFixed(0)}%</b></span>
                                                                             </span>
                                                                         }
                                                                         addClassName='rto-risk-tooltip'
