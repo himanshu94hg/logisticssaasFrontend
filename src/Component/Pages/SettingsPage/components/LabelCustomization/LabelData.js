@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/logo/logo.svg';
+import BarcodeImage from '../../../../../assets/image/barcode.png'
 
 const LabelData = ({ items, setItems }) => {
     const renderSection = () => {
@@ -123,7 +124,7 @@ const LabelData = ({ items, setItems }) => {
                                                     <br />
                                                     <span id="barcodeImage">
                                                         <img
-                                                            src="https://www.shipease.in/barcode/test.php?code=1000123"
+                                                            src={BarcodeImage}
                                                             style={{ height: 60, margin: 10, maxWidth: 160 }}
                                                         />
                                                         <br />
@@ -131,15 +132,15 @@ const LabelData = ({ items, setItems }) => {
                                                 </>
                                             )}
                                             {items.manifest_date_visibility && (
-                                               <>
-                                                <span id="ordernumberVisibility">
-                                                    Order No: 1000***
-                                                </span>
-                                                <br />
-                                                <span id="ordernumberVisibility">
-                                                    Order Date: 10 Sep 2024 3:27 PM
-                                                </span>
-                                               </>
+                                                <>
+                                                    <span id="ordernumberVisibility">
+                                                        Order No: 1000***
+                                                    </span>
+                                                    <br />
+                                                    <span id="ordernumberVisibility">
+                                                        Order Date: 10 Sep 2024 3:27 PM
+                                                    </span>
+                                                </>
                                             )}
                                         </td>
                                     </tr>
@@ -157,8 +158,8 @@ const LabelData = ({ items, setItems }) => {
                                         <tr>
                                             <th style={{ width: "85%" }}>Name &amp; SKU</th>
                                             <th style={{ width: "10%" }}>QTY</th>
-                                            {items?.product_price_visibility&&
-                                            <th style={{ width: "15%" }}>Price(Rs)</th>
+                                            {items?.product_price_visibility &&
+                                                <th style={{ width: "15%" }}>Price(Rs)</th>
                                             }
                                         </tr>
                                     </thead>
@@ -173,8 +174,8 @@ const LabelData = ({ items, setItems }) => {
                                                 &nbsp; &nbsp; SKU : SKU-Name
                                             </td>
                                             <td>1</td>
-                                            {items.product_price_visibility&&
-                                            <td>100</td>
+                                            {items.product_price_visibility &&
+                                                <td>100</td>
                                             }
                                         </tr>
                                     )}
