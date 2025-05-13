@@ -116,7 +116,8 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
         console.log(shippingType, "shippingType")
     }, [shippingType])
 
-    const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
+    // const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
+    const filteredOptions = shipingResponse?.filter(option => shippingType !== "");
 
 
     return (
@@ -200,7 +201,7 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                         </div>
                     )}
                 </div>
-                <section className="tab-ui">
+                {/* <section className="tab-ui">
                     <div>
                         {Object.entries(buttons).map(([key, label], index) => (
                             <button
@@ -212,7 +213,7 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                             </button>
                         ))}
                     </div>
-                </section>
+                </section> */}
             </section>
             <section className={`quick-ship-exit ${Exitpop && 'open'}`}>
                 <div className='confirmation-header'>
