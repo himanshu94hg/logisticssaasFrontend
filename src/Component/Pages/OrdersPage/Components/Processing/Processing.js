@@ -494,7 +494,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     <div className='cell-inside-box'>
                                                         <p className="rto-predictor">
                                                             <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
-                                                            {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
+                                                            {/* {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
                                                                 <>
                                                                     <CustomTooltip
                                                                         // triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
@@ -509,7 +509,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     />
 
                                                                 </>
-                                                            }
+                                                            } */}
                                                         </p>
                                                         <p>
                                                             {row?.shipping_detail?.mobile_number ?
