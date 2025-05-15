@@ -127,8 +127,11 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
             : shippingType !== ""
     )
 
-    console.log(userData, "userData")
+    const firstObject = Array.isArray(shipingResponse) && shipingResponse.length > 0
+        ? shipingResponse[0]
+        : null;
 
+    console.log(firstObject?.hyperlocal_message, "shipingResponse");
     // let filteredOptions = []
     // if (userData?.code === "SE-200562") {
     //     filteredOptions = shipingResponse?.filter(option => shippingType !== "");
@@ -209,14 +212,12 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                                 {option?.is_recommended &&
                                     <span className="recommended"></span>
                                 }
-                                {/* <div className="courier-mode">{option?.courier_mode === "air" ? <AirModeIcon /> : <SurfaceModeIcon />}</div> */}
                             </div>
                         ))
                     ) : (
                         <div className="no-courier">
                             <img src={NoCourier} className="no-courier-image" alt="No Courier Available" />
-                            <p>No shipping options available for selected type.</p>
-                            <p></p>
+                            <p>{firstObject?.hyperlocal_message}</p>
                         </div>
                     )}
                 </div>
