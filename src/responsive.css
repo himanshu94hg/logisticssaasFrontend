@@ -110,6 +110,7 @@
 @media screen and (max-width:1240px) {
     .ship-container-row {
         flex-wrap: wrap;
+        padding-top: 10px;
     }
 
     .new-scheduler-slider {

@@ -17,6 +17,8 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 import RatingStars from "../../../../../common/RatingStars/RatingStars";
 import NoCourier from '../../../../../../assets/image/NoCourier.png'
+import AirModeIcon from "../../../../../common/Icons/AirModeIcon";
+import SurfaceModeIcon from "../../../../../common/Icons/SurfaceModeIcon";
 
 
 const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop, CompName }) => {
@@ -116,9 +118,24 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
         console.log(shippingType, "shippingType")
     }, [shippingType])
 
-    // const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
-    const filteredOptions = shipingResponse?.filter(option => shippingType !== "");
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+    let filteredOptions = []
+    filteredOptions = shipingResponse?.filter(option =>
+        userData?.code === "SE-200562"
+            ? shippingType === option.courier_type
 
+            : shippingType !== ""
+    )
+
+    console.log(userData, "userData")
+
+    // let filteredOptions = []
+    // if (userData?.code === "SE-200562") {
+    //     filteredOptions = shipingResponse?.filter(option => shippingType !== "");
+    // }
+    // else {
+    // const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
+    // }
 
     return (
         <>
@@ -149,6 +166,7 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                                         <p className='fw-bold fs-large'>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
                                         <p>{"Delivering Excellence, Every Mile"}</p>
                                         <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
+                                        <div className="courier-mode">{option?.courier_mode === "air" ? <AirModeIcon /> : <SurfaceModeIcon />}</div>
                                     </div>
                                 </div>
                                 <div className='d-flex align-items-center gap-2 ship-ratings'>
@@ -191,29 +209,33 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                                 {option?.is_recommended &&
                                     <span className="recommended"></span>
                                 }
-
+                                {/* <div className="courier-mode">{option?.courier_mode === "air" ? <AirModeIcon /> : <SurfaceModeIcon />}</div> */}
                             </div>
                         ))
                     ) : (
                         <div className="no-courier">
                             <img src={NoCourier} className="no-courier-image" alt="No Courier Available" />
                             <p>No shipping options available for selected type.</p>
+                            <p></p>
                         </div>
                     )}
                 </div>
-                {/* <section className="tab-ui">
-                    <div>
-                        {Object.entries(buttons).map(([key, label], index) => (
-                            <button
-                                key={key}
-                                className={`btn ${shippingType === key ? "active" : ""}`} // Set active based on shippingType (key)
-                                onClick={() => handleSelect(index)}
-                            >
-                                {label}
-                            </button>
-                        ))}
-                    </div>
-                </section> */}
+                {
+                    userData?.code === "SE-200562" &&
+                    <section className="tab-ui">
+                        <div>
+                            {Object.entries(buttons).map(([key, label], index) => (
+                                <button
+                                    key={key}
+                                    className={`btn ${shippingType === key ? "active" : ""}`} // Set active based on shippingType (key)
+                                    onClick={() => handleSelect(index)}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+                }
             </section>
             <section className={`quick-ship-exit ${Exitpop && 'open'}`}>
                 <div className='confirmation-header'>

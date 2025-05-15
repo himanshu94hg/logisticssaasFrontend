@@ -313,3 +313,12 @@ table.performance-rating tr td {
     width: 100%;
     height: auto;
 }
+
+.single-ship-container .courier-mode {
+    /* position: absolute; */
+    bottom: 0;
+    left: 0;
+    /* padding: 3px 5px; */
+    padding: 3px 0px;
+    font-size: 0.8rem;
+}
