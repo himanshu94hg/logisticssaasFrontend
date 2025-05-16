@@ -314,3 +314,8 @@ export const UserManagementPattern = "/manage-user-role";
 export const UserManagementRoutes = () => {
     return generatePath(UserManagementPattern);
 };
+
+export const RtoPredictorPattern = "/rto-predictor";
+export const RtoPredictorRoutes = () => {
+    return generatePath(RtoPredictorPattern);
+};

@@ -26,6 +26,7 @@ import {
     ManageSubAccountPattern,
     PostpaidSettingsPagePattern,
     ProofOfDeliveryPattern,
+    RtoPredictorPattern,
     SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
     SkuUploadPattern,
@@ -503,10 +504,11 @@ const SettingsPage = () => {
                                         Activate Direct Ship
                                     </li> */}
                                     <li onClick={() => Navigate()}>
+                                        {/* <li onClick={() => Navigate(RtoPredictorPattern)}> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        RTO Score
+                                        RTO Predictor
                                     </li>
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
