@@ -4,7 +4,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import PieChart from './PieChart';
-//import './SingleShipPop';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import RatingStars from '../../../../common/RatingStars/RatingStars';

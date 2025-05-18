@@ -1,5 +1,4 @@
 
-import { forEach } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';

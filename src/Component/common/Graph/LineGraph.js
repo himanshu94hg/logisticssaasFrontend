@@ -1,62 +1,51 @@
 // src/LineGraph.js
 
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 
 const LineGraph = ({ cardColor }) => {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May'],
-    datasets: [
-      {
-        label: ' ',
-        data: [10, 20, 15, 25, 30],
-        fill: false,
-        borderColor: cardColor,
-        tension: 0.1,
-        backgroundColor: 'rgba(0, 0, 0, 0)', // Set background color to transparent
-      },
-    ],
-  };
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+  const { screenWidthData } = useSelector(state => state?.authDataReducer);
+
+  const series = [
+    {
+      name: '',
+      data: [10, 20, 15, 25, 30]
+    }
+  ];
 
   const options = {
-    scales: {
-      x: {
-        display: false, // Hide the x-axis
-      },
-      y: {
-        display: false, // Hide the y-axis
-      },
+    chart: {
+      type: 'line',
+      height: 50,
+      toolbar: { show: false },
+      sparkline: {
+        enabled: true // Hide axes, legend, tooltips for a minimal sparkline look
+      }
     },
-    plugins: {
-      legend: {
-        display: false, // Hide the legend
-      },
+    stroke: {
+      curve: 'smooth',
+      width: 2
     },
-    elements: {
-      point: {
-        radius: 0, // Hide data points
-      },
+    colors: [cardColor],
+    markers: {
+      size: 0
     },
-    animation: false,
-    hover: {
-      mode: null, // Disable hover interactions
+    tooltip: {
+      enabled: false
     },
-    tooltips: {
-      enabled: false, // Disable tooltips on hover
-    },
+    grid: {
+      show: false
+    }
   };
 
   return (
     <>
-      {
-        screenWidthData > 991 &&
+      {screenWidthData > 991 && (
         <div style={{ height: '2rem', width: '6rem', display: 'flex', justifyContent: 'flex-end' }}>
-          {/* <h2>Linear Line Graph</h2> */}
-          <Line data={data} options={options} />
+          <ReactApexChart options={options} series={series} type="line" height={30} width={60} />
         </div>
-      }
+      )}
     </>
   );
 };

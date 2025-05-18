@@ -54,6 +54,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         value_to_check: ""
     });
 
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
 
 
     useEffect(() => {
@@ -494,7 +495,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     <div className='cell-inside-box'>
                                                         <p className="rto-predictor">
                                                             <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
-                                                            {/* {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
+                                                            {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
                                                                 <>
                                                                     <CustomTooltip
                                                                         // triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
@@ -509,7 +510,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     />
 
                                                                 </>
-                                                            } */}
+                                                            }
                                                         </p>
                                                         <p>
                                                             {row?.shipping_detail?.mobile_number ?
@@ -665,7 +666,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
+                <SingleShipPop setLoader={setLoader} orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} userData={userData} />
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
 

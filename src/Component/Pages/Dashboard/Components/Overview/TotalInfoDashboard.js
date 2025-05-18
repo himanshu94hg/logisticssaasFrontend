@@ -4,7 +4,6 @@ import { CiUser } from "react-icons/ci";
 import Col from "react-bootstrap/Col";
 import TableDashboard from "./TableDashboard";
 import './totalInfoDashboard.css'
-import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
 import { useDispatch, useSelector } from "react-redux";
 import { dateRangeDashboard } from "../../../../../customFunction/dateRange";

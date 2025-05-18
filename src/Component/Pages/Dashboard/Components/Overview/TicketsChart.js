@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "./courierwiseCard.css";
 import Chart from 'react-apexcharts';
-import { BASE_URL_CORE } from "../../../../../axios/config";
 import axios from "axios";
 import Cookies from 'js-cookie';
-
+import "./courierwiseCard.css";
+import { BASE_URL_CORE } from "../../../../../axios/config";
 
 function TicketsChart() {
-  const authToken = Cookies.get("access_token")
+  const authToken = Cookies.get("access_token");
 
   const [chartOptions, setChartOptions] = useState({
     chart: {
-      type: 'line', // Mixed chart type
+      type: 'line', // base type - overridden by series types
       height: 350,
       toolbar: {
-        show: false, // Disable toolbar icons
+        show: false,
       },
     },
     plotOptions: {
@@ -25,24 +24,22 @@ function TicketsChart() {
       },
     },
     dataLabels: {
-      enabled: true, // Disable data labels globally
+      enabled: false, // globally false, can enable per series
     },
     stroke: {
-      width: [0, 0, 3], // Increased line width for visibility
-      curve: 'smooth', // Smooth curve for the line
+      width: [0, 0, 3], // line width only on the line series
+      curve: 'smooth',
     },
     xaxis: {
-      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], // X-axis labels
+      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
     },
-    yaxis: [
-      {
-        title: {
-          text: 'Number of Tickets',
-        },
+    yaxis: {
+      title: {
+        text: 'Number of Tickets',
       },
-    ],
+    },
     legend: {
-      position: 'top', // Legend position
+      position: 'top',
     },
     tooltip: {
       shared: true,
@@ -50,82 +47,51 @@ function TicketsChart() {
     },
   });
 
-  const [series, setSeries] = useState([
-    // {
-    //   name: 'Open Tickets',
-    //   type: 'bar',
-    //   data: [30, 40, 35, 50],
-    //   dataLabels: {
-    //     enabled: false, 
-    //   },
-    // },
-    // {
-    //   name: 'Closed Tickets',
-    //   type: 'bar', 
-    //   data: [20, 30, 25, 45],
-    //   dataLabels: {
-    //     enabled: false, 
-    //   },
-    // },
-    // {
-    //   name: 'Closed Within TAT',
-    //   type: 'line', 
-    //   data: [10, 15, 12, 20],
-    //   dataLabels: {
-    //     enabled: true, 
-    //   },
-    // },
-  ]);
+  const [series, setSeries] = useState([]);
 
-  const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/escallation-dashboard/`, {
           headers: {
-            Authorization: `Bearer ${authToken}`
-          }
+            Authorization: `Bearer ${authToken}`,
+          },
         });
-        const mappedData = [
+
+        const data = response?.data || {};
+        setSeries([
           {
             name: "Open Tickets",
             type: "bar",
-            data: response?.data.open_tickets.length > 0 ? response?.data.open_tickets : [0],
-            dataLabels: {
-              enabled: false,
-            },
+            data: data.open_tickets?.length ? data.open_tickets : [0],
+            dataLabels: { enabled: false },
           },
           {
             name: "Closed Tickets",
             type: "bar",
-            data: response?.data.closed_tickets.length > 0 ? response?.data.closed_tickets : [0],
-            dataLabels: {
-              enabled: false,
-            },
+            data: data.closed_tickets?.length ? data.closed_tickets : [0],
+            dataLabels: { enabled: false },
           },
           {
             name: "Closed Within TAT",
             type: "line",
-            data: response?.data.closed_within_tat.length > 0 ? response?.data.closed_within_tat : [0],
-            dataLabels: {
-              enabled: true,
-            },
+            data: data.closed_within_tat?.length ? data.closed_within_tat : [0],
+            dataLabels: { enabled: true },
           },
-        ];
-        setSeries(mappedData);
-      } catch (err) {
+        ]);
+      } catch (error) {
+        // Handle error or fallback state here
+        console.error("Error fetching ticket chart data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [authToken]);
 
   return (
     <div className="box-shadow shadow-sm p10 tickets-chart">
-      <h4 className="title"> Support  </h4>
-      <div>
-        <Chart options={chartOptions} series={series} height={350} />
-      </div>
+      <h4 className="title">Support</h4>
+      <Chart options={chartOptions} series={series} height={350} />
     </div>
   );
 }

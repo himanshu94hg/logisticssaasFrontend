@@ -21,7 +21,7 @@ import AirModeIcon from "../../../../../common/Icons/AirModeIcon";
 import SurfaceModeIcon from "../../../../../common/Icons/SurfaceModeIcon";
 
 
-const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop, CompName }) => {
+const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop, CompName, userData }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
@@ -118,10 +118,9 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
         console.log(shippingType, "shippingType")
     }, [shippingType])
 
-    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
     let filteredOptions = []
     filteredOptions = shipingResponse?.filter(option =>
-        userData?.code === "SE-200562"
+        userData?.ship_now_new_layout
             ? shippingType === option.courier_type
 
             : shippingType !== ""
@@ -131,14 +130,8 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
         ? shipingResponse[0]
         : null;
 
-    console.log(firstObject?.hyperlocal_message, "shipingResponse");
-    // let filteredOptions = []
-    // if (userData?.code === "SE-200562") {
-    //     filteredOptions = shipingResponse?.filter(option => shippingType !== "");
-    // }
-    // else {
-    // const filteredOptions = shipingResponse?.filter(option => shippingType === option.courier_type);
-    // }
+    // console.log(firstObject?.hyperlocal_message, "shipingResponse");
+
 
     return (
         <>

@@ -8,7 +8,7 @@ import { loginPattern } from '../../../Routes';
 import GoogleIcon from '../LoginPage/Icons/GoogleIcon';
 import FacebookIcon from '../LoginPage/Icons/FacebookIcon';
 import TrackYourOrder from '../../../assets/image/settingsBG/TrackYourOrder1.png'
-import loginBG from '../../../assets/image/login_bg2.svg'
+// import loginBG from '../../../assets/image/login_bg2.svg'
 import Logo from '../../../assets/image/logo/logo.svg'
 import { IoIosEyeOff } from "react-icons/io";
 import { IoIosEye } from "react-icons/io";

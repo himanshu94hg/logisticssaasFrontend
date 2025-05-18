@@ -18,7 +18,6 @@ import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
 import BillingPage from './Component/Pages/BillingPage/BillingPage'
 import { customErrorFunction } from "./customFunction/errorHandling";
-import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
@@ -238,7 +237,6 @@ function App() {
             <Route path={ReferAndEarnPattern} element={<ReferAndEarnPage />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
-            <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
             <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
             <Route path={omsIntegrationPattern} element={<OMSIntegration />} />
             <Route path={apiIntegrationPattern} element={<APIIntegration />} />
