@@ -26,7 +26,7 @@
 .ss-container-main {
     overflow-y: auto;
     height: 100%;
-    padding-bottom: 120px;
+    /* padding-bottom: 120px; */
     display: flex;
     flex-direction: column;
 }
