@@ -10,7 +10,7 @@ const OMSGuruIntegrationForm = () => {
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={OMSGuru} alt="Logo" />
-                        <h2 className='mb-0'>OMSGuru</h2>
+                        <h2 className='mb-0'>OMS Guru</h2>
                     </div>
                     <div className='int-header-right'>
                         <p className='mb-0'>Need Help?</p>
@@ -18,16 +18,16 @@ const OMSGuruIntegrationForm = () => {
                 </section>
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
-                        <h4>Instruction to integrate OMSGuru to ShipEase</h4>
+                        <h4>Instruction to integrate OMS Guru to ShipEase</h4>
                         <ul className='timeline mb-3'>
                             {[
-                                "Login to OMSGuru Admin Panel.",
+                                "Login to OMS Guru Admin Panel.",
                                 "Go to Apps.",
                                 "Click on Private Apps Button.",
                                 "Click on Create a Private App.",
                                 "Enter Title name under the Description tab and click on Save.",
                                 "Click on Title, as you entered earlier.",
-                                "Here you will find OMSGuru API Key, password, Shared Secret.",
+                                "Here you will find OMS Guru API Key, password, Shared Secret.",
                                 "Copy the identifiers and integrate the channel.",
                             ].map(
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
@@ -55,9 +55,9 @@ const OMSGuruIntegrationForm = () => {
                             </div>
                             <div className='int-checkbox mt-3'>
                                 {[
-                                    "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
-                                    "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
-                                    "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
+                                    "Fulfill orders (Enabling this will auto fulfill order in OMS Guru when an order is shipped with ShipEase)",
+                                    "Cancel orders (Enabling this will auto cancel order in OMS Guru when order is cancelled in ShipEase)",
+                                    "Mark as paid (Mark COD orders as paid in OMS Guru when orders are delivered to customer)",
                                 ].map(text => (
                                     <label key={text}>
                                         <input className="input-checkbox mt-1" type="checkbox" />

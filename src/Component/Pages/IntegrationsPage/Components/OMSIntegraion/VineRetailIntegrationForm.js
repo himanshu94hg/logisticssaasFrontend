@@ -18,16 +18,16 @@ const VineRetailIntegrationForm = () => {
                 </section>
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
-                        <h4>Instruction to integrate VineRetail to ShipEase</h4>
+                        <h4>Instruction to integrate Vin eRetail to ShipEase</h4>
                         <ul className='timeline mb-3'>
                             {[
-                                "Login to VineRetail Admin Panel.",
+                                "Login to Vin eRetail Admin Panel.",
                                 "Go to Apps.",
                                 "Click on Private Apps Button.",
                                 "Click on Create a Private App.",
                                 "Enter Title name under the Description tab and click on Save.",
                                 "Click on Title, as you entered earlier.",
-                                "Here you will find VineRetail API Key, password, Shared Secret.",
+                                "Here you will find Vin eRetail API Key, password, Shared Secret.",
                                 "Copy the identifiers and integrate the channel.",
                             ].map(
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
@@ -42,23 +42,23 @@ const VineRetailIntegrationForm = () => {
                                     <input className="input-field" type="text" />
                                 </label>
                                 <label>
-                                    Vineretail Api Owner
+                                    Vin eRetail Api Owner
                                     <input className="input-field" type="text" />
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Vineretail Api Key
+                                    Vin eRetail Api Key
                                     <input className="input-field" type="text" />
                                 </label>
 
                             </div>
                             <div className='int-checkbox mt-3'>
                                 {[
-                                    "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
-                                    "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
-                                    "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
+                                    "Fulfill orders (Enabling this will auto fulfill order in Vin eRetail when an order is shipped with ShipEase)",
+                                    "Cancel orders (Enabling this will auto cancel order in Vin eRetail when order is cancelled in ShipEase)",
+                                    "Mark as paid (Mark COD orders as paid in Vin eRetail when orders are delivered to customer)",
                                 ].map(text => (
                                     <label key={text}>
                                         <input className="input-checkbox mt-1" type="checkbox" />

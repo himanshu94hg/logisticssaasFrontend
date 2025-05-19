@@ -47,7 +47,7 @@ const EasyEcomIntegrationForm = () => {
                                 "Set Serviceability Type - Any Pincode",
                                 "Shipping Mode - All",
                                 "Priority - As per You",
-                                "Extra Credentials - Contact EasyEcom Team for eeApiToken and Enter in this Field",
+                                "Extra Credentials - Contact EasyEcom Team for ApiToken and Enter in this Field",
                             ].map(
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>
                             )}
@@ -93,9 +93,9 @@ const EasyEcomIntegrationForm = () => {
                             </div>
                             <div className='int-checkbox mt-3'>
                                 {[
-                                    "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
-                                    "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
-                                    "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
+                                    "Fulfill orders (Enabling this will auto fulfill order in EasyEcom when an order is shipped with ShipEase)",
+                                    "Cancel orders (Enabling this will auto cancel order in EasyEcom when order is cancelled in ShipEase)",
+                                    "Mark as paid (Mark COD orders as paid in EasyEcom when orders are delivered to customer)",
                                 ].map((text, index) => (
                                     <label key={text}>
                                         <input

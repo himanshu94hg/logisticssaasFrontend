@@ -62,9 +62,9 @@ const ClickPostIntegrationForm = () => {
                             </div>
                             <div className='int-checkbox mt-3'>
                                 {[
-                                    "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
-                                    "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
-                                    "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
+                                    "Fulfill orders (Enabling this will auto fulfill order in ClickPost when an order is shipped with ShipEase)",
+                                    "Cancel orders (Enabling this will auto cancel order in ClickPost when order is cancelled in ShipEase)",
+                                    "Mark as paid (Mark COD orders as paid in ClickPost when orders are delivered to customer)",
                                 ].map(text => (
                                     <label key={text}>
                                         <input className="input-checkbox mt-1" type="checkbox" />

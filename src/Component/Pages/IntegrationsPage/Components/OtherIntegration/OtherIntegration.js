@@ -25,6 +25,16 @@ const OtherIntegration = () => {
 
     ];
 
+    const handleNavigate = (link) => {
+        if (link === "WhatsApp") {
+            navigate(`/${link}-integration`)
+        }
+        else (
+            // alert("")
+            console.log("No Link Found")
+        )
+    }
+
     return (
         <>
             <div className=' integration-container mb-3'>
@@ -40,7 +50,7 @@ const OtherIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
+                                <button onClick={() => handleNavigate(item.child)} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}

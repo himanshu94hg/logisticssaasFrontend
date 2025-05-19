@@ -43,9 +43,9 @@ const WooCommerceIntegrationForm = () => {
     });
 
     const checkboxDescriptions = {
-        auto_fulfill: "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
-        auto_cancel: "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
-        auto_cod_paid: "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
+        auto_fulfill: "Fulfill orders (Enabling this will auto fulfill order in woo commerce when an order is shipped with ShipEase)",
+        auto_cancel: "Cancel orders (Enabling this will auto cancel order in woo commerce when order is cancelled in ShipEase)",
+        auto_cod_paid: "Mark as paid (Mark COD orders as paid in woo commerce when orders are delivered to customer)",
         send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
     };
 
