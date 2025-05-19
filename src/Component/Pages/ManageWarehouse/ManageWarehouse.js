@@ -92,6 +92,13 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
     return <p>No data available</p>;
   }
 
+  const TruncatedParagraph = ({ text }) => {
+    const maxLength = 240;
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+    return <span>{truncatedText}</span>;
+  };
+
 
   return (
     <div className="box-grid">
@@ -119,7 +126,7 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
               </div>
               <hr />
               <div>
-                <p>{box?.address_line1}, {box?.address_line2}, {box?.city}, {box?.state}, PIN:{box?.pincode}</p>
+                <p><TruncatedParagraph text={`${box?.address_line1}, ${box?.address_line2}, ${box?.city}, ${box?.state}, PIN:${box?.pincode}`} /></p>
                 <p>{box?.support_email}</p>
                 <p>Ph. {box?.support_phone}</p>
               </div>
@@ -154,7 +161,7 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
               </div>
               <hr />
               <div>
-                <p>{box?.rto_details?.address}, {box?.rto_details?.landmark}, {box?.rto_details?.city}, {box?.rto_details?.state}, PIN:{box?.rto_details?.pincode}</p>
+                <p><TruncatedParagraph text={`${box?.rto_details?.address}, ${box?.rto_details?.landmark}, ${box?.rto_details?.city}, ${box?.rto_details?.state}, PIN:${box?.rto_details?.pincode}`} /></p>
                 <p>{box?.rto_details?.email}</p>
                 <p>Alt. Ph. {box?.rto_details?.contact_number}</p>
               </div>
