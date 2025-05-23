@@ -23,7 +23,7 @@ import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems, searchType, searchValue }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems, searchType, searchValue, setPickupStatus }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState(false)
@@ -343,6 +343,40 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     };
 
 
+    const handleBulkUnassign = async () => {
+        setLoader(true);
+        try {
+            const payload = { ids: selectedRows };
+
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/shipping/unassign-order/`,
+                payload,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                }
+            );
+
+            const { Status, message } = response.data;
+
+            if (Status) {
+                toast.success(message);
+            } else {
+                toast.error(message || 'Failed to unassign orders.');
+            }
+        } catch (error) {
+            console.error('Unassign Error:', error);
+            const errMsg = error.response?.data?.message || 'Something went wrong while unassigning the orders.';
+            toast.error(errMsg);
+        } finally {
+            setLoader(false);
+            setPickupStatus(new Date())
+        }
+    };
+
+
     return (
         <>
             {selectedRows?.length > 0 && (
@@ -455,6 +489,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                     </li>
                                     {/* <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li> */}
+                                    <li onClick={() => handleBulkUnassign()}><CancelIcon /><span>Unassign All</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>

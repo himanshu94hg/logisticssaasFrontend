@@ -616,6 +616,7 @@ const OrdersPage = () => {
                         setUpdateWarehouse={setUpdateWarehouse}
                         searchType={searchType}
                         searchValue={searchValue}
+                        setPickupStatus={setPickupStatus}
                     />
                 )
                 }

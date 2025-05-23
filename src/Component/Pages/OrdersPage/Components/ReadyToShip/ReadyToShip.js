@@ -375,6 +375,37 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
         setDropdownPosition({})
     };
 
+    const handleUnassign = async (rowId) => {
+        setLoader(true)
+        try {
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/shipping/unassign-order/`,
+                { ids: [rowId] },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            const { status, message } = response.data;
+
+            if (status) {
+                toast.success(message)
+            } else {
+                toast.error(message || 'Failed to unassign order.');
+            }
+        } catch (error) {
+            console.error('Unassign Error:', error);
+            const errMsg = error.response?.data?.message || 'Something went wrong while unassigning the order.';
+            toast.error(errMsg);
+        }
+        finally {
+            setLoader(false);
+            setPickupStatus(new Date())
+        }
+    };
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -610,6 +641,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                     <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
                                                                     <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
                                                                     <li onClick={() => handleShipNow(row?.id)}>Reassign Order</li>
+                                                                    <li onClick={() => handleUnassign(row?.id)}>Unassign Order</li>
                                                                     <li className='action-hr'></li>
                                                                     <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                                 </ul>
