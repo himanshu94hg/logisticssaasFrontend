@@ -46,45 +46,13 @@ const ChannelByOrder = () => {
       amazon_direct: '#ffc281',
       unicommerce: '#9b59b6',
       custom: '#5dade2',
-      omsguru:"brown"
+      omsguru: "brown"
     };
 
     return colorScale;
   };
 
   const colorScale = getColorScale(dummyShipmentData || []);
-
-
-  const getChannelIcon = (channel) => {
-    switch (channel) {
-      case "shopify":
-        return shopifyImg;
-      case "woocommerce":
-        return woocomImg;
-      case "opencart":
-        return openCartImg;
-      case "magento":
-        return magentoImg;
-      case "amazon":
-        return amazonImg;
-      case "api":
-        return apiChannelIcon;
-      case "storehippo":
-        return storeHipImg;
-      case "easyecom":
-        return easycomIcon;
-      case "amazon_direct":
-        return amazonDirImg;
-      case "unicommerce":
-        return unicommerceIcon;
-      case "omsguru":
-        return omsguru;
-      case "custom":
-        return null;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -99,10 +67,10 @@ const ChannelByOrder = () => {
                     <div className='d-flex justify-content-between mb-1'>
                       <div className='d-flex align-items-center'>
                         {item?.channel === "custom" ? (
-                          <CustomIcon  />
+                          <CustomIcon />
                         ) : (
                           <img
-                            src={getChannelIcon(item?.channel)}
+                            src={item?.channel_logo}
                             alt={item?.channel}
                             width={24}
                             style={{ borderRadius: 20 }}
