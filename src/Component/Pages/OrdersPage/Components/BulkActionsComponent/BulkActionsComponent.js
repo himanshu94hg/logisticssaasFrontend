@@ -359,9 +359,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 }
             );
 
-            const { Status, message } = response.data;
+            const { status, message } = response.data;
 
-            if (Status) {
+            if (status) {
                 toast.success(message);
             } else {
                 toast.error(message || 'Failed to unassign orders.');
@@ -373,6 +373,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         } finally {
             setLoader(false);
             setPickupStatus(new Date())
+            setSelectedRows([])
+            setBulkActionShow(false)
         }
     };
 
