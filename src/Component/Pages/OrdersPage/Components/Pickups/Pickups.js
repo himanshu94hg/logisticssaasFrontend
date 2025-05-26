@@ -20,6 +20,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import customImg from "../../../../../assets/image/integration/Manual.png"
+import axios from 'axios';
 
 
 const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
@@ -365,6 +366,37 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     };
 
 
+    const handleUnassign = async (rowId) => {
+        setLoader(true)
+        try {
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/shipping/unassign-order/`,
+                { ids: [rowId] },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            const { status, message } = response.data;
+
+            if (status) {
+                toast.success(message)
+            } else {
+                toast.error(message || 'Failed to unassign order.');
+            }
+        } catch (error) {
+            console.error('Unassign Error:', error);
+            const errMsg = error.response?.data?.message || 'Something went wrong while unassigning the order.';
+            toast.error(errMsg);
+        }
+        finally {
+            setLoader(false);
+        }
+    };
+
 
     return (
         <section className='position-relative'>
@@ -603,6 +635,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         activeIndex === index && (
                                                             <div className={`action-list ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
+                                                                    <li onClick={() => handleUnassign(row?.id)}>Unassign Order</li>
                                                                     <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                                     <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
                                                                     <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>

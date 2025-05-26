@@ -510,7 +510,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                         <ExportIcon />
                                         <span>Generate Manifest</span>
                                     </li>
-
+                                    <li onClick={() => handleBulkUnassign()}><CancelIcon /><span>Unassign All</span></li>
                                     <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
                                     <li
                                         onClick={() => {
