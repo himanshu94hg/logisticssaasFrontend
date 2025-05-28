@@ -13,6 +13,11 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const totalPages = itemsPerPage === "All" ? 1 : Math.ceil(totalItemsCount / itemsPerPage);
 
     useEffect(() => {
+        console.log(activeTab, "totalItems")
+    }, [])
+
+
+    useEffect(() => {
         if (totalItems >= 0) {
             setTotalItemsCount(totalItems)
         }
@@ -99,12 +104,22 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                             </div>
                             <div className="items-per-page-dropdown">
                                 Rows per page:
-                                <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
-                                    <option value="20">20</option>
-                                    <option value="100">100</option>
-                                    <option value="500">500</option>
-                                    <option value="1000">1000</option>
-                                </select>
+                                {
+                                    (activeTab === "Pickup" || activeTab === "Ready to Ship" || activeTab === "Processing") ?
+                                        <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
+                                            <option value="20">20</option>
+                                            <option value="100">100</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="50000">All</option>
+                                        </select> :
+                                        <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
+                                            <option value="20">20</option>
+                                            <option value="100">100</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                        </select>
+                                }
                             </div>
                         </div>
                     </>
@@ -117,12 +132,24 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
 
                         <div className="items-per-page-dropdown">
                             Rows per page:
-                            <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
-                                <option value="20">20</option>
-                                <option value="100">100</option>
-                                <option value="500">500</option>
-                                <option value="1000">1000</option>
-                            </select>
+                            {
+                                (activeTab === "Pickup" || activeTab === "Ready to Ship" || activeTab === "Processing") ?
+
+                                    <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
+                                        <option value="20">20</option>
+                                        <option value="100">100</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                        <option value="50000">All</option>
+                                    </select>
+                                    :
+                                    <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
+                                        <option value="20">20</option>
+                                        <option value="100">100</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                    </select>
+                            }
                         </div>
                     </>
                 }
