@@ -68,7 +68,7 @@ import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/Courie
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPop";
 // import "./responsive.css";
-import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern, TrackingScriptPattern, UserManagementPattern, WhatsAppBotsPattern, BusinessPlanPatternNew, RtoPredictorPattern } from "./Routes";
+import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern, TrackingScriptPattern, UserManagementPattern, WhatsAppBotsPattern, BusinessPlanPatternNew, RtoPredictorPattern, BluedartIntPattern, EkartIntPattern, DtdcIntPattern } from "./Routes";
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 import { BASE_URL_CORE } from './axios/config';
 import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/VerifiedCustomer";
@@ -85,6 +85,9 @@ import { channelData } from "./Component/common/channellist";
 import BusinessPlanPageNewBackup from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNewBackup";
 import planAction from "./redux/action/plan";
 import RtoPredictorForm from "./Component/Pages/SettingsPage/components/RtoPredictorForm/RtoPredictorForm";
+import BluedartIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/BluedartIntegration";
+import EkartIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/EkartIntegration";
+import DtdcIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/DtdcIntegration";
 
 function App() {
   const location = useLocation()
@@ -286,6 +289,14 @@ function App() {
             <Route path={TrackingScriptPattern} element={<TrackingScript />} />
             <Route path={UserManagementPattern} element={<UserRoleManage />} />
             <Route path={RtoPredictorPattern} element={<RtoPredictorForm />} />
+
+
+
+            <Route path={BluedartIntPattern} element={<BluedartIntegration />} />
+            <Route path={DtdcIntPattern} element={<DtdcIntegration />} />
+            <Route path={EkartIntPattern} element={<EkartIntegration />} />
+
+
 
             <Route path={ccavenueRedirectIntegrationPattern} element={<CCAvenueRedirect />} />
           </Routes>

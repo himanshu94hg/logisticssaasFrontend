@@ -319,3 +319,18 @@ export const RtoPredictorPattern = "/rto-predictor";
 export const RtoPredictorRoutes = () => {
     return generatePath(RtoPredictorPattern);
 };
+
+export const BluedartIntPattern = "/couriers-integration/bluedart-integration";
+export const BluedartIntRoutes = () => {
+    return generatePath(BluedartIntPattern);
+};
+
+export const DtdcIntPattern = "/couriers-integration/dtdc-integration";
+export const DtdcIntRoutes = () => {
+    return generatePath(DtdcIntPattern);
+};
+
+export const EkartIntPattern = "/couriers-integration/ekart-integration";
+export const EkartIntRoutes = () => {
+    return generatePath(EkartIntPattern);
+};
