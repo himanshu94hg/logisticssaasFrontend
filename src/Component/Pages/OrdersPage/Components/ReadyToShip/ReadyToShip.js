@@ -41,6 +41,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const channel_list = JSON.parse(localStorage.getItem('channel_list'));
+    const [UnassignOrder, setUnassignOrder] = useState(false)
 
 
     useEffect(() => {
@@ -377,6 +378,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
     const handleUnassign = async (rowId) => {
         setLoader(true)
+        setUnassignOrder(false)
         try {
             const response = await axios.post(
                 `${BASE_URL_CORE}/core-api/shipping/unassign-order/`,
@@ -641,7 +643,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                     <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
                                                                     <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
                                                                     <li onClick={() => handleShipNow(row?.id)}>Reassign Order</li>
-                                                                    <li onClick={() => handleUnassign(row?.id)}>Unassign Order</li>
+                                                                    <li onClick={() => setUnassignOrder(row?.id)}>Unassign Order</li>
                                                                     <li className='action-hr'></li>
                                                                     <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                                 </ul>
@@ -679,6 +681,27 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                             </button>
                             <button className="btn main-button" onClick={handlePickupCancelApiCall}>Continue</button>
                         </div>
+                    </Modal.Footer>
+                </Modal>
+
+
+                <Modal
+                    show={UnassignOrder}
+                    onHide={() => setUnassignOrder(false)}
+                    keyboard={false}
+                    className='confirmation-modal'
+                >
+                    <Modal.Header>
+                        <Modal.Title>Confirmation Required!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to Unassign this order?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button className="btn cancel-button" onClick={() => setUnassignOrder(false)}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={() => handleUnassign(UnassignOrder)}>Continue</button>
                     </Modal.Footer>
                 </Modal>
             </div>

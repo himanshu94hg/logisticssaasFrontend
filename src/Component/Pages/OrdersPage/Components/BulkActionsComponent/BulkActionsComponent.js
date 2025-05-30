@@ -39,6 +39,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const { planStatusData } = useSelector(state => state?.authDataReducer);
     const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
+    const [UnassignOrder, setUnassignOrder] = useState(false)
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
@@ -345,6 +346,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
 
     const handleBulkUnassign = async () => {
         setLoader(true);
+        setUnassignOrder(false)
+
         try {
             const payload = { ids: selectedRows };
 
@@ -491,7 +494,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                     </li>
                                     {/* <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li> */}
-                                    <li onClick={() => handleBulkUnassign()}><CancelIcon /><span>Unassign All</span></li>
+                                    <li onClick={() => setUnassignOrder(true)}><CancelIcon /><span>Unassign All</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
@@ -510,7 +513,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                                         <ExportIcon />
                                         <span>Generate Manifest</span>
                                     </li>
-                                    <li onClick={() => handleBulkUnassign()}><CancelIcon /><span>Unassign All</span></li>
+                                    <li onClick={() => setUnassignOrder(true)}><CancelIcon /><span>Unassign All</span></li>
                                     <li onClick={() => downloadManifest()}><ExportIcon /><span>Download Manifest</span></li>
                                     <li
                                         onClick={() => {
@@ -592,6 +595,26 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                         </button>
                         <button className="btn main-button" onClick={bulkActionApiCall}>Continue</button>
                     </div>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={UnassignOrder}
+                onHide={() => setUnassignOrder(false)}
+                keyboard={false}
+                className='confirmation-modal'
+            >
+                <Modal.Header>
+                    <Modal.Title>Confirmation Required!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to Unassign order(s)?
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn cancel-button" onClick={() => setUnassignOrder(false)}>
+                        Cancel
+                    </button>
+                    <button className="btn main-button" onClick={() => handleBulkUnassign()}>Continue</button>
                 </Modal.Footer>
             </Modal>
             <LoaderScreen loading={loader} />

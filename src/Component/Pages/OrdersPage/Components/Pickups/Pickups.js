@@ -34,6 +34,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     const [copyText, setcopyText] = useState("Tracking Link")
     const channel_list = JSON.parse(localStorage.getItem('channel_list'));
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
+    const [UnassignOrder, setUnassignOrder] = useState(false)
 
     useEffect(() => {
         if (orderdelete) {
@@ -368,6 +369,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
 
     const handleUnassign = async (rowId) => {
         setLoader(true)
+        setUnassignOrder(false)
         try {
             const response = await axios.post(
                 `${BASE_URL_CORE}/core-api/shipping/unassign-order/`,
@@ -635,7 +637,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         activeIndex === index && (
                                                             <div className={`action-list ${dropdownPosition[index] || ''}`}>
                                                                 <ul>
-                                                                    <li onClick={() => handleUnassign(row?.id)}>Unassign Order</li>
+                                                                    <li onClick={() => setUnassignOrder(row?.id)}>Unassign Order</li>
                                                                     <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                                     <li onClick={() => handleDownloadLabel(row?.id)}>Download Label</li>
                                                                     <li onClick={() => handleDownloadInvoice(row?.id)}>Download Invoice</li>
@@ -674,6 +676,26 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                         </button>
                         <button className="btn main-button" onClick={handleApiCall}>Continue</button>
                     </div>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={UnassignOrder}
+                onHide={() => setUnassignOrder(false)}
+                keyboard={false}
+                className='confirmation-modal'
+            >
+                <Modal.Header>
+                    <Modal.Title>Confirmation Required!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to Unassign this order?
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn cancel-button" onClick={() => setUnassignOrder(false)}>
+                        Cancel
+                    </button>
+                    <button className="btn main-button" onClick={() => handleUnassign(UnassignOrder)}>Continue</button>
                 </Modal.Footer>
             </Modal>
         </section>
