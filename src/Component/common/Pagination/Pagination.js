@@ -105,13 +105,13 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                             <div className="items-per-page-dropdown">
                                 Rows per page:
                                 {
-                                    (activeTab === "Pickup" || activeTab === "Ready to Ship" || activeTab === "Processing") ?
+                                    activeTab === "Processing" ?
                                         <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
                                             <option value="20">20</option>
                                             <option value="100">100</option>
                                             <option value="500">500</option>
                                             <option value="1000">1000</option>
-                                            <option value="50000">All</option>
+                                            <option value="5000">5000</option>
                                         </select> :
                                         <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
                                             <option value="20">20</option>
@@ -133,14 +133,14 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                         <div className="items-per-page-dropdown">
                             Rows per page:
                             {
-                                (activeTab === "Pickup" || activeTab === "Ready to Ship" || activeTab === "Processing") ?
+                                activeTab === "Processing" ?
 
                                     <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
                                         <option value="20">20</option>
                                         <option value="100">100</option>
                                         <option value="500">500</option>
                                         <option value="1000">1000</option>
-                                        <option value="50000">All</option>
+                                        <option value="5000">5000</option>
                                     </select>
                                     :
                                     <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
