@@ -204,10 +204,10 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData, setlogoRefre
                             <span>Last Name:</span>
                             {userData?.last_name}
                         </div>
-                        <div className='sp-data-field'>
+                        {/* <div className='sp-data-field'>
                             <span>Company GST:</span>
                             22***AHGB***
-                        </div>
+                        </div> */}
                         <div className='sp-data-field'>
                             <span>Company Name:</span>
                             {userData?.company_name}
@@ -238,7 +238,7 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData, setlogoRefre
                         </div>
                         <div className='sp-data-field'>
                             <span>Kam Phone No:</span>
-                            {planStatusData?.dedicated_key_account_manager_for_tiers ? "8989898989 " : "XXXXXXXXX"}
+                            {planStatusData?.dedicated_key_account_manager_for_tiers ? "9599204236 " : "XXXXXXXXX"}
                         </div>
                     </div>
                 </div>
