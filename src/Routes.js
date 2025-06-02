@@ -319,3 +319,33 @@ export const RtoPredictorPattern = "/rto-predictor";
 export const RtoPredictorRoutes = () => {
     return generatePath(RtoPredictorPattern);
 };
+
+export const BluedartIntPattern = "/couriers-integration/bluedart-integration";
+export const BluedartIntRoutes = () => {
+    return generatePath(BluedartIntPattern);
+};
+
+export const DtdcIntPattern = "/couriers-integration/dtdc-integration";
+export const DtdcIntRoutes = () => {
+    return generatePath(DtdcIntPattern);
+};
+
+export const EkartIntPattern = "/couriers-integration/ekart-integration";
+export const EkartIntRoutes = () => {
+    return generatePath(EkartIntPattern);
+};
+
+export const ShadowFaxIntPattern = "/couriers-integration/shadowfax-integration";
+export const ShadowFaxIntRoutes = () => {
+    return generatePath(ShadowFaxIntPattern);
+};
+
+export const XpressBeesIntPattern = "/couriers-integration/xpressbees-integration";
+export const XpressBeesIntRoutes = () => {
+    return generatePath(XpressBeesIntPattern);
+};
+
+export const DelhiveryIntPattern = "/couriers-integration/delhivery-integration";
+export const DelhiveryIntRoutes = () => {
+    return generatePath(DelhiveryIntPattern);
+};
