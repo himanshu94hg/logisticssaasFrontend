@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import './CouriersIntegrations.css'
-import Logo from '../../../../../assets/image/integration/dtdc.png'
+import Logo from '../../../../../assets/image/integration/XpressBeesLogo.png'
 import axios from 'axios'
 
-const DtdcIntegration = () => {
+const XpressBeesIntegration = () => {
     const [formData, setFormData] = useState({
-        customer_code: '',
-        service_type_id: '',
-        api_key: '',
-        access_token: ''
+        business_name: '',
+        xb_key: '',
+        username: '',
+        password: '',
+        secret_key: ''
     })
 
     const [loading, setLoading] = useState(false)
@@ -20,18 +21,19 @@ const DtdcIntegration = () => {
         const fetchIntegration = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get('/api/integrations/dtdc')
+                const res = await axios.get('/api/integrations/xpressbees')
                 if (res.data) {
                     setFormData({
-                        customer_code: res.data.customer_code || '',
-                        service_type_id: res.data.service_type_id || '',
-                        api_key: res.data.api_key || '',
-                        access_token: res.data.access_token || ''
+                        business_name: res.data.business_name || '',
+                        xb_key: res.data.xb_key || '',
+                        username: res.data.username || '',
+                        password: res.data.password || '',
+                        secret_key: res.data.secret_key || ''
                     })
                     setIsEdit(true)
                 }
             } catch (err) {
-                console.error('Error fetching DTDC integration:', err)
+                console.error('Error fetching integration:', err)
             } finally {
                 setLoading(false)
             }
@@ -62,11 +64,11 @@ const DtdcIntegration = () => {
         try {
             setLoading(true)
             if (isEdit) {
-                await axios.put('/api/integrations/dtdc', formData)
-                setMessage('DTDC integration updated successfully.')
+                await axios.put('/api/integrations/xpressbees', formData)
+                setMessage('XpressBees integration updated successfully.')
             } else {
-                await axios.post('/api/integrations/dtdc', formData)
-                setMessage('DTDC integration connected successfully.')
+                await axios.post('/api/integrations/xpressbees', formData)
+                setMessage('XpressBees integration connected successfully.')
                 setIsEdit(true)
             }
         } catch (err) {
@@ -78,14 +80,14 @@ const DtdcIntegration = () => {
     }
 
     return (
-        <div className='couriers-int-page dtdc-int-page'>
+        <div className='couriers-int-page xpressbees-int-page'>
             <section className='courier-header'>
                 <div className='courier-header-left'>
                     <img src={Logo} alt="Logo" />
-                    <h2 className='mb-0'>DTDC</h2>
+                    <h2 className='mb-0'>XpressBees</h2>
                 </div>
                 <div className='courier-header-right'>
-                    <a href="https://support.dtdc.in/" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.xpressbees.com/" target="_blank" rel="noopener noreferrer">
                         Need Help?
                     </a>
                 </div>
@@ -93,41 +95,27 @@ const DtdcIntegration = () => {
 
             <div className='courier-int-body'>
                 <div className='courier-int-form-left box-shadow shadow-sm'>
-                    <h4>Instructions to integrate DTDC with Shipease</h4>
+                    <h4>Instruction to integrate XpressBees to Shipease</h4>
                     <ol className='timeline'>
-                        <li className='timeline-list'>
-                            <strong>Customer Code:</strong> This unique code is assigned to your business account by DTDC. Please ensure you enter it exactly as provided.
-                        </li>
-                        <li className='timeline-list'>
-                            <strong>Service Type ID:</strong> Specifies the type of service enabled for your account (e.g., express, cargo). Obtain this ID from your DTDC account manager.
-                        </li>
-                        <li className='timeline-list'>
-                            <strong>API Key:</strong> This key is provided by DTDC to authenticate your API requests. Keep this confidential.
-                        </li>
-                        <li className='timeline-list'>
-                            <strong>Access Token:</strong> Required to authorize your API calls. Tokens typically expire, so ensure you have a valid token.
-                        </li>
-                        <li className='timeline-list'>
-                            To get the required credentials, please contact your DTDC account manager or visit the <a href="https://support.dtdc.in/" target="_blank" rel="noopener noreferrer">DTDC Support Portal</a>.
-                        </li>
-                        <li className='timeline-list'>
-                            Once all fields are filled correctly, click <strong>Connect</strong> to establish the integration. You can update the details anytime by clicking <strong>Update</strong>.
-                        </li>
+                        <li className='timeline-list'>Business Name should match the name registered with XpressBees.</li>
+                        <li className='timeline-list'>XB Key is provided by XpressBees after onboarding.</li>
+                        <li className='timeline-list'>Username and Password are credentials from your XpressBees dashboard.</li>
+                        <li className='timeline-list'>Secret Key is a security credential provided by XpressBees.</li>
                     </ol>
                 </div>
-
                 <div className='courier-int-form-right box-shadow shadow-sm'>
                     <form className='courier-int-form' onSubmit={handleSubmit}>
                         {[
-                            { id: 'customer_code', label: 'Customer Code' },
-                            { id: 'service_type_id', label: 'Service Type ID' },
-                            { id: 'api_key', label: 'API Key' },
-                            { id: 'access_token', label: 'Access Token' }
+                            { id: 'business_name', label: 'Business Name' },
+                            { id: 'xb_key', label: 'XB Key' },
+                            { id: 'username', label: 'Username' },
+                            { id: 'password', label: 'Password' },
+                            { id: 'secret_key', label: 'Secret Key' }
                         ].map(field => (
                             <div className='form-group' key={field.id}>
                                 <label htmlFor={field.id}>{field.label}</label>
                                 <input
-                                    type='text'
+                                    type={field.id === 'password' ? 'password' : 'text'}
                                     id={field.id}
                                     name={field.id}
                                     value={formData[field.id]}
@@ -150,4 +138,4 @@ const DtdcIntegration = () => {
     )
 }
 
-export default DtdcIntegration
+export default XpressBeesIntegration

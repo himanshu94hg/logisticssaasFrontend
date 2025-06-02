@@ -97,37 +97,49 @@ const BluedartIntegration = () => {
                 </div>
             </section>
 
-            <div className='courier-int-body box-shadow shadow-sm'>
-                <form className='courier-int-form' onSubmit={handleSubmit}>
-                    {[
-                        { id: 'login_id', label: 'Login ID' },
-                        { id: 'licence_key', label: 'Licence Key' },
-                        { id: 'tracking_licence_Key', label: 'Tracking Licence Key' },
-                        { id: 'customer_code', label: 'Customer Code' },
-                        { id: 'area', label: 'Area' },
-                        { id: 'api_type', label: 'API Type' },
-                        { id: 'version', label: 'Version' }
-                    ].map(field => (
-                        <div className='form-group' key={field.id}>
-                            <label htmlFor={field.id}>{field.label}</label>
-                            <input
-                                type='text'
-                                id={field.id}
-                                name={field.id}
-                                value={formData[field.id]}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                    ))}
+            <div className='courier-int-body'>
+                <div className='courier-int-form-left box-shadow shadow-sm'>
+                    <h4>Instruction to integrate Bluedart to Shipease</h4>
+                    <ol className='timeline'>
+                        <li className='timeline-list'>Login ID, Licence Key, and Tracking Licence Key are provided by Bluedart. You can obtain them from your Bluedart account manager.</li>
+                        <li className='timeline-list'>Customer Code is your unique identifier registered with Bluedart.</li>
+                        <li className='timeline-list'>Area should match the service area assigned to you by Bluedart.</li>
+                        <li className='timeline-list'>API Type from Buledart Account Manager.</li>
+                        <li className='timeline-list'>Version refers to the API version you're using.</li>
+                    </ol>
+                </div>
+                <div className='courier-int-form-right box-shadow shadow-sm'>
+                    <form className='courier-int-form' onSubmit={handleSubmit}>
+                        {[
+                            { id: 'login_id', label: 'Login ID' },
+                            { id: 'licence_key', label: 'Licence Key' },
+                            { id: 'tracking_licence_Key', label: 'Tracking Licence Key' },
+                            { id: 'customer_code', label: 'Customer Code' },
+                            { id: 'area', label: 'Area' },
+                            { id: 'api_type', label: 'API Type' },
+                            { id: 'version', label: 'Version' }
+                        ].map(field => (
+                            <div className='form-group' key={field.id}>
+                                <label htmlFor={field.id}>{field.label}</label>
+                                <input
+                                    type='text'
+                                    id={field.id}
+                                    name={field.id}
+                                    value={formData[field.id]}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        ))}
 
-                    {error && <p className='form-message error'>{error}</p>}
-                    {message && <p className='form-message success'>{message}</p>}
+                        {error && <p className='form-message error'>{error}</p>}
+                        {message && <p className='form-message success'>{message}</p>}
 
-                    <button type='submit' className='btn main-button' disabled={loading}>
-                        {loading ? 'Saving...' : isEdit ? 'Update' : 'Connect'}
-                    </button>
-                </form>
+                        <button type='submit' className='btn main-button' disabled={loading}>
+                            {loading ? 'Saving...' : isEdit ? 'Update' : 'Connect'}
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     )

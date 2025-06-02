@@ -15,6 +15,18 @@
     background-color: #a9d0e8;
 }
 
+.xpressbees-int-page .courier-header {
+    background-color: #ebded0;
+}
+
+.delhivery-int-page .courier-header {
+    background-color: #eca2a1;
+}
+
+.shadowfax-int-page .courier-header {
+    background-color: #eccdc8;
+}
+
 .courier-header-left {
     padding: 15px;
     display: flex;
@@ -23,7 +35,7 @@
 }
 
 .courier-header-left img {
-    height: 4rem;
+    height: 3rem;
     max-height: 60px;
     width: auto;
 }
@@ -62,14 +74,30 @@
     background-color: #0075b9;
 }
 
+.xpressbees-int-page .courier-header-right::after {
+    background-color: #f07c00;
+}
+
+.delhivery-int-page .courier-header-right::after {
+    background-color: #ef4136;
+}
+
+.shadowfax-int-page .courier-header-right::after {
+    background-color: #f15929;
+}
+
 .courier-int-body {
     display: flex;
     margin-block: 1rem;
     gap: 1rem;
-    background: #fff;
     height: 100vh;
     max-height: calc(100vh - 215px);
-    width: 100%;
+}
+
+.courier-int-form-left,
+.courier-int-form-right {
+    flex: 1 1;
+    padding: 1rem;
 }
 
 .courier-int-form {
