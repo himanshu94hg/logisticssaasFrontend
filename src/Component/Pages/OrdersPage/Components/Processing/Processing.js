@@ -560,7 +560,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                     </td>
                                                     <td>
                                                         <div className="cell-inside-box">
-                                                            <p className="d-flex align-items-center gap-2">
+                                                            <p className="d-flex align-items-center gap-1">
                                                                 <p className="width-eclipse">{row?.order_products[0]?.product_name || <span className="missing-info-text">Product Name Missing</span>}</p>
                                                                 <span className={`details-on-hover ms-2 ${row?.order_products.some((product) => !product.product_name || !product.sku) && 'missing-address'}`}>
                                                                     <InfoIcon />
