@@ -1,5 +1,5 @@
 .rto-modal-overlay {
-    width: 580px;
+    width: 100%;
     height: 80vh;
     position: relative;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
@@ -38,23 +38,23 @@
 }
 
 .rto-risk-level {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .rto-risk-level span {
     font-weight: bold;
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
-.rto-risk-level.Low {
+.rto-risk-level span.Low {
     color: green;
 }
 
-.rto-risk-level.Medium {
+.rto-risk-level span.Medium {
     color: orange;
 }
 
-.rto-risk-level.High {
+.rto-risk-level span.High {
     color: red;
 }
 

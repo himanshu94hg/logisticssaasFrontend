@@ -65,8 +65,8 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                         <div className="rto-risk-overview">
                             <div>
                                 <p><strong>Risk Score:</strong> <span style={{ fontSize: '1.2rem' }}>{riskData?.order_score}%</span></p>
-                                <p className={`rto-risk-level ${riskData?.order_risk}`}>
-                                    Risk Level: <span>{riskData?.order_risk}</span>
+                                <p className={`rto-risk-level`}>
+                                    Risk Level: <span className={`${riskData?.order_risk}`}>{riskData?.order_risk}</span>
                                 </p>
                             </div>
                             {
@@ -205,7 +205,7 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                         </div>
 
                         <p className="rto-note">
-                            Note: The RTO risk is predicted using internal models trained on delivery data and return trends.
+                            <b>Note:</b> The RTO risk is predicted using internal models trained on delivery data and return trends.
                         </p>
                     </>}
             </div>
