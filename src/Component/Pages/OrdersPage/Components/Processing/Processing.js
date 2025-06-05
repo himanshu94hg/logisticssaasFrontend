@@ -28,6 +28,7 @@ import RtoPopModal from "./RtoPopModal";
 import RtoRiskMediumIcon from "../../../../common/Icons/RtoRiskMediumIcon";
 import RtoRiskHighIcon from "../../../../common/Icons/RtoRiskHighIcon";
 import RtoRiskLowIcon from "../../../../common/Icons/RtoRiskLowIcon";
+import RiskIcon from '../../../../../assets/image/RiskIcon.svg'
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -529,16 +530,22 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                 {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
                                                                     <>
                                                                         <CustomTooltip
-                                                                            // triggerComponent={<img src={RiskScale} className="rto-risk" alt="RiskScale" />}
-                                                                            triggerComponent={<div className="cursor-pointer">
-                                                                                {rtoInfo?.risk === 'High' && <RtoRiskHighIcon />}
-                                                                                {rtoInfo?.risk === 'Medium' && <RtoRiskMediumIcon />}
-                                                                                {rtoInfo?.risk === 'Low' && <RtoRiskLowIcon />}
-                                                                            </div>}
+                                                                            triggerComponent={<img src={RiskIcon} className="rto-risk" alt="RiskScale" />}
+                                                                            // triggerComponent={<div className="cursor-pointer">
+                                                                            //     {rtoInfo?.risk === 'High' && <RtoRiskHighIcon />}
+                                                                            //     {rtoInfo?.risk === 'Medium' && <RtoRiskMediumIcon />}
+                                                                            //     {rtoInfo?.risk === 'Low' && <RtoRiskLowIcon />}
+                                                                            // </div>}
                                                                             tooltipComponent={
                                                                                 <span>
-                                                                                    <span>RTO Risk is <b className={`risk-${rtoInfo?.risk}`}>{rtoInfo?.risk}</b></span>
-                                                                                    <span className="rto-details-link" onClick={(e) => handleRtoPop(e, row?.shipping_detail?.pincode, row?.id)}>Click To Know More</span>
+                                                                                    <span>RTO Risk is
+                                                                                        <span
+                                                                                            onClick={(e) => handleRtoPop(e, row?.shipping_detail?.pincode, row?.id)}
+                                                                                            className={`rto-details-link ms-2 risk-${rtoInfo?.risk}`}
+                                                                                        >
+                                                                                            {rtoInfo?.risk}
+                                                                                        </span>
+                                                                                    </span>
                                                                                 </span>
                                                                             }
                                                                             addClassName='rto-risk-tooltip'

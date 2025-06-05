@@ -841,10 +841,10 @@ ul.order-label-list li {
   width: auto;
   white-space: nowrap;
   display: flex;
-  left: 35px;
-  bottom: -11px;
+  left: 22px;
+  bottom: 1px;
   height: auto;
-  min-height: 63px;
+  min-height: 35px;
   align-items: center;
   justify-content: center;
   padding: 5px 18px;
