@@ -75,7 +75,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             dispatch({ type: "COURIER_PARTNER_ACTION" });
         }
     }, [MoreFilters]);
-   
+
 
     useEffect(() => {
         if (courierPartnerData?.data?.length) {
@@ -346,6 +346,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         showMonthDropdown
                                         showYearDropdown
                                         placeholderText='Select Start Date'
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
 
@@ -365,6 +366,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         showMonthDropdown
                                         showYearDropdown
                                         placeholderText='Select End Date'
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
                                 {/* </label> */}

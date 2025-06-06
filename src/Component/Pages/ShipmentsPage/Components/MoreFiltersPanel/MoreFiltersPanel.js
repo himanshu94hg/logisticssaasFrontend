@@ -280,7 +280,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_id: "",
             order_tag: "",
             sku: "",
-            product:"",
+            product: "",
             channel_name: "",
             sku_match_type: "",
             pickup_address: "",
@@ -361,6 +361,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         closeOnScroll={(e) => e.target === document}
                                         onChange={(e) => handleChange("start_date", e)}
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
                                 <div className="date-picker-container">
@@ -380,6 +381,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         closeOnScroll={(e) => e.target === document}
                                         onChange={(e) => handleChange("end_date", e)}
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
                             </div>

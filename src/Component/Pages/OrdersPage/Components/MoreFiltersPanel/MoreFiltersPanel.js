@@ -421,6 +421,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("start_date", e)}
                                         className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
                                 <div className="date-picker-container">
@@ -439,6 +440,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("end_date", e)}
                                         className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                                     />
                                 </div>
                             </div>
