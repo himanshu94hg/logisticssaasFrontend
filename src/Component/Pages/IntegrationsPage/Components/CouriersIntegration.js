@@ -16,10 +16,10 @@ const CouriersIntegration = () => {
 
     const data = [
         { title: 'Blue Dart', link: 'bluedart-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Bluedart.png' },
-        { title: 'Xpressbees', link: 'xpressbees-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ExpressBees-Surface.png' },
-        { title: 'Ekart', link: 'ekart-integration', imageUrl: 'https://ekartlogistics.com/assets/images/ekblueLogo.png' },
-        { title: 'Delhivery', link: 'delhivery-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Delhivery.png' },
+        { title: 'Ekart', link: 'ekart-integration', imageUrl: 'https://www.ekartlogistics.com/assets/fonts/ekblueLogo.e2611ca7449dd40e420e1620f973a5e4.png' },
         { title: 'DTDC', link: 'dtdc-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Dtdc.png' },
+        { title: 'Xpressbees', link: 'xpressbees-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ExpressBees-Surface.png' },
+        { title: 'Delhivery', link: 'delhivery-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Delhivery.png' },
         // { title: 'Ecom Express', link: '', imageUrl: 'https://app.shiprocket.in/app/img/couriers/EcomEx.png' },
         { title: 'ShadowFax', link: 'shadowfax-integration', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ShadowFax.png' },
 

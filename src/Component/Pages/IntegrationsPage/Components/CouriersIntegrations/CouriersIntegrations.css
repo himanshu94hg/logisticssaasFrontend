@@ -100,6 +100,11 @@
     padding: 1rem;
 }
 
+.courier-int-form-left {
+    max-height: 100%;
+    overflow: auto;
+}
+
 .courier-int-form {
     padding: 20px;
     display: flex;
@@ -132,4 +137,54 @@
 .courier-int-form .form-message.error {
     color: red;
     margin-top: 10px;
+}
+
+.dtdc-int-page .timeline::after {
+    background-color: #b8c6df;
+}
+
+.ekart-int-page .timeline::after {
+    background-color: #efe0ac;
+}
+
+.bluedart-int-page .timeline::after {
+    background-color: #a9d0e8;
+}
+
+.xpressbees-int-page .timeline::after {
+    background-color: #ebded0;
+}
+
+.delhivery-int-page .timeline::after {
+    background-color: #eca2a1;
+}
+
+.shadowfax-int-page .timeline::after {
+    background-color: #eccdc8;
+}
+
+
+
+.dtdc-int-page .timeline-list:after {
+    border-color: #07287f;
+}
+
+.bluedart-int-page .timeline-list:after {
+    border-color: #0075b9;
+}
+
+.ekart-int-page .timeline-list:after {
+    border-color: #f9be15;
+}
+
+.xpressbees-int-page .timeline-list:after {
+    border-color: #f07c00;
+}
+
+.delhivery-int-page .timeline-list:after {
+    border-color: #ef4136;
+}
+
+.shadowfax-int-page .timeline-list:after {
+    border-color: #f15929;
 }
