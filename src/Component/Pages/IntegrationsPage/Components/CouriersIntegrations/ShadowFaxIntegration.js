@@ -90,6 +90,7 @@ const ShadowFaxIntegration = () => {
                     <h4>Instruction to integrate Shadowfax to Shipease</h4>
                     <ol className='timeline'>
                         <li className='timeline-list'>Access Token is provided by Shadowfax. You can obtain it from your Shadowfax account manager.</li>
+                        <li className='timeline-list'>Click on Connect.</li>
                     </ol>
                 </div>
                 <div className='courier-int-form-right box-shadow shadow-sm'>
