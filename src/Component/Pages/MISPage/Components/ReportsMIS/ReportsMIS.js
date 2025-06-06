@@ -292,6 +292,7 @@ const ReportsMIS = ({ activeTab }) => {
                                 onChange={handleStartDateChange}
                                 shouldCloseOnSelect={true}
                                 isClearable
+                                minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                             />
                         </div>
                         {/* </label> */}
@@ -309,6 +310,7 @@ const ReportsMIS = ({ activeTab }) => {
                                 onKeyDown={(e) => handleKeyDown(e)}
                                 onChange={handleEndDateChange}
                                 isClearable
+                                minDate={new Date(new Date().setDate(new Date().getDate() - 90))}
                             />
                         </div>
                         {/* </label> */}
