@@ -111,6 +111,7 @@
     flex-wrap: wrap;
     gap: 20px;
     align-items: flex-end;
+    position: relative;
 }
 
 .courier-int-form .form-group {
@@ -131,12 +132,14 @@
 
 .courier-int-form .form-message.success {
     color: green;
-    margin-top: 10px;
+    bottom: -14px;
+    position: absolute;
 }
 
 .courier-int-form .form-message.error {
     color: red;
-    margin-top: 10px;
+    bottom: -14px;
+    position: absolute;
 }
 
 .dtdc-int-page .timeline::after {

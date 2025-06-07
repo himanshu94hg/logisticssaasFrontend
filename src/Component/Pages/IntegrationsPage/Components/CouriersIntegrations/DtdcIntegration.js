@@ -17,7 +17,8 @@ const DtdcIntegration = () => {
         service_type_id: '',
         api_key: '',
         access_token: '',
-        courier_id: courierId || 'dtdc'
+        courier_id: courierId || 'dtdc',
+        courier_partner: 'dtdc'
     })
 
     const [loading, setLoading] = useState(false)
@@ -46,6 +47,7 @@ const DtdcIntegration = () => {
                     api_key: data?.key3 || '',
                     access_token: data?.key4 || '',
                     courier_id: data?.courierId || "dtdc",
+                    courier_partner: 'dtdc'
                 });
                 setCourierData(res.data);
 
@@ -60,20 +62,12 @@ const DtdcIntegration = () => {
         if (courierId) {
             fetchIntegration();
         }
-    }, [])
+    }, [courierId])
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
-
-    const validateFields = () => {
-        return Object.values(formData).every(
-            (value) => value !== '' && value !== null && value !== undefined
-        );
-    };
-
-    const { isValid, missingFields } = validateFields();
 
     const handleSubmit = async (e) => {
         e.preventDefault()

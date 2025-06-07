@@ -21,7 +21,8 @@ const BluedartIntegration = () => {
         area: '',
         api_type: '',
         version: '',
-        courier_id: courierId || 'bluedart'
+        courier_id: courierId || 'bluedart',
+        courier_partner: 'bluedart'
     })
 
 
@@ -35,12 +36,11 @@ const BluedartIntegration = () => {
         const fetchCourier = async () => {
             try {
                 setLoading(true);
-                const token = Cookies.get('access_token');
                 const res = await axios.get(
                     `https://app.shipease.in/core-api/courier/courier/?courier_id=${courierId}`,
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`,
+                            Authorization: `Bearer ${hardcodedToken}`,
                         },
                     }
                 );
@@ -54,7 +54,8 @@ const BluedartIntegration = () => {
                     area: data?.key5 || '',
                     api_type: data?.key6 || '',
                     version: data?.key7 || '',
-                    courier_id: data?.courierId || "bluedart",
+                    courier_id: data?.courierId || 'bluedart',
+                    courier_partner: 'bluedart'
                 });
                 setCourierData(res.data);
             } catch (err) {
@@ -75,15 +76,6 @@ const BluedartIntegration = () => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
-
-    const validateFields = () => {
-        return Object.values(formData).every(
-            (value) => value !== '' && value !== null && value !== undefined
-        );
-    };
-
-    const { isValid, missingFields } = validateFields();
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();

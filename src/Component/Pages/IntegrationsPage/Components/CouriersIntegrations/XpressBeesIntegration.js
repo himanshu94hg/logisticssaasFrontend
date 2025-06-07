@@ -2,53 +2,72 @@ import React, { useState, useEffect } from 'react'
 import './CouriersIntegrations.css'
 import Logo from '../../../../../assets/image/integration/XpressBeesLogo.png'
 import axios from 'axios'
+import Cookies from 'js-cookie';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { useSearchParams } from 'react-router-dom';
 
 const XpressBeesIntegration = () => {
+    const [searchParams] = useSearchParams();
+    const courierId = searchParams.get('courier_id');
+
+    const hardcodedToken = Cookies.get("access_token");
+
     const [formData, setFormData] = useState({
         business_name: '',
         xb_key: '',
         username: '',
         password: '',
-        secret_key: ''
+        secret_key: '',
+        courier_id: courierId || 'xpressbees',
+        courier_partner: 'xpressbees'
     })
 
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const [error, setError] = useState('')
     const [isEdit, setIsEdit] = useState(false)
+    const [courierData, setCourierData] = useState(null);
 
     useEffect(() => {
         const fetchIntegration = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get('/api/integrations/xpressbees')
-                if (res.data) {
-                    setFormData({
-                        business_name: res.data.business_name || '',
-                        xb_key: res.data.xb_key || '',
-                        username: res.data.username || '',
-                        password: res.data.password || '',
-                        secret_key: res.data.secret_key || ''
-                    })
-                    setIsEdit(true)
-                }
+                const res = await axios.get(
+                    `https://app.shipease.in/core-api/courier/courier/?courier_id=${courierId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`,
+                        },
+                    }
+                );
+                const data = res.data;
+
+                setFormData({
+                    business_name: data?.key1 || '',
+                    xb_key: data?.key2 || '',
+                    username: data?.key3 || '',
+                    password: data?.key4 || '',
+                    secret_key: data?.key5 || '',
+                    courier_id: data?.courierId || 'xpressbees',
+                    courier_partner: 'xpressbees'
+                });
+                setCourierData(res.data);
             } catch (err) {
                 console.error('Error fetching integration:', err)
+                setError('Failed to load courier details.');
             } finally {
                 setLoading(false)
             }
         }
 
-        fetchIntegration()
-    }, [])
+        if (courierId) {
+            fetchIntegration();
+        }
+    }, [courierId])
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
-    }
-
-    const validateFields = () => {
-        return Object.values(formData).every(field => field.trim() !== '')
     }
 
     const handleSubmit = async (e) => {
@@ -56,26 +75,40 @@ const XpressBeesIntegration = () => {
         setError('')
         setMessage('')
 
-        if (!validateFields()) {
-            setError('All fields are required.')
-            return
+        const missingFields = Object.entries(formData)
+            .filter(([_, value]) => value.trim() === '')
+            .map(([key]) => key);
+
+        if (missingFields.length > 0) {
+            setError(`Please fill the following fields: ${missingFields.join(', ')}`);
+            return;
         }
 
         try {
-            setLoading(true)
-            if (isEdit) {
-                await axios.put('/api/integrations/xpressbees', formData)
-                setMessage('XpressBees integration updated successfully.')
+            setLoading(true);
+
+            const response = await axios.post(
+                `${BASE_URL_CORE}/core-api/courier/courier/`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${hardcodedToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                setMessage('XpressBees integration saved successfully.');
             } else {
-                await axios.post('/api/integrations/xpressbees', formData)
-                setMessage('XpressBees integration connected successfully.')
-                setIsEdit(true)
+                setError('Unexpected response from server.');
             }
+
         } catch (err) {
-            console.error(err)
-            setError(err.response?.data?.message || 'Something went wrong.')
+            console.error(err);
+            setError(err.response?.data?.message || 'Something went wrong.');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 

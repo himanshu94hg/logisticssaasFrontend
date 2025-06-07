@@ -17,7 +17,8 @@ const EkartIntegration = () => {
         merchant_code: '',
         access_token: '',
         service_code: '',
-        courier_id: courierId || 'ekart'
+        courier_id: courierId || 'ekart',
+        courier_partner: 'ekart'
     })
 
     const [loading, setLoading] = useState(false)
@@ -44,7 +45,8 @@ const EkartIntegration = () => {
                     merchant_code: data?.key1 || '',
                     access_token: data?.key2 || '',
                     service_code: data?.key3 || '',
-                    courier_id: data?.courierId || "ekart",
+                    courier_id: data?.courierId || 'ekart',
+                    courier_partner: 'ekart'
                 });
                 setCourierData(res.data);
 
@@ -61,20 +63,12 @@ const EkartIntegration = () => {
             fetchIntegration();
         }
 
-    }, [])
+    }, [courierId])
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
-
-    const validateFields = () => {
-        return Object.values(formData).every(
-            (value) => value !== '' && value !== null && value !== undefined
-        );
-    };
-
-    const { isValid, missingFields } = validateFields();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
