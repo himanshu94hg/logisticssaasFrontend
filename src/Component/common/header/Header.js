@@ -66,7 +66,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       })
         .then(response => {
           if (response.status === 200) {
-            navigate(`/orderdetail/${inputValue}`, { state: { orderData: response.data, path: "searchOrderData" } });
+            navigate(`/orderdetail/${encodeURIComponent(inputValue)}`, { state: { orderData: response.data, path: "searchOrderData" } });
           }
         })
         .catch(error => {
@@ -83,7 +83,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     })
       .then(response => {
         if (response.status === 200) {
-          navigate(`/orderdetail/${inputValue}`, { state: { orderData: response.data, path: "searchOrderData" } });
+          navigate(`/orderdetail/${encodeURIComponent(inputValue)}`, { state: { orderData: response.data, path: "searchOrderData" } });
         }
       })
       .catch(error => {
