@@ -28,7 +28,9 @@ import RtoPopModal from "./RtoPopModal";
 import RtoRiskMediumIcon from "../../../../common/Icons/RtoRiskMediumIcon";
 import RtoRiskHighIcon from "../../../../common/Icons/RtoRiskHighIcon";
 import RtoRiskLowIcon from "../../../../common/Icons/RtoRiskLowIcon";
-import RiskIcon from '../../../../../assets/image/RiskIcon.svg'
+import RiskIcon from '../../../../../assets/image/RiskIconNewYellow.svg'
+import RiskGauge from "./RiskGauge";
+import RiskGaugeOut from "./RiskGaugeOut";
 
 
 const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -506,36 +508,24 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                         {/* customer detail */}
                                                         <div className='cell-inside-box'>
                                                             <div className="rto-predictor">
-                                                                <p className="d-flex flex-column">
+                                                                <p className="d-flex gap-2 align-items-center">
                                                                     <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
-                                                                    <span>
-                                                                        {row?.shipping_detail?.mobile_number ?
-                                                                            row?.shipping_detail?.mobile_number :
-                                                                            <span className="missing-info-text">Contact Missing</span>
-                                                                        }
-                                                                        <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
-                                                                            <InfoIcon />
-                                                                            <span style={{ width: '250px' }}>
-                                                                                <>
-                                                                                    <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
-                                                                                    <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
-                                                                                    <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
-                                                                                    <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
-                                                                                    <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
-                                                                                </>
-                                                                            </span>
-                                                                        </span>
-                                                                    </span>
                                                                 </p>
                                                                 {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
                                                                     <>
                                                                         <CustomTooltip
-                                                                            triggerComponent={<img src={RiskIcon} className="rto-risk" alt="RiskScale" />}
+                                                                            // triggerComponent={<img src={RiskIcon} className="rto-risk" alt="RiskScale" />}
                                                                             // triggerComponent={<div className="cursor-pointer">
                                                                             //     {rtoInfo?.risk === 'High' && <RtoRiskHighIcon />}
                                                                             //     {rtoInfo?.risk === 'Medium' && <RtoRiskMediumIcon />}
                                                                             //     {rtoInfo?.risk === 'Low' && <RtoRiskLowIcon />}
                                                                             // </div>}
+                                                                            triggerComponent={
+                                                                                <RiskGaugeOut
+                                                                                    riskLevel={rtoInfo?.risk}
+                                                                                    percentage={rtoInfo?.risk === 'High' ? '80' : rtoInfo?.risk === 'Medium' ? '50' : '25'}
+                                                                                />
+                                                                            }
                                                                             tooltipComponent={
                                                                                 <span>
                                                                                     <span>RTO Risk is
@@ -553,6 +543,28 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                     </>
                                                                 }
                                                             </div>
+
+                                                            <p>
+                                                                <span>
+                                                                    {row?.shipping_detail?.mobile_number ?
+                                                                        row?.shipping_detail?.mobile_number :
+                                                                        <span className="missing-info-text">Contact Missing</span>
+                                                                    }
+                                                                    <span className={`details-on-hover ms-2 ${(row?.shipping_detail?.address && row?.shipping_detail?.city && row?.shipping_detail?.state && row?.shipping_detail?.pincode && row?.shipping_detail?.mobile_number && row?.shipping_detail?.recipient_name) ? null : 'missing-address'}`}>
+                                                                        <InfoIcon />
+                                                                        <span style={{ width: '250px' }}>
+                                                                            <>
+                                                                                <b>Address:</b> {row?.shipping_detail?.address || <span className="text-sh-red">Address Missing</span>}<br />
+                                                                                <b>Landmark:</b> {row?.shipping_detail?.landmark}<br />
+                                                                                <b>City:</b> {row?.shipping_detail?.city || <span className="text-sh-red">City Missing</span>}<br />
+                                                                                <b>State:</b> {row?.shipping_detail?.state || <span className="text-sh-red">State Missing</span>}<br />
+                                                                                <b>Pincode:</b> {row?.shipping_detail?.pincode || <span className="text-sh-red">Pincode Missing</span>}
+                                                                            </>
+                                                                        </span>
+                                                                    </span>
+                                                                </span>
+                                                            </p>
+
                                                             <p>
 
                                                             </p>

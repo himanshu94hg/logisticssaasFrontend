@@ -833,7 +833,7 @@ ul.order-label-list li {
 .cell-inside-box img.rto-risk {
   /* border-bottom: 1px dashed #F31429; */
   /* color: #F31429; */
-  width: 30px;
+  width: 52px;
   height: auto;
 }
 
@@ -841,8 +841,8 @@ ul.order-label-list li {
   width: auto;
   white-space: nowrap;
   display: flex;
-  left: 22px;
-  bottom: 1px;
+  left: 41px;
+  bottom: -4px;
   height: auto;
   min-height: 35px;
   align-items: center;

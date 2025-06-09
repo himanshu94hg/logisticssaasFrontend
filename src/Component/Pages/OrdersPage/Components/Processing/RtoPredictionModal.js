@@ -174,13 +174,13 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                                     <tr>
                                         <td>Address Quality</td>
                                         <td>{riskData?.address?.weightage}%</td>
-                                        <td>{riskData?.address?.error && "Multiple Issues"}</td>
+                                        <td>{riskData?.address?.risk}</td>
                                         <td>+ {riskData?.address?.weightage - riskData?.address?.score}%</td>
                                     </tr>
                                     <tr>
                                         <td>Phone Number</td>
                                         <td>{riskData?.mobile_number?.weightage}%</td>
-                                        <td>{riskData?.mobile_number?.error && "Invalid"}</td>
+                                        <td>{riskData?.mobile_number?.risk}</td>
                                         <td>+ {riskData?.mobile_number?.weightage - riskData?.mobile_number?.score}%</td>
                                     </tr>
                                     <tr>

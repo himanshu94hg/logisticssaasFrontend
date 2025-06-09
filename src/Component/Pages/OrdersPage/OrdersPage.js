@@ -189,7 +189,7 @@ const OrdersPage = () => {
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
+                const decodedURL = decodeURIComponent(`${queryString}most_popular_search=${mostPopular?.most_popular_search}`)
                 if (decodedURL) {
                     apiUrl += '&' + decodedURL;
                 }
