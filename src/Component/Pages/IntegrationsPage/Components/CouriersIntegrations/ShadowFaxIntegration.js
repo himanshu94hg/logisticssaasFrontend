@@ -15,7 +15,7 @@ const ShadowFaxIntegration = () => {
 
     const [formData, setFormData] = useState({
         access_token: '',
-        courier_id: courierId || 'shadowfax',
+        courier_id: courierId || null,
         courier_partner: 'shadowfax'
     })
 
@@ -41,7 +41,7 @@ const ShadowFaxIntegration = () => {
 
                 setFormData({
                     access_token: data?.key1 || '',
-                    courier_id: data?.courierId || 'shadowfax',
+                    courier_id: data?.courierId || null,
                     courier_partner: 'shadowfax'
                 });
                 setCourierData(res.data);
@@ -70,7 +70,10 @@ const ShadowFaxIntegration = () => {
         setMessage('')
 
         const missingFields = Object.entries(formData)
-            .filter(([_, value]) => value.trim() === '')
+            .filter(([key, value]) => {
+                if (key === 'courier_id') return false; // allow null or empty
+                return !value || value.toString().trim() === '';
+            })
             .map(([key]) => key);
 
         if (missingFields.length > 0) {

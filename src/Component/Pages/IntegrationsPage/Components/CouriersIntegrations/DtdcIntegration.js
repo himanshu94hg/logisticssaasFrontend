@@ -17,7 +17,7 @@ const DtdcIntegration = () => {
         service_type_id: '',
         api_key: '',
         access_token: '',
-        courier_id: courierId || 'dtdc',
+        courier_id: courierId || null,
         courier_partner: 'dtdc'
     })
 
@@ -46,7 +46,7 @@ const DtdcIntegration = () => {
                     service_type_id: data?.key2 || '',
                     api_key: data?.key3 || '',
                     access_token: data?.key4 || '',
-                    courier_id: data?.courierId || "dtdc",
+                    courier_id: data?.courierId || null,
                     courier_partner: 'dtdc'
                 });
                 setCourierData(res.data);
@@ -75,7 +75,10 @@ const DtdcIntegration = () => {
         setMessage('')
 
         const missingFields = Object.entries(formData)
-            .filter(([_, value]) => value.trim() === '')
+            .filter(([key, value]) => {
+                if (key === 'courier_id') return false; // allow null or empty
+                return !value || value.toString().trim() === '';
+            })
             .map(([key]) => key);
 
         if (missingFields.length > 0) {

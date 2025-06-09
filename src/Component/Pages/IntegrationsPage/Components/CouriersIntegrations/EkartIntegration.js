@@ -17,7 +17,7 @@ const EkartIntegration = () => {
         merchant_code: '',
         access_token: '',
         service_code: '',
-        courier_id: courierId || 'ekart',
+        courier_id: courierId || null,
         courier_partner: 'ekart'
     })
 
@@ -45,7 +45,7 @@ const EkartIntegration = () => {
                     merchant_code: data?.key1 || '',
                     access_token: data?.key2 || '',
                     service_code: data?.key3 || '',
-                    courier_id: data?.courierId || 'ekart',
+                    courier_id: data?.courierId || null,
                     courier_partner: 'ekart'
                 });
                 setCourierData(res.data);
@@ -76,7 +76,10 @@ const EkartIntegration = () => {
         setMessage('')
 
         const missingFields = Object.entries(formData)
-            .filter(([_, value]) => value.trim() === '')
+            .filter(([key, value]) => {
+                if (key === 'courier_id') return false; // allow null or empty
+                return !value || value.toString().trim() === '';
+            })
             .map(([key]) => key);
 
         if (missingFields.length > 0) {

@@ -18,7 +18,7 @@ const XpressBeesIntegration = () => {
         username: '',
         password: '',
         secret_key: '',
-        courier_id: courierId || 'xpressbees',
+        courier_id: courierId || null,
         courier_partner: 'xpressbees'
     })
 
@@ -48,7 +48,7 @@ const XpressBeesIntegration = () => {
                     username: data?.key3 || '',
                     password: data?.key4 || '',
                     secret_key: data?.key5 || '',
-                    courier_id: data?.courierId || 'xpressbees',
+                    courier_id: data?.courierId || null,
                     courier_partner: 'xpressbees'
                 });
                 setCourierData(res.data);
@@ -76,7 +76,10 @@ const XpressBeesIntegration = () => {
         setMessage('')
 
         const missingFields = Object.entries(formData)
-            .filter(([_, value]) => value.trim() === '')
+            .filter(([key, value]) => {
+                if (key === 'courier_id') return false; // allow null or empty
+                return !value || value.toString().trim() === '';
+            })
             .map(([key]) => key);
 
         if (missingFields.length > 0) {

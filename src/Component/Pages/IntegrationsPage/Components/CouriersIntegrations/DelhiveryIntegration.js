@@ -16,7 +16,7 @@ const DelhiveryIntegration = () => {
     business_name: '',
     access_token: '',
     shipping_mode: '',
-    courier_id: courierId || 'delhivery',
+    courier_id: courierId || null,
     courier_partner: 'delhivery'
   })
 
@@ -44,7 +44,7 @@ const DelhiveryIntegration = () => {
           business_name: data?.key1 || '',
           access_token: data?.key2 || '',
           shipping_mode: data?.key3 || '',
-          courier_id: data?.courierId || 'delhivery',
+          courier_id: data?.courierId || null,
           courier_partner: 'delhivery'
         });
         setCourierData(res.data);
@@ -75,7 +75,10 @@ const DelhiveryIntegration = () => {
     setMessage('')
 
     const missingFields = Object.entries(formData)
-      .filter(([_, value]) => value.trim() === '')
+      .filter(([key, value]) => {
+        if (key === 'courier_id') return false; // allow null or empty
+        return !value || value.toString().trim() === '';
+      })
       .map(([key]) => key);
 
     if (missingFields.length > 0) {

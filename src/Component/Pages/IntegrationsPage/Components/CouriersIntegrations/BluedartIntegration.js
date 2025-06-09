@@ -21,7 +21,7 @@ const BluedartIntegration = () => {
         area: '',
         api_type: '',
         version: '',
-        courier_id: courierId || 'bluedart',
+        courier_id: courierId || null,
         courier_partner: 'bluedart'
     })
 
@@ -54,7 +54,7 @@ const BluedartIntegration = () => {
                     area: data?.key5 || '',
                     api_type: data?.key6 || '',
                     version: data?.key7 || '',
-                    courier_id: data?.courierId || 'bluedart',
+                    courier_id: data?.courierId || null,
                     courier_partner: 'bluedart'
                 });
                 setCourierData(res.data);
@@ -83,7 +83,10 @@ const BluedartIntegration = () => {
         setMessage('');
 
         const missingFields = Object.entries(formData)
-            .filter(([_, value]) => value.trim() === '')
+            .filter(([key, value]) => {
+                if (key === 'courier_id') return false; // allow null or empty
+                return !value || value.toString().trim() === '';
+            })
             .map(([key]) => key);
 
         if (missingFields.length > 0) {
