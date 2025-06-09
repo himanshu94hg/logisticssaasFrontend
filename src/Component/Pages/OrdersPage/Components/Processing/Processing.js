@@ -511,19 +511,13 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                 <p className="d-flex gap-2 align-items-center">
                                                                     <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
                                                                 </p>
-                                                                {row?.payment_type?.toLowerCase() === "cod" && rtoInfo &&
+                                                                {row?.payment_type?.toLowerCase() === "cod" && row?.other_details?.order_risk &&
                                                                     <>
                                                                         <CustomTooltip
-                                                                            // triggerComponent={<img src={RiskIcon} className="rto-risk" alt="RiskScale" />}
-                                                                            // triggerComponent={<div className="cursor-pointer">
-                                                                            //     {rtoInfo?.risk === 'High' && <RtoRiskHighIcon />}
-                                                                            //     {rtoInfo?.risk === 'Medium' && <RtoRiskMediumIcon />}
-                                                                            //     {rtoInfo?.risk === 'Low' && <RtoRiskLowIcon />}
-                                                                            // </div>}
                                                                             triggerComponent={
                                                                                 <RiskGaugeOut
-                                                                                    riskLevel={rtoInfo?.risk}
-                                                                                    percentage={rtoInfo?.risk === 'High' ? '80' : rtoInfo?.risk === 'Medium' ? '50' : '25'}
+                                                                                    riskLevel={row?.other_details?.order_risk}
+                                                                                    percentage={row?.other_details?.order_risk === 'High' ? '80' : row?.other_details?.order_risk === 'Medium' ? '50' : '25'}
                                                                                 />
                                                                             }
                                                                             tooltipComponent={
