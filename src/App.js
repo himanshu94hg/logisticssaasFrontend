@@ -84,7 +84,7 @@ import BusinessPlanPageNew from "./Component/Pages/EarnAndGrowPages/BusinessPlan
 import { channelData } from "./Component/common/channellist";
 import BusinessPlanPageNewBackup from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPageNewBackup";
 import planAction from "./redux/action/plan";
-import RtoPredictorForm from "./Component/Pages/SettingsPage/components/RtoPredictorForm/RtoPredictorForm";
+// import RtoPredictorForm from "./Component/Pages/SettingsPage/components/RtoPredictorForm/RtoPredictorForm";
 import BluedartIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/BluedartIntegration";
 import EkartIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/EkartIntegration";
 import DtdcIntegration from "./Component/Pages/IntegrationsPage/Components/CouriersIntegrations/DtdcIntegration";
@@ -291,7 +291,7 @@ function App() {
             <Route path={BrandedTrackingPattern} element={<PageSettings />} />
             <Route path={TrackingScriptPattern} element={<TrackingScript />} />
             <Route path={UserManagementPattern} element={<UserRoleManage />} />
-            <Route path={RtoPredictorPattern} element={<RtoPredictorForm />} />
+            {/* <Route path={RtoPredictorPattern} element={<RtoPredictorForm />} /> */}
 
 
 
