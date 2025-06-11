@@ -331,53 +331,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         }
     };
 
-    const [RtoData, setRtoData] = useState(null);
-
-    useEffect(() => {
-        const fetchRtoPincodeData = async () => {
-            try {
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setFullYear(endDate.getFullYear() - 1);
-                // startDate.setMonth(endDate.getMonth() - 1)
-
-                const formatDate = (date) => {
-                    return date.toISOString().split('T')[0]; // YYYY-MM-DD format
-                };
-
-                const response = await axios.get("https://app.shipease.in/orders-api/dashboard/rto/rto-pincode/", {
-                    params: {
-                        start_date: formatDate(startDate),
-                        end_date: formatDate(endDate),
-                    },
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-
-                setRtoData(response.data);
-            } catch (err) {
-                console.error("API fetch error:", err);
-                // setError("Failed to load data");
-            } finally {
-                // setLoading(false);
-            }
-        };
-
-        fetchRtoPincodeData();
-    }, []);
-
-    console.log(RtoData, "RtoData")
-
-    const rtoLookup = useMemo(() => {
-        const result = {};
-        RtoData?.forEach(item => {
-            const key = Object.keys(item)[0];
-            result[key] = item[key];
-        });
-        return result;
-    }, [RtoData]);
-
     const [rtoPop, setrtoPop] = useState(false)
     const [RtoOrderId, setRtoOrderId] = useState("")
 
@@ -418,7 +371,6 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                             <tbody>
                                 {orders?.length ? <>
                                     {Array.isArray(orders) && orders?.map((row, index) => {
-                                        const rtoInfo = rtoLookup[row?.shipping_detail?.pincode];
                                         return (
                                             <React.Fragment key={row?.id}>
                                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
@@ -525,9 +477,9 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                                     <span>RTO Risk is
                                                                                         <span
                                                                                             onClick={(e) => handleRtoPop(e, row?.shipping_detail?.pincode, row?.id)}
-                                                                                            className={`rto-details-link ms-2 risk-${rtoInfo?.risk}`}
+                                                                                            className={`rto-details-link ms-2 risk-${row?.other_details?.order_risk}`}
                                                                                         >
-                                                                                            {rtoInfo?.risk}
+                                                                                            {row?.other_details?.order_risk}
                                                                                         </span>
                                                                                     </span>
                                                                                 </span>
