@@ -74,6 +74,29 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                                 <RiskGauge riskLevel={riskData?.order_risk} percentage={riskData?.order_score} />
                             }
                         </div>
+                        {
+                            riskData?.mobile_number?.error &&
+                            <div className="rto-risk-section">
+                                <h4>Contact Number Quality</h4>
+                                <p><strong>Contact Provided:</strong> {riskData?.mobile_number?.value}</p>
+                                {
+                                    riskData?.mobile_number?.required_error &&
+                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.required_error}</p>
+                                }
+                                {
+                                    riskData?.mobile_number?.length_error &&
+                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.length_error}</p>
+                                }
+                                {
+                                    riskData?.mobile_number?.startswith_error &&
+                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.startswith_error}</p>
+                                }
+                                {
+                                    riskData?.mobile_number?.pattern_error &&
+                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.pattern_error}</p>
+                                }
+                            </div>
+                        }
 
                         {riskData?.address?.error &&
                             <div className="rto-risk-section">
@@ -114,29 +137,7 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                             </div>
                         }
 
-                        {
-                            riskData?.mobile_number?.error &&
-                            <div className="rto-risk-section">
-                                <h4>Contact Number Quality</h4>
-                                <p><strong>Contact Provided:</strong> {riskData?.mobile_number?.value}</p>
-                                {
-                                    riskData?.mobile_number?.required_error &&
-                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.required_error}</p>
-                                }
-                                {
-                                    riskData?.mobile_number?.length_error &&
-                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.length_error}</p>
-                                }
-                                {
-                                    riskData?.mobile_number?.startswith_error &&
-                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.startswith_error}</p>
-                                }
-                                {
-                                    riskData?.mobile_number?.pattern_error &&
-                                    <p className='risk-point'><RiskListIcon /> {riskData?.mobile_number?.pattern_error}</p>
-                                }
-                            </div>
-                        }
+
 
                         <div className="rto-risk-section">
                             <h4>Pincode-Based Risk</h4>
@@ -172,16 +173,16 @@ const RtoPredictionModal = ({ orderId, riskScore, token, rtoPop, setLoader }) =>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Address Quality</td>
-                                        <td>{riskData?.address?.weightage}%</td>
-                                        <td>{riskData?.address?.risk}</td>
-                                        <td>+ {riskData?.address?.weightage - riskData?.address?.score}%</td>
-                                    </tr>
-                                    <tr>
                                         <td>Phone Number</td>
                                         <td>{riskData?.mobile_number?.weightage}%</td>
                                         <td>{riskData?.mobile_number?.risk}</td>
                                         <td>+ {riskData?.mobile_number?.weightage - riskData?.mobile_number?.score}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Quality</td>
+                                        <td>{riskData?.address?.weightage}%</td>
+                                        <td>{riskData?.address?.risk}</td>
+                                        <td>+ {riskData?.address?.weightage - riskData?.address?.score}%</td>
                                     </tr>
                                     <tr>
                                         <td>Pincode RTO History</td>
