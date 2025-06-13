@@ -47,8 +47,14 @@ const CourierView = () => {
     }, []);
 
     const handleEdit = (courierPartner, courierId) => {
-        const route = courierRoutes[courierPartner.toLowerCase()];
-        if (route) {
+        const lowerCasePartner = courierPartner.toLowerCase();
+
+        const matchedKey = Object.keys(courierRoutes).find(key =>
+            lowerCasePartner.includes(key)
+        );
+
+        if (matchedKey) {
+            const route = courierRoutes[matchedKey];
             navigate(`${route}?courier_id=${courierId}`);
         } else {
             alert('Integration page not defined for this courier.');
