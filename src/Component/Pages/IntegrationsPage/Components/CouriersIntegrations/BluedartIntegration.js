@@ -13,6 +13,7 @@ const BluedartIntegration = () => {
     const courierId = searchParams.get('courier_id');
 
     const hardcodedToken = Cookies.get("access_token");
+
     const [formData, setFormData] = useState({
         login_id: '',
         licence_key: '',
@@ -21,7 +22,7 @@ const BluedartIntegration = () => {
         area: '',
         api_type: '',
         version: '',
-        courier_id: courierId || null,
+        courier_id: courierId,
         courier_partner: 'bluedart'
     })
 
@@ -54,7 +55,7 @@ const BluedartIntegration = () => {
                     area: data?.key5 || '',
                     api_type: data?.key6 || '',
                     version: data?.key7 || '',
-                    courier_id: data?.courierId || null,
+                    courier_id: courierId || null,
                     courier_partner: 'bluedart'
                 });
                 setCourierData(res.data);

@@ -45,7 +45,7 @@ const EkartIntegration = () => {
                     merchant_code: data?.key1 || '',
                     access_token: data?.key2 || '',
                     service_code: data?.key3 || '',
-                    courier_id: data?.courierId || null,
+                    courier_id: courierId || null,
                     courier_partner: 'ekart'
                 });
                 setCourierData(res.data);

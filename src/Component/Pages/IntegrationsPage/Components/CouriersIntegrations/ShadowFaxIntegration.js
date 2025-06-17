@@ -41,7 +41,7 @@ const ShadowFaxIntegration = () => {
 
                 setFormData({
                     access_token: data?.key1 || '',
-                    courier_id: data?.courierId || null,
+                    courier_id: courierId || null,
                     courier_partner: 'shadowfax'
                 });
                 setCourierData(res.data);

@@ -43,10 +43,10 @@ const DtdcIntegration = () => {
 
                 setFormData({
                     customer_code: data?.key1 || '',
-                    service_type_id: data?.key2 || '',
-                    api_key: data?.key3 || '',
-                    access_token: data?.key4 || '',
-                    courier_id: data?.courierId || null,
+                    service_type_id: data?.key4 || '',
+                    api_key: data?.key2 || '',
+                    access_token: data?.key3 || '',
+                    courier_id: courierId || null,
                     courier_partner: 'dtdc'
                 });
                 setCourierData(res.data);

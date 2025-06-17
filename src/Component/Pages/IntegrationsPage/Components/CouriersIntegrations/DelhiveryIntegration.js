@@ -44,7 +44,7 @@ const DelhiveryIntegration = () => {
           business_name: data?.key1 || '',
           access_token: data?.key2 || '',
           shipping_mode: data?.key3 || '',
-          courier_id: data?.courierId || null,
+          courier_id: courierId || null,
           courier_partner: 'delhivery'
         });
         setCourierData(res.data);

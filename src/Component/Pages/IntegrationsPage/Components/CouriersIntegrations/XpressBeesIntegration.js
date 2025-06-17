@@ -48,7 +48,7 @@ const XpressBeesIntegration = () => {
                     username: data?.key3 || '',
                     password: data?.key4 || '',
                     secret_key: data?.key5 || '',
-                    courier_id: data?.courierId || null,
+                    courier_id: courierId || null,
                     courier_partner: 'xpressbees'
                 });
                 setCourierData(res.data);
