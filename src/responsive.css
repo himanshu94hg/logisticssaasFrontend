@@ -70,9 +70,7 @@
         top: 5%;
     }
 
-    .verified-customer .follow-details {
-        grid-template-columns: repeat(3, 1fr);
-    }
+
 
 }
 
@@ -84,6 +82,10 @@
 
     .table-row th {
         white-space: nowrap;
+    }
+
+    .verified-customer .follow-details {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
