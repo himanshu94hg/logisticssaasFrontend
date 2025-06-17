@@ -50,8 +50,8 @@ const VerifiedCustomer = ({ accountType }) => {
                 </div>
                 <div className='details-container mb-3'>
                     <div className='detail-section row justify-content-between mx-0 px-0'>
-                        <div className='details-title col-2'>Basic Details</div>
-                        <div className='follow-details col-10'>
+                        <div className='details-title col-4 col-lg-2'>Basic Details</div>
+                        <div className='follow-details col-8 col-lg-10'>
                             <div className='detail-label'>Company Name <span className='text-capitalize'>{formData?.basic_info?.company_name}</span></div>
                             <div className='detail-label'>Mobile No <span>{formData?.basic_info?.mobile}</span></div>
                             <div className='detail-label'>Email <span>{formData?.basic_info?.email}</span></div>
@@ -77,8 +77,8 @@ const VerifiedCustomer = ({ accountType }) => {
                     </div>
                     <hr />
                     <div className='detail-section row justify-content-between mx-0 px-0'>
-                        <div className='details-title col-2'>Account Details</div>
-                        <div className='col-10 px-0'>
+                        <div className='details-title col-4 col-lg-2'>Account Details</div>
+                        <div className='col-8 col-lg-10 px-0'>
                             {
                                 formData?.seller_acc_info?.length > 0 ?
                                     <>
@@ -127,8 +127,8 @@ const VerifiedCustomer = ({ accountType }) => {
                     </div>
                     <hr />
                     <div className='detail-section row justify-content-between mx-0 px-0'>
-                        <div className='details-title col-2'>KYC Details</div>
-                        <div className=' col-10 px-0'>
+                        <div className='details-title col-4 col-lg-2'>KYC Details</div>
+                        <div className='col-8 col-lg-10 px-0'>
                             {formData?.seller_acc_info?.length > 0 ?
                                 <>
                                     {formData?.kyc_info?.map((item) =>
@@ -162,8 +162,8 @@ const VerifiedCustomer = ({ accountType }) => {
                     </div>
                     <hr />
                     <div className='detail-section row justify-content-between mx-0 px-0'>
-                        <div className='details-title col-2'>Agreement</div>
-                        <div className='follow-details col-10'>
+                        <div className='details-title col-4 col-lg-2'>Agreement</div>
+                        <div className='follow-details col-8 col-lg-10'>
 
                             <div className='detail-label'>
                                 Name

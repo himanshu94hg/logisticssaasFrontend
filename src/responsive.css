@@ -70,6 +70,10 @@
         top: 5%;
     }
 
+    .verified-customer .follow-details {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
 }
 
 @media screen and (max-width:1305px) {
@@ -532,6 +536,10 @@
         right: 2.5%;
         top: 2.5%;
     }
+
+    .verified-customer .follow-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 
@@ -740,6 +748,15 @@
     .single-ship-container.open .tab-ui {
         width: calc(100% - 44px);
         min-width: unset;
+    }
+
+    .verified-customer .follow-details {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .verified-customer .details-title {
+        align-items: flex-start;
+        padding-block: 20px;
     }
 }
 
