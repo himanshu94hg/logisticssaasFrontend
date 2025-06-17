@@ -46,7 +46,8 @@ const LabelCustomization = () => {
         section5: false,
         section6: false,
         dimension_visibility: false,
-        product_price_visibility: false
+        product_price_visibility: false,
+        product_name_as_sku: false
     });
 
     const { planStatusData } = useSelector(state => state?.authDataReducer);
@@ -104,7 +105,8 @@ const LabelCustomization = () => {
                 all_product_display: checked,
                 display_full_product_name: checked,
                 tabular_form_enabled: checked,
-                product_price_visibility: checked
+                product_price_visibility: checked,
+                product_name_as_sku: checked
 
             }));
         }
@@ -197,7 +199,8 @@ const LabelCustomization = () => {
                 section6: customizationData?.section6,
                 dimension_visibility: customizationData?.dimension_visibility,
                 s_warehouse_visibility: customizationData?.s_warehouse_visibility,
-                product_price_visibility: customizationData?.product_price_visibility
+                product_price_visibility: customizationData?.product_price_visibility,
+                product_name_as_sku: customizationData?.product_name_as_sku
             })
         }
     }, [customizationData])
@@ -461,6 +464,15 @@ const LabelCustomization = () => {
                                             checked={items.product_price_visibility}
                                             disabled={items.section4 ? false : true}
                                             onChange={() => handleToggleChange('product_price_visibility')}
+                                        />
+                                    </li>
+                                    <li>
+                                        <p>Product Name As SKU</p>
+                                        <Toggle
+                                            aria-label="Toggle gift"
+                                            checked={items.product_name_as_sku}
+                                            disabled={items.section4 ? false : true}
+                                            onChange={() => handleToggleChange('product_name_as_sku')}
                                         />
                                     </li>
                                 </ul>

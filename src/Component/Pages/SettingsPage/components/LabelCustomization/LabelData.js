@@ -157,7 +157,7 @@ const LabelData = ({ items, setItems }) => {
                                 {items.product_detail_visibility && (
                                     <thead>
                                         <tr>
-                                            <th style={{ width: "85%" }}>Name &amp; SKU</th>
+                                            <th style={{ width: "85%" }}>{items?.product_name_as_sku ? "SKU" : "Name & SKU"}</th>
                                             <th style={{ width: "10%" }}>QTY</th>
                                             {items?.product_price_visibility &&
                                                 <th style={{ width: "15%" }}>Price(Rs)</th>
@@ -169,10 +169,15 @@ const LabelData = ({ items, setItems }) => {
                                     {items.product_detail_visibility && (
                                         <tr>
                                             <td>
-                                                Item : Apple iPhone
-                                                <span className="bullet" style={{ display: "none" }}>...</span>
-                                                <span className="full-name" style={{}}>13 12GB</span>
-                                                &nbsp; &nbsp; SKU : SKU-Name
+                                                {!items?.product_name_as_sku &&
+                                                    <>
+                                                        Item : Apple iPhone
+                                                        <span className="bullet" style={{ display: "none" }}>...</span>
+                                                        <span className="full-name" style={{}}>13 12GB</span>
+                                                        &nbsp; &nbsp;
+                                                    </>
+                                                }
+                                                Product-SKU
                                             </td>
                                             <td>1</td>
                                             {items.product_price_visibility &&
