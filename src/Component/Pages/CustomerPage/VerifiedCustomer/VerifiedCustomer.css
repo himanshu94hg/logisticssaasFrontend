@@ -63,7 +63,8 @@
     /* white-space: nowrap; */
 }
 
-.verified-customer .follow-details a {
+.verified-customer .follow-details a,
+.verified-customer .follow-details .agreement-btn {
     text-decoration: none;
     background: #fff;
     padding: 5px 10px;
@@ -86,4 +87,68 @@
 
 .details-container hr {
     margin-block: 40px;
+}
+
+
+.verified-agreement-section {
+    width: 250mm;
+    margin: auto;
+    text-align: justify;
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 12pt;
+}
+
+.verified-agreement-section h5 {
+    font-size: 14pt;
+}
+
+.agreement-sign-section {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-end;
+}
+
+ol.agreement-ol {
+    padding-left: 20px;
+}
+
+ol.agreement-ol li {
+    padding-left: 20px;
+}
+
+.agreement-disclaimer {
+    font-size: 10pt;
+    margin-top: auto;
+    text-align: justify;
+    padding-top: 20px;
+    border-top: 1px solid #999;
+    color: #444;
+}
+
+
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm;
+        /* spacing on all sides */
+    }
+
+    body {
+        margin: 0 !important;
+    }
+
+    .verified-agreement-section {
+        padding: 0;
+        /* all spacing handled by @page */
+        box-sizing: border-box;
+    }
+
+    .agreement-disclaimer {
+        page-break-before: avoid;
+        padding-top: 10mm;
+        font-style: italic;
+    }
 }
