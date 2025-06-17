@@ -163,10 +163,19 @@ const VerifiedCustomer = ({ accountType }) => {
                     <hr />
                     <div className='detail-section row justify-content-between mx-0 px-0'>
                         <div className='details-title col-2'>Agreement</div>
-                        <div className='follow-details col-10 px-0'>
-                            <buttn onClick={() => handlePrint()} className='btn agreement-btn mx-3'>
+                        <div className='follow-details col-10'>
+                            <div className='detail-label'>
+                                Signed On
+                                <span>{moment(formData?.agreement_info?.date).format("DD MMM YYYY")}</span>
+                            </div>
+                            <div className='detail-label'>
+                                Place
+                                <span>{formData?.agreement_info?.place}</span>
+                            </div>
+
+                            <button onClick={() => handlePrint()} className='btn agreement-btn'>
                                 <FiDownload /> Download
-                            </buttn>
+                            </button>
                         </div>
                     </div>
                 </div>
