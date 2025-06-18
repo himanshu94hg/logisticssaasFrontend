@@ -48,6 +48,11 @@ const BasicInfo = ({ activeTab, accountType }) => {
   });
 
 
+  useEffect(() => {
+    setErrors({})
+  }, [activeTab, accountType])
+
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
 

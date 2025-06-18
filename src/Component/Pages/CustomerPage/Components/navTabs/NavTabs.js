@@ -28,6 +28,11 @@ export default function NavTabs(props) {
 
   const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
 
+  const handleAccountChange = (value) => {
+    props?.setAccountType(value)
+    props.setActiveTab("Basic Information")
+  }
+
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7 gap-10"
@@ -80,7 +85,7 @@ export default function NavTabs(props) {
       <div>
         <select
           className="select-field-account"
-          onChange={(e) => props?.setAccountType(e.target.value)}
+          onChange={(e) => handleAccountChange(e.target.value)}
         >
           <option value="">Parent Account</option>
           {props?.subAccount?.map((item) =>
