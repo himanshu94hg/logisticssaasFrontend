@@ -463,7 +463,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                 <p className="d-flex gap-2 align-items-center">
                                                                     <span data-truncate-name>{row?.shipping_detail?.recipient_name || <span className="missing-info-text">Name Missing</span>}</span>
                                                                 </p>
-                                                                {row?.payment_type?.toLowerCase() === "cod" && row?.other_details?.order_risk &&
+                                                                {row?.other_details?.order_risk &&
                                                                     <>
                                                                         <CustomTooltip
                                                                             triggerComponent={

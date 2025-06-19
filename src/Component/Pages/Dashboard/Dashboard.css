@@ -340,6 +340,7 @@
     flex-direction: column;
     gap: 15px;
     justify-content: space-around;
+    max-height: max-content;
 }
 
 .status-container-item {
