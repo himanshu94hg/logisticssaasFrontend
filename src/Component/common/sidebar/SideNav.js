@@ -140,12 +140,14 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
     }
   }, [isExpanded])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (user_type === "emp") {
       fetchData(empId);
     }
   }, [])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (user_type === "emp") {
       setFinalRoute(routeData)

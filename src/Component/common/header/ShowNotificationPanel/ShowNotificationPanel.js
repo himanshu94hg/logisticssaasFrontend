@@ -43,6 +43,7 @@ const ShowNotificationPanel = ({ showNotification, setShowNotification, alerts, 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showNotification]);
 
     const handleMarkRead = async (id) => {

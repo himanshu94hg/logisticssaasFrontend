@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+import { showErrorToast } from "../../../../../customFunction/errorHandling";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../../axios/config";
@@ -24,7 +24,7 @@ function* orderManifestTabAction(action) {
         }
 
     } catch (error) {
-        toast.error("Api Call failed!")
+        showErrorToast("Api Call failed!")
     }
 }
 

@@ -34,11 +34,10 @@ export const uploadImageData = async (awsUrl,formData) => {
 
 export const deleteImageData = async (awsUrl,formData) => {
     try {
-        const categoryResponse = await axios.post(awsUrl,formData, {
+        await axios.post(awsUrl,formData, {
             headers: {
             },
         });
-
     } catch (error) {
         console.error('Error:', error);
     }
