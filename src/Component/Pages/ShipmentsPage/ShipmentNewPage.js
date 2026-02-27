@@ -326,7 +326,6 @@ const ShipmentNewPage = () => {
                     selectAll={selectAll}
                     partnerList={partnerList}
                     setSelectAll={setSelectAll}
-                    shipmentCard={shipmentCard}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}

@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { showErrorToast } from "../../../../../customFunction/errorHandling";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
