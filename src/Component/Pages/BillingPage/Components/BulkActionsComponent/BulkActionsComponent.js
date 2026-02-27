@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { customErrorFunction, showErrorToast } from '../../../../../customFunction/errorHandling';
 import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
 const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
@@ -155,7 +155,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                     }
                 } catch (error) {
                     customErrorFunction(error)
-                    toast.error(error?.response?.data?.detail)
+                    showErrorToast(error?.response?.data?.detail)
                     setLoading(false)
                 }
             }

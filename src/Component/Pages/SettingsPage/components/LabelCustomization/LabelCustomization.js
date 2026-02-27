@@ -11,6 +11,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import { toast } from 'react-toastify';
 import NonActiveService from '../../../Dashboard/Components/NonActiveService/NonActiveService';
 import { useSelector } from 'react-redux';
+import { DUMMY_LABEL_CUSTOMIZATION } from '../../../../../mockData/dashboardDummyData';
 
 
 const LabelCustomization = () => {
@@ -147,21 +148,27 @@ const LabelCustomization = () => {
     }
 
 
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
+
     useEffect(() => {
-        const fetchLabelCustomization = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/label/customization/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-                setCustomizationData(response?.data)
-            } catch (error) {
-                customErrorFunction(error)
-            }
-        };
-        fetchLabelCustomization();
-    }, [authToken]);
+        if (isLocalBypass) {
+            setCustomizationData(DUMMY_LABEL_CUSTOMIZATION);
+        } else {
+            const fetchLabelCustomization = async () => {
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/label/customization/`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    setCustomizationData(response?.data)
+                } catch (error) {
+                    customErrorFunction(error)
+                }
+            };
+            fetchLabelCustomization();
+        }
+    }, [authToken, isLocalBypass]);
 
 
     useEffect(() => {
@@ -207,7 +214,7 @@ const LabelCustomization = () => {
 
     return (
         <section className='label-customize-page position-relative'>
-            {!planStatusData?.label_customization && <NonActiveService />}
+            {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.label_customization && <NonActiveService />}
             <Row>
                 <Col className="col-3">
                     <div className='lc-section-column'>

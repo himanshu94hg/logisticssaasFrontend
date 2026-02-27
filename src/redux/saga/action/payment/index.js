@@ -1,4 +1,5 @@
 import axios from "../../../../axios/index"
+import Cookies from "js-cookie";
 import { CHECK_AUTH_DATA } from "../../../constants/auth";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
@@ -102,7 +103,8 @@ function* profileFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
-        if (error.response.data.code === "token_not_valid") {
+        const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true' && Cookies.get('access_token') === 'local-dev-bypass';
+        if (!isLocalBypass && error.response?.data?.code === "token_not_valid") {
             yield put({ type: CHECK_AUTH_DATA, payload: error.response.data.code })
         }
     }

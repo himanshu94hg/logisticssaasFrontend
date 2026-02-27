@@ -58,7 +58,7 @@ const WhatsappComm = ({ activeTab }) => {
   return (
     <>
       <div className='position-relative'>
-        {!planStatusData?.whatsapp_notification && <NonActiveService />}
+        {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.whatsapp_notification && <NonActiveService />}
         <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <MostViewedStatus />

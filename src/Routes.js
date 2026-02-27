@@ -37,6 +37,10 @@ export const shipmentsPattern = "/shipments";
 export const getShipmentsRoute = () => {
     return generatePath(shipmentsPattern);
 };
+export const shipmentNewPattern = "/shipment-new";
+export const getShipmentNewRoute = () => {
+    return generatePath(shipmentNewPattern);
+};
 export const dailyPrefrencesPattern = "/daily-preference";
 export const getdailyPrefrenceRoute = () => {
     return generatePath(dailyPrefrencesPattern);

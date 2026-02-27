@@ -288,7 +288,7 @@ const ActionRequested = ({ selectAll, setSelectAll, shipmentCard, selectedRows, 
                                             <td>
                                                 {/* package  details */}
                                                 <div className='cell-inside-box'>
-                                                    <p className='width-eclipse'>{row?.order_products.product_name}</p>
+                                                    <p className='width-eclipse'>{(Array.isArray(row?.order_products) ? row?.order_products?.[0]?.product_name : row?.order_products?.product_name) || '-'}</p>
                                                     <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />

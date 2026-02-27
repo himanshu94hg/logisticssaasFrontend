@@ -14,7 +14,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
-import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import { customErrorFunction, showErrorToast } from '../../../../../../customFunction/errorHandling';
 import RatingStars from "../../../../../common/RatingStars/RatingStars";
 import NoCourier from '../../../../../../assets/image/NoCourier.png'
 import AirModeIcon from "../../../../../common/Icons/AirModeIcon";
@@ -48,7 +48,7 @@ const SingleShipPop = ({ setLoader, SingleShip, setSingleShip, shipingResponse, 
                 else {
                     setSingleShip(true);
                     setLoader(false)
-                    toast.error(response.data.message);
+                    showErrorToast(response.data.message);
                 }
             }).catch((error) => {
                 customErrorFunction(error)

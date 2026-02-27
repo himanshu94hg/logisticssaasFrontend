@@ -72,7 +72,7 @@ const SubAccounts = ({ activeTab }) => {
   return (
     <>
       <div className='position-relative'>
-        {!planStatusData?.multiple_user_login_role_management && <NonActiveService />}
+        {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.multiple_user_login_role_management && <NonActiveService />}
         <Row className='cardsSpace position-relative z-2'>
           <Col className='col-12'>
             <Row>

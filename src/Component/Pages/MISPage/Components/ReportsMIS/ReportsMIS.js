@@ -4,6 +4,8 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { GET_REPORTS_ORDERS_DATA } from '../../../../../redux/constants/mis';
+import { DUMMY_MIS_REPORTS_ORDERS } from '../../../../../mockData/dashboardDummyData';
 import DatePicker from 'react-datepicker';
 import React, { useState, useEffect } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,7 +21,8 @@ import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
 
 
 const ReportsMIS = ({ activeTab }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
     const [reset, setReset] = useState(null)
     const [stateData, setStateData] = useState(false)
     const [selectAll, setSelectAll] = useState(false);
@@ -55,6 +58,17 @@ const ReportsMIS = ({ activeTab }) => {
             setSelectAll(false)
         }
     }, [activeTab, firstSelectedOption, secondSelectedOption])
+
+    // Pre-fill Orders + All and show 10 rows in bypass mode
+    useEffect(() => {
+        if (isLocalBypass && !showComponent) {
+            setFirstSelectedOption({ value: 'Orders', label: 'Orders' });
+            setSecondSelectedOption({ value: 'all_orders', label: 'All' });
+            setShowComponent('Orders');
+            setStateData1(new Date());
+            setBulkFilters({ type: 'Orders', subtype: 'all_orders', startDate, endDate });
+        }
+    }, [isLocalBypass])
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -119,15 +133,19 @@ const ReportsMIS = ({ activeTab }) => {
 
     useEffect(() => {
         if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
-            dispatch({
-                type: "MIS_REPORT_ORDERS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value || 'all_orders',
-                    start_date: moment(startDate).format("YYYY-MM-DD"),
-                    end_date: moment(endDate).format("YYYY-MM-DD"),
-                    page_size: itemsPerPage,
-                    page: currentPage
-                }
-            })
+            if (isLocalBypass) {
+                dispatch({ type: GET_REPORTS_ORDERS_DATA, payload: DUMMY_MIS_REPORTS_ORDERS });
+            } else {
+                dispatch({
+                    type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value || 'all_orders',
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
+                    }
+                })
+            }
         } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_BILLING_ACTION", payload: {
@@ -167,7 +185,7 @@ const ReportsMIS = ({ activeTab }) => {
     }, [showComponent, stateData1])
 
     useEffect(() => {
-        if (reportsOrderData?.count > 0) {
+        if (reportsOrderData?.count > 0 && !isLocalBypass) {
             dispatch({
                 type: "MIS_REPORT_ORDERS_ACTION", payload: {
                     sub_type: secondSelectedOption?.value || 'all_orders',

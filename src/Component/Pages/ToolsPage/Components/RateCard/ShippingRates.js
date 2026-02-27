@@ -4,20 +4,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import Toggle from 'react-toggle';
 import '../../ToolsPage.css';
 import NavTabs from './NavTabs/NavTabs';
+import { DUMMY_RATING_CARD } from '../../../../../mockData/dashboardDummyData';
+import { GET_RATE_CARD_DATA } from '../../../../../redux/constants/tools';
 
 const ShippingRates = () => {
     const dispatch = useDispatch();
     const [selectedCourier, setSelectedCourier] = useState(null);
     const { ratingCardData } = useSelector(state => state?.toolsSectionReducer);
     const [isChecked, setIsChecked] = useState(false);
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
 
     const handleToggle = () => {
         setIsChecked(!isChecked);
     };
 
     useEffect(() => {
-        dispatch({ type: "RATE_CARD_ACTION" });
-    }, [dispatch]);
+        if (isLocalBypass) {
+            dispatch({ type: GET_RATE_CARD_DATA, payload: { data: DUMMY_RATING_CARD } });
+        } else {
+            dispatch({ type: "RATE_CARD_ACTION" });
+        }
+    }, [dispatch, isLocalBypass]);
 
     const handleCourierChange = selectedOption => {
         setSelectedCourier(selectedOption);

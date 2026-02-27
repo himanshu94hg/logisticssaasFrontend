@@ -34,7 +34,7 @@ const ShipmentDashboard = ({ activeTab }) => {
   return (
     <>
       <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'} position-relative`}>
-        {!planStatusData?.analytics_dashboard && <NonActiveService />}
+        {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.analytics_dashboard && <NonActiveService />}
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <WeightProfile />
           <ZoneWiseData />

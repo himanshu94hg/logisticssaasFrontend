@@ -22,6 +22,7 @@ import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
+import ShipmentNewPage from './Component/Pages/ShipmentsPage/ShipmentNewPage';
 import WeightRecoPage from './Component/Pages/WeightRecoPage/WeightRecoPage';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
@@ -68,7 +69,7 @@ import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/Courie
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPop";
 // import "./responsive.css";
-import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern, TrackingScriptPattern, UserManagementPattern, WhatsAppBotsPattern, BusinessPlanPatternNew, RtoPredictorPattern, BluedartIntPattern, EkartIntPattern, DtdcIntPattern, ShadowFaxIntPattern, XpressBeesIntPattern, DelhiveryIntPattern } from "./Routes";
+import { ccavenueRedirectIntegrationPattern, gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shipmentNewPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern, shopifyRedirect, shopifyRedirectIntegrationPattern, orderTrackingPattern, WhatsAppIntegrationPattern, WhatsAppNotificationPattern, SkuUploadPattern, BrandedTrackingPattern, TrackingScriptPattern, UserManagementPattern, WhatsAppBotsPattern, BusinessPlanPatternNew, RtoPredictorPattern, BluedartIntPattern, EkartIntPattern, DtdcIntPattern, ShadowFaxIntPattern, XpressBeesIntPattern, DelhiveryIntPattern } from "./Routes";
 import WhatsAppIntegration from "./Component/Pages/IntegrationsPage/Components/OtherIntegration/WhatsAppIntegration";
 import { BASE_URL_CORE } from './axios/config';
 import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/VerifiedCustomer";
@@ -107,10 +108,20 @@ function App() {
   const [tokenChecked, setTokenChecked] = useState(false);
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
+  const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
+
   useEffect(() => {
     const user_id = Cookies.get('user_id');
-    setUserID(user_id)
-    setTokenExists(!!token);
+    setUserID(user_id);
+    if (isLocalBypass) {
+      if (!token) {
+        Cookies.set('access_token', 'local-dev-bypass', { path: '/' });
+        Cookies.set('user_id', 'demo-user', { path: '/' });
+      }
+      setTokenExists(true);
+    } else {
+      setTokenExists(!!token);
+    }
     setTokenChecked(true);
   }, []);
 
@@ -126,10 +137,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (tokenChecked && !tokenExists && window.location.pathname != signUpPattern) {
+    if (!isLocalBypass && tokenChecked && !tokenExists && window.location.pathname != signUpPattern) {
       navigate(loginPattern);
     }
-  }, [tokenChecked, tokenExists, navigate]);
+  }, [tokenChecked, tokenExists, navigate, isLocalBypass]);
 
   useEffect(() => {
     if (status) {
@@ -146,23 +157,27 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${BASE_URL_CORE}/core-api/features/all-partner-list/`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          const temp_data = response.data.reduce((acc, item) => {
-            acc[item?.keyword] = {
-              image: item?.image,
-              title: item?.title,
-              ndr_rating: item?.ndr_rating,
-              rto_rating: item?.rto_rating,
-              pickup_rating: item?.pickup_rating,
-              delivery_rating: item?.delivery_rating,
-            };
-            return acc;
+      if (isLocalBypass) {
+        const { DUMMY_PARTNER_LIST } = require('./mockData/dashboardDummyData');
+        localStorage.setItem('partnerList', JSON.stringify(DUMMY_PARTNER_LIST));
+      } else {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/features/all-partner-list/`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            const temp_data = response.data.reduce((acc, item) => {
+              acc[item?.keyword] = {
+                image: item?.image,
+                title: item?.title,
+                ndr_rating: item?.ndr_rating,
+                rto_rating: item?.rto_rating,
+                pickup_rating: item?.pickup_rating,
+                delivery_rating: item?.delivery_rating,
+              };
+              return acc;
           }, {});
           localStorage.setItem('partnerList', JSON.stringify(temp_data));
         } catch (error) {
@@ -170,28 +185,38 @@ function App() {
         }
       };
       fetchData();
+      }
     }
-  }, [token]);
+  }, [token, isLocalBypass]);
 
   useEffect(() => {
     if (token) {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/entitlements/`, {
-            headers: {
-              Authorization: `Bearer ${token}`
+      if (isLocalBypass) {
+        // Use dummy plan status to hide "Unlock Premium Features" modal
+        const { DUMMY_PLAN_STATUS } = require('./mockData/dashboardDummyData');
+        dispatch(planAction(DUMMY_PLAN_STATUS));
+        // Set dummy partner list for dashboard courier icons
+        const { DUMMY_PARTNER_LIST } = require('./mockData/dashboardDummyData');
+        localStorage.setItem('partnerList', JSON.stringify(DUMMY_PARTNER_LIST));
+      } else {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/entitlements/`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            if (response?.status === 200) {
+              dispatch(planAction(response?.data))
             }
-          });
-          if (response?.status === 200) {
-            dispatch(planAction(response?.data))
+          } catch (error) {
+            customErrorFunction(error)
           }
-        } catch (error) {
-          customErrorFunction(error)
-        }
-      };
-      fetchData();
+        };
+        fetchData();
+      }
     }
-  }, [token]);
+  }, [token, isLocalBypass]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -243,6 +268,7 @@ function App() {
             <Route path={ReferAndEarnPattern} element={<ReferAndEarnPage />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
+            <Route path={shipmentNewPattern} element={<ShipmentNewPage />} />
             <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
             <Route path={omsIntegrationPattern} element={<OMSIntegration />} />
             <Route path={apiIntegrationPattern} element={<APIIntegration />} />

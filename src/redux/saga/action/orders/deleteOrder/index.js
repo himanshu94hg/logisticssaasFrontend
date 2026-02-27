@@ -3,7 +3,7 @@ import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { ERROR_RESPONSE_DATA } from "../../../../constants/error";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { customErrorFunction } from "../../../../../customFunction/errorHandling";
+import { customErrorFunction, showErrorToast } from "../../../../../customFunction/errorHandling";
 import { ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, } from "../../../../constants/orders";
 import { CLONE_ORDERS_UPDATE_ACTION, DELETE_ORDERS_ACTION, GENERATE_MANIFEST_ACTION, ORDERS_DETAILS_CANCEL_ACTION, } from "../../../constant/orders";
 
@@ -26,7 +26,7 @@ function* cancelOrderAction(action) {
                 toast.success("Order cancelled successfully")
             } else {
                 yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
-                toast.error(response?.data?.message)
+                showErrorToast(response?.data?.message)
             }
         }
     } catch (error) {
@@ -53,7 +53,7 @@ function* cloneOrderAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        showErrorToast(error?.response?.data?.detail)
     }
 }
 
@@ -75,7 +75,7 @@ function* deleteOrderAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        showErrorToast(error?.response?.data?.detail)
     }
 }
 
@@ -97,7 +97,7 @@ function* generateManifestAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        showErrorToast(error?.response?.data?.detail)
         yield put({ type: ERROR_RESPONSE_DATA, payload: error + new Date() })
     }
 }

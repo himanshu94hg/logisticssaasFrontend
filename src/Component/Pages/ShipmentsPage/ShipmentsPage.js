@@ -2,6 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import Select from 'react-select';
+import { DUMMY_SHIPMENTS, DUMMY_SHIPMENT_COUNTER } from '../../../mockData/dashboardDummyData';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
 import NavTabs from './Components/navTabs/NavTabs';
@@ -38,6 +39,7 @@ const SearchOptions = [
 
 const ShipmentsPage = () => {
     const dispatch = useDispatch()
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
     const apiEndpoint = `${BASE_URL_ORDER}`;
     const [errors, setErrors] = useState({});
     const [awbNo, setAwbNo] = useState(null)
@@ -84,9 +86,16 @@ const ShipmentsPage = () => {
 
 
     useEffect(() => {
+        setLoader(true);
+        if (isLocalBypass) {
+            const mockData = DUMMY_SHIPMENTS[tabData] || [];
+            setTotalItems(mockData.length);
+            setShipment(mockData);
+            setLoader(false);
+            return;
+        }
         let apiUrl = '';
         let sanitizedSearchValue = searchValue.replace(/#/g, '');
-        setLoader(true)
         switch (activeTab) {
             case "Action Required":
                 apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}&search_by=${searchType}&q=${sanitizedSearchValue}&most_popular_search=${mostPopular.most_popular_search}`;
@@ -128,7 +137,7 @@ const ShipmentsPage = () => {
                     setLoader(false)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), activeTab, reset, currentPage,]);
+    }, [JSON.stringify(queryParamTemp), activeTab, reset, currentPage, isLocalBypass, tabData]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -235,6 +244,10 @@ const ShipmentsPage = () => {
     }
 
     useEffect(() => {
+        if (isLocalBypass) {
+            setCounterData(DUMMY_SHIPMENT_COUNTER);
+            return;
+        }
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-shipment-counter/`, {
@@ -250,7 +263,7 @@ const ShipmentsPage = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [isLocalBypass]);
 
 
     const searchOptions = [

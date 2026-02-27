@@ -3,7 +3,7 @@ import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { ERROR_RESPONSE_DATA } from "../../../../constants/error";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { customErrorFunction } from "../../../../../customFunction/errorHandling";
+import { customErrorFunction, showErrorToast } from "../../../../../customFunction/errorHandling";
 import { ORDERS_CANCEL_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_LABEL_LIST_DATA, ORDERS_PRODUCT_DIMENSION_DATA } from "../../../../constants/orders";
 import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_GENERATE_MENIFEST_ACTION, BULK_GET_DIMENSION_DETAILS_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, BULK_ORDER_GENERATE_INVOICE_ACTION, BULK_ORDER_GENERATE_LABEL_ACTION, BULK_ORDER_GENERATE_PICKUP_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION, BULK_PROCESSING_ORDER_CANCEL_ACTION } from "../../../constant/orders/bulkAction";
 
@@ -102,7 +102,7 @@ function* bulkCancelOrderAction(action) {
                 toast.success(response?.data?.count + " Order cancelled successfully")
             } else {
                 yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-                toast.error(response?.data?.message)
+                showErrorToast(response?.data?.message)
             }
         }
 

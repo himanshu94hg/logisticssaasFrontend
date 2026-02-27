@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+import Cookies from "js-cookie";
 import PnL from "./DashboardTabs/PnL";
 import NavTabs from "./navTabs/NavTabs";
 import { useSelector } from "react-redux";
@@ -41,13 +42,15 @@ function Dashboard() {
   }, [activeTab])
 
 
+  const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true' && Cookies.get('access_token') === 'local-dev-bypass';
+
   useEffect(() => {
-    if (checkAuthIsValid) {
+    if (!isLocalBypass && checkAuthIsValid) {
       clearAllCookies()
       window.location.reload()
       navigate("/")
     }
-  }, [checkAuthIsValid])
+  }, [checkAuthIsValid, isLocalBypass])
 
 //analytics_dashboard
 

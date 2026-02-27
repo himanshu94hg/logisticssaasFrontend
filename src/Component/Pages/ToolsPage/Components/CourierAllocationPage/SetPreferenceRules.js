@@ -9,6 +9,8 @@ import AddRuleSidePanel from './AddRuleSidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { DUMMY_COURIER_RULES, DUMMY_COURIER_PARTNERS } from '../../../../../mockData/dashboardDummyData';
+import { GET_COURIER_ALLOCATION_RULE_DATA } from '../../../../../redux/constants/tools';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -80,35 +82,39 @@ const SetPreferenceRules = ({ activeTab }) => {
     // }, []);
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list-seller/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-                // const temp = response?.data?.map((item, index) => ({
-                //     id: item?.id,
-                //     label: item?.warehouse_name,
-                //     value: item?.warehouse_name,
-                // }));
-                setCourierPartnerData(response?.data)
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
 
-            } catch (error) {
-                customErrorFunction(error)
-            };
+    useEffect(() => {
+        if (isLocalBypass) {
+            setCourierPartnerData(DUMMY_COURIER_PARTNERS);
+        } else {
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/partner-list-seller/`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    setCourierPartnerData(response?.data)
+                } catch (error) {
+                    customErrorFunction(error)
+                };
+            }
+            fetchData();
         }
-        fetchData();
-    }, []);
+    }, [isLocalBypass]);
 
 
     useEffect(() => {
         if (activeTab === "Set preference Rules" || refresh) {
-            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            if (isLocalBypass) {
+                dispatch({ type: GET_COURIER_ALLOCATION_RULE_DATA, payload: DUMMY_COURIER_RULES });
+            } else {
+                dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            }
             setFormErrors({})
         }
-    }, [activeTab, refresh]);
+    }, [activeTab, refresh, isLocalBypass]);
 
     useEffect(() => {
         if (rulePanel) {

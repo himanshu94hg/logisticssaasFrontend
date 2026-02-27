@@ -16,7 +16,7 @@ const PnL = () => {
   return (
     <>
       <div className='position-relative'>
-      {!planStatusData?.business_health_dashoard && <NonActiveService />}
+      {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.business_health_dashoard && <NonActiveService />}
         <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <TotalProfitAndLoss />

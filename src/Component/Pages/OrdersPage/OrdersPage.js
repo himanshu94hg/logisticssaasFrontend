@@ -2,6 +2,7 @@ import './OrdersPage.css';
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
+import { DUMMY_ORDERS, DUMMY_ORDERS_COUNT } from '../../../mockData/dashboardDummyData';
 import Select from 'react-select';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
@@ -46,6 +47,7 @@ const SearchOptions = [
 const OrdersPage = () => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
     const [awbNo, setAwbNo] = useState("")
     const [reset, setReset] = useState(null)
     const [orders, setOrders] = useState([])
@@ -185,23 +187,58 @@ const OrdersPage = () => {
             }
             if (apiUrl) {
                 setLoader(true)
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-                const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
-                if (decodedURL) {
-                    apiUrl += '&' + decodedURL;
+                if (isLocalBypass) {
+                    const statusMap = { 'Processing': 'Processing', 'Ready to Ship': 'Ready_to_ship', 'Pickup': 'manifest', 'Returns': 'Returns', 'Unprocessable': 'Unprocessable', 'All': null };
+                    const filterStatus = statusMap[activeTab];
+                    const filtered = filterStatus ? DUMMY_ORDERS.filter(o => o.order_courier_status === filterStatus) : DUMMY_ORDERS;
+                    setTotalItems(filtered.length)
+                    setOrders(filtered)
+                    setLoader(false)
+                } else {
+                    const queryParams = { ...queryParamTemp };
+                    const queryString = Object.keys(queryParams)
+                        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                        .join('&');
+                    const decodedURL = decodeURIComponent(`${queryString}&most_popular_search=${mostPopular?.most_popular_search}`)
+                    if (decodedURL) {
+                        apiUrl += '&' + decodedURL;
+                    }
+                    axios.get(apiUrl, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    })
+                        .then(response => {
+                            setTotalItems(response?.data?.count)
+                            setLoader(false)
+                            setOrders(response.data.results);
+                        })
+                        .catch(error => {
+                            customErrorFunction(error)
+                            setLoader(false)
+                        });
                 }
-                axios.get(apiUrl, {
+            }
+        }
+    }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus, isLocalBypass]);
+
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab === "Manifest") {
+            if (isLocalBypass) {
+                setTotalItems(DUMMY_ORDERS_COUNT)
+                setManifestOrders(DUMMY_ORDERS.filter(o => o.awb_number))
+                setLoader(false)
+            } else {
+                axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
                 })
                     .then(response => {
                         setTotalItems(response?.data?.count)
+                        setManifestOrders(response.data.results);
                         setLoader(false)
-                        setOrders(response.data.results);
                     })
                     .catch(error => {
                         customErrorFunction(error)
@@ -209,27 +246,7 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
-
-    useEffect(() => {
-        setLoader(true)
-        if (activeTab === "Manifest") {
-            axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-                .then(response => {
-                    setTotalItems(response?.data?.count)
-                    setManifestOrders(response.data.results);
-                    setLoader(false)
-                })
-                .catch(error => {
-                    customErrorFunction(error)
-                    setLoader(false)
-                });
-        }
-    }, [activeTab, itemsPerPage, currentPage])
+    }, [activeTab, itemsPerPage, currentPage, isLocalBypass])
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -284,19 +301,24 @@ const OrdersPage = () => {
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
-        axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
-            === "All" ? '' : activeTab}&${value}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
+        if (isLocalBypass) {
+            setTotalItems(DUMMY_ORDERS_COUNT)
+            setOrders(DUMMY_ORDERS)
+        } else {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
+                === "All" ? '' : activeTab}&${value}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             })
-            .catch(error => {
-                customErrorFunction(error)
-            });
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setOrders(response.data.results);
+                })
+                .catch(error => {
+                    customErrorFunction(error)
+                });
+        }
     }
 
 

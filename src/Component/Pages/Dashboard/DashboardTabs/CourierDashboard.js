@@ -31,7 +31,7 @@ const CourierDashboard = ({ activeTab }) => {
   return (
     <>
       <section className='courier-dashboard position-relative'>
-      {!planStatusData?.analytics_dashboard && <NonActiveService />}
+      {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && !planStatusData?.analytics_dashboard && <NonActiveService />}
         <div className="accordion">
           {courierData ? (
             courierData.map((item, index) => (

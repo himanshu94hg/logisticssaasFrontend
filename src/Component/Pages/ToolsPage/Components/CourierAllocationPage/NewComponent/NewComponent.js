@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import NavTabs from '../navTabs/NavTabs';
+import { DUMMY_COURIER_CATEGORY } from '../../../../../../mockData/dashboardDummyData';
 import SetPreferenceRules from '../SetPreferenceRules';
 import DragIcon from '../../../../../common/Icons/DragIcon';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
@@ -46,22 +47,30 @@ const NewComponent = () => {
         }
     }, [activeTab])
 
+    const isLocalBypass = process.env.REACT_APP_BYPASS_LOGIN === 'true';
+
     useEffect(() => {
         if (activeTab === TABS.COURIER_PREFERENCES) {
-            fetch(`${BASE_URL_CORE}/core-api/features/courier-category-new/`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    setPool(data.find((item) => item?.title === 'Buffer Pool')?.partners || []);
-                    setSequenceOne(data.find((item) => item?.title === 'B2C')?.partners || []);
-                    setSequenceTwo(data.find((item) => item?.title === 'B2B')?.partners || []);
+            if (isLocalBypass) {
+                setPool(DUMMY_COURIER_CATEGORY.find((item) => item?.title === 'Buffer Pool')?.partners || []);
+                setSequenceOne(DUMMY_COURIER_CATEGORY.find((item) => item?.title === 'B2C')?.partners || []);
+                setSequenceTwo(DUMMY_COURIER_CATEGORY.find((item) => item?.title === 'B2B')?.partners || []);
+            } else {
+                fetch(`${BASE_URL_CORE}/core-api/features/courier-category-new/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
                 })
-                .catch(customErrorFunction);
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setPool(data.find((item) => item?.title === 'Buffer Pool')?.partners || []);
+                        setSequenceOne(data.find((item) => item?.title === 'B2C')?.partners || []);
+                        setSequenceTwo(data.find((item) => item?.title === 'B2B')?.partners || []);
+                    })
+                    .catch(customErrorFunction);
+            }
         }
-    }, [activeTab, authToken]);
+    }, [activeTab, authToken, isLocalBypass]);
 
     const getList = (id) => {
         switch (id) {
@@ -281,7 +290,7 @@ const NewComponent = () => {
             </div>
 
             <div className='position-relative'>
-                {(!planStatusData?.advanced_courier_rule && activeTab === TABS.SET_PREFERENCE_RULES) && <NonActiveService />}
+                {process.env.REACT_APP_BYPASS_LOGIN !== 'true' && (!planStatusData?.advanced_courier_rule && activeTab === TABS.SET_PREFERENCE_RULES) && <NonActiveService />}
                 <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === TABS.SET_PREFERENCE_RULES ? 'd-block' : 'd-none'}`}>
                     <SetPreferenceRules activeTab={activeTab} />
                 </section>

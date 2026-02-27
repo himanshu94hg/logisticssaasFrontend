@@ -167,12 +167,12 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                 <td>
                                     {/* Package Details */}
                                     <div className='cell-inside-box'>
-                                        <p className='width-eclipse'>{row?.order_products.product_name}</p>
+                                        <p className='width-eclipse'>{Array.isArray(row?.order_products) ? row?.order_products?.[0]?.product_name : row?.order_products?.product_name}</p>
                                         <p>Wt:  {row?.dimension_detail?.weight / 1000} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
-                                                    {row?.order_products.map((product, index) => (
+                                                    {(Array.isArray(row?.order_products) ? row?.order_products : []).map((product, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Product:</strong> {product.product_name}<br />
                                                             <strong>SKU:</strong> {product.sku}<br />
@@ -215,10 +215,10 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                 <td>
                                     {/* Shipping Details */}
                                     <div className='cell-inside-box shipping-details'>
-                                        {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
+                                        {row?.courier_partner && partnerList?.[row?.courier_partner] && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
+                                            <p className='text-capitalize'>{row?.courier_partner && partnerList?.[row?.courier_partner]?.["title"]}</p>
                                         </div>
                                         {row?.awb_number &&
                                             <CustomTooltip
