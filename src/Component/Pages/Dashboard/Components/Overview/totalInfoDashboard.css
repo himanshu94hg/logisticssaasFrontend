@@ -43,6 +43,94 @@
     border-radius: 10px;
 }
 
+.total-customer-kpi-card {
+    background-color: #ECFDF5;
+}
+
+.total-customer-icon-bg {
+    background-color: #D1FAE5;
+}
+
+.total-customer-kpi-card .total-customer-kpi-title {
+    color: #334155;
+}
+
+.total-customer-kpi-card h2.title-text {
+    color: #0F172A;
+}
+
+.total-customer-active-label {
+    color: #047857;
+}
+
+.total-customer-trend-text {
+    color: #16A34A;
+}
+
+.daily-shipment-kpi-card {
+    background-color: #FFF7ED;
+}
+
+.daily-shipment-icon-bg {
+    background-color: #FFEDD5;
+}
+
+.daily-shipment-kpi-card .daily-shipment-kpi-title {
+    color: #334155;
+}
+
+.daily-shipment-kpi-card h2.title-text {
+    color: #0F172A;
+}
+
+.daily-shipment-booked-label {
+    color: #C2410C;
+}
+
+.daily-shipment-trend-text {
+    color: #F97316;
+}
+
+.avg-selling-price-kpi-card {
+    background-color: #EFF6FF;
+}
+
+.avg-selling-price-icon-bg {
+    background-color: #DBEAFE;
+}
+
+.avg-selling-price-kpi-card .avg-selling-price-kpi-title {
+    color: #334155;
+}
+
+.avg-selling-price-kpi-card h2.title-text {
+    color: #0F172A;
+}
+
+.avg-selling-price-trend-text {
+    color: #3B82F6;
+}
+
+.today-revenue-kpi-card {
+    background-color: #F5F3FF;
+}
+
+.today-revenue-icon-bg {
+    background-color: #EDE9FE;
+}
+
+.today-revenue-kpi-card .today-revenue-kpi-title {
+    color: #334155;
+}
+
+.today-revenue-kpi-card h2.title-text {
+    color: #0F172A;
+}
+
+.today-revenue-trend-text {
+    color: #8B5CF6;
+}
+
 .dx-pager .dx-page-sizes .dx-selection,
 .dx-pager .dx-pages .dx-selection {
     background-color: #dbdbdb;

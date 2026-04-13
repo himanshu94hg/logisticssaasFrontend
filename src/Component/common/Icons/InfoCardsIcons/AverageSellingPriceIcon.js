@@ -19,7 +19,7 @@ const AverageSellingPriceIcon = () => {
                 <g>
                     <path
                         d="M14.59 2a7.523 7.523 0 0 1 2.25 4h4.15v2h-4.03c-.26 3.9-3.51 7-7.47 7h-3.3l10.76 9h-3.13L3 15v-2h6.5a5.5 5.5 0 0 0 5.47-5H3V6h11.79c-.66-2.3-2.77-4-5.29-4H3V0h18v2z"
-                        fill="#1975c9"
+                        fill="#2563EB"
                         opacity={1}
                         data-original="#000000"
                         className=""
