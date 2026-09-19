@@ -3,6 +3,13 @@
  * Used when REACT_APP_BYPASS_LOGIN=true
  */
 
+import DelhiveryLogo from '../assets/image/integration/DelhiveryLogo.png';
+import BluedartLogo from '../assets/image/integration/BluedartLogo.png';
+import EkartLogo from '../assets/image/integration/EkartLogo.png';
+import DtdcLogo from '../assets/image/integration/dtdc.png';
+import XpressBeesLogo from '../assets/image/integration/XpressBeesLogo.png';
+import ShadowfaxLogo from '../assets/image/integration/ShadowfaxLogo.png';
+
 // Plan status - all features enabled to hide "Unlock Premium Features" modal
 export const DUMMY_PLAN_STATUS = {
   analytics_dashboard: true,
@@ -242,13 +249,87 @@ export const DUMMY_ORDERS = [
 
 export const DUMMY_ORDERS_COUNT = 10;
 
+/** Manifest tab rows (orders-api/orders/manifest/ shape) */
+const manifestCreatedAt = (daysAgo, hour = 10) => {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  d.setHours(hour, 30, 0, 0);
+  return d.toISOString();
+};
+
+export const DUMMY_MANIFEST_LIST = [
+  {
+    id: 1001,
+    created: manifestCreatedAt(0, 9),
+    type: 'Demo Seller',
+    courier: 'delhivery',
+    number_of_order: 4,
+    p_ref_no: 'PKP-REF-20260919-001',
+    manifest_order: [{ order: 3 }, { order: 4 }, { order: 5 }, { order: 6 }],
+  },
+  {
+    id: 1002,
+    created: manifestCreatedAt(1, 11),
+    type: 'Demo Seller',
+    courier: 'bluedart',
+    number_of_order: 2,
+    p_ref_no: 'PKP-REF-20260918-014',
+    manifest_order: [{ order: 4 }, { order: 5 }],
+  },
+  {
+    id: 1003,
+    created: manifestCreatedAt(2, 15),
+    type: 'Warehouse Mumbai',
+    courier: 'ekart',
+    number_of_order: 3,
+    p_ref_no: 'PKP-REF-20260917-008',
+    manifest_order: [{ order: 5 }, { order: 6 }, { order: 7 }],
+  },
+  {
+    id: 1004,
+    created: manifestCreatedAt(3, 10),
+    type: 'Demo Seller',
+    courier: 'dtdc',
+    number_of_order: 1,
+    p_ref_no: 'PKP-REF-20260916-003',
+    manifest_order: [{ order: 6 }],
+  },
+  {
+    id: 1005,
+    created: manifestCreatedAt(4, 14),
+    type: 'Ops Team',
+    courier: 'xpressbees',
+    number_of_order: 5,
+    p_ref_no: 'PKP-REF-20260915-021',
+    manifest_order: [{ order: 3 }, { order: 4 }, { order: 5 }, { order: 6 }, { order: 7 }],
+  },
+  {
+    id: 1006,
+    created: manifestCreatedAt(5, 9),
+    type: 'Demo Seller',
+    courier: 'delhivery',
+    number_of_order: 2,
+    p_ref_no: 'PKP-REF-20260914-006',
+    manifest_order: [{ order: 3 }, { order: 4 }],
+  },
+  {
+    id: 1007,
+    created: manifestCreatedAt(6, 16),
+    type: 'Warehouse Delhi',
+    courier: 'bluedart',
+    number_of_order: 3,
+    p_ref_no: 'PKP-REF-20260913-011',
+    manifest_order: [{ order: 5 }, { order: 6 }, { order: 7 }],
+  },
+];
+
 /** Tab badge counts aligned with DUMMY_ORDERS (orders page get-order-counter shape) */
 export function getDummyOrderTabCounters() {
   const processing = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Processing').length;
   const readyToShip = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Ready_to_ship').length;
   const pickup = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'manifest').length;
   const returns = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Returns').length;
-  const manifest = DUMMY_ORDERS.filter((o) => o.awb_number).length;
+  const manifest = DUMMY_MANIFEST_LIST.length;
 
   return {
     all_order: DUMMY_ORDERS.length,
@@ -551,11 +632,12 @@ export const DUMMY_SHIPMENT_NEW_KPI = {
 
 // Partner list for CourierWiseDashboard (localStorage key: partnerList)
 export const DUMMY_PARTNER_LIST = {
-  delhivery: { image: 'https://via.placeholder.com/40', title: 'Delhivery', ndr_rating: 4.2, rto_rating: 4.0, pickup_rating: 4.5, delivery_rating: 4.3 },
-  bluedart: { image: 'https://via.placeholder.com/40', title: 'BlueDart', ndr_rating: 4.1, rto_rating: 3.9, pickup_rating: 4.4, delivery_rating: 4.2 },
-  ekart: { image: 'https://via.placeholder.com/40', title: 'Ekart', ndr_rating: 4.0, rto_rating: 3.8, pickup_rating: 4.3, delivery_rating: 4.1 },
-  dtdc: { image: 'https://via.placeholder.com/40', title: 'DTDC', ndr_rating: 3.9, rto_rating: 3.7, pickup_rating: 4.2, delivery_rating: 4.0 },
-  xpressbees: { image: 'https://via.placeholder.com/40', title: 'XpressBees', ndr_rating: 4.3, rto_rating: 4.1, pickup_rating: 4.6, delivery_rating: 4.4 },
+  delhivery: { image: DelhiveryLogo, title: 'Delhivery', ndr_rating: 4.2, rto_rating: 4.0, pickup_rating: 4.5, delivery_rating: 4.3 },
+  bluedart: { image: BluedartLogo, title: 'BlueDart', ndr_rating: 4.1, rto_rating: 3.9, pickup_rating: 4.4, delivery_rating: 4.2 },
+  ekart: { image: EkartLogo, title: 'Ekart', ndr_rating: 4.0, rto_rating: 3.8, pickup_rating: 4.3, delivery_rating: 4.1 },
+  dtdc: { image: DtdcLogo, title: 'DTDC', ndr_rating: 3.9, rto_rating: 3.7, pickup_rating: 4.2, delivery_rating: 4.0 },
+  xpressbees: { image: XpressBeesLogo, title: 'XpressBees', ndr_rating: 4.3, rto_rating: 4.1, pickup_rating: 4.6, delivery_rating: 4.4 },
+  shadowfax: { image: ShadowfaxLogo, title: 'Shadowfax', ndr_rating: 4.0, rto_rating: 3.9, pickup_rating: 4.4, delivery_rating: 4.2 },
 };
 
 /** Wallet / recharge dummy data (local dev & mock payment flow) */

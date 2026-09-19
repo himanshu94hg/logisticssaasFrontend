@@ -216,20 +216,20 @@ const Manifest = ({ manifestOrders, activeTab, partnerList, setLoader }) => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier && <img src={partnerList[row?.courier]["image"]} title='Partner' />}
+                                                {row?.courier && partnerList?.[row?.courier]?.image && (
+                                                    <img src={partnerList[row.courier].image} alt="" title="Partner" />
+                                                )}
                                                 <div>
-                                                    <p className='mt-1 cursor-pointer text-capitalize' >
-                                                        {row?.courier && partnerList[row?.courier]["title"]}
+                                                    <p className='mt-1 cursor-pointer text-capitalize'>
+                                                        {row?.courier && partnerList?.[row?.courier]?.title}
                                                     </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box'>
-                                                    <p>{row?.number_of_order}</p>
-                                                </div>
-                                            </td>
+                                            <div className='cell-inside-box'>
+                                                <p>{row?.number_of_order}</p>
+                                            </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>

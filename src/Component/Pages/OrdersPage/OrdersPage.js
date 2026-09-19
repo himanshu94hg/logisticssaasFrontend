@@ -2,7 +2,7 @@ import './OrdersPage.css';
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import { DUMMY_ORDERS, DUMMY_ORDERS_COUNT, getDummyOrderTabCounters } from '../../../mockData/dashboardDummyData';
+import { DUMMY_ORDERS, DUMMY_MANIFEST_LIST, getDummyOrderTabCounters } from '../../../mockData/dashboardDummyData';
 import Select from 'react-select';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
@@ -226,8 +226,8 @@ const OrdersPage = () => {
         if (activeTab === "Manifest") {
             setLoader(true)
             if (isLocalBypass) {
-                setTotalItems(DUMMY_ORDERS_COUNT)
-                setManifestOrders(DUMMY_ORDERS.filter(o => o.awb_number))
+                setTotalItems(DUMMY_MANIFEST_LIST.length)
+                setManifestOrders(DUMMY_MANIFEST_LIST)
                 setLoader(false)
             } else {
                 axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
@@ -302,7 +302,7 @@ const OrdersPage = () => {
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
         if (isLocalBypass) {
-            setTotalItems(DUMMY_ORDERS_COUNT)
+            setTotalItems(DUMMY_ORDERS.length)
             setOrders(DUMMY_ORDERS)
         } else {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
