@@ -1,0 +1,54 @@
+:root {
+  --sh-primary: #1975C9;
+  --sh-primary-middle: #60A9EB;
+  --sh-primary-light: #C5DCF1;
+  --sh-navy: #0F3C5B;
+
+  --sh-bg-page: #EAF2FA;
+  --sh-surface: #FFFFFF;
+  --sh-border: #DDDDDD;
+
+  --sh-text-primary: #0F3C5B;
+  --sh-text-muted: #727986;
+
+  --sh-success: #3BB54B;
+  --sh-warning: #F6B954;
+  --sh-error: #F31429;
+  --sh-info: #3EC7E8;
+
+  --sh-font-family: "Roboto", sans-serif;
+  --sh-font-12: 12px;
+  --sh-font-14: 14px;
+  --sh-font-16: 16px;
+  --sh-font-18: 18px;
+  --sh-font-20: 20px;
+  --sh-weight-400: 400;
+  --sh-weight-500: 500;
+  --sh-weight-600: 600;
+  --sh-weight-700: 700;
+
+  --sh-space-4: 4px;
+  --sh-space-8: 8px;
+  --sh-space-12: 12px;
+  --sh-space-16: 16px;
+  --sh-space-20: 20px;
+  --sh-space-24: 24px;
+  --sh-space-32: 32px;
+  --sh-space-40: 40px;
+
+  --sh-radius-4: 4px;
+  --sh-radius-8: 8px;
+  --sh-radius-10: 10px;
+  --sh-radius-full: 999px;
+
+  --sh-control-height: 36px;
+
+  --sh-focus-ring: 2px solid var(--sh-primary);
+  --sh-focus-offset: 2px;
+  --sh-primary-gradient: linear-gradient(
+    180deg,
+    var(--sh-primary-light) 0%,
+    var(--sh-primary-middle) 0%,
+    var(--sh-primary) 100%
+  );
+}

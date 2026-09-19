@@ -1,0 +1,41 @@
+@import "../tokens.css";
+
+.ds-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: var(--sh-space-4) var(--sh-space-12);
+  border-radius: var(--sh-radius-10);
+  font-family: var(--sh-font-family);
+  font-size: var(--sh-font-12);
+  font-weight: var(--sh-weight-700);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.ds-status-badge--primary {
+  background: var(--sh-primary-light);
+  color: var(--sh-primary);
+}
+
+.ds-status-badge--success {
+  background: color-mix(in srgb, var(--sh-success) 16%, var(--sh-surface));
+  color: var(--sh-success);
+}
+
+.ds-status-badge--warning {
+  background: color-mix(in srgb, var(--sh-warning) 22%, var(--sh-surface));
+  color: var(--sh-text-primary);
+}
+
+.ds-status-badge--error {
+  background: color-mix(in srgb, var(--sh-error) 14%, var(--sh-surface));
+  color: var(--sh-error);
+}
+
+.ds-status-badge--info {
+  background: color-mix(in srgb, var(--sh-info) 16%, var(--sh-surface));
+  color: var(--sh-navy);
+}

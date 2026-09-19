@@ -1,0 +1,86 @@
+@import "../tokens.css";
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--sh-control-height);
+  padding: 0 var(--sh-space-12);
+  border-radius: var(--sh-radius-8);
+  border: 1px solid transparent;
+  font-family: var(--sh-font-family);
+  font-size: var(--sh-font-14);
+  font-weight: var(--sh-weight-600);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.ds-btn:focus {
+  outline: none;
+}
+
+.ds-btn:focus-visible {
+  outline: var(--sh-focus-ring);
+  outline-offset: var(--sh-focus-offset);
+}
+
+.ds-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ds-btn--primary {
+  background: var(--sh-primary-gradient);
+  color: var(--sh-surface);
+  border-color: transparent;
+}
+
+.ds-btn--primary:hover:not(:disabled) {
+  color: var(--sh-surface);
+}
+
+.ds-btn--outline {
+  background: var(--sh-surface);
+  color: var(--sh-primary);
+  border-color: var(--sh-primary);
+}
+
+.ds-btn--outline:hover:not(:disabled) {
+  background: var(--sh-primary-gradient);
+  color: var(--sh-surface);
+  border-color: transparent;
+}
+
+.ds-btn--cancel {
+  background: var(--sh-bg-page);
+  color: var(--sh-text-primary);
+  border-color: var(--sh-border);
+}
+
+.ds-btn--cancel:hover:not(:disabled) {
+  background: var(--sh-primary-light);
+  border-color: var(--sh-primary-middle);
+}
+
+.ds-btn--danger {
+  background: color-mix(in srgb, var(--sh-error) 16%, var(--sh-surface));
+  color: var(--sh-error);
+  border-color: transparent;
+}
+
+.ds-btn--danger:hover:not(:disabled) {
+  background: var(--sh-error);
+  color: var(--sh-surface);
+}
+
+.ds-btn--white {
+  background: var(--sh-surface);
+  color: var(--sh-primary);
+  border-color: var(--sh-primary-middle);
+}
+
+.ds-btn--white:hover:not(:disabled) {
+  background: var(--sh-primary-light);
+}
