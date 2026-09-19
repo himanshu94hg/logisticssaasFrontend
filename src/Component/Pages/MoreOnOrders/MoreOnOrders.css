@@ -228,9 +228,9 @@
 }
 
 .order-Status-box {
-  background-color: #c5dcf1;
+  background-color: var(--sh-primary-light);
   padding: 4px 10px;
-  color: #1975C9;
+  color: var(--sh-text-primary);
   font-size: 12px !important;
   width: fit-content;
   border-radius: 10px;

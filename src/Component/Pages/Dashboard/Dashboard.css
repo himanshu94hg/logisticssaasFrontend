@@ -35,6 +35,15 @@
     --bs-table-accent-bg: #CEDBF2;
 }
 
+.last-orders .table td,
+.last-orders .table th {
+    color: var(--sh-text-primary);
+}
+
+.last-orders .table th {
+    font-weight: 600;
+}
+
 .dashboard-table table.custom-table tr td,
 .tdashboard-table table.custom-table tr th {
     padding: 5px 10px;
@@ -43,11 +52,14 @@
 .dashboard-table table.custom-table tr td {
     font-size: 1rem;
     text-transform: capitalize;
+    color: var(--sh-text-primary);
 }
 
 .dashboard-table table.custom-table tr th {
     font-size: 0.8rem;
     padding: 5px 10px;
+    color: var(--sh-text-primary);
+    font-weight: 600;
 }
 
 .dashboard-table table.custom-table tbody tr:nth-of-type(odd) td {
@@ -161,6 +173,7 @@
     white-space: nowrap;
     font-size: 12px;
     padding-block: 7px;
+    color: var(--sh-text-primary);
 }
 
 .best-sku-products table tr:last-of-type {

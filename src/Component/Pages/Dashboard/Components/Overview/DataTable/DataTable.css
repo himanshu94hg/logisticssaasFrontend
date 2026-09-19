@@ -11,3 +11,7 @@
 .dx-datagrid-rowsview .dx-row:nth-of-type(odd){
     background-color: #f2f2f2;
 }
+
+.dx-datagrid-rowsview .dx-data-row > td {
+    color: var(--sh-text-primary);
+}
