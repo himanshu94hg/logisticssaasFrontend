@@ -2,7 +2,7 @@ import './OrdersPage.css';
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import { DUMMY_ORDERS, DUMMY_ORDERS_COUNT } from '../../../mockData/dashboardDummyData';
+import { DUMMY_ORDERS, DUMMY_ORDERS_COUNT, getDummyOrderTabCounters } from '../../../mockData/dashboardDummyData';
 import Select from 'react-select';
 import { RxReset } from "react-icons/rx";
 import { HiOutlineFilter } from "react-icons/hi";
@@ -338,6 +338,10 @@ const OrdersPage = () => {
     }
 
     useEffect(() => {
+        if (isLocalBypass) {
+            setCounterData(getDummyOrderTabCounters());
+            return;
+        }
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-counter/`, {
@@ -353,7 +357,7 @@ const OrdersPage = () => {
             }
         };
         fetchData();
-    }, [orderCancelled, orderClone, orderdelete, pickupStatus]);
+    }, [orderCancelled, orderClone, orderdelete, pickupStatus, isLocalBypass]);
 
 
     const searchOptions = [

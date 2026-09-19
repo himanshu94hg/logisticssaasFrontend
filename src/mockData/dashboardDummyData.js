@@ -242,6 +242,25 @@ export const DUMMY_ORDERS = [
 
 export const DUMMY_ORDERS_COUNT = 10;
 
+/** Tab badge counts aligned with DUMMY_ORDERS (orders page get-order-counter shape) */
+export function getDummyOrderTabCounters() {
+  const processing = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Processing').length;
+  const readyToShip = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Ready_to_ship').length;
+  const pickup = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'manifest').length;
+  const returns = DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Returns').length;
+  const manifest = DUMMY_ORDERS.filter((o) => o.awb_number).length;
+
+  return {
+    all_order: DUMMY_ORDERS.length,
+    processing,
+    ready_to_ship: readyToShip,
+    pickup,
+    manifest,
+    returns,
+    unprocessable: DUMMY_ORDERS.filter((o) => o.order_courier_status === 'Unprocessable').length,
+  };
+}
+
 // Label customization - LabelCustomization page
 export const DUMMY_LABEL_CUSTOMIZATION = {
   contact_mask: true,
