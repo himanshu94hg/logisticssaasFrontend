@@ -223,8 +223,8 @@ const OrdersPage = () => {
     }, [activeTab, searchStatus, orderCancelled, orderdelete, reset, orderClone, currentPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus, isLocalBypass]);
 
     useEffect(() => {
-        setLoader(true)
         if (activeTab === "Manifest") {
+            setLoader(true)
             if (isLocalBypass) {
                 setTotalItems(DUMMY_ORDERS_COUNT)
                 setManifestOrders(DUMMY_ORDERS.filter(o => o.awb_number))
