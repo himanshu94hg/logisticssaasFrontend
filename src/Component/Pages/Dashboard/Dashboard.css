@@ -434,7 +434,7 @@
     /* display: inline-block; */
     /* width: 63%; */
     white-space: nowrap;
-    color: gray;
+    color: var(--sh-text-muted);
 }
 
 

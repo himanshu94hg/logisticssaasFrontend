@@ -15,8 +15,7 @@
 }
 
 .navbar-expand .navbar-nav .nav-link.active {
-    /* background-color: #1975C9; */
-    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    background-color: var(--sh-primary);
     color: #fff;
     border-radius: 4px;
 }
@@ -86,7 +85,7 @@
 
 .tab-counter {
     background: var(--sh-primary-light);
-    color: var(--sh-primary);
+    color: var(--sh-text-primary);
     transition: transform 0.3s ease, font-size 0.3s ease;
     height: 20px;
     border-radius: 7px;
@@ -100,6 +99,7 @@
 
 .active .tab-counter {
     background: #fff;
+    color: var(--sh-text-primary);
 }
 
 .tab-counter:hover {

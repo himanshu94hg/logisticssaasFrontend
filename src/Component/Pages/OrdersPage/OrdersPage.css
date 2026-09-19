@@ -126,6 +126,31 @@
   position: relative;
 }
 
+#shipEaseNavTabs .navbar-nav .nav-link.active {
+  background-color: var(--sh-primary);
+  color: #fff;
+  border-radius: 4px;
+}
+
+#shipEaseNavTabs .tab-counter {
+  background: var(--sh-primary-light);
+  color: var(--sh-text-primary);
+  height: 20px;
+  border-radius: 7px;
+  min-width: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 4px;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+#shipEaseNavTabs .nav-link.active .tab-counter {
+  background: #fff;
+  color: var(--sh-text-primary);
+}
+
 .orders-section-tabs .table-container {
   height: calc(100vh - 302px);
   overflow-y: auto;
@@ -216,7 +241,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  background-color: var(--sh-primary);
   color: #fff;
   width: 36px;
   height: 36px;
@@ -601,6 +626,7 @@ ul.order-label-list li {
   border: 1px solid var(--sh-primary-middle);
   border-radius: 0.5rem;
   white-space: nowrap;
+  color: var(--sh-text-primary);
 }
 
 .cell-inside-box .Labels-pool {
@@ -638,13 +664,11 @@ ul.order-label-list li {
 
 .mps-flag {
   font-size: 11px;
-  /* border: 1px solid var(--sh-primary); */
   font-weight: 700;
   border-radius: 0.5rem;
   background: var(--sh-primary-light);
   padding: 1px 12px;
-  color: #fff;
-  color: var(--sh-primary);
+  color: var(--sh-text-primary);
   margin-left: 10px;
 }
 
@@ -658,7 +682,7 @@ ul.order-label-list li {
   padding: 15px;
   background: var(--sh-primary-light);
   border-radius: 0.5rem 0.5rem 0 0;
-  color: var(--bs-heading-color);
+  color: var(--sh-text-primary);
   border-bottom: none;
 }
 
@@ -692,7 +716,7 @@ ul.order-label-list li {
 }
 
 .missing-info-text {
-  color: #FC3B3B;
+  color: #DC2626;
   text-decoration: underline;
   cursor: pointer;
   user-select: none;
@@ -730,15 +754,16 @@ ul.order-label-list li {
   cursor: pointer;
   white-space: nowrap;
   padding-inline: 10px;
-  color: var(--sh-primary);
+  color: var(--sh-text-primary);
   border-radius: 0.5rem;
-  border: 1px solid var(--sh-primary-light);
+  border: 1px solid var(--sh-primary-middle);
   padding-block: 2px;
 }
 
 .search-container .popular-search span.active {
   background: var(--sh-primary-light);
-  border: none;
+  border: 1px solid var(--sh-primary-middle);
+  color: var(--sh-text-primary);
 }
 
 .search-container .popular-search .popular-search-tooltip {
@@ -880,7 +905,7 @@ ul.order-label-list li {
 }
 
 .cell-inside-box .rto-risk-tooltip .risk-Medium {
-  color: #caa500;
+  color: #996515;
   font-size: 1.1rem;
 }
 

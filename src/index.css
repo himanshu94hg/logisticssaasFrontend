@@ -4,7 +4,7 @@
   --sh-primary-light: #c5dcf1;
   --sh-navy: #0F3C5B;
   --sh-text-primary: #0F3C5B;
-  --sh-text-muted: #727986;
+  --sh-text-muted: #596069;
   --sh-ddd: #dddddd;
 }
 
@@ -96,7 +96,7 @@ p {
 }
 
 .text-sh-red {
-  color: #FC3B3B;
+  color: #DC2626;
 }
 
 .bg-sh-primary {
@@ -116,7 +116,7 @@ p {
 }
 
 .text-gray-light {
-  color: #9D9595;
+  color: var(--sh-text-muted);
 }
 
 .font10 {
@@ -583,8 +583,8 @@ p {
 }
 
 .main-button {
-  /* background-color: #1975C9 !important; */
-  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  background-color: var(--sh-primary);
+  background-image: none;
   color: #fff;
   padding: 5px 10px;
   white-space: nowrap;
@@ -607,8 +607,8 @@ p {
 }
 
 .main-button-outline:hover {
-  /* background-color: #1975C9 !important; */
-  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  background-color: var(--sh-primary);
+  background-image: none;
   color: #fff;
 }
 
@@ -629,7 +629,8 @@ p {
 
 .download-button,
 .download-button:hover {
-  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  background-color: var(--sh-primary);
+  background-image: none;
   color: #fff;
   width: 1.875rem;
   height: 1.875rem;
@@ -662,7 +663,8 @@ p {
 .edit-btn {
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  background-color: var(--sh-primary);
+  background-image: none;
   color: #fff;
   justify-content: center;
   padding: 5px 10px;

@@ -64,7 +64,7 @@
 }
 
 .total-customer-trend-text {
-    color: #16A34A;
+    color: #15803D;
 }
 
 .daily-shipment-kpi-card {
@@ -88,7 +88,7 @@
 }
 
 .daily-shipment-trend-text {
-    color: #F97316;
+    color: #B45309;
 }
 
 .avg-selling-price-kpi-card {
@@ -108,7 +108,7 @@
 }
 
 .avg-selling-price-trend-text {
-    color: #3B82F6;
+    color: #1D4ED8;
 }
 
 .today-revenue-kpi-card {
@@ -128,7 +128,14 @@
 }
 
 .today-revenue-trend-text {
-    color: #8B5CF6;
+    color: #6D28D9;
+}
+
+.total-customer-kpi-card .card-footer .text-gray,
+.daily-shipment-kpi-card .card-footer .text-gray,
+.avg-selling-price-kpi-card .card-footer .text-gray,
+.today-revenue-kpi-card .card-footer .text-gray {
+    color: var(--sh-text-muted);
 }
 
 .dx-pager .dx-page-sizes .dx-selection,
