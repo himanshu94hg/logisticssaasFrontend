@@ -538,3 +538,16 @@ export const DUMMY_PARTNER_LIST = {
   dtdc: { image: 'https://via.placeholder.com/40', title: 'DTDC', ndr_rating: 3.9, rto_rating: 3.7, pickup_rating: 4.2, delivery_rating: 4.0 },
   xpressbees: { image: 'https://via.placeholder.com/40', title: 'XpressBees', ndr_rating: 4.3, rto_rating: 4.1, pickup_rating: 4.6, delivery_rating: 4.4 },
 };
+
+/** Wallet / recharge dummy data (local dev & mock payment flow) */
+export const DUMMY_WALLET_BALANCE = {
+  balance: 850,
+  tolerance_limit: -1000,
+};
+
+export const DUMMY_SELLER_PROFILE = {
+  id: 1,
+  company_name: 'Demo Seller',
+  email: 'demo@shipease.in',
+  contact_number: '9999999999',
+};

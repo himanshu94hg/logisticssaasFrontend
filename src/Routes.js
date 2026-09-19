@@ -299,6 +299,11 @@ export const ccavenueRedirectIntegrationRoutes = () => {
     return generatePath(ccavenueRedirectIntegrationPattern);
 };
 
+export const walletMockCheckoutPattern = "/wallet-recharge/mock-checkout";
+export const walletMockCheckoutRoute = () => {
+    return generatePath(walletMockCheckoutPattern);
+};
+
 export const SkuUploadPattern = "/sku-upload";
 export const SkuUploadRoutes = () => {
     return generatePath(SkuUploadPattern);

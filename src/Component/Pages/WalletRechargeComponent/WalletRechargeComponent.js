@@ -2,15 +2,19 @@ import Cookies from "js-cookie"
 import './WalletRechargeComponent.css';
 import { toast } from "react-toastify";
 import useRazorpay from "react-razorpay";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
 import React, { useCallback, useEffect, useState } from "react";
 import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
-import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
+import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg';
+import { isWalletMockMode } from '../../../utils/walletMock';
+import { walletMockCheckoutPattern } from '../../../Routes';
 
 
 const WalletRechargeComponent = (props) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [validate, setValidate] = useState(false)
@@ -39,7 +43,14 @@ const WalletRechargeComponent = (props) => {
     }, [paymentCard, paymentSetCard]);
 
     useEffect(() => {
-        if (paymentMode === 'paypal') {
+        if (sessionStorage.getItem('closeWalletPanel') === '1') {
+            sessionStorage.removeItem('closeWalletPanel');
+            props.setWalletRecharge?.(false);
+        }
+    }, [props.WalletRecharge, props.setWalletRecharge]);
+
+    useEffect(() => {
+        if (paymentMode === 'paypal' && !isWalletMockMode()) {
             const script = document.createElement('script');
             script.src = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
             script.async = true;
@@ -80,8 +91,9 @@ const WalletRechargeComponent = (props) => {
     };
 
     const handleRecharge = useCallback(async () => {
+        const amount = Number(rechargeAmount);
         const minimumRechargeAmount = userData?.id === 115 ? 1 : 500;
-        if (rechargeAmount >= minimumRechargeAmount) {
+        if (Number.isFinite(amount) && amount >= minimumRechargeAmount) {
             if (paymentMode === 'credit_card') {
                 try {
                     let orderId = '';
@@ -91,7 +103,7 @@ const WalletRechargeComponent = (props) => {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ amount: rechargeAmount }),
+                        body: JSON.stringify({ amount }),
                     });
 
                     const orderData = await createOrderResponse.json();
@@ -103,7 +115,7 @@ const WalletRechargeComponent = (props) => {
 
                     const options = {
                         key: razorpayKey,
-                        amount: rechargeAmount * 100,
+                        amount: amount * 100,
                         currency: "INR",
                         name: "Shipease",
                         description: "Wallet Recharge",
@@ -130,7 +142,7 @@ const WalletRechargeComponent = (props) => {
                                         },
                                         body: JSON.stringify({
                                             razorpay_payment_id: response.razorpay_payment_id,
-                                            amount: rechargeAmount,
+                                            amount,
                                         }),
                                     });
 
@@ -138,7 +150,7 @@ const WalletRechargeComponent = (props) => {
                                     if (verificationResult.success) {
                                         const data = JSON.stringify({
                                             razorpay_payment_id: response.razorpay_payment_id,
-                                            amount: rechargeAmount,
+                                            amount,
                                             description: options.description
                                         });
                                         dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
@@ -157,6 +169,15 @@ const WalletRechargeComponent = (props) => {
                 } catch (error) {
                     toast.error('Error in processing payment. Please try again.');
                 }
+            } else if (isWalletMockMode()) {
+                props.setWalletRecharge?.(false);
+                navigate(walletMockCheckoutPattern, {
+                    state: {
+                        amount,
+                        orderId: generateOrderId(),
+                        sellerId: userData?.id,
+                    },
+                });
             } else {
                 const form = document.createElement('form');
                 form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
@@ -165,7 +186,7 @@ const WalletRechargeComponent = (props) => {
 
                 const parameters = {
                     order_id: generateOrderId(),
-                    amount: rechargeAmount,
+                    amount,
                     seller_id: userData?.id
                 };
 
@@ -184,7 +205,7 @@ const WalletRechargeComponent = (props) => {
         } else {
             setValidate(true);
         }
-    }, [rechargeAmount, paymentMode, userData, couponCode, dispatch]);
+    }, [rechargeAmount, paymentMode, userData, couponCode, dispatch, navigate, props.setWalletRecharge, Razorpay, razorpayKey]);
 
 
     return (
@@ -274,6 +295,11 @@ const WalletRechargeComponent = (props) => {
                                 <span className='redeem-button' onClick={handleAddCoupon}><img src={redeemIcon} width={24} alt="redeemIcon" /></span>
                             </div>
                         </div>
+                        {isWalletMockMode() && (
+                            <p className="font12 text-gray px-3 mb-2">
+                                Demo mode: payment stays in the app (no CCAvenue redirect).
+                            </p>
+                        )}
                         <div className='d-flex px-3 justify-content-center pb-3'>
                             <button className='btn main-button' onClick={handleRecharge}>Complete Recharge</button>
                         </div>

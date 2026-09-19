@@ -6,6 +6,12 @@ import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import { customErrorFunction } from "../../../../customFunction/errorHandling";
 import { GET_PAYMENT_DATA, SET_PAYMENT_DATA, GET_CONFIGURATION_DATA, GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
 import { PAYMENT_DATA_ACTION, PAYMENT_SET_DATA_ACTION, CONFIGURATION_DATA_ACTION, SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
+import {
+    applyMockRechargeAmount,
+    DUMMY_SELLER_PROFILE,
+    isWalletMockMode,
+    readMockWalletBalance,
+} from "../../../../utils/walletMock";
 
 
 
@@ -52,6 +58,10 @@ async function profileFileAPI(data) {
 
 function* paymentFilesAction(action) {
     let { payload } = action;
+    if (isWalletMockMode()) {
+        yield put({ type: GET_PAYMENT_DATA, payload: readMockWalletBalance() });
+        return;
+    }
     try {
         let response = yield call(paymentFileAPI, payload);
         if (response.status === 200) {
@@ -66,6 +76,17 @@ function* paymentFilesAction(action) {
 
 function* paymentSetFilesAction(action) {
     let { payload, } = action;
+    if (isWalletMockMode()) {
+        try {
+            const parsed = typeof payload === 'string' ? JSON.parse(payload) : payload;
+            const updated = applyMockRechargeAmount(parsed?.amount);
+            yield put({ type: SET_PAYMENT_DATA, payload: updated });
+            yield put({ type: GET_PAYMENT_DATA, payload: updated });
+        } catch (error) {
+            customErrorFunction(error);
+        }
+        return;
+    }
     try {
         let response = yield call(paymentSetFileAPI, payload);
         if (response.status === 200) {
@@ -80,6 +101,10 @@ function* paymentSetFilesAction(action) {
 
 function* configurationFilesAction(action) {
     let { payload, } = action;
+    if (isWalletMockMode()) {
+        yield put({ type: GET_CONFIGURATION_DATA, payload: [] });
+        return;
+    }
     try {
         let response = yield call(configurationFileAPI, payload);
         if (response.status === 200) {
@@ -94,6 +119,10 @@ function* configurationFilesAction(action) {
 
 function* profileFilesAction(action) {
     let { payload, } = action;
+    if (isWalletMockMode()) {
+        yield put({ type: GET_SELLER_PROFILE_DATA, payload: DUMMY_SELLER_PROFILE });
+        return;
+    }
     try {
         let response = yield call(profileFileAPI, payload);
         if (response.status === 200) {

@@ -76,6 +76,8 @@ import VerifiedCustomer from "./Component/Pages/CustomerPage/VerifiedCustomer/Ve
 import RateCard from "./Component/Pages/ToolsPage/Components/RateCard/RateCard";
 import WhatsAppNotification from "./Component/Pages/SettingsPage/components/WhatsAppConfig/WhatsAppNotification";
 import CCAvenueRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/CCAvenueRedirect";
+import WalletMockCheckout from "./Component/Pages/WalletRechargeComponent/WalletMockCheckout";
+import { walletMockCheckoutPattern } from "./Routes";
 import SkuUpload from "./Component/Pages/SettingsPage/components/SkuUpload/SkuUpload";
 import PageSettings from "./Component/Pages/SettingsPage/components/TrackingPage/PageSettings/PageSettings";
 import UserRoleManage from "./Component/Pages/SettingsPage/components/UserRoleManage/UserRoleManage";
@@ -331,6 +333,7 @@ function App() {
 
 
             <Route path={ccavenueRedirectIntegrationPattern} element={<CCAvenueRedirect />} />
+            <Route path={walletMockCheckoutPattern} element={<WalletMockCheckout />} />
           </Routes>
         </div>
       </div>
